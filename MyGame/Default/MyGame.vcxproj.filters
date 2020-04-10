@@ -70,6 +70,9 @@
     <Filter Include="06.Utility\01.Clock">
       <UniqueIdentifier>{eb5a0aba-4ac0-44df-abfa-c897f279af47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\01.Clock\Clock">
+      <UniqueIdentifier>{c452c944-947d-4905-a97d-1969ea5dac4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -139,7 +142,7 @@
       <Filter>06.Utility\00.Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Clock.h">
-      <Filter>06.Utility\01.Clock</Filter>
+      <Filter>06.Utility\01.Clock\Clock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +192,7 @@
       <Filter>06.Utility\00.Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Clock.cpp">
-      <Filter>06.Utility\01.Clock</Filter>
+      <Filter>06.Utility\01.Clock\Clock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@
 #include "TimerMgr.h"
 #include "Renderer.h"
 #include "Clock.h"
+
 USING(MyGame)
 
 CMainApp::CMainApp()
@@ -22,13 +23,6 @@ HRESULT CMainApp::Initalize()
 	if (FAILED(Initalize_Scene()))
 		return E_FAIL;
 
-	m_pTriggerClock = new CTriggerClock;
-	m_pDelayClock = new CDelayClock;
-	m_pSingleClock = new CSingleClock;
-	m_pReversalClock = new CReversalClock;
-
-	
-	
 	return S_OK;
 }
 
@@ -39,10 +33,6 @@ _int CMainApp::Update(_double _timeDelta)
 #endif
 
 	static int callCnt = 0;
-	if (m_pReversalClock->isThreashHoldReached(6.0))
-	{
-		++callCnt;
-	}
 
 
 	m_pSceneMgr->Update(_timeDelta);

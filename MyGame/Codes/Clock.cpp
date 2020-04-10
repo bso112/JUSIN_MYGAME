@@ -9,6 +9,7 @@ void CTriggerClock::Free()
 
 bool CTriggerClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
+	m_bUsing = true;
 
 	m_TimeAcc += CTimerMgr::Get_Instance()->Get_TimeDelta(_pTimerKey);
 
@@ -24,6 +25,7 @@ bool CTriggerClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey
 
 bool CDelayClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
+	m_bUsing = true;
 
 	if (m_TimeAcc >= _time)
 	{
@@ -43,6 +45,7 @@ void CDelayClock::Free()
 
 bool CSingleClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
+	m_bUsing = true;
 
 	m_TimeAcc += CTimerMgr::Get_Instance()->Get_TimeDelta(_pTimerKey);
 
@@ -62,7 +65,8 @@ void CSingleClock::Free()
 
 bool CReversalClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
-	
+	m_bUsing = true;
+
 	m_TimeAcc += CTimerMgr::Get_Instance()->Get_TimeDelta(_pTimerKey);
 
 	if (m_TimeAcc >= _time)

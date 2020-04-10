@@ -4,10 +4,7 @@
 
 BEGIN(MyGame)
 class CSceneMgr;
-class CTriggerClock;
-class CDelayClock;
-class CSingleClock;
-class CReversalClock;
+
 
 class CMainApp final : public CBase
 {
@@ -24,10 +21,6 @@ public:
 	_int	Update(_double _timeDelta);
 	HRESULT	Render();
 
-	CTriggerClock*	m_pTriggerClock;
-	CDelayClock*	m_pDelayClock;
-	CSingleClock*	m_pSingleClock;
-	CReversalClock*	m_pReversalClock;
 
 
 #if _DEBUG
