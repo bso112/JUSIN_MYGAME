@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="98.Headers">
+      <UniqueIdentifier>{80a1db21-ad1e-441d-8325-3e48b3f027d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.MainApp">
+      <UniqueIdentifier>{2f39ef16-5067-4715-9602-5a916e98e714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene">
+      <UniqueIdentifier>{990ca3ca-9b2f-40da-9c91-ac92285dd173}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.System">
+      <UniqueIdentifier>{3669b23e-ffe3-452f-afe1-629675c0e032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.System\00.Timer">
+      <UniqueIdentifier>{2f1382df-5153-4a1f-a1c5-e49a0d4264e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.System\00.Timer\Manager">
+      <UniqueIdentifier>{cd2618f8-766e-4bc4-bf93-393e94e0d5c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.System\00.Timer\Timer">
+      <UniqueIdentifier>{5447fbfe-6c16-4889-ab3f-12d91d770094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.System\01.Device">
+      <UniqueIdentifier>{e80477a3-fc7f-4076-b011-b2777bc5ba7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.System\01.Device\Graphic">
+      <UniqueIdentifier>{4cfbccc1-20b2-4321-a1ae-e67afd44e5d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Manager">
+      <UniqueIdentifier>{7f9f0276-900b-474e-8d1e-940b11c35c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene">
+      <UniqueIdentifier>{c312c75d-3695-4162-b4ee-abb12098f292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Loading">
+      <UniqueIdentifier>{84a0d0ea-84dd-422c-9193-4ded95f503e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject">
+      <UniqueIdentifier>{0df0310c-ad54-44ff-9ac0-987e8f90dcca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\Manager">
+      <UniqueIdentifier>{5f3f2af6-5dad-4d02-90ca-5a07f2884521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject">
+      <UniqueIdentifier>{7571bd39-7ab4-403a-a8be-52cb3bb68e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Background">
+      <UniqueIdentifier>{bc3c7911-f3d4-424a-a519-f8da5d6a216c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Layer">
+      <UniqueIdentifier>{fca5fbb1-9d69-4124-9e2c-eba7838580f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility">
+      <UniqueIdentifier>{77e492ad-a680-4378-b48c-8bb8cf6f107e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\00.Renderer">
+      <UniqueIdentifier>{3497785f-d06c-42d6-95ae-6dcf4f9a3e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.SuperClass">
+      <UniqueIdentifier>{47465a5c-eb31-4833-b9c4-3c552597ea89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.SuperClass\00.Base">
+      <UniqueIdentifier>{97cc4bc6-0504-4fba-ac13-c760e762e428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\01.Clock">
+      <UniqueIdentifier>{eb5a0aba-4ac0-44df-abfa-c897f279af47}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyGame.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyGame_Constant.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyGame_Mecro.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyGame_Typedef.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyGame_Function.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyGame_Include.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MainApp.h">
+      <Filter>01.MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Base.h">
+      <Filter>96.SuperClass\00.Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Timer.h">
+      <Filter>97.System\00.Timer\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TimerMgr.h">
+      <Filter>97.System\00.Timer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Scene.h">
+      <Filter>03.Scene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\SceneMgr.h">
+      <Filter>03.Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ObjMgr.h">
+      <Filter>04.GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\GameObject.h">
+      <Filter>04.GameObject\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Loading.h">
+      <Filter>03.Scene\Scene\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Graphic_Device.h">
+      <Filter>97.System\01.Device\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Background.h">
+      <Filter>04.GameObject\GameObject\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Layer.h">
+      <Filter>05.Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>06.Utility\00.Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Clock.h">
+      <Filter>06.Utility\01.Clock</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MyGame.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainApp.cpp">
+      <Filter>01.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Base.cpp">
+      <Filter>96.SuperClass\00.Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Timer.cpp">
+      <Filter>97.System\00.Timer\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TimerMgr.cpp">
+      <Filter>97.System\00.Timer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Scene.cpp">
+      <Filter>03.Scene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\SceneMgr.cpp">
+      <Filter>03.Scene\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ObjMgr.cpp">
+      <Filter>04.GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\GameObject.cpp">
+      <Filter>04.GameObject\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Loading.cpp">
+      <Filter>03.Scene\Scene\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Graphic_Device.cpp">
+      <Filter>97.System\01.Device\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Background.cpp">
+      <Filter>04.GameObject\GameObject\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Layer.cpp">
+      <Filter>05.Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>06.Utility\00.Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Clock.cpp">
+      <Filter>06.Utility\01.Clock</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="MyGame.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyGame.rc">
+      <Filter>99.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>99.Default</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
