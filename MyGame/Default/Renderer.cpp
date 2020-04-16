@@ -42,6 +42,22 @@ HRESULT CRenderer::Render()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render(HDC _DC)
+{
+	for (auto& GO : m_listGO[RENDER_TEST])
+	{
+		if (nullptr != GO)
+		{
+			if (FAILED(GO->Render(_DC)))
+				return E_FAIL;
+		}
+
+		Safe_Release(GO);
+	}
+	m_listGO[RENDER_TEST].clear();
+	return S_OK;
+}
+
 HRESULT CRenderer::Clear_RenderGroup()
 {
 	for (size_t i = 0; i < RENDER_END; i++)

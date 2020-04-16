@@ -45,25 +45,25 @@ _int CObjMgr::Update(_double _timeDelta)
 	return _int();
 }
 
-HRESULT CObjMgr::Add_Prototype(const wchar_t * _pPrototypeKey, SCENEID _ePrototypeSceneID, CGameObject * _pGO)
+HRESULT CObjMgr::Add_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, CGameObject* _pGO)
 {
 	if (SCENE_END <= _ePrototypeSceneID ||
 		nullptr == _pGO ||
-		nullptr != Find_Prototype(_pPrototypeKey, _ePrototypeSceneID))
+		nullptr != Find_Prototype(_ePrototypeID, _ePrototypeSceneID))
 		return E_FAIL;
 
-	m_mapPrototype[_ePrototypeSceneID].emplace(_pPrototypeKey, _pGO);
+	m_mapPrototype[_ePrototypeSceneID].emplace(_ePrototypeID, _pGO);
 
 	return S_OK;
 }
 
-HRESULT CObjMgr::Add_GO_To_Layer(const wchar_t * _pPrototypeKey, SCENEID _ePrototypeSceneID, const wchar_t * _pLayerKey, SCENEID _eLayerSceneID)
+HRESULT CObjMgr::Add_GO_To_Layer(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, LayerID _eLayerID, SCENEID _eLayerSceneID)
 {
 	if (SCENE_END <= _ePrototypeSceneID ||
 		SCENE_END <= _eLayerSceneID)
 		return E_FAIL;
 
-	CGameObject* pPrototype = Find_Prototype(_pPrototypeKey, _ePrototypeSceneID);
+	CGameObject* pPrototype = Find_Prototype(_ePrototypeID, _ePrototypeSceneID);
 	if (nullptr == pPrototype)
 		return E_FAIL;
 
@@ -72,7 +72,7 @@ HRESULT CObjMgr::Add_GO_To_Layer(const wchar_t * _pPrototypeKey, SCENEID _eProto
 	if (nullptr == pGo)
 		return E_FAIL;
 
-	CLayer* layer = Find_Layer(_pLayerKey, _eLayerSceneID);
+	CLayer* layer = Find_Layer(_eLayerID, _eLayerSceneID);
 	if (nullptr == layer)
 	{
 		layer = CLayer::Create();
@@ -82,7 +82,7 @@ HRESULT CObjMgr::Add_GO_To_Layer(const wchar_t * _pPrototypeKey, SCENEID _eProto
 		if (FAILED(layer->Add_GameObject(pGo)))
 			goto exception;
 
-		m_mapLayer[_eLayerSceneID].emplace(_pLayerKey, layer);
+		m_mapLayer[_eLayerSceneID].emplace(_eLayerID, layer);
 
 	}
 	else
@@ -97,31 +97,40 @@ exception:
 	return E_FAIL;
 }
 
-CGameObject * CObjMgr::Find_Prototype(const wchar_t* _pPrototypeKey, SCENEID _ePrototypeSceneID)
+CGameObject * CObjMgr::Find_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID)
 {
-	if (SCENE_END <= _ePrototypeSceneID)
+	if (SCENE_END <= _ePrototypeSceneID ||
+		PROTOTYPE_END <= _ePrototypeID)
 		return nullptr;
 
-	auto& iter = find_if(m_mapPrototype[_ePrototypeSceneID].begin(), m_mapPrototype[_ePrototypeSceneID].end(), CFinder_Tag(_pPrototypeKey));
+	auto& iter = m_mapPrototype[_ePrototypeSceneID].find(_ePrototypeID);
 
 	if (iter == m_mapPrototype[_ePrototypeSceneID].end())
 		return nullptr;
 
-
 	return iter->second;
 }
 
-CLayer * CObjMgr::Find_Layer(const wchar_t* _pLayerKey, SCENEID _eLayerSceneID)
+CLayer * CObjMgr::Find_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID)
 {
-	if (SCENE_END <= _eLayerSceneID)
+	if (SCENE_END <= _eLayerSceneID ||
+		LAYER_END <= _eLayerID)
 		return nullptr;
 
-	auto& iter = find_if(m_mapLayer[_eLayerSceneID].begin(), m_mapLayer[_eLayerSceneID].end(), CFinder_Tag(_pLayerKey));
+	auto& iter = m_mapLayer[_eLayerSceneID].find(_eLayerID);
 
 	if (iter == m_mapLayer[_eLayerSceneID].end())
 		return nullptr;
-
+	
 	return iter->second;
+}
+
+CGameObject * CObjMgr::Get_Player(SCENEID _eLayerSceneID)
+{
+	CLayer* pPlayerLayer = Find_Layer(LayerID::LAYER_PLAYER, _eLayerSceneID);
+	if (nullptr == pPlayerLayer)
+		return nullptr;
+	return pPlayerLayer->Get_Front();
 }
 
 void CObjMgr::Free()

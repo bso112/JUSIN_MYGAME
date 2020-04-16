@@ -12,7 +12,7 @@ protected:
 	virtual ~CScene() = default;
 
 protected:
-	PDIRECT3DDEVICE9	m_pGraphic_Device;
+	PDIRECT3DDEVICE9	m_pGraphic_Device = nullptr;
 	CRenderer*			m_pRenderer = nullptr;
 	CObjMgr*			m_pObjMgr = nullptr;
 
@@ -20,6 +20,7 @@ public:
 	virtual HRESULT Initalize();
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
+	virtual	HRESULT	Render(HDC _DC);
 
 
 

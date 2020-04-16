@@ -3,11 +3,11 @@
 #include "TimerMgr.h"
 
 USING(MyGame)
-void CTriggerClock::Free()
+void CClock_Trigger::Free()
 {
 }
 
-bool CTriggerClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
+bool CClock_Trigger::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
 	m_bUsing = true;
 
@@ -23,7 +23,7 @@ bool CTriggerClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey
 }
 
 
-bool CDelayClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
+bool CClock_Delay::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
 	m_bUsing = true;
 
@@ -38,12 +38,12 @@ bool CDelayClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 
 }
 
-void CDelayClock::Free()
+void CClock_Delay::Free()
 {
 }
 
 
-bool CSingleClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
+bool CClock_Single::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
 	m_bUsing = true;
 
@@ -58,12 +58,12 @@ bool CSingleClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 
 }
 
-void CSingleClock::Free()
+void CClock_Single::Free()
 {
 }
 
 
-bool CReversalClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
+bool CClock_Reversal::isThreashHoldReached(_double _time, const _tchar* _pTimerKey)
 {
 	m_bUsing = true;
 
@@ -78,6 +78,6 @@ bool CReversalClock::isThreashHoldReached(_double _time, const _tchar* _pTimerKe
 	return m_bState;
 }
 
-void CReversalClock::Free()
+void CClock_Reversal::Free()
 {
 }

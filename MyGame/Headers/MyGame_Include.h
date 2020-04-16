@@ -30,6 +30,7 @@ using namespace std;
 #include "MyGame_Constant.h"
 #include "MyGame_Function.h"
 #include "MyGame_Typedef.h"
+#include "MyGame_Struct.h"
 
 
 extern HWND g_hWnd;

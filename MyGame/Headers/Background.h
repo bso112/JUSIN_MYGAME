@@ -13,7 +13,7 @@ private:
 public:
 	// CGameObject을(를) 통해 상속됨
 	virtual HRESULT Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
-	virtual HRESULT Initalize(void * _param = nullptr) override;
+	virtual HRESULT Initialize(void * _param = nullptr) override;
 	virtual _int Update(_double _timeDelta) override;
 	virtual _int LateUpate(_double _timeDelta) override;
 	virtual HRESULT Render() override;

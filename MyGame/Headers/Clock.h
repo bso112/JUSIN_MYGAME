@@ -1,5 +1,5 @@
 #pragma once
-#include "E:\myClient\MyGame\Headers\Base.h"
+#include "Base.h"
 
 BEGIN(MyGame)
 class CClock abstract : public CBase
@@ -16,50 +16,50 @@ public:
 	_bool isUsing() { return m_bUsing; }
 };
 
-class CTriggerClock final : public CClock
+class CClock_Trigger final : public CClock
 {
 private:
-	explicit CTriggerClock() {};
-	virtual  ~CTriggerClock() = default;
+	explicit CClock_Trigger() {};
+	virtual  ~CClock_Trigger() = default;
 public:
-	static CTriggerClock* Create() { return new CTriggerClock; }
+	static CClock_Trigger* Create() { return new CClock_Trigger; }
 	virtual bool isThreashHoldReached(_double _time, const _tchar* _pTimerKey = L"Timer_100") override;
 	virtual void Free() override;
 };
 
-class CDelayClock final : public CClock
+class CClock_Delay final : public CClock
 {
 private:
-	explicit CDelayClock() {};
-	virtual  ~CDelayClock() = default;
+	explicit CClock_Delay() {};
+	virtual  ~CClock_Delay() = default;
 public:
 
-	static CDelayClock* Create() { return new CDelayClock; }
+	static CClock_Delay* Create() { return new CClock_Delay; }
 	virtual bool isThreashHoldReached(_double _time,  const _tchar* _pTimerKey = L"Timer_100") override;
 	virtual void Free() override;
 };
 
-class CSingleClock final : public CClock
+class CClock_Single final : public CClock
 {
 private:
-	explicit CSingleClock() {};
-	virtual  ~CSingleClock() = default;
+	explicit CClock_Single() {};
+	virtual  ~CClock_Single() = default;
 public:
-	static CSingleClock* Create() { return new CSingleClock; }
+	static CClock_Single* Create() { return new CClock_Single; }
 	virtual bool isThreashHoldReached(_double _time,  const _tchar* _pTimerKey = L"Timer_100") override;
 	virtual void Free() override;
 };
 
-class CReversalClock final : public CClock
+class CClock_Reversal final : public CClock
 {
 private:
-	explicit CReversalClock() {};
-	virtual  ~CReversalClock() = default;
+	explicit CClock_Reversal() {};
+	virtual  ~CClock_Reversal() = default;
 
 private:
 	_bool m_bState = false;
 public:
-	static CReversalClock* Create() { return new CReversalClock; }
+	static CClock_Reversal* Create() { return new CClock_Reversal; }
 	virtual bool isThreashHoldReached(_double _time,  const _tchar* _pTimerKey = L"Timer_100") override;
 	virtual void Free() override;
 };

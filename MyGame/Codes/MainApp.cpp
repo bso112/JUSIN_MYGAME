@@ -10,13 +10,17 @@
 USING(MyGame)
 
 CMainApp::CMainApp()
-	:m_pSceneMgr(CSceneMgr::Get_Instance())
+	:m_pSceneMgr(CSceneMgr::Get_Instance()), m_pObjMgr(CObjMgr::Get_Instance())
 {
+	Safe_AddRef(m_pObjMgr);
 	Safe_AddRef(m_pSceneMgr);
 }
 
 HRESULT CMainApp::Initalize()
 {
+
+	m_DC = GetDC(g_hWnd);
+
 	if (FAILED(Initalize_Default_Setting()))
 		return E_FAIL;
 
@@ -34,8 +38,9 @@ _int CMainApp::Update(_double _timeDelta)
 
 	static int callCnt = 0;
 
-
+	m_pObjMgr->Update(_timeDelta);
 	m_pSceneMgr->Update(_timeDelta);
+
 
 	if (nullptr == m_pSceneMgr)
 		return -1;
@@ -60,15 +65,18 @@ HRESULT CMainApp::Render()
 		nullptr == m_pSceneMgr)
 		return E_FAIL;
 
-	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
-	m_pGraphic_Device->BeginScene();
-	//그림을 그린다.
+	//m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
+	//m_pGraphic_Device->BeginScene();
+	////그림을 그린다.
 
-	if (FAILED(m_pSceneMgr->Render()))
+	//if (FAILED(m_pSceneMgr->Render()))
+	//	return E_FAIL;
+
+	if (FAILED(m_pSceneMgr->Render(m_DC)))
 		return E_FAIL;
 
-	m_pGraphic_Device->EndScene();
-	m_pGraphic_Device->Present(nullptr, nullptr, g_hWnd, nullptr);
+	//m_pGraphic_Device->EndScene();
+	//m_pGraphic_Device->Present(nullptr, nullptr, g_hWnd, nullptr);
 	return S_OK;
 }
 
@@ -113,8 +121,10 @@ CMainApp * CMainApp::Create()
 void CMainApp::Free()
 {
 	Safe_Release(m_pGraphic_Device);
+	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pSceneMgr);
 
+	ReleaseDC(g_hWnd, m_DC);
 
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		return;

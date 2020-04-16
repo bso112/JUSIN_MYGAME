@@ -16,6 +16,9 @@ public:
 	_int	Update(_double _timeDelta);
 	_int	Late_Update(_double _timeDelta);
 	HRESULT Add_GameObject(CGameObject* _pGO);
+
+public:
+	CGameObject* Get_Front() { if (m_listGO.size() > 0) return m_listGO.front(); }
 public:
 	static CLayer* Create();
 private:

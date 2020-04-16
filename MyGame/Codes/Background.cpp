@@ -16,7 +16,7 @@ HRESULT CBackground::Initialize_Prototype(_tchar* _pFilePath)
 	return S_OK;
 }
 
-HRESULT CBackground::Initalize(void * _param)
+HRESULT CBackground::Initialize(void * _param)
 {
 	return S_OK;
 }
@@ -39,14 +39,13 @@ _int CBackground::LateUpate(_double _timeDelta)
 
 HRESULT CBackground::Render()
 {
-	
 	return S_OK;
 }
 
 CGameObject* CBackground::Clone(void* _param)
 {
 	CBackground* pInstance = new CBackground(*this);
-	if (FAILED(pInstance->Initalize(_param)))
+	if (FAILED(pInstance->Initialize(_param)))
 	{
 		MSG_BOX("Fail to create Background");
 		Safe_Release(pInstance);

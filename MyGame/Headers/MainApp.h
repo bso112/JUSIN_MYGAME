@@ -4,7 +4,7 @@
 
 BEGIN(MyGame)
 class CSceneMgr;
-
+class CObjMgr;
 
 class CMainApp final : public CBase
 {
@@ -15,6 +15,8 @@ private:
 private:
 	PDIRECT3DDEVICE9	m_pGraphic_Device =nullptr;
 	CSceneMgr*			m_pSceneMgr = nullptr;
+	CObjMgr*			m_pObjMgr = nullptr;
+	HDC					m_DC = nullptr;
 
 public:
 	HRESULT Initalize();
@@ -25,7 +27,7 @@ public:
 
 #if _DEBUG
 	_tchar	m_szFPS[MAX_PATH] = L"";
-	_double	m_dwTimeAcc = 0;
+	_double	m_dwTimeAcc = 0.0;
 	_uint	m_iRenderCnt = 0;
 #endif
 

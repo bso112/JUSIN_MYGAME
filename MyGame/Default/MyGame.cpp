@@ -34,6 +34,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// TODO: 여기에 코드를 입력합니다.
+	CMainApp*		pMainApp = nullptr;
 
 	// 전역 문자열을 초기화합니다.
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -49,51 +50,57 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MYGAME));
 
 	MSG msg;
-	msg.message = NULL;
 
-	CMainApp* pMainApp = CMainApp::Create();
+	pMainApp = CMainApp::Create();
+
 	if (nullptr == pMainApp)
 		return FALSE;
 
-	CTimerMgr* pTimerMgr = CTimerMgr::Get_Instance();
-	if (nullptr == pTimerMgr)
+	CTimerMgr*	pTimer_Manager = CTimerMgr::Get_Instance();
+	if (nullptr == pTimer_Manager)
 		return FALSE;
 
-	Safe_AddRef(pTimerMgr);
+	Safe_AddRef(pTimer_Manager);
 
-	pTimerMgr->Add_Timer(L"Timer_Default");
-	pTimerMgr->Add_Timer(L"Timer_100");
+	if (FAILED(pTimer_Manager->Add_Timer(L"Timer_Default")))
+		return FALSE;
+	if (FAILED(pTimer_Manager->Add_Timer(L"Timer_100")))
+		return FALSE;
 
-
-	_double timeAcc = 0.0;
+	_double	TimerAcc = 0.0;
 
 	// 기본 메시지 루프입니다.
-	while (msg.message != WM_QUIT)
+	while (true)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
+			if (WM_QUIT == msg.message)
+				break;
+
 			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
+		}
 
-			timeAcc += pTimerMgr->Compute_TimeDelta(L"Timer_Default");
+		if (nullptr == pMainApp)
+			break;
 
-			//0.01초마다 실행
-			if (timeAcc >= 1.0 / 100.0)
-			{
-			
-				pMainApp->Update(pTimerMgr->Compute_TimeDelta(L"Timer_100"));
-				pMainApp->Render();
+		// 일초에 천번호출된다.  (TimeDelta : 0.001)
+		TimerAcc += pTimer_Manager->Compute_TimeDelta(L"Timer_Default");
 
-				timeAcc = 0.0;
-			}
+		if (TimerAcc >= 1.0 / 100.0)
+		{
+			TimerAcc = 0.0;
 
+			if (0 > pMainApp->Update(pTimer_Manager->Compute_TimeDelta(L"Timer_100")))
+				break;
+			pMainApp->Render();
 		}
 	}
 
-	Safe_Release(pTimerMgr);
+	Safe_Release(pTimer_Manager);
 
 
 	if (0 != Safe_Release(pMainApp))

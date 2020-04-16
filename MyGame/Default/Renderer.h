@@ -8,7 +8,7 @@ class CRenderer final :public CBase
 	DECLARE_SINGLETON(CRenderer)
 
 public:
-	enum RENDER_GROUP { RENDER_PRIOR, RENDER_YSORT, RENDER_UI, RENDER_END};
+	enum RENDER_GROUP { RENDER_PRIOR, RENDER_YSORT, RENDER_UI, RENDER_TEST, RENDER_END};
 private:
 	CRenderer();
 	virtual ~CRenderer();
@@ -19,6 +19,7 @@ private:
 public:
 	HRESULT Add_To_RenderGrop(CGameObject* _obj, RENDER_GROUP _eGroup);
 	HRESULT Render();
+	HRESULT Render(HDC _DC);
 	HRESULT Clear_RenderGroup();
 
 private:

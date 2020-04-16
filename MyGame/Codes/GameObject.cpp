@@ -27,29 +27,42 @@ CGameObject::CGameObject(CGameObject & _rhs)
 	Safe_AddRef(m_pRenderer);
 }
 
-HRESULT CGameObject::Initialize_Prototype(_tchar* _pFilePath)
+
+void CGameObject::Update_Rect()
 {
-	return S_OK;
+	m_tRect.left = (LONG)m_tInfo.vPos.x - (m_tInfo.iCX >>1);
+	m_tRect.right = (LONG)m_tInfo.vPos.x + (m_tInfo.iCX >> 1);
+	m_tRect.top = (LONG)m_tInfo.vPos.y- (m_tInfo.iCY >> 1);
+	m_tRect.bottom = (LONG)m_tInfo.vPos.y + (m_tInfo.iCY >> 1);
+
 }
 
-HRESULT CGameObject::Initalize(void * _param)
+HRESULT CGameObject::Initialize_Prototype(_tchar * _pFilePath)
 {
-	return S_OK;
+	return E_NOTIMPL;
+}
+
+HRESULT CGameObject::Initialize(void * _param)
+{
+	return E_NOTIMPL;
 }
 
 _int CGameObject::Update(_double _timeDelta)
 {
-	return 0;
+	return _int();
 }
 
 _int CGameObject::LateUpate(_double _timeDelta)
-{	
-
-	return 0;
+{
+	return _int();
 }
 
 HRESULT CGameObject::Render()
-{	
+{
+	return E_NOTIMPL;
+}
 
-	return S_OK;
+HRESULT CGameObject::Render(HDC _DC)
+{
+	return E_NOTIMPL;
 }

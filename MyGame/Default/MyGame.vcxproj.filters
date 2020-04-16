@@ -46,9 +46,6 @@
     <Filter Include="04.GameObject\GameObject">
       <UniqueIdentifier>{7571bd39-7ab4-403a-a8be-52cb3bb68e61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Default">
-      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Background">
       <UniqueIdentifier>{bc3c7911-f3d4-424a-a519-f8da5d6a216c}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,69 @@
     </Filter>
     <Filter Include="06.Utility\01.Clock\Clock">
       <UniqueIdentifier>{c452c944-947d-4905-a97d-1969ea5dac4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Stat">
+      <UniqueIdentifier>{513eb058-4c75-4704-ba57-a4f1302f4761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Character">
+      <UniqueIdentifier>{84908b22-5494-4dfc-be69-7a1dd977b2a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Character\Hero">
+      <UniqueIdentifier>{80908c40-e165-479f-aa8f-37782af18487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Buff">
+      <UniqueIdentifier>{36701ff4-40d4-4965-ac12-e03efa43660f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Monster">
+      <UniqueIdentifier>{0b86c09d-35f6-4d7f-b9cc-120ae531ce34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Monster\99.AiState">
+      <UniqueIdentifier>{97520fc8-91b8-4c32-9958-02288aaf3217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Monster\00.Rat">
+      <UniqueIdentifier>{b9f848a3-d6d1-432c-b1e2-cbe6f4a481b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Character\Hero\Manager">
+      <UniqueIdentifier>{f1756551-0325-48c9-8887-3b417a2549af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Buff\00.Invisible">
+      <UniqueIdentifier>{2ef471cb-7f49-40c1-841d-4db75cdbea50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item">
+      <UniqueIdentifier>{ba7bb73e-a7d1-4ba5-ab27-467dd6635d9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Scroll">
+      <UniqueIdentifier>{dcd614b8-735b-47b8-af19-e58c449e8b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Tile">
+      <UniqueIdentifier>{bccb9869-a1f8-4ee0-9aca-ad42dffa552e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module">
+      <UniqueIdentifier>{482cf3a8-1167-4974-b502-9e25fa1c1006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\VIBuffer">
+      <UniqueIdentifier>{ffca3f81-aa2a-429e-bc00-1224c1e5c59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Button">
+      <UniqueIdentifier>{10201592-2fc4-4bfa-b181-c7e2c0179334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Tile\Tile">
+      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Tile\Manager">
+      <UniqueIdentifier>{8a14b0b6-db60-495d-81d3-f05a3ec22882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Stage">
+      <UniqueIdentifier>{ff8a4e24-1fec-40ec-a7bf-9b31a54bb96c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\03.KeyManager">
+      <UniqueIdentifier>{fe25f361-67eb-4c4b-90ac-0d6e4440f336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Character\Hero\Warrior">
+      <UniqueIdentifier>{8e78c4fe-0080-45b2-a2f7-adadee94b547}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +204,66 @@
     <ClInclude Include="..\Headers\Clock.h">
       <Filter>06.Utility\01.Clock\Clock</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Character.h">
+      <Filter>04.GameObject\GameObject\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Stat.h">
+      <Filter>08.Stat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Hero.h">
+      <Filter>04.GameObject\GameObject\Character\Hero</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Monster.h">
+      <Filter>04.GameObject\GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\AiState.h">
+      <Filter>04.GameObject\GameObject\Monster\99.AiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Warrior.h">
+      <Filter>04.GameObject\GameObject\Character\Hero\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Rat.h">
+      <Filter>04.GameObject\GameObject\Monster\00.Rat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Buff.h">
+      <Filter>09.Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\HeroMgr.h">
+      <Filter>04.GameObject\GameObject\Character\Hero\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Invisible.h">
+      <Filter>09.Buff\00.Invisible</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Item.h">
+      <Filter>04.GameObject\GameObject\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Scroll.h">
+      <Filter>04.GameObject\GameObject\Item\Scroll</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame_Struct.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Module.h">
+      <Filter>06.Utility\02.Module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VIBuffer.h">
+      <Filter>06.Utility\02.Module\VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyButton.h">
+      <Filter>04.GameObject\GameObject\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Tile.h">
+      <Filter>04.GameObject\GameObject\Tile\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TileMgr.h">
+      <Filter>04.GameObject\GameObject\Tile\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Stage.h">
+      <Filter>03.Scene\Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\KeyMgr.h">
+      <Filter>06.Utility\03.KeyManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -193,6 +313,63 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Clock.cpp">
       <Filter>06.Utility\01.Clock\Clock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Character.cpp">
+      <Filter>04.GameObject\GameObject\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Stat.cpp">
+      <Filter>08.Stat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Hero.cpp">
+      <Filter>04.GameObject\GameObject\Character\Hero</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Monster.cpp">
+      <Filter>04.GameObject\GameObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\AiState.cpp">
+      <Filter>04.GameObject\GameObject\Monster\99.AiState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Warrior.cpp">
+      <Filter>04.GameObject\GameObject\Character\Hero\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Rat.cpp">
+      <Filter>04.GameObject\GameObject\Monster\00.Rat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Buff.cpp">
+      <Filter>09.Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\HeroMgr.cpp">
+      <Filter>04.GameObject\GameObject\Character\Hero\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Invisible.cpp">
+      <Filter>09.Buff\00.Invisible</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Item.cpp">
+      <Filter>04.GameObject\GameObject\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Scroll.cpp">
+      <Filter>04.GameObject\GameObject\Item\Scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Module.cpp">
+      <Filter>06.Utility\02.Module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VIBuffer.cpp">
+      <Filter>06.Utility\02.Module\VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MyButton.cpp">
+      <Filter>04.GameObject\GameObject\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Tile.cpp">
+      <Filter>04.GameObject\GameObject\Tile\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TileMgr.cpp">
+      <Filter>04.GameObject\GameObject\Tile\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Stage.cpp">
+      <Filter>03.Scene\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\KeyMgr.cpp">
+      <Filter>06.Utility\03.KeyManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
