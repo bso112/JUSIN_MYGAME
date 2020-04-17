@@ -1,10 +1,9 @@
 #pragma once
 
 #include "Base.h"
+#include "SceneMgr.h"
 
 BEGIN(MyGame)
-class CSceneMgr;
-class CObjMgr;
 
 class CMainApp final : public CBase
 {
@@ -15,8 +14,6 @@ private:
 private:
 	PDIRECT3DDEVICE9	m_pGraphic_Device =nullptr;
 	CSceneMgr*			m_pSceneMgr = nullptr;
-	CObjMgr*			m_pObjMgr = nullptr;
-	HDC					m_DC = nullptr;
 
 public:
 	HRESULT Initalize();
@@ -34,6 +31,8 @@ public:
 private:
 	HRESULT Initalize_Default_Setting();
 	HRESULT	Initalize_Scene();
+	HRESULT Initalize_Module();
+
 public:
 	static CMainApp* Create();
 private:

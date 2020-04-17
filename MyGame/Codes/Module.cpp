@@ -8,7 +8,16 @@ CModule::CModule(LPDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	Safe_AddRef(m_pGraphic_Device);
 }
-HRESULT CModule::Initialize()
+CModule::CModule(CModule & _module)
+	:m_pGraphic_Device(_module.m_pGraphic_Device)
+{
+	Safe_AddRef(m_pGraphic_Device);
+}
+HRESULT CModule::Initialize_Prototype()
+{
+	return S_OK;
+}
+HRESULT CModule::Initialize(void * _pArg)
 {
 	return S_OK;
 }

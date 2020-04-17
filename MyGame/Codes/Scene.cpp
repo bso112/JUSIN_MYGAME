@@ -40,15 +40,6 @@ HRESULT CScene::Render()
 	return S_OK;
 }
 
-HRESULT CScene::Render(HDC _DC)
-{
-	if (nullptr == m_pObjMgr)
-		return -1;
-
-	m_pRenderer->Render(_DC);
-	return S_OK;
-}
-
 
 void CScene::Free()
 {

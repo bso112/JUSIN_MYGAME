@@ -17,7 +17,7 @@ private:
 public:
 	HRESULT	Initialize() ;
 	_int	Update();
-	HRESULT Render(HDC _DC);
+	HRESULT Render();
 
 	
 

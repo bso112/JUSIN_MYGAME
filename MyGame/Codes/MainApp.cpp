@@ -2,26 +2,28 @@
 #include "MainApp.h"
 #include "SceneMgr.h"
 #include "Graphic_Device.h"
-#include "ObjMgr.h"
 #include "TimerMgr.h"
 #include "Renderer.h"
+#include "ObjMgr.h"
 #include "Clock.h"
+#include "ModuleMgr.h"
 
 USING(MyGame)
 
 CMainApp::CMainApp()
-	:m_pSceneMgr(CSceneMgr::Get_Instance()), m_pObjMgr(CObjMgr::Get_Instance())
+	:m_pSceneMgr(CSceneMgr::Get_Instance())
 {
-	Safe_AddRef(m_pObjMgr);
+
 	Safe_AddRef(m_pSceneMgr);
 }
 
 HRESULT CMainApp::Initalize()
 {
 
-	m_DC = GetDC(g_hWnd);
-
 	if (FAILED(Initalize_Default_Setting()))
+		return E_FAIL;
+
+	if (FAILED(Initalize_Module()))
 		return E_FAIL;
 
 	if (FAILED(Initalize_Scene()))
@@ -36,9 +38,8 @@ _int CMainApp::Update(_double _timeDelta)
 	m_dwTimeAcc += _timeDelta;
 #endif
 
-	static int callCnt = 0;
 
-	m_pObjMgr->Update(_timeDelta);
+
 	m_pSceneMgr->Update(_timeDelta);
 
 
@@ -65,18 +66,16 @@ HRESULT CMainApp::Render()
 		nullptr == m_pSceneMgr)
 		return E_FAIL;
 
-	//m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
-	//m_pGraphic_Device->BeginScene();
-	////그림을 그린다.
+	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
+	m_pGraphic_Device->BeginScene();
+	//그림을 그린다.
 
-	//if (FAILED(m_pSceneMgr->Render()))
-	//	return E_FAIL;
-
-	if (FAILED(m_pSceneMgr->Render(m_DC)))
+	if (FAILED(m_pSceneMgr->Render()))
 		return E_FAIL;
 
-	//m_pGraphic_Device->EndScene();
-	//m_pGraphic_Device->Present(nullptr, nullptr, g_hWnd, nullptr);
+
+	m_pGraphic_Device->EndScene();
+	m_pGraphic_Device->Present(nullptr, nullptr, g_hWnd, nullptr);
 	return S_OK;
 }
 
@@ -106,6 +105,22 @@ HRESULT CMainApp::Initalize_Scene()
 	return S_OK;
 }
 
+HRESULT CMainApp::Initalize_Module()
+{
+	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
+	if (nullptr == pModuleMgr)
+		return E_FAIL;
+
+	Safe_AddRef(pModuleMgr);
+	
+	if (FAILED(pModuleMgr->Add_Module(MODULE_VIBUFFER, SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	Safe_Release(pModuleMgr);
+
+	return S_OK;
+}
+
 
 CMainApp * CMainApp::Create()
 {
@@ -121,10 +136,8 @@ CMainApp * CMainApp::Create()
 void CMainApp::Free()
 {
 	Safe_Release(m_pGraphic_Device);
-	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pSceneMgr);
 
-	ReleaseDC(g_hWnd, m_DC);
 
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		return;
@@ -133,9 +146,12 @@ void CMainApp::Free()
 	if (0 != CSceneMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CScneeMgr");
 
-	if (0 != CObjMgr::Destroy_Instance())
+	if (0 != CObjMgr::Destroy_Instance()) 
 		MSG_BOX("Fail to Release CObjMgr");
 	
+	if(0 != CModuleMgr::Destroy_Instance())
+		MSG_BOX("Fail to Relese CModuleMgr");
+
 	if (0 != CRenderer::Destroy_Instance())
 		MSG_BOX("Fail to Release CRenderer");
 
@@ -144,6 +160,7 @@ void CMainApp::Free()
 
 	if (0 != CGraphic_Device::Destroy_Instance())
 		MSG_BOX("Fail to Relese CGraphic_Device");
+
 	
 
 }

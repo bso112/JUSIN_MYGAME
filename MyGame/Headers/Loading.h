@@ -13,7 +13,6 @@ private:
 	virtual HRESULT Initalize() override;
 	virtual _int Update(_double _timeDelta) override;
 	virtual HRESULT Render() override;
-	virtual	HRESULT	Render(HDC _DC) override;
 
 public:
 	static CLoading* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
@@ -22,6 +21,7 @@ public:
 private:
 	HRESULT Initalize_Prototypes();
 	HRESULT	Initalize_Layers();
+	HRESULT	Initalize_Textures();
 };
 
 END

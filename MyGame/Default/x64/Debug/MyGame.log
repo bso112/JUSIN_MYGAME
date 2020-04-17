@@ -1,4 +1,32 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  MyGame.cpp
+  Textrue.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Renderer.cpp
+  Warrior.cpp
+  TileMgr.cpp
+  Tile.cpp
+  Stage.cpp
+  Scroll.cpp
+  Scene.cpp
+  Rat.cpp
+  ObjMgr.cpp
+  MyButton.cpp
+  Monster.cpp
+  ModuleMgr.cpp
+  MainApp.cpp
+  Loading.cpp
+  Layer.cpp
+  Item.cpp
+  Hero.cpp
+  GameObject.cpp
+  Character.cpp
+  Buff.cpp
+  코드를 생성하고 있습니다...
+c:\users\bso11\desktop\myclient\mygame\codes\hero.cpp(27): warning C4715: 'MyGame::CHero::KeyCheck': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\bso11\desktop\myclient\mygame\headers\layer.h(21): warning C4715: 'MyGame::CLayer::Get_Front': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  Background.cpp
+  코드를 생성하고 있습니다...
   MyGame.vcxproj -> C:\Users\bso11\Desktop\myClient\MyGame\Default\..\Bin\MyGame.exe
   MyGame.vcxproj -> ..\Bin\MyGame.pdb (Full PDB)

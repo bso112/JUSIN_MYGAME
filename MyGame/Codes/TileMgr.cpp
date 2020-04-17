@@ -36,14 +36,11 @@ _int CTileMgr::Update()
 	return _int();
 }
 
-HRESULT CTileMgr::Render(HDC _DC)
+HRESULT CTileMgr::Render()
 {
-	for (auto& tile : m_vecTile)
-		if(nullptr != tile)
-			tile->Render(_DC);
-
-	return S_OK;
+	return E_NOTIMPL;
 }
+
 
 void CTileMgr::Free()
 {

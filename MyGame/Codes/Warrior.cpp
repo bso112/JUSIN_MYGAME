@@ -37,13 +37,6 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CWarrior::Initialize(void * _param)
 {
-	m_tInfo.vPos.x = *((float*)_param);
-	m_tInfo.vPos.y = *((float*)_param + 1);
-
-	m_tInfo.iCX = 20;
-	m_tInfo.iCY = 20;
-	Update_Rect();
-
 	return S_OK;
 }
 
@@ -78,12 +71,6 @@ HRESULT CWarrior::Render()
 	return S_OK;
 }
 
-HRESULT CWarrior::Render(HDC _DC)
-{
-	Update_Rect();
-	Ellipse(_DC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	return E_NOTIMPL;
-}
 
 void CWarrior::Scene_Change()
 {

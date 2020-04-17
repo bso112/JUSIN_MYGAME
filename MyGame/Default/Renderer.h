@@ -19,7 +19,7 @@ private:
 public:
 	HRESULT Add_To_RenderGrop(CGameObject* _obj, RENDER_GROUP _eGroup);
 	HRESULT Render();
-	HRESULT Render(HDC _DC);
+
 	HRESULT Clear_RenderGroup();
 
 private:

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Background.h"
-
+#include "VIBuffer.h"
 
 USING(MyGame)
 
@@ -18,6 +18,9 @@ HRESULT CBackground::Initialize_Prototype(_tchar* _pFilePath)
 
 HRESULT CBackground::Initialize(void * _param)
 {
+	if (FAILED(Initalize_Module()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -39,6 +42,17 @@ _int CBackground::LateUpate(_double _timeDelta)
 
 HRESULT CBackground::Render()
 {
+	if (nullptr == m_pVIBuffer	||
+		nullptr == m_pTextrue)
+		return E_FAIL;
+
+	if (FAILED(m_pTextrue->Set_Textrue(0)))
+		return E_FAIL;
+
+
+	if(FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -69,5 +83,20 @@ CBackground * CBackground::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pF
 
 void CBackground::Free()
 {
+	Safe_Release(m_pVIBuffer);
+	Safe_Release(m_pTextrue);
+
 	CGameObject::Free();
 }
+
+HRESULT CBackground::Initalize_Module()
+{
+	if (FAILED(Set_Module(MODULE_VIBUFFER, SCENE_STATIC, (CModule**)&m_pVIBuffer)))
+		return E_FAIL;
+
+	if (FAILED(Set_Module(MODULE_TEXTURE, SCENE_LOADING, (CModule**)&m_pTextrue)))
+		return E_FAIL;
+
+	return S_OK;
+}
+

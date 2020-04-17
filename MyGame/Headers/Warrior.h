@@ -20,7 +20,6 @@ public:
 	virtual _int	Update(_double _timeDelta) override;
 	virtual _int	LateUpate(_double _timeDelta) override;
 	virtual HRESULT	Render() override;
-	virtual HRESULT	Render(HDC _DC) override;
 	virtual	HRESULT KeyCheck() override;
 
 

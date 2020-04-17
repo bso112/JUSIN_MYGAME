@@ -182,6 +182,7 @@
     <ClInclude Include="..\Headers\Loading.h" />
     <ClInclude Include="..\Headers\MainApp.h" />
     <ClInclude Include="..\Headers\Module.h" />
+    <ClInclude Include="..\Headers\ModuleMgr.h" />
     <ClInclude Include="..\Headers\Monster.h" />
     <ClInclude Include="..\Headers\MyButton.h" />
     <ClInclude Include="..\Headers\MyGame_Constant.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="..\Headers\Scroll.h" />
     <ClInclude Include="..\Headers\Stage.h" />
     <ClInclude Include="..\Headers\Stat.h" />
+    <ClInclude Include="..\Headers\Textrue.h" />
     <ClInclude Include="..\Headers\Tile.h" />
     <ClInclude Include="..\Headers\TileMgr.h" />
     <ClInclude Include="..\Headers\Timer.h" />
@@ -227,6 +229,7 @@
     <ClCompile Include="..\Codes\Loading.cpp" />
     <ClCompile Include="..\Codes\MainApp.cpp" />
     <ClCompile Include="..\Codes\Module.cpp" />
+    <ClCompile Include="..\Codes\ModuleMgr.cpp" />
     <ClCompile Include="..\Codes\Monster.cpp" />
     <ClCompile Include="..\Codes\MyButton.cpp" />
     <ClCompile Include="..\Codes\ObjMgr.cpp" />
@@ -236,6 +239,7 @@
     <ClCompile Include="..\Codes\Scroll.cpp" />
     <ClCompile Include="..\Codes\Stage.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />
+    <ClCompile Include="..\Codes\Textrue.cpp" />
     <ClCompile Include="..\Codes\Tile.cpp" />
     <ClCompile Include="..\Codes\TileMgr.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />

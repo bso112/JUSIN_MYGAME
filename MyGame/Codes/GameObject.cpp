@@ -1,12 +1,20 @@
 #include "stdafx.h"
 #include "..\Headers\GameObject.h"
 #include "Renderer.h"
+#include "ModuleMgr.h"
 
 USING(MyGame)
 void CGameObject::Free()
 {
+	
+	for (auto pair : m_mapModule)
+	{
+		Safe_Release(pair.second);
+	}
+
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pGraphic_Device);
+
 }
 
 CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
@@ -23,28 +31,20 @@ CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
 CGameObject::CGameObject(CGameObject & _rhs)
 	:m_pGraphic_Device(_rhs.m_pGraphic_Device), m_pRenderer(CRenderer::Get_Instance())
 {
-	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pRenderer);
+	Safe_AddRef(m_pGraphic_Device);
 }
 
 
-void CGameObject::Update_Rect()
-{
-	m_tRect.left = (LONG)m_tInfo.vPos.x - (m_tInfo.iCX >>1);
-	m_tRect.right = (LONG)m_tInfo.vPos.x + (m_tInfo.iCX >> 1);
-	m_tRect.top = (LONG)m_tInfo.vPos.y- (m_tInfo.iCY >> 1);
-	m_tRect.bottom = (LONG)m_tInfo.vPos.y + (m_tInfo.iCY >> 1);
-
-}
 
 HRESULT CGameObject::Initialize_Prototype(_tchar * _pFilePath)
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CGameObject::Initialize(void * _param)
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 _int CGameObject::Update(_double _timeDelta)
@@ -59,10 +59,44 @@ _int CGameObject::LateUpate(_double _timeDelta)
 
 HRESULT CGameObject::Render()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
-HRESULT CGameObject::Render(HDC _DC)
+HRESULT CGameObject::Set_Module(MODULE _eModuleID,SCENEID _eSceneID, CModule** _ppModule)
 {
-	return E_NOTIMPL;
+	if (nullptr != Find_Module(_eModuleID))
+		return E_FAIL;
+
+	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
+	if (nullptr == pModuleMgr)
+		return E_FAIL;
+
+	Safe_AddRef(pModuleMgr);
+
+	CModule* pModule = pModuleMgr->Get_Module(_eModuleID, _eSceneID);
+	if (nullptr == pModule)
+		return E_FAIL;
+
+	*_ppModule = pModule;
+
+	m_mapModule.emplace(_eModuleID, pModule);
+	//map에 추가했으니까 AddRef
+	Safe_AddRef(*_ppModule);
+
+	Safe_Release(pModuleMgr);
+
+	return S_OK;
 }
+
+CModule * CGameObject::Find_Module(MODULE _eModuleID)
+{
+	if (MODULE_END <= _eModuleID)
+		return nullptr;
+
+	auto& iter = m_mapModule.find(_eModuleID);
+	if (iter == m_mapModule.end())
+		return nullptr;
+	
+	return iter->second;
+}
+

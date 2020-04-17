@@ -70,9 +70,6 @@
     <Filter Include="06.Utility\01.Clock\Clock">
       <UniqueIdentifier>{c452c944-947d-4905-a97d-1969ea5dac4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Default">
-      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="08.Stat">
       <UniqueIdentifier>{513eb058-4c75-4704-ba57-a4f1302f4761}</UniqueIdentifier>
     </Filter>
@@ -112,9 +109,6 @@
     <Filter Include="06.Utility\02.Module">
       <UniqueIdentifier>{482cf3a8-1167-4974-b502-9e25fa1c1006}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06.Utility\02.Module\VIBuffer">
-      <UniqueIdentifier>{ffca3f81-aa2a-429e-bc00-1224c1e5c59f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Button">
       <UniqueIdentifier>{10201592-2fc4-4bfa-b181-c7e2c0179334}</UniqueIdentifier>
     </Filter>
@@ -132,6 +126,21 @@
     </Filter>
     <Filter Include="04.GameObject\GameObject\Character\Hero\Warrior">
       <UniqueIdentifier>{8e78c4fe-0080-45b2-a2f7-adadee94b547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module">
+      <UniqueIdentifier>{0384e254-a825-47f2-9e32-6228b3528ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Manager">
+      <UniqueIdentifier>{a82446e5-fe8d-48d0-95db-66f3ec2e8ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\VIBuffer">
+      <UniqueIdentifier>{ffca3f81-aa2a-429e-bc00-1224c1e5c59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\Texture">
+      <UniqueIdentifier>{7c880c12-9093-41d3-8fe2-8d09122935d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -243,11 +252,8 @@
     <ClInclude Include="MyGame_Struct.h">
       <Filter>98.Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Module.h">
-      <Filter>06.Utility\02.Module</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\VIBuffer.h">
-      <Filter>06.Utility\02.Module\VIBuffer</Filter>
+      <Filter>06.Utility\02.Module\Module\VIBuffer</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\MyButton.h">
       <Filter>04.GameObject\GameObject\Button</Filter>
@@ -263,6 +269,15 @@
     </ClInclude>
     <ClInclude Include="..\Headers\KeyMgr.h">
       <Filter>06.Utility\03.KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ModuleMgr.h">
+      <Filter>06.Utility\02.Module\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Module.h">
+      <Filter>06.Utility\02.Module\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Textrue.h">
+      <Filter>06.Utility\02.Module\Module\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,11 +365,8 @@
     <ClCompile Include="..\Codes\Scroll.cpp">
       <Filter>04.GameObject\GameObject\Item\Scroll</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Module.cpp">
-      <Filter>06.Utility\02.Module</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\VIBuffer.cpp">
-      <Filter>06.Utility\02.Module\VIBuffer</Filter>
+      <Filter>06.Utility\02.Module\Module\VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\MyButton.cpp">
       <Filter>04.GameObject\GameObject\Button</Filter>
@@ -370,6 +382,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\KeyMgr.cpp">
       <Filter>06.Utility\03.KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ModuleMgr.cpp">
+      <Filter>06.Utility\02.Module\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Module.cpp">
+      <Filter>06.Utility\02.Module\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Textrue.cpp">
+      <Filter>06.Utility\02.Module\Module\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

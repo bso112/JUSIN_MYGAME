@@ -16,7 +16,6 @@ public:
 	HRESULT Initialize_Prototype(INFO _tInfo);
 	HRESULT Initialize(void* _arg);
 	_int	Update(_double _timeDelta)	override ;
-	HRESULT	Render(HDC _DC) override;
 	HRESULT	AddListener(void(*OnClick)());
 	
 public:

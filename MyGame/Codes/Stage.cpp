@@ -39,13 +39,7 @@ HRESULT CStage::Render()
 	return S_OK;
 }
 
-HRESULT CStage::Render(HDC _DC)
-{
-	CScene::Render(_DC);
-	m_pTileMgr->Render(_DC);
 
-	return S_OK;
-}
 
 HRESULT CStage::Initalize_Tile()
 {

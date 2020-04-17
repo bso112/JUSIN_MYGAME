@@ -57,14 +57,7 @@ HRESULT CSceneMgr::Render()
 	return S_OK;
 }
 
-HRESULT CSceneMgr::Render(HDC _DC)
-{
-	if (nullptr == m_pCurrScene)
-		return E_FAIL;
 
-	m_pCurrScene->Render(_DC);
-	return S_OK;
-}
 
 void CSceneMgr::Free()
 {

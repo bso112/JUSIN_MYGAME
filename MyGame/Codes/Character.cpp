@@ -44,17 +44,17 @@ bool CCharacter::IsImmune(IMMUNE _eImmune)
 HRESULT CCharacter::MoveToDst(Vector2 _vDst, _double _timeDelta)
 {
 
-	if ((_vDst.x == 0 && _vDst.y == 0))
-		return E_FAIL;
+	//if ((_vDst.x == 0 && _vDst.y == 0))
+	//	return E_FAIL;
 
-	Vector2 toTarget = (_vDst - m_tInfo.vPos);
-	float dist = toTarget.magnitude();
-	if (dist > 0.5f)
-	{
-		Vector2 dir = toTarget.Nomalize();
-		m_tInfo.vPos.x += dir.x * m_fSpeed * (float)_timeDelta;
-		m_tInfo.vPos.y += dir.y * m_fSpeed * (float)_timeDelta;
-	}
+	//Vector2 toTarget = (_vDst - m_tInfo.vPos);
+	//float dist = toTarget.magnitude();
+	//if (dist > 0.5f)
+	//{
+	//	Vector2 dir = toTarget.Nomalize();
+	//	m_tInfo.vPos.x += dir.x * m_fSpeed * (float)_timeDelta;
+	//	m_tInfo.vPos.y += dir.y * m_fSpeed * (float)_timeDelta;
+	//}
 
 	return S_OK;
 

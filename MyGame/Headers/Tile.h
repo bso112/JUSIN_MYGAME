@@ -10,7 +10,7 @@ protected:
 
 public:
 	HRESULT Initalize(float _fX, float _fY);
-	HRESULT	Render(HDC _DC);
+	HRESULT	Render();
 	static CTile*	Create(float _fX ,float _fY);
 	virtual CGameObject * Clone(void * _param = nullptr) override;
 

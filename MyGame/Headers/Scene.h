@@ -20,7 +20,6 @@ public:
 	virtual HRESULT Initalize();
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
-	virtual	HRESULT	Render(HDC _DC);
 
 
 
