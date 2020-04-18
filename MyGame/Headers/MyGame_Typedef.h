@@ -18,3 +18,5 @@ typedef double			_double;
 
 typedef	bool			_bool;
 typedef	wchar_t			_tchar;
+
+typedef D3DXMATRIX		_matrix;

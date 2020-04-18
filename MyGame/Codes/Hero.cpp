@@ -21,9 +21,11 @@ HRESULT CHero::KeyCheck()
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
-		m_vDst = Vector2((float)pt.x, (float)pt.y);
+		m_vDst = Vector4((float)pt.x, (float)pt.y);
 
 	}
+
+	return S_OK;
 }
 
 

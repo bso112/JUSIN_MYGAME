@@ -11,7 +11,13 @@ protected:
 	virtual ~CVIBuffer() = default;
 
 private:
-	PDIRECT3DVERTEXBUFFER9 m_pVBuffer = nullptr;
+	//정점들의 초기 위치(상수)
+	Vector4	m_vBasePos[4];
+private:
+	PDIRECT3DVERTEXBUFFER9	m_pVBuffer = nullptr;
+	PDIRECT3DINDEXBUFFER9	m_pIBuffer = nullptr;
+public:
+	HRESULT Set_Transform(_matrix _matrix);
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);

@@ -202,6 +202,7 @@
     <ClInclude Include="..\Headers\TileMgr.h" />
     <ClInclude Include="..\Headers\Timer.h" />
     <ClInclude Include="..\Headers\TimerMgr.h" />
+    <ClInclude Include="..\Headers\Transform.h" />
     <ClInclude Include="..\Headers\VIBuffer.h" />
     <ClInclude Include="..\Headers\Warrior.h" />
     <ClInclude Include="MyGame_Struct.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="..\Codes\TileMgr.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />
     <ClCompile Include="..\Codes\TimerMgr.cpp" />
+    <ClCompile Include="..\Codes\Transform.cpp" />
     <ClCompile Include="..\Codes\VIBuffer.cpp" />
     <ClCompile Include="..\Codes\Warrior.cpp" />
     <ClCompile Include="MyGame.cpp" />

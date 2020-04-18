@@ -142,6 +142,9 @@
     <Filter Include="06.Utility\02.Module\Module\Texture">
       <UniqueIdentifier>{7c880c12-9093-41d3-8fe2-8d09122935d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\02.Module\Module\Transform">
+      <UniqueIdentifier>{829efe2b-dfc5-493b-a7fc-dfe1942914e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -279,6 +282,9 @@
     <ClInclude Include="..\Headers\Textrue.h">
       <Filter>06.Utility\02.Module\Module\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Transform.h">
+      <Filter>06.Utility\02.Module\Module\Transform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -391,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Textrue.cpp">
       <Filter>06.Utility\02.Module\Module\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Transform.cpp">
+      <Filter>06.Utility\02.Module\Module\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

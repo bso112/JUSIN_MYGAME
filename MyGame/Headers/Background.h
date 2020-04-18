@@ -13,6 +13,7 @@ private:
 private:
 	CVIBuffer*	m_pVIBuffer = nullptr;
 	CTextrue*	m_pTextrue = nullptr;
+	CTransform*	m_pTransform = nullptr;
 
 
 public:

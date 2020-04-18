@@ -21,7 +21,6 @@ public:
 private:
 	HRESULT Initalize_Prototypes();
 	HRESULT	Initalize_Layers();
-	HRESULT	Initalize_Textures();
 };
 
 END

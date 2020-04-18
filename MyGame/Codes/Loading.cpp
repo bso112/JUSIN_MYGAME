@@ -26,9 +26,7 @@ void CLoading::Free()
 
 HRESULT CLoading::Initalize()
 {
-	//텍스쳐를 먼저 로드해야함. 오브젝트들 이니셜라이즈 하는데 쓰임
-	if (FAILED(Initalize_Textures()))
-		return E_FAIL;
+
 
 	if (FAILED(Initalize_Prototypes()))
 		return E_FAIL;
@@ -75,22 +73,6 @@ HRESULT CLoading::Initalize_Layers()
 	return S_OK;
 }
 
-HRESULT CLoading::Initalize_Textures()
-{
-	if (nullptr == m_pGraphic_Device)
-		return E_FAIL;
 
-	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
-	if (nullptr == pModuleMgr)
-		return E_FAIL;
-
-	Safe_AddRef(pModuleMgr);
-
-	if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE, SCENEID::SCENE_LOADING, CTextrue::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Loading.jpg"))))
-		return E_FAIL;
-
-	Safe_Release(pModuleMgr);
-	return S_OK;
-}
 
 

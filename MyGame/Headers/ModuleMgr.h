@@ -2,6 +2,8 @@
 
 #include "VIBuffer.h"
 #include "Textrue.h"
+#include "Transform.h"
+
 BEGIN(MyGame)
 class CModuleMgr : public CBase
 {

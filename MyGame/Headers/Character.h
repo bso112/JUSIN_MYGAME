@@ -37,7 +37,7 @@ protected:
 	bool	m_bDead = false;
 	bool	m_bInvisible = false;
 	//이동할 목표지점
-	Vector2			m_vDst = {};
+	Vector4			m_vDst = {};
 
 
 public:
@@ -50,7 +50,7 @@ public:
 
 protected:
 	//해당 좌표로 이동한다.
-	HRESULT MoveToDst(Vector2 _vDst, _double _timeDelta);
+	HRESULT MoveToDst(Vector4 _vDst, _double _timeDelta);
 	virtual void Process() = 0;
 	virtual void Update_State() = 0;
 	virtual void OnDead() = 0;

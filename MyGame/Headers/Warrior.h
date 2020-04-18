@@ -24,7 +24,7 @@ public:
 
 
 public:
-	void Set_Destination(Vector2 _vDst) { m_vDst = _vDst; }
+	void Set_Destination(Vector4 _vDst) { m_vDst = _vDst; }
 
 
 private:

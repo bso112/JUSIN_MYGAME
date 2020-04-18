@@ -1,14 +1,14 @@
 #pragma once
 
 
-typedef struct tagVector2 : public D3DXVECTOR4
+typedef struct tagVector4 : public D3DXVECTOR4
 {
-	tagVector2() 
+	tagVector4() 
 	{
-		ZeroMemory(this, sizeof(tagVector2));
+		ZeroMemory(this, sizeof(tagVector4));
 	}
 
-	tagVector2(D3DXVECTOR4& _DXVECTOR4) 
+	tagVector4(D3DXVECTOR4& _DXVECTOR4) 
 	{ 
 		x = _DXVECTOR4.x;
 		y = _DXVECTOR4.y;
@@ -17,74 +17,67 @@ typedef struct tagVector2 : public D3DXVECTOR4
 	
 	}
 
-	tagVector2(float _fX, float _fY)
-	{
-		x = _fX;
-		y = _fY;
-		z = 0;
-		w = 0;
-	}
 
-	tagVector2(float _fX, float _fY, float _fW)
+	tagVector4(float _fX, float _fY, float _fZ = 0, float _fW = 0)
 	{
 		x = _fX;
 		y = _fY;
-		z = 0;
+		z = _fZ;
 		w = _fW;
 	}
 
-	tagVector2 operator+(tagVector2 _vec)
+	tagVector4 operator+(tagVector4 _vec)
 	{
-		return tagVector2((D3DXVECTOR4)*this + (D3DXVECTOR4)_vec);
+		return tagVector4((D3DXVECTOR4)*this + (D3DXVECTOR4)_vec);
 	}
 
-	tagVector2 operator-(tagVector2 _vec)
+	tagVector4 operator-(tagVector4 _vec)
 	{
-		return tagVector2((D3DXVECTOR4)*this - (D3DXVECTOR4)_vec);
+		return tagVector4((D3DXVECTOR4)*this - (D3DXVECTOR4)_vec);
 	}
-	tagVector2& operator+=(tagVector2 _vec)
+	tagVector4& operator+=(tagVector4 _vec)
 	{
 		(D3DXVECTOR4)*this += (D3DXVECTOR4)_vec;
 		return *this;
 	}
 
-	tagVector2& operator-=(tagVector2 _vec)
+	tagVector4& operator-=(tagVector4 _vec)
 	{
 		(D3DXVECTOR4)*this -= (D3DXVECTOR4)_vec;
 		return *this;
 	}
 
-	tagVector2& operator+=(float _scalar)
+	tagVector4& operator+=(float _scalar)
 	{
 		x += _scalar;
 		y += _scalar;
 		return *this;
 	}
 
-	tagVector2& operator-=(float _scalar)
+	tagVector4& operator-=(float _scalar)
 	{
 		x -= _scalar;
 		y -= _scalar;
 		return *this;
 	}
 
-	tagVector2 operator*(float _scalar)
+	tagVector4 operator*(float _scalar)
 	{
-		return tagVector2((D3DXVECTOR4)*this * _scalar);
+		return tagVector4((D3DXVECTOR4)*this * _scalar);
 	}
-	tagVector2 operator+(float _scalar)
+	tagVector4 operator+(float _scalar)
 	{
 
-		return tagVector2(x + _scalar, y + _scalar);
-	}
-
-	tagVector2 operator-(float _scalar)
-	{
-		return tagVector2(x - _scalar, y - _scalar);
-
+		return tagVector4(x + _scalar, y + _scalar);
 	}
 
-	tagVector2& nomalize()
+	tagVector4 operator-(float _scalar)
+	{
+		return tagVector4(x - _scalar, y - _scalar);
+
+	}
+
+	tagVector4& nomalize()
 	{
 		float mag = magnitude();
 		// 0으로는 나눌 수 없다.
@@ -99,9 +92,9 @@ typedef struct tagVector2 : public D3DXVECTOR4
 	}
 
 	//임시객체를 리턴만 할뿐, 자기자신의 값을 변경하지는 않음
-	tagVector2 Nomalize()
+	tagVector4 Nomalize()
 	{
-		tagVector2 vec = {};
+		tagVector4 vec = {};
 		float mag = magnitude();
 		// 0으로는 나눌 수 없다.
 		if (mag > 0)
@@ -119,7 +112,7 @@ typedef struct tagVector2 : public D3DXVECTOR4
 		return sqrtf(x * x + y * y);
 	}
 
-}Vector2;
+}Vector4;
 
 
 
@@ -139,7 +132,7 @@ typedef	struct tagVertex_Texture
 
 typedef struct tagInfo
 {
-	Vector2		vPos;
+	Vector4		vPos;
 	_uint		iCX;
 	_uint		iCY;
 

@@ -41,7 +41,7 @@ bool CCharacter::IsImmune(IMMUNE _eImmune)
 	return false;
 }
 
-HRESULT CCharacter::MoveToDst(Vector2 _vDst, _double _timeDelta)
+HRESULT CCharacter::MoveToDst(Vector4 _vDst, _double _timeDelta)
 {
 
 	//if ((_vDst.x == 0 && _vDst.y == 0))
