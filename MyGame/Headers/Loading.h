@@ -3,7 +3,7 @@
 
 BEGIN(MyGame)
 class CMyButton;
-class CTileMgr;
+class CWorld;
 class CLoading final : public CScene
 {
 private:

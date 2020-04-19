@@ -3,6 +3,9 @@
 #include "GameObject.h"
 BEGIN(MyGame)
 
+class CVIBuffer;
+class CTexture;
+class CTransform;
 class CBackground final : public CGameObject
 {
 private:
@@ -12,7 +15,7 @@ private:
 
 private:
 	CVIBuffer*	m_pVIBuffer = nullptr;
-	CTextrue*	m_pTextrue = nullptr;
+	CTexture*	m_pTextrue = nullptr;
 	CTransform*	m_pTransform = nullptr;
 
 

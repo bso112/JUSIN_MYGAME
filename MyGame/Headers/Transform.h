@@ -12,12 +12,14 @@ private:
 
 private:
 	_matrix		m_StateMatrix;
+	_matrix		m_BaseMatrix;
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);
 
 public:
 	HRESULT	Set_Position(Vector4 _vPosition);
+	HRESULT	Set_Size(Vector4 _vSize);
 	_matrix	Get_Matrix() { return m_StateMatrix; }
 
 public:

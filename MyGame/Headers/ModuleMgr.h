@@ -1,7 +1,7 @@
 #pragma once
 
 #include "VIBuffer.h"
-#include "Textrue.h"
+#include "Texture.h"
 #include "Transform.h"
 
 BEGIN(MyGame)

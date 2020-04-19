@@ -87,7 +87,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 
 	Safe_AddRef(pGraphic_Device);
 
-	if(FAILED(pGraphic_Device->Ready_Graphic_Device(CGraphic_Device::TYPE_WIN, &m_pGraphic_Device)))
+	if (FAILED(pGraphic_Device->Ready_Graphic_Device(CGraphic_Device::TYPE_WIN, &m_pGraphic_Device)))
 		return E_FAIL;
 
 	Safe_Release(pGraphic_Device);
@@ -99,7 +99,7 @@ HRESULT CMainApp::Initalize_Scene()
 	if (m_pSceneMgr == nullptr)
 		return E_FAIL;
 
-	if(FAILED(m_pSceneMgr->Scene_Change(SCENE_LOADING, m_pGraphic_Device)))
+	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_LOADING, m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;
@@ -112,19 +112,100 @@ HRESULT CMainApp::Initalize_Module()
 		return E_FAIL;
 
 	Safe_AddRef(pModuleMgr);
-	
+
 	if (FAILED(pModuleMgr->Add_Module(MODULE_VIBUFFER, SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	if (FAILED(pModuleMgr->Add_Module(MODULE_DEFUALT_TEXTURE, SCENE_STATIC, CTextrue::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Loading.jpg"))))
-		return E_FAIL;
-
 
 	if (FAILED(pModuleMgr->Add_Module(MODULE_TRANSFORM, SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	Initalize_Texture();
+
 	Safe_Release(pModuleMgr);
 
+	return S_OK;
+}
+
+HRESULT CMainApp::Initalize_Texture()
+{
+	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
+	if (nullptr == pModuleMgr)
+		return E_FAIL;
+
+	Safe_AddRef(pModuleMgr);
+
+
+	if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_DEFUALT, SCENE_STATIC, 
+		CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Loading.jpg"))))
+		return E_FAIL;
+
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_BOOKSHELF, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/bookshelf%d", 6))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/bookshelf_broken%d", 1))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_MASKE, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/door_locked%d", 2))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_GRASS, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_burend%d", 2))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_MOSSY, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_mask%d", 15))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_WOOD, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_grass%d", 2))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_GREEN, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_mossy%d", 2))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_GREEN_MASKE, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_wood%d", 2))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_ASH, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor%d", 2))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_ASH_MASKE, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_ash_mask%d", 4))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_SING, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_ash%d", 4))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STAIR_UP, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_green_mask%d", 6))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STAIR_DOWN, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_green%d", 4))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STATUE_WITH_FLOOR, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/stair_up%d", 1))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STATUE_WITH_WOOD, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/stair_down%d", 1))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WALL, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/statue_with_floor%d", 1))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WALL_SEWERS, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/statue_with_wood%d", 1))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WELL, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/wall_sewers%d", 10))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WELL, SCENE_STATIC,
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/wall%d", 17))))
+	//	return E_FAIL;
+	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_BLACK, SCENE_STATIC, 
+	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/well%d", 1))))
+	//	return E_FAIL;
+	//
+
+
+
+
+
+	Safe_Release(pModuleMgr);
 	return S_OK;
 }
 
@@ -153,10 +234,10 @@ void CMainApp::Free()
 	if (0 != CSceneMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CScneeMgr");
 
-	if (0 != CObjMgr::Destroy_Instance()) 
+	if (0 != CObjMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CObjMgr");
-	
-	if(0 != CModuleMgr::Destroy_Instance())
+
+	if (0 != CModuleMgr::Destroy_Instance())
 		MSG_BOX("Fail to Relese CModuleMgr");
 
 	if (0 != CRenderer::Destroy_Instance())
@@ -168,6 +249,6 @@ void CMainApp::Free()
 	if (0 != CGraphic_Device::Destroy_Instance())
 		MSG_BOX("Fail to Relese CGraphic_Device");
 
-	
+
 
 }

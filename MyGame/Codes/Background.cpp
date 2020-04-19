@@ -1,6 +1,9 @@
 #include "stdafx.h"
-#include "..\Headers\Background.h"
+#include "Background.h"
 #include "VIBuffer.h"
+#include "Texture.h"
+#include "Transform.h"
+#include "Renderer.h"
 
 USING(MyGame)
 
@@ -21,7 +24,8 @@ HRESULT CBackground::Initialize(void * _param)
 	if (FAILED(Initalize_Module()))
 		return E_FAIL;
 
-	m_pTransform->Set_Position(Vector4(300.f, 300.f, 0.f, 1.f));
+	m_pTransform->Set_Position(Vector4(g_iWinCX >> 1, g_iWinCX >> 1, 0, 1));
+	m_pTransform->Set_Size(Vector4(g_iWinCX, g_iWinCY));
 	
 	return S_OK;
 }
@@ -100,7 +104,7 @@ HRESULT CBackground::Initalize_Module()
 	if (FAILED(Set_Module(MODULE_VIBUFFER, SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
 
-	if (FAILED(Set_Module(MODULE_DEFUALT_TEXTURE, SCENE_STATIC, (CModule**)&m_pTextrue)))
+	if (FAILED(Set_Module(MODULE_TEXTURE_DEFUALT, SCENE_STATIC, (CModule**)&m_pTextrue)))
 		return E_FAIL;
 
 	if (FAILED(Set_Module(MODULE_TRANSFORM, SCENE_STATIC, (CModule**)&m_pTransform)))

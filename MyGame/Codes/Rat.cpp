@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Rat.h"
-
+#include "Renderer.h"
 
 USING(MyGame)
 

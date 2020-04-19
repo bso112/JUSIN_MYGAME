@@ -112,12 +112,6 @@
     <Filter Include="04.GameObject\GameObject\Button">
       <UniqueIdentifier>{10201592-2fc4-4bfa-b181-c7e2c0179334}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Tile\Tile">
-      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Tile\Manager">
-      <UniqueIdentifier>{8a14b0b6-db60-495d-81d3-f05a3ec22882}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.Scene\Scene\Stage">
       <UniqueIdentifier>{ff8a4e24-1fec-40ec-a7bf-9b31a54bb96c}</UniqueIdentifier>
     </Filter>
@@ -144,6 +138,21 @@
     </Filter>
     <Filter Include="06.Utility\02.Module\Module\Transform">
       <UniqueIdentifier>{829efe2b-dfc5-493b-a7fc-dfe1942914e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Editor">
+      <UniqueIdentifier>{d66d9b45-a664-474c-90f1-a64c2f155604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.World">
+      <UniqueIdentifier>{171b93cc-5c59-442f-8189-f87a6612526f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.World\World">
+      <UniqueIdentifier>{8a14b0b6-db60-495d-81d3-f05a3ec22882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.World\Terrain">
+      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Editor\TilePalette">
+      <UniqueIdentifier>{1158c2bf-760e-4435-87c1-2f84f3fea2be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -261,12 +270,6 @@
     <ClInclude Include="..\Headers\MyButton.h">
       <Filter>04.GameObject\GameObject\Button</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Tile.h">
-      <Filter>04.GameObject\GameObject\Tile\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\TileMgr.h">
-      <Filter>04.GameObject\GameObject\Tile\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Stage.h">
       <Filter>03.Scene\Scene\Stage</Filter>
     </ClInclude>
@@ -279,11 +282,23 @@
     <ClInclude Include="..\Headers\Module.h">
       <Filter>06.Utility\02.Module\Module</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Textrue.h">
-      <Filter>06.Utility\02.Module\Module\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Transform.h">
       <Filter>06.Utility\02.Module\Module\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Terrain.h">
+      <Filter>00.World\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\World.h">
+      <Filter>00.World\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Editor.h">
+      <Filter>03.Scene\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Texture.h">
+      <Filter>06.Utility\02.Module\Module\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TilePalette.h">
+      <Filter>03.Scene\Scene\Editor\TilePalette</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,12 +392,6 @@
     <ClCompile Include="..\Codes\MyButton.cpp">
       <Filter>04.GameObject\GameObject\Button</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Tile.cpp">
-      <Filter>04.GameObject\GameObject\Tile\Tile</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Codes\TileMgr.cpp">
-      <Filter>04.GameObject\GameObject\Tile\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Stage.cpp">
       <Filter>03.Scene\Scene\Stage</Filter>
     </ClCompile>
@@ -395,11 +404,23 @@
     <ClCompile Include="..\Codes\Module.cpp">
       <Filter>06.Utility\02.Module\Module</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Textrue.cpp">
-      <Filter>06.Utility\02.Module\Module\Texture</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Transform.cpp">
       <Filter>06.Utility\02.Module\Module\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\World.cpp">
+      <Filter>00.World\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Terrain.cpp">
+      <Filter>00.World\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Editor.cpp">
+      <Filter>03.Scene\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Texture.cpp">
+      <Filter>06.Utility\02.Module\Module\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TilePalette.cpp">
+      <Filter>03.Scene\Scene\Editor\TilePalette</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

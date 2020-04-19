@@ -1,10 +1,11 @@
 #pragma once
+#include "Base.h"
 
-#include "ModuleMgr.h"
-#include "Renderer.h"
 BEGIN(MyGame)
 
 class CRenderer;
+class CModule;
+
 class CGameObject abstract : public CBase
 {
 protected:
@@ -27,7 +28,7 @@ public:
 
 public:
 	HRESULT		Set_Module(MODULE _eModuleID, SCENEID _eSceneID, CModule** _ppModule);
-	CModule*	Find_Module(MODULE _eModuleID);
+	CModule*	Get_Module(MODULE _eModuleID);
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;
 

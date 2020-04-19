@@ -171,6 +171,7 @@
     <ClInclude Include="..\Headers\Buff.h" />
     <ClInclude Include="..\Headers\Character.h" />
     <ClInclude Include="..\Headers\Clock.h" />
+    <ClInclude Include="..\Headers\Editor.h" />
     <ClInclude Include="..\Headers\GameObject.h" />
     <ClInclude Include="..\Headers\Graphic_Device.h" />
     <ClInclude Include="..\Headers\Hero.h" />
@@ -197,9 +198,10 @@
     <ClInclude Include="..\Headers\Scroll.h" />
     <ClInclude Include="..\Headers\Stage.h" />
     <ClInclude Include="..\Headers\Stat.h" />
-    <ClInclude Include="..\Headers\Textrue.h" />
-    <ClInclude Include="..\Headers\Tile.h" />
-    <ClInclude Include="..\Headers\TileMgr.h" />
+    <ClInclude Include="..\Headers\Texture.h" />
+    <ClInclude Include="..\Headers\Terrain.h" />
+    <ClInclude Include="..\Headers\TilePalette.h" />
+    <ClInclude Include="..\Headers\World.h" />
     <ClInclude Include="..\Headers\Timer.h" />
     <ClInclude Include="..\Headers\TimerMgr.h" />
     <ClInclude Include="..\Headers\Transform.h" />
@@ -219,6 +221,7 @@
     <ClCompile Include="..\Codes\Buff.cpp" />
     <ClCompile Include="..\Codes\Character.cpp" />
     <ClCompile Include="..\Codes\Clock.cpp" />
+    <ClCompile Include="..\Codes\Editor.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\Graphic_Device.cpp" />
     <ClCompile Include="..\Codes\Hero.cpp" />
@@ -240,9 +243,10 @@
     <ClCompile Include="..\Codes\Scroll.cpp" />
     <ClCompile Include="..\Codes\Stage.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />
-    <ClCompile Include="..\Codes\Textrue.cpp" />
-    <ClCompile Include="..\Codes\Tile.cpp" />
-    <ClCompile Include="..\Codes\TileMgr.cpp" />
+    <ClCompile Include="..\Codes\Texture.cpp" />
+    <ClCompile Include="..\Codes\Terrain.cpp" />
+    <ClCompile Include="..\Codes\TilePalette.cpp" />
+    <ClCompile Include="..\Codes\World.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />
     <ClCompile Include="..\Codes\TimerMgr.cpp" />
     <ClCompile Include="..\Codes\Transform.cpp" />

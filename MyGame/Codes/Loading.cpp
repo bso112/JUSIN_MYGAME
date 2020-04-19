@@ -3,7 +3,7 @@
 #include "Background.h"
 #include "MyButton.h"
 #include "ObjMgr.h"
-#include "Textrue.h"
+#include "Texture.h"
 
 USING(MyGame)
 

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Headers\GameObject.h"
+#include "GameObject.h"
 #include "Renderer.h"
 #include "ModuleMgr.h"
 
@@ -64,7 +64,7 @@ HRESULT CGameObject::Render()
 
 HRESULT CGameObject::Set_Module(MODULE _eModuleID,SCENEID _eSceneID, CModule** _ppModule)
 {
-	if (nullptr != Find_Module(_eModuleID))
+	if (nullptr != Get_Module(_eModuleID))
 		return E_FAIL;
 
 	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
@@ -88,7 +88,7 @@ HRESULT CGameObject::Set_Module(MODULE _eModuleID,SCENEID _eSceneID, CModule** _
 	return S_OK;
 }
 
-CModule * CGameObject::Find_Module(MODULE _eModuleID)
+CModule * CGameObject::Get_Module(MODULE _eModuleID)
 {
 	if (MODULE_END <= _eModuleID)
 		return nullptr;

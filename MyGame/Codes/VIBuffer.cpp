@@ -80,16 +80,16 @@ HRESULT CVIBuffer::Initialize_Prototype()
 	m_pVBuffer->Lock(0, 0, (void**)&pVertices, 0);
 
 	//버텍스 버퍼에 있는 버텍스 값 셋팅
-	m_vBasePos[0] = pVertices[0].vPosition = D3DXVECTOR4(-0.5f * 100, -0.5f * 100, 0.f, 1.f);
+	m_vBasePos[0] = pVertices[0].vPosition = D3DXVECTOR4(-0.5f, -0.5f, 0.f, 1.f);
 	pVertices[0].vTexUV = D3DXVECTOR2(0.f, 0.f);
 
-	m_vBasePos[1] = pVertices[1].vPosition = D3DXVECTOR4(0.5f * 100, -0.5f * 100, 0.f, 1.f);
+	m_vBasePos[1] = pVertices[1].vPosition = D3DXVECTOR4(0.5f, -0.5f, 0.f, 1.f);
 	pVertices[1].vTexUV = D3DXVECTOR2(1.f, 0.f);
 
-	m_vBasePos[2] = pVertices[2].vPosition = D3DXVECTOR4(0.5f * 100, 0.5f * 100, 0.f, 1.f);
+	m_vBasePos[2] = pVertices[2].vPosition = D3DXVECTOR4(0.5f, 0.5f, 0.f, 1.f);
 	pVertices[2].vTexUV = D3DXVECTOR2(1.f, 1.f);
 
-	m_vBasePos[3] = pVertices[3].vPosition = D3DXVECTOR4(-0.5f * 100, 0.5f * 100, 0.f, 1.f);
+	m_vBasePos[3] = pVertices[3].vPosition = D3DXVECTOR4(-0.5f , 0.5f, 0.f, 1.f);
 	pVertices[3].vTexUV = D3DXVECTOR2(0.f, 1.f);
 
 	m_pVBuffer->Unlock();

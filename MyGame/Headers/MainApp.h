@@ -32,6 +32,7 @@ private:
 	HRESULT Initalize_Default_Setting();
 	HRESULT	Initalize_Scene();
 	HRESULT Initalize_Module();
+	HRESULT Initalize_Texture();
 
 public:
 	static CMainApp* Create();

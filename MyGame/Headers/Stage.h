@@ -2,7 +2,7 @@
 #include "Scene.h"
 
 BEGIN(MyGame)
-class CTileMgr;
+class CWorld;
 class CMyButton;
 class CStage final : public CScene
 {
@@ -19,7 +19,7 @@ public:
 
 private:
 	CMyButton*	m_pBtn;
-	CTileMgr*	m_pTileMgr;
+	CWorld*	m_pTileMgr;
 
 
 private:

@@ -3,8 +3,8 @@
 BEGIN(MyGame)
 class CBase
 {
-public:
-	CBase();
+protected:
+	explicit CBase();
 	virtual ~CBase();
 
 private:

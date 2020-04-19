@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Stage.h"
-#include "TileMgr.h"
+#include "World.h"
 #include "MyButton.h"
 #include "Warrior.h"
 
@@ -26,8 +26,6 @@ HRESULT CStage::Initalize()
 
 _int CStage::Update(_double _timeDelta)
 {
-	CScene::Update(_timeDelta);
-	m_pTileMgr->Update();
 
 
 	return 0;
@@ -43,12 +41,6 @@ HRESULT CStage::Render()
 
 HRESULT CStage::Initalize_Tile()
 {
-	m_pTileMgr = CTileMgr::Get_Instance();
-	
-	if (FAILED(m_pTileMgr->Initialize()))
-		return E_FAIL;
-
-	Safe_AddRef(m_pTileMgr);
 
 
 	return S_OK;

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Headers\KeyMgr.h"
+#include "KeyMgr.h"
 
 USING(MyGame)
 

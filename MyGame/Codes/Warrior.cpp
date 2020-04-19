@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Warrior.h"
-
+#include "Renderer.h"
 
 USING(MyGame)
 

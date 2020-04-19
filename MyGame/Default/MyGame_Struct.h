@@ -130,18 +130,24 @@ typedef	struct tagVertex_Texture
 
 
 
-typedef struct tagInfo
+typedef struct tagTerrain
 {
-	Vector4		vPos;
-	_uint		iCX;
-	_uint		iCY;
+	//타일이 참조해야할 텍스처이름
+	wchar_t*	m_pFilePath = nullptr;
+	
+	bool		m_bMovable = false;
+	bool		m_bWater = false;
+	int			m_iMoveCost = 0;
 
-	tagInfo() {}
-	tagInfo(D3DXVECTOR4 _vPos, _uint _iCX, _uint _iCY)
-		:vPos(_vPos), iCX(_iCX), iCY(_iCY)
+	tagTerrain() { ZeroMemory(this, sizeof(tagTerrain)); }
+	tagTerrain(bool _bMovable, bool _bWater = false, int _iMoveCost = 0)
 	{
-
+		m_bMovable = _bMovable;
+		m_bWater = _bWater;
+		m_iMoveCost = _iMoveCost;
 	}
 
-}INFO;
+
+
+}TERRAIN;
 
