@@ -154,6 +154,9 @@
     <Filter Include="03.Scene\Scene\Editor\TilePalette">
       <UniqueIdentifier>{1158c2bf-760e-4435-87c1-2f84f3fea2be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\02.Module\Module\Texture\TextureLoader">
+      <UniqueIdentifier>{7d2e3f4f-117f-4ba0-bacf-10a95b0aa923}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -300,6 +303,9 @@
     <ClInclude Include="..\Headers\TilePalette.h">
       <Filter>03.Scene\Scene\Editor\TilePalette</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\TextureLoader.h">
+      <Filter>06.Utility\02.Module\Module\Texture\TextureLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -421,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TilePalette.cpp">
       <Filter>03.Scene\Scene\Editor\TilePalette</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TextureLoader.cpp">
+      <Filter>06.Utility\02.Module\Module\Texture\TextureLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

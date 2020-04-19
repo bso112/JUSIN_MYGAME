@@ -5,8 +5,8 @@
 #include "TimerMgr.h"
 #include "Renderer.h"
 #include "ObjMgr.h"
-#include "Clock.h"
 #include "ModuleMgr.h"
+#include "TextureLoader.h"
 
 USING(MyGame)
 
@@ -113,10 +113,14 @@ HRESULT CMainApp::Initalize_Module()
 
 	Safe_AddRef(pModuleMgr);
 
-	if (FAILED(pModuleMgr->Add_Module(MODULE_VIBUFFER, SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
+	if (FAILED(pModuleMgr->Add_Module(L"VIBuffer", SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(pModuleMgr->Add_Module(MODULE_TRANSFORM, SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
+	if (FAILED(pModuleMgr->Add_Module(L"Texture_Default", SCENE_STATIC, CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Loading.jpg"))))
+		return E_FAIL;
+
+
+	if (FAILED(pModuleMgr->Add_Module(L"Transform", SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	Initalize_Texture();
@@ -128,17 +132,19 @@ HRESULT CMainApp::Initalize_Module()
 
 HRESULT CMainApp::Initalize_Texture()
 {
-	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
-	if (nullptr == pModuleMgr)
+
+	
+	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	
+	if (nullptr == pLoader)
 		return E_FAIL;
 
-	Safe_AddRef(pModuleMgr);
+	Safe_AddRef(pLoader);
 
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/");
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/");
 
-	if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_DEFUALT, SCENE_STATIC, 
-		CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Loading.jpg"))))
-		return E_FAIL;
-
+	
 	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_BOOKSHELF, SCENE_STATIC, 
 	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/bookshelf%d", 6))))
 	//	return E_FAIL;
@@ -201,11 +207,7 @@ HRESULT CMainApp::Initalize_Texture()
 	//	return E_FAIL;
 	//
 
-
-
-
-
-	Safe_Release(pModuleMgr);
+	Safe_Release(pLoader);
 	return S_OK;
 }
 
@@ -245,6 +247,9 @@ void CMainApp::Free()
 
 	if (0 != CTimerMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CTimerMgr");
+
+	if (0 != CTextureLoader::Destroy_Instance())
+		MSG_BOX("Fail to Release CTextureLoader");
 
 	if (0 != CGraphic_Device::Destroy_Instance())
 		MSG_BOX("Fail to Relese CGraphic_Device");

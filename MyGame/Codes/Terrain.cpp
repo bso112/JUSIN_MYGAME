@@ -16,11 +16,11 @@ CTerrain::CTerrain(CTerrain & _rhs)
 {
 }
 
-HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, MODULE _eTextureKey, _tchar * _pFilePath)
+HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, _tchar * _pFilePath)
 {
-	Set_Module(_eTextureKey, SCENEID::SCENE_STATIC, (CModule**)m_pTexture);
-	Set_Module(MODULE_TRANSFORM, SCENEID::SCENE_STATIC, (CModule**)m_pTransform);
-	Set_Module(MODULE_VIBUFFER, SCENEID::SCENE_STATIC, (CModule**)m_pVIBuffer);
+	Set_Module(_pTextureTag, SCENEID::SCENE_STATIC, (CModule**)m_pTexture);
+	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)m_pTransform);
+	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)m_pVIBuffer);
 	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
 	m_tData = _tData;
 	return S_OK;
@@ -37,10 +37,10 @@ HRESULT CTerrain::Render()
 
 
 
-CTerrain * CTerrain::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, MODULE _eTextureKey, _tchar* _pFilePath)
+CTerrain * CTerrain::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, _tchar* _pFilePath)
 {
 	CTerrain* pInstance = new CTerrain(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize_Prototype(_tData, _eTextureKey, _pFilePath)))
+	if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _pFilePath)))
 	{
 		MSG_BOX("Fail to create CTile");
 		Safe_Release(pInstance);

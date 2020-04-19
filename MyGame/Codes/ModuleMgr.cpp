@@ -5,29 +5,32 @@
 USING(MyGame)
 IMPLEMENT_SINGLETON(CModuleMgr)
 
-HRESULT CModuleMgr::Add_Module(MODULE _ePrototypeID, SCENEID _ePrototypeSceneID, CModule * _pModule)
+HRESULT CModuleMgr::Add_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID, CModule * _pModule)
 {
-	if (MODULE_END <= _ePrototypeID		||
-		SCENE_END <= _ePrototypeSceneID ||
+	if (SCENE_END <= _ePrototypeSceneID ||
 		nullptr	== _pModule)
 		return E_FAIL;
 
-	CModule* pModule = Find_Module(_ePrototypeID, _ePrototypeSceneID);
+	//문자열 깊은복사 (맵의 키는 문자열의 포인터이기 때문에 원본이 바뀌면 key도 바뀌어버림)
+	_tchar* szTag = new _tchar[MAX_PATH];
+	ZeroMemory(szTag, sizeof(_tchar)*MAX_PATH);
+	StringCchCat(szTag, MAX_PATH, _pTag);
+
+	CModule* pModule = Find_Module(szTag, _ePrototypeSceneID);
 	if (nullptr != pModule)
 		return E_FAIL;
-
-	m_mapPrototypes[_ePrototypeSceneID].emplace(_ePrototypeID, _pModule);
+	
+	m_mapPrototypes[_ePrototypeSceneID].emplace(szTag, _pModule);
 
 	return S_OK;
 }
 
-CModule * CModuleMgr::Get_Module(MODULE _ePrototypeID, SCENEID _ePrototypeSceneID)
+CModule * CModuleMgr::Get_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID)
 {
-	if (MODULE_END <= _ePrototypeID ||
-		SCENE_END <= _ePrototypeSceneID)
+	if (SCENE_END <= _ePrototypeSceneID)
 		return nullptr;
 
-	CModule* pModule = Find_Module(_ePrototypeID, _ePrototypeSceneID);
+	CModule* pModule = Find_Module(_pTag, _ePrototypeSceneID);
 	if (nullptr == pModule)
 		return nullptr;
 
@@ -35,15 +38,12 @@ CModule * CModuleMgr::Get_Module(MODULE _ePrototypeID, SCENEID _ePrototypeSceneI
 }
 
 
-
-
-CModule * CModuleMgr::Find_Module(MODULE _ePrototypeID, SCENEID _ePrototypeSceneID)
+CModule * CModuleMgr::Find_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID)
 {
-	if (MODULE_END <= _ePrototypeID ||
-		SCENE_END <= _ePrototypeSceneID)
+	if (SCENE_END <= _ePrototypeSceneID)
 		return nullptr;
 
-	auto& iter = m_mapPrototypes[_ePrototypeSceneID].find(_ePrototypeID);
+	auto& iter = find_if(m_mapPrototypes[_ePrototypeSceneID].begin(), m_mapPrototypes[_ePrototypeSceneID].end(), CFinder_Tag(_pTag));
 	if (iter == m_mapPrototypes[_ePrototypeSceneID].end())
 		return nullptr;
 
@@ -54,5 +54,8 @@ void CModuleMgr::Free()
 {
 	for (auto& map : m_mapPrototypes)
 		for (auto& pair : map)
+		{
+			Safe_Delete_Array(pair.first);
 			Safe_Release(pair.second);
+		}
 }

@@ -15,26 +15,26 @@ HRESULT CTilePalette::Initalize()
 
 	//팔레트에 쓸 타일을 만든다.
 
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_GRASS));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_BURND));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_GRASS));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_MOSSY));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_WOOD));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_BURND));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_GRASS_GREEN));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_GRASS_ASH));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_SING));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_STAIR_UP));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_STAIR_DOWN));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_GRASS));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_BURND));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_GRASS));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_MOSSY));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_WOOD));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_FLOOR_BURND));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_GRASS_GREEN));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_GRASS_ASH));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_SING));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_STAIR_UP));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(true), MODULE_TEXTURE_STAIR_DOWN));
 
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_BOOKSHELF));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_STATUE_WITH_FLOOR));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_STATUE_WITH_WOOD));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_WALL));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_WALL_SEWERS));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_DOOR));
-	m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_DOOR_LOCKED));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_BOOKSHELF));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_STATUE_WITH_FLOOR));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_STATUE_WITH_WOOD));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_WALL));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_WALL_SEWERS));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_DOOR));
+	//m_vecTile.push_back(CTerrain::Create(m_pGraphic_Device, TERRAIN(false), MODULE_TEXTURE_DOOR_LOCKED));
 	
 
 	return S_OK;
@@ -66,7 +66,7 @@ HRESULT CTilePalette::Render()
 			if (m_vecTile.size() >= index)
 				return E_FAIL;
 		
-			CModule* pModule = m_vecTile[index]->Get_Module(MODULE_TRANSFORM);
+			CModule* pModule = m_vecTile[index]->Get_Module(L"Transform");
 			if (!pModule)
 				return E_FAIL;
 

@@ -200,6 +200,7 @@
     <ClInclude Include="..\Headers\Stat.h" />
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\Terrain.h" />
+    <ClInclude Include="..\Headers\TextureLoader.h" />
     <ClInclude Include="..\Headers\TilePalette.h" />
     <ClInclude Include="..\Headers\World.h" />
     <ClInclude Include="..\Headers\Timer.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="..\Codes\Stat.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\Terrain.cpp" />
+    <ClCompile Include="..\Codes\TextureLoader.cpp" />
     <ClCompile Include="..\Codes\TilePalette.cpp" />
     <ClCompile Include="..\Codes\World.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />

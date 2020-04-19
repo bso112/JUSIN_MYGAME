@@ -24,8 +24,8 @@ HRESULT CBackground::Initialize(void * _param)
 	if (FAILED(Initalize_Module()))
 		return E_FAIL;
 
-	m_pTransform->Set_Position(Vector4(g_iWinCX >> 1, g_iWinCX >> 1, 0, 1));
-	m_pTransform->Set_Size(Vector4(g_iWinCX, g_iWinCY));
+	m_pTransform->Set_Position(Vector4((float) (g_iWinCX >> 1), (float) (g_iWinCX >> 1), 0, 1));
+	m_pTransform->Set_Size(Vector4((float)g_iWinCX, (float)g_iWinCY));
 	
 	return S_OK;
 }
@@ -101,13 +101,13 @@ void CBackground::Free()
 
 HRESULT CBackground::Initalize_Module()
 {
-	if (FAILED(Set_Module(MODULE_VIBUFFER, SCENE_STATIC, (CModule**)&m_pVIBuffer)))
+	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
 
-	if (FAILED(Set_Module(MODULE_TEXTURE_DEFUALT, SCENE_STATIC, (CModule**)&m_pTextrue)))
+	if (FAILED(Set_Module(L"Texture_Default", SCENE_STATIC, (CModule**)&m_pTextrue)))
 		return E_FAIL;
 
-	if (FAILED(Set_Module(MODULE_TRANSFORM, SCENE_STATIC, (CModule**)&m_pTransform)))
+	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
 		return E_FAIL;
 
 	return S_OK;

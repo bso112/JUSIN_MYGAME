@@ -17,7 +17,7 @@ protected:
 protected:
 	CRenderer*				m_pRenderer = nullptr;
 	PDIRECT3DDEVICE9		m_pGraphic_Device = nullptr;
-	map<MODULE, CModule*>	m_mapModule;
+	map<const _tchar*, CModule*>	m_mapModule;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
@@ -27,8 +27,8 @@ public:
 
 
 public:
-	HRESULT		Set_Module(MODULE _eModuleID, SCENEID _eSceneID, CModule** _ppModule);
-	CModule*	Get_Module(MODULE _eModuleID);
+	HRESULT		Set_Module(const _tchar* _eModuleTag, SCENEID _eSceneID, CModule** _ppModule);
+	CModule*	Get_Module(const _tchar* _eModuleTag);
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;
 

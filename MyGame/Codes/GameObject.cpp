@@ -62,9 +62,9 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-HRESULT CGameObject::Set_Module(MODULE _eModuleID,SCENEID _eSceneID, CModule** _ppModule)
+HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppModule)
 {
-	if (nullptr != Get_Module(_eModuleID))
+	if (nullptr != Get_Module(_eModuleTag))
 		return E_FAIL;
 
 	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
@@ -73,13 +73,13 @@ HRESULT CGameObject::Set_Module(MODULE _eModuleID,SCENEID _eSceneID, CModule** _
 
 	Safe_AddRef(pModuleMgr);
 
-	CModule* pModule = pModuleMgr->Get_Module(_eModuleID, _eSceneID);
+	CModule* pModule = pModuleMgr->Get_Module(_eModuleTag, _eSceneID);
 	if (nullptr == pModule)
 		return E_FAIL;
 
 	*_ppModule = pModule;
 
-	m_mapModule.emplace(_eModuleID, pModule);
+	m_mapModule.emplace(_eModuleTag, pModule);
 	//map에 추가했으니까 AddRef
 	Safe_AddRef(*_ppModule);
 
@@ -88,12 +88,11 @@ HRESULT CGameObject::Set_Module(MODULE _eModuleID,SCENEID _eSceneID, CModule** _
 	return S_OK;
 }
 
-CModule * CGameObject::Get_Module(MODULE _eModuleID)
+CModule * CGameObject::Get_Module(const _tchar* _eModuleTag)
 {
-	if (MODULE_END <= _eModuleID)
-		return nullptr;
 
-	auto& iter = m_mapModule.find(_eModuleID);
+
+	auto& iter = find_if(m_mapModule.begin(), m_mapModule.end(), CFinder_Tag(_eModuleTag));
 	if (iter == m_mapModule.end())
 		return nullptr;
 	
