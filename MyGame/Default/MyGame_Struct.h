@@ -112,7 +112,7 @@ typedef struct tagVector4 : public D3DXVECTOR4
 		return sqrtf(x * x + y * y);
 	}
 
-}Vector4;
+}Vector4, Vector2;
 
 
 

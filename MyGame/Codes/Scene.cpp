@@ -2,7 +2,7 @@
 #include "..\Headers\Scene.h"
 #include "Renderer.h"
 #include "ObjMgr.h"
-#include "Background.h"
+#include "Image.h"
 
 USING(MyGame)
 CScene::CScene(PDIRECT3DDEVICE9 _pGraphic_Device)

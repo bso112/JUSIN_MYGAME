@@ -62,7 +62,7 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppModule)
+HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppOut)
 {
 	if (nullptr != Get_Module(_eModuleTag))
 		return E_FAIL;
@@ -73,15 +73,14 @@ HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CMo
 
 	Safe_AddRef(pModuleMgr);
 
-	CModule* pModule = pModuleMgr->Get_Module(_eModuleTag, _eSceneID);
-	if (nullptr == pModule)
+	*_ppOut = pModuleMgr->Get_Module(_eModuleTag, _eSceneID);
+	if (nullptr == *_ppOut)
 		return E_FAIL;
 
-	*_ppModule = pModule;
 
-	m_mapModule.emplace(_eModuleTag, pModule);
+	m_mapModule.emplace(_eModuleTag, *_ppOut);
 	//map에 추가했으니까 AddRef
-	Safe_AddRef(*_ppModule);
+	Safe_AddRef(*_ppOut);
 
 	Safe_Release(pModuleMgr);
 

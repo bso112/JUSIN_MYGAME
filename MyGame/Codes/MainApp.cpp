@@ -26,8 +26,13 @@ HRESULT CMainApp::Initalize()
 	if (FAILED(Initalize_Module()))
 		return E_FAIL;
 
+	if (FAILED(Initalize_Texture()))
+		return E_FAIL;
+
 	if (FAILED(Initalize_Scene()))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -90,6 +95,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	if (FAILED(pGraphic_Device->Ready_Graphic_Device(CGraphic_Device::TYPE_WIN, &m_pGraphic_Device)))
 		return E_FAIL;
 
+
 	Safe_Release(pGraphic_Device);
 	return S_OK;
 }
@@ -99,7 +105,7 @@ HRESULT CMainApp::Initalize_Scene()
 	if (m_pSceneMgr == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_LOADING, m_pGraphic_Device)))
+	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_MENU, m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;
@@ -123,8 +129,6 @@ HRESULT CMainApp::Initalize_Module()
 	if (FAILED(pModuleMgr->Add_Module(L"Transform", SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	Initalize_Texture();
-
 	Safe_Release(pModuleMgr);
 
 	return S_OK;
@@ -141,7 +145,6 @@ HRESULT CMainApp::Initalize_Texture()
 
 	Safe_AddRef(pLoader);
 
-	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/");
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/");
 
 	

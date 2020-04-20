@@ -46,7 +46,7 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder(PDIRECT3DDEVICE9 _pGraphic_D
 		_tchar szFileDir[MAX_PATH] = L"";
 		StringCchCopy(szFileDir, MAX_PATH, &_pFolderPath[0]);
 		StringCchCat(szFileDir, MAX_PATH, ffd.cFileName);
-		
+
 		wchar_t pFileName[MAX_PATH];
 #pragma region 확장자 빼서 파일이름만 추출하기
 		ZeroMemory(pFileName, sizeof(pFileName));
@@ -66,18 +66,19 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder(PDIRECT3DDEVICE9 _pGraphic_D
 		}
 #pragma endregion
 
-		if (FAILED(pModuleMgr->Add_Module(pFileName, SCENE_STATIC,
-			CTexture::Create(_pGraphic_Device, szFileDir))))
-			return E_FAIL;
+		pModuleMgr->Add_Module(pFileName, SCENE_STATIC,
+			CTexture::Create(_pGraphic_Device, szFileDir));
 
 
 	} while (FindNextFile(hFind, &ffd) != 0);
+
 
 	Safe_Release(pModuleMgr);
 	Safe_Release(_pGraphic_Device);
 	FindClose(hFind);
 
 	return S_OK;
+
 
 
 }

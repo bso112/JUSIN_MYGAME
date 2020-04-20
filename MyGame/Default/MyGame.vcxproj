@@ -166,10 +166,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\AiState.h" />
-    <ClInclude Include="..\Headers\Background.h" />
+    <ClInclude Include="..\Headers\Image.h" />
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\Buff.h" />
     <ClInclude Include="..\Headers\Character.h" />
+    <ClInclude Include="..\Headers\CharacterSelect.h" />
     <ClInclude Include="..\Headers\Clock.h" />
     <ClInclude Include="..\Headers\Editor.h" />
     <ClInclude Include="..\Headers\GameObject.h" />
@@ -180,7 +181,7 @@
     <ClInclude Include="..\Headers\Item.h" />
     <ClInclude Include="..\Headers\KeyMgr.h" />
     <ClInclude Include="..\Headers\Layer.h" />
-    <ClInclude Include="..\Headers\Loading.h" />
+    <ClInclude Include="..\Headers\Menu.h" />
     <ClInclude Include="..\Headers\MainApp.h" />
     <ClInclude Include="..\Headers\Module.h" />
     <ClInclude Include="..\Headers\ModuleMgr.h" />
@@ -217,10 +218,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\AiState.cpp" />
-    <ClCompile Include="..\Codes\Background.cpp" />
+    <ClCompile Include="..\Codes\Image.cpp" />
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\Buff.cpp" />
     <ClCompile Include="..\Codes\Character.cpp" />
+    <ClCompile Include="..\Codes\CharacterSelect.cpp" />
     <ClCompile Include="..\Codes\Clock.cpp" />
     <ClCompile Include="..\Codes\Editor.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
@@ -231,7 +233,7 @@
     <ClCompile Include="..\Codes\Item.cpp" />
     <ClCompile Include="..\Codes\KeyMgr.cpp" />
     <ClCompile Include="..\Codes\Layer.cpp" />
-    <ClCompile Include="..\Codes\Loading.cpp" />
+    <ClCompile Include="..\Codes\Menu.cpp" />
     <ClCompile Include="..\Codes\MainApp.cpp" />
     <ClCompile Include="..\Codes\Module.cpp" />
     <ClCompile Include="..\Codes\ModuleMgr.cpp" />

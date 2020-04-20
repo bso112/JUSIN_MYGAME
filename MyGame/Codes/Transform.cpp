@@ -37,7 +37,7 @@ HRESULT CTransform::Set_Position(Vector4 _vPosition)
 	return S_OK;
 }
 
-HRESULT CTransform::Set_Size(Vector4 _vSize)
+HRESULT CTransform::Set_Size(Vector2 _vSize)
 {
 	m_StateMatrix.m[0][0] = m_BaseMatrix.m[0][0] * _vSize.x;
 	m_StateMatrix.m[0][1] = m_BaseMatrix.m[0][1] * _vSize.x;
@@ -53,6 +53,28 @@ HRESULT CTransform::Set_Size(Vector4 _vSize)
 
 	return S_OK;
 }
+
+_float2 CTransform::Get_Size()
+{
+	return _float2(Vector4(m_StateMatrix.m[0][0], m_StateMatrix.m[0][1], m_StateMatrix.m[0][2], m_StateMatrix.m[0][3]).magnitude(),
+		Vector4(m_StateMatrix.m[1][0], m_StateMatrix.m[1][1], m_StateMatrix.m[1][2], m_StateMatrix.m[1][3]).magnitude());
+}
+
+RECT CTransform::Get_Rect()
+{
+	RECT rc = {};
+	float fX = Get_Position().x;
+	float fY = Get_Position().y;
+	int iCX = (int)Get_Size().x;
+	int iCY = (int)Get_Size().y;
+
+	rc.left = (LONG)fX - (iCX >> 1);
+	rc.right = (LONG)fX + (iCX >> 1);
+	rc.top = (LONG)fY - (iCY >> 1);
+	rc.bottom = (LONG)fY + (iCY >> 1);
+	return rc;
+}
+
 
 CTransform * CTransform::Create(LPDIRECT3DDEVICE9 _pGraphic_Device)
 {

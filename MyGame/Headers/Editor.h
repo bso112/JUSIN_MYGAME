@@ -2,8 +2,7 @@
 #include "Scene.h"
 
 BEGIN(MyGame)
-class CTexture;
-class CVIBuffer;
+class CTilePalette;
 class CEditor final: public CScene
 {
 private:
@@ -16,6 +15,8 @@ public:
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
 
+private:
+	CTilePalette* m_pPalette = nullptr;
 
 
 protected:

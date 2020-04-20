@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Editor.h"
-#include "Texture.h"
-#include "VIBuffer.h"
-
+#include "TilePalette.h"
 USING(MyGame)
 
 CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -13,6 +11,10 @@ CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 HRESULT CEditor::Initalize()
 {
+	if (nullptr == m_pGraphic_Device)
+		return E_FAIL;
+
+	m_pPalette = CTilePalette::Create(m_pGraphic_Device);
 
 	return S_OK;	
 }
@@ -24,13 +26,12 @@ _int CEditor::Update(_double _timeDelta)
 
 HRESULT CEditor::Render()
 {
-
+	m_pPalette->Render();
 	return S_OK;
 }
 
 void CEditor::Free()
 {
-
 	CScene::Free();
 
 }

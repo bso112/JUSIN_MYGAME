@@ -28,7 +28,7 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 
 HRESULT CTerrain::Render()
 {
-	m_pTexture->Set_Textrue(0);
+	m_pTexture->Set_Texture(0);
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
 	return S_OK;

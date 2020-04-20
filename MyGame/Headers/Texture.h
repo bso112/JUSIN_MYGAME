@@ -18,7 +18,7 @@ public:
 	virtual HRESULT Initialize(void* _pArg);
 
 public:
-	HRESULT Set_Textrue(_uint _iIndex);
+	HRESULT Set_Texture(_uint _iIndex);
 
 public:
 	static CTexture* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath, _uint _iCnt = 1);

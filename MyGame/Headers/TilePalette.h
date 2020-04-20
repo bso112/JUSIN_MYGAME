@@ -34,7 +34,10 @@ public:
 	CTerrain* Pick_Tile(POINT _pt);
 
 public:
-	static CTilePalette* Create();
+	static CTilePalette* Create(PDIRECT3DDEVICE9 _pGraphicDevice);
+
+	// CBase을(를) 통해 상속됨
+	virtual void Free() override;
 };
 
 END

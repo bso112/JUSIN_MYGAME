@@ -34,7 +34,7 @@ HRESULT CTexture::Initialize(void * _pArg)
 	return S_OK;
 }
 
-HRESULT CTexture::Set_Textrue(_uint _iIndex)
+HRESULT CTexture::Set_Texture(_uint _iIndex)
 {
 	if (m_vecTexture.size() <= _iIndex ||
 		nullptr == m_pGraphic_Device)
