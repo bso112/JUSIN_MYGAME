@@ -16,13 +16,13 @@ CImage::CImage(CImage & _rhs)
 
 
 
-HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize)
+HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID)
 {
 
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
 
-	if (FAILED(Set_Module(_pTextureTag, SCENE_STATIC, (CModule**)&m_pTextrue)))
+	if (FAILED(Set_Module(_pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue)))
 		return E_FAIL;
 
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
@@ -76,12 +76,12 @@ CGameObject* CImage::Clone(void* _param)
 	return nullptr;
 }
 
-CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag)
+CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	CImage* pInstance = new CImage(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_pTextureTag, _vPos, _vSize)))
+	if (FAILED(pInstance->Initialize(_pTextureTag, _vPos, _vSize, _eTextureSceneID)))
 	{
-		MSG_BOX("Fail to create Background");
+		MSG_BOX("Fail to create CImage");
 		Safe_Release(pInstance);
 
 	}

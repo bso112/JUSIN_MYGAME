@@ -124,9 +124,6 @@
     <Filter Include="04.GameObject\GameObject">
       <UniqueIdentifier>{7571bd39-7ab4-403a-a8be-52cb3bb68e61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Background">
-      <UniqueIdentifier>{bc3c7911-f3d4-424a-a519-f8da5d6a216c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Character">
       <UniqueIdentifier>{84908b22-5494-4dfc-be69-7a1dd977b2a9}</UniqueIdentifier>
     </Filter>
@@ -159,6 +156,9 @@
     </Filter>
     <Filter Include="04.GameObject\GameObject\Button">
       <UniqueIdentifier>{10201592-2fc4-4bfa-b181-c7e2c0179334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Image">
+      <UniqueIdentifier>{bc3c7911-f3d4-424a-a519-f8da5d6a216c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -307,7 +307,7 @@
       <Filter>03.Scene\Scene\Menu</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Image.h">
-      <Filter>04.GameObject\GameObject\Background</Filter>
+      <Filter>04.GameObject\GameObject\Image</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\CharacterSelect.h">
       <Filter>03.Scene\Scene\CharacterSelect</Filter>
@@ -435,7 +435,7 @@
       <Filter>03.Scene\Scene\Menu</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Image.cpp">
-      <Filter>04.GameObject\GameObject\Background</Filter>
+      <Filter>04.GameObject\GameObject\Image</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\CharacterSelect.cpp">
       <Filter>03.Scene\Scene\CharacterSelect</Filter>

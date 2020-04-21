@@ -10,7 +10,7 @@ CWarrior * CWarrior::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar * _pFilePa
 	CWarrior* pInstance = new CWarrior(_pGraphic_Device);
 	if (FAILED(pInstance->Initialize_Prototype(_pFilePath)))
 	{
-		MSG_BOX("Fail to create Background");
+		MSG_BOX("Fail to create CWarrior");
 		Safe_Release(pInstance);
 
 	}
@@ -22,7 +22,7 @@ CGameObject * CWarrior::Clone(void * _param)
 	CWarrior* pInstance = new CWarrior(*this);
 	if (FAILED(pInstance->Initialize(_param)))
 	{
-		MSG_BOX("Fail to create Background");
+		MSG_BOX("Fail to create CWarrior");
 		Safe_Release(pInstance);
 
 	}

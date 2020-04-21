@@ -37,6 +37,8 @@ public:
 	CGameObject*	Find_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID);
 	CLayer*			Find_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID);
 	CGameObject*	Get_Player(SCENEID _eLayerSceneID);
+	//씬이 포함하는 프로토타입들과 레이어들을 클리어한다.
+	HRESULT			Clear_Scene(SCENEID _eSceneID);
 	
 
 private:

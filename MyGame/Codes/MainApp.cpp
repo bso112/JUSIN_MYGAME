@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "ObjMgr.h"
 #include "ModuleMgr.h"
+#include "KeyMgr.h"
 #include "TextureLoader.h"
 
 USING(MyGame)
@@ -50,6 +51,12 @@ _int CMainApp::Update(_double _timeDelta)
 
 	if (nullptr == m_pSceneMgr)
 		return -1;
+
+	CKeyMgr* pInstance = CKeyMgr::Get_Instance();
+	if (nullptr == pInstance)
+		return -1;
+	pInstance->Key_Update();
+
 	return 0;
 }
 
@@ -137,80 +144,7 @@ HRESULT CMainApp::Initalize_Module()
 HRESULT CMainApp::Initalize_Texture()
 {
 
-	
-	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
-	
-	if (nullptr == pLoader)
-		return E_FAIL;
 
-	Safe_AddRef(pLoader);
-
-	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/");
-
-	
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_BOOKSHELF, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/bookshelf%d", 6))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/bookshelf_broken%d", 1))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_MASKE, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/door_locked%d", 2))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_GRASS, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_burend%d", 2))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_MOSSY, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_mask%d", 15))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_FLOOR_WOOD, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_grass%d", 2))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_GREEN, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_mossy%d", 2))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_GREEN_MASKE, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor_wood%d", 2))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_ASH, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/floor%d", 2))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_GRASS_ASH_MASKE, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_ash_mask%d", 4))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_SING, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_ash%d", 4))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STAIR_UP, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_green_mask%d", 6))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STAIR_DOWN, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/grass_green%d", 4))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STATUE_WITH_FLOOR, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/stair_up%d", 1))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_STATUE_WITH_WOOD, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/stair_down%d", 1))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WALL, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/statue_with_floor%d", 1))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WALL_SEWERS, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/statue_with_wood%d", 1))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WELL, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/wall_sewers%d", 10))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_WELL, SCENE_STATIC,
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/wall%d", 17))))
-	//	return E_FAIL;
-	//if (FAILED(pModuleMgr->Add_Module(MODULE_TEXTURE_BLACK, SCENE_STATIC, 
-	//	CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Terrain/sewers/well%d", 1))))
-	//	return E_FAIL;
-	//
-
-	Safe_Release(pLoader);
 	return S_OK;
 }
 

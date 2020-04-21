@@ -133,6 +133,24 @@ CGameObject * CObjMgr::Get_Player(SCENEID _eLayerSceneID)
 	return pPlayerLayer->Get_Front();
 }
 
+HRESULT CObjMgr::Clear_Scene(SCENEID _eSceneID)
+{
+	if (SCENEID::SCENE_END <= _eSceneID)
+		return E_FAIL;
+
+	for (auto& pair : m_mapLayer[_eSceneID])
+		Safe_Release(pair.second);
+
+	m_mapLayer[_eSceneID].clear();
+
+	for (auto& pair : m_mapPrototype[_eSceneID])
+		Safe_Release(pair.second);
+
+	m_mapPrototype[_eSceneID].clear();
+
+	return S_OK;
+}
+
 void CObjMgr::Free()
 {
 	for (auto& map : m_mapLayer)

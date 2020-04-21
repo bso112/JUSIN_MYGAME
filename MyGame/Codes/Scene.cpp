@@ -14,7 +14,7 @@ CScene::CScene(PDIRECT3DDEVICE9 _pGraphic_Device)
 	Safe_AddRef(m_pObjMgr);
 }
 
-HRESULT CScene::Initalize()
+HRESULT CScene::Initialize()
 {
 
 	return S_OK;

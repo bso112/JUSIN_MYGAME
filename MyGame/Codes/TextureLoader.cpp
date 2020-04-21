@@ -7,7 +7,7 @@ USING(MyGame)
 
 IMPLEMENT_SINGLETON(CTextureLoader)
 
-HRESULT CTextureLoader::Create_Textrues_From_Folder(PDIRECT3DDEVICE9 _pGraphic_Device, const _tchar* _pFolderPath)
+HRESULT CTextureLoader::Create_Textrues_From_Folder(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID, const _tchar* _pFolderPath)
 {
 
 	Safe_AddRef(_pGraphic_Device);
@@ -66,7 +66,7 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder(PDIRECT3DDEVICE9 _pGraphic_D
 		}
 #pragma endregion
 
-		pModuleMgr->Add_Module(pFileName, SCENE_STATIC,
+		pModuleMgr->Add_Module(pFileName, _eSceneID,
 			CTexture::Create(_pGraphic_Device, szFileDir));
 
 

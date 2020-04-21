@@ -104,7 +104,7 @@ CTilePalette * CTilePalette::Create(PDIRECT3DDEVICE9 _pGraphicDevice)
 	CTilePalette* pInstance = new CTilePalette(_pGraphicDevice);
 	if (FAILED(pInstance->Initalize()))
 	{
-		MSG_BOX("Fail to create Background");
+		MSG_BOX("Fail to create CTilePalette");
 		Safe_Release(pInstance);
 	}
 	return pInstance;

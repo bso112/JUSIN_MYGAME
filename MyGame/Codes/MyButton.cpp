@@ -15,11 +15,11 @@ CMyButton::CMyButton(CMyButton & _rhs)
 
 }
 
-HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTag, _tchar* _pTextureTag)
+HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTag, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
-	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
-	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(_pTextureTag, SCENEID::SCENE_STATIC, (CModule**)&m_pTexture);
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(_pTextureTag, _eTextureSceneID, (CModule**)&m_pTexture);
 
 	m_pTransform->Set_Position(_vPos);
 	m_pTransform->Set_Size(_vSize);
@@ -53,17 +53,17 @@ _int CMyButton::Update(_double _timeDelta)
 			{
 			case MyGame::CMyButton::BTN_CHARACTER_SELECT:
 			{
-				pSceneMgr->Scene_Change(SCENEID::SCENE_CHARACTER_SELECT, m_pGraphic_Device);
 				break;
 			}
 			case MyGame::CMyButton::BTN_GAMESATART:
 			{
 				pSceneMgr->Scene_Change(SCENEID::SCENE_STAGE, m_pGraphic_Device);
-				break;
+				return -1;
 			}
 			}
 		}
 
+		return m_eBtnTag;
 	}
 	return 0;
 }
@@ -86,12 +86,12 @@ HRESULT CMyButton::Render()
 	return S_OK;
 }
 
-CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTag, _tchar* _pTextureTag)
+CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTag, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	CMyButton* pInstance = new CMyButton(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_vPos, _vSize, _eTag, _pTextureTag)))
+	if (FAILED(pInstance->Initialize(_vPos, _vSize, _eTag, _pTextureTag, _eTextureSceneID)))
 	{
-		MSG_BOX("Fail to create Background");
+		MSG_BOX("Fail to create CMyButton");
 		Safe_Release(pInstance);
 
 	}

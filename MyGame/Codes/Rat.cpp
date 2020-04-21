@@ -46,7 +46,7 @@ CGameObject * CRat::Clone(void * _param)
 	CRat* pInstance = new CRat(*this);
 	if (FAILED(pInstance->Initialize(_param)))
 	{
-		MSG_BOX("Fail to create Background");
+		MSG_BOX("Fail to create CRat");
 		Safe_Release(pInstance);
 
 	}

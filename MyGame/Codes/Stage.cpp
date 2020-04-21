@@ -9,7 +9,7 @@ USING(MyGame)
 
 HRESULT CStage::Initalize()
 {
-	CScene::Initalize();
+	CScene::Initialize();
 	
 	if (FAILED(Initalize_Prototypes()))
 		return E_FAIL;

@@ -37,6 +37,19 @@ CModule * CModuleMgr::Get_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID
 	return pModule->Clone();
 }
 
+HRESULT CModuleMgr::Clear_Scene(SCENEID _eSceneID)
+{
+	if (SCENE_END <= _eSceneID)
+		return E_FAIL;
+	
+	for (auto& pair : m_mapPrototypes[_eSceneID])
+		Safe_Release(pair.second);
+
+	m_mapPrototypes[_eSceneID].clear();
+
+	return S_OK;
+}
+
 
 CModule * CModuleMgr::Find_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID)
 {
