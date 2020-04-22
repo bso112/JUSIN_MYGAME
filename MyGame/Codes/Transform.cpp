@@ -22,43 +22,52 @@ HRESULT CTransform::Initialize_Prototype()
 
 HRESULT CTransform::Initialize(void * _pArg)
 {
-	memcpy(&m_StateMatrix.m[0], Vector4(1.f, 0.f, 0.f, 0.f), sizeof(Vector4));
-	memcpy(&m_StateMatrix.m[1], Vector4(0.f, 1.f, 0.f, 0.f), sizeof(Vector4));
-	memcpy(&m_StateMatrix.m[2], Vector4(0.f, 0.f, 1.f, 0.f), sizeof(Vector4));
-	memcpy(&m_StateMatrix.m[3], Vector4(0.f, 0.f, 0.f, 1.f), sizeof(Vector4));
+	if (nullptr != _pArg)
+		memcpy(&m_tStateDesc, _pArg, sizeof(STATEDESC));
 
-	m_BaseMatrix = m_StateMatrix;
+	m_vSize = Vector3(1.f, 1.f, 1.f);
+	m_vRotation = Vector3(0.f, 0.f, 0.f);
+	m_vPosition = Vector3(0.f, 0.f, 0.f);
+
+	D3DXMatrixIdentity(&m_StateMatrix);
+	
 	return S_OK;
 }
 
-HRESULT CTransform::Set_Position(Vector4 _vPosition)
+_int CTransform::Update()
 {
-	memcpy(&m_StateMatrix.m[3], _vPosition, sizeof(Vector4));
+
+	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix;
+
+	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
+	D3DXMatrixRotationX(&rotationXMatrix, m_vRotation.x);
+	D3DXMatrixRotationX(&rotationYMatrix, m_vRotation.y);
+	D3DXMatrixRotationX(&rotationZMatrix, m_vRotation.z);
+	D3DXMatrixTranslation(&translationMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+
+	m_StateMatrix = scalingMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix;
+	return 0;
+}
+
+HRESULT CTransform::Set_Position(Vector3 _vPosition)
+{
+	m_vPosition = _vPosition;
 	return S_OK;
 }
 
-HRESULT CTransform::Set_Size(Vector2 _vSize)
+HRESULT CTransform::Set_Size(Vector3 _vSize)
 {
-	m_StateMatrix.m[0][0] = m_BaseMatrix.m[0][0] * _vSize.x;
-	m_StateMatrix.m[0][1] = m_BaseMatrix.m[0][1] * _vSize.x;
-	m_StateMatrix.m[0][2] = m_BaseMatrix.m[0][2] * _vSize.x;
-
-	m_StateMatrix.m[1][0] = m_BaseMatrix.m[1][0] * _vSize.y;
-	m_StateMatrix.m[1][1] = m_BaseMatrix.m[1][1] * _vSize.y;
-	m_StateMatrix.m[1][2] = m_BaseMatrix.m[1][2] * _vSize.y;
-
-	m_StateMatrix.m[2][0] = m_BaseMatrix.m[2][0] * _vSize.z;
-	m_StateMatrix.m[2][1] = m_BaseMatrix.m[2][1] * _vSize.z;
-	m_StateMatrix.m[2][2] = m_BaseMatrix.m[2][2] * _vSize.z;
-
+	m_vSize = _vSize;
 	return S_OK;
 }
 
-_float2 CTransform::Get_Size()
+HRESULT CTransform::Set_Roation(Vector3 _vRotation)
 {
-	return _float2(Vector4(m_StateMatrix.m[0][0], m_StateMatrix.m[0][1], m_StateMatrix.m[0][2], m_StateMatrix.m[0][3]).magnitude(),
-		Vector4(m_StateMatrix.m[1][0], m_StateMatrix.m[1][1], m_StateMatrix.m[1][2], m_StateMatrix.m[1][3]).magnitude());
+	m_vRotation = _vRotation;
+	return S_OK;
 }
+
+
 
 RECT CTransform::Get_Rect()
 {
@@ -73,6 +82,40 @@ RECT CTransform::Get_Rect()
 	rc.top = (LONG)fY - (iCY >> 1);
 	rc.bottom = (LONG)fY + (iCY >> 1);
 	return rc;
+}
+
+HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _fStopDistance)
+{
+	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
+	
+	if (vDir.magnitude() <= _fStopDistance)
+	{
+		m_vPosition += vDir.nomalize() * m_tStateDesc.speedPerSec * _timeDelta;
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _fStopDistance, _double _speed)
+{
+	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
+
+	if (vDir.magnitude() <= _fStopDistance)
+	{
+		m_vPosition += vDir.nomalize() *_speed * _timeDelta;
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
+{
+	m_vPosition += _vDir.nomalize() * m_tStateDesc.speedPerSec * _timeDelta;
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta, _double _speed)
+{
+	m_vPosition += _vDir.nomalize() * _speed * _timeDelta;
+	return S_OK;
 }
 
 

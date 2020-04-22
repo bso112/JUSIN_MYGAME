@@ -71,6 +71,18 @@ HRESULT CStage::Initalize_Layers()
 	return S_OK;
 }
 
+CStage * CStage::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
+{
+	CStage* pInstance = new CStage(_pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Fail to Create CStage Scene");
+		Safe_Release(pInstance);
+	}
+	return pInstance;
+}
+
 void CStage::Free()
 {
 	CScene::Free();

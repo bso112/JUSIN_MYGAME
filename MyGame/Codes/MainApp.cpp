@@ -21,6 +21,7 @@ CMainApp::CMainApp()
 HRESULT CMainApp::Initalize()
 {
 
+
 	if (FAILED(Initalize_Default_Setting()))
 		return E_FAIL;
 
@@ -32,6 +33,7 @@ HRESULT CMainApp::Initalize()
 
 	if (FAILED(Initalize_Scene()))
 		return E_FAIL;
+
 
 
 
@@ -104,6 +106,10 @@ HRESULT CMainApp::Initalize_Default_Setting()
 
 
 	Safe_Release(pGraphic_Device);
+
+	ALPHATEST;
+
+
 	return S_OK;
 }
 

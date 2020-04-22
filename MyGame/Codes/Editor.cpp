@@ -30,8 +30,22 @@ HRESULT CEditor::Render()
 	return S_OK;
 }
 
+CEditor * CEditor::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
+{
+	CEditor* pInstance = new CEditor(_pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Fail to Create CEditor Scene");
+		Safe_Release(pInstance);
+	}
+	return pInstance;
+}
+
 void CEditor::Free()
 {
+	if (0 != Safe_Release(m_pPalette))
+		MSG_BOX("Fail to release Palette");
 	CScene::Free();
 
 }

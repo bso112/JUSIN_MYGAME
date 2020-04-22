@@ -26,6 +26,7 @@ typedef struct tagVector4 : public D3DXVECTOR4
 		w = _fW;
 	}
 
+
 	tagVector4 operator+(tagVector4 _vec)
 	{
 		return tagVector4((D3DXVECTOR4)*this + (D3DXVECTOR4)_vec);
@@ -37,13 +38,13 @@ typedef struct tagVector4 : public D3DXVECTOR4
 	}
 	tagVector4& operator+=(tagVector4 _vec)
 	{
-		(D3DXVECTOR4)*this += (D3DXVECTOR4)_vec;
+		*this = (D3DXVECTOR4)*this += (D3DXVECTOR4)_vec;
 		return *this;
 	}
 
 	tagVector4& operator-=(tagVector4 _vec)
 	{
-		(D3DXVECTOR4)*this -= (D3DXVECTOR4)_vec;
+		*this = (D3DXVECTOR4)*this -= (D3DXVECTOR4)_vec;
 		return *this;
 	}
 
@@ -79,14 +80,16 @@ typedef struct tagVector4 : public D3DXVECTOR4
 
 	tagVector4& nomalize()
 	{
-		float mag = magnitude();
-		// 0으로는 나눌 수 없다.
-		if (mag > 0)
-		{
-			x = x / mag;
-			y = y / mag;
-			return *this;
-		}
+		//float mag = magnitude();
+		//// 0으로는 나눌 수 없다.
+		//if (mag > 0)
+		//{
+		//	x = x / mag;
+		//	y = y / mag;
+		//	return *this;
+		//}
+
+		D3DXVec4Normalize(this, this);
 
 		return *this;
 	}
@@ -94,25 +97,33 @@ typedef struct tagVector4 : public D3DXVECTOR4
 	//임시객체를 리턴만 할뿐, 자기자신의 값을 변경하지는 않음
 	tagVector4 Nomalize()
 	{
+		//tagVector4 vec = {};
+		//float mag = magnitude();
+		//// 0으로는 나눌 수 없다.
+		//if (mag > 0)
+		//{
+		//	vec.x = x / mag;
+		//	vec.y = y / mag;
+		//	return vec;
+		//}
+		////벡터의 길이가 0 이면 빈 벡터를 출력 
+		//return vec;
+
 		tagVector4 vec = {};
-		float mag = magnitude();
-		// 0으로는 나눌 수 없다.
-		if (mag > 0)
-		{
-			vec.x = x / mag;
-			vec.y = y / mag;
-			return vec;
-		}
-		//벡터의 길이가 0 이면 빈 벡터를 출력 
+
+		D3DXVec4Normalize(&vec, this);
+
 		return vec;
 	}
 
 	float magnitude()
 	{
-		return sqrtf(x * x + y * y);
+		//return sqrtf(x * x + y * y);
+		return D3DXVec4Length(this);
 	}
 
-}Vector4, Vector2;
+}Vector4, Vector3, Vector2;
+
 
 
 

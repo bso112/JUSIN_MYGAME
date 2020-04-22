@@ -170,7 +170,6 @@
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\Buff.h" />
     <ClInclude Include="..\Headers\Character.h" />
-    <ClInclude Include="..\Headers\CharacterSelect.h" />
     <ClInclude Include="..\Headers\Clock.h" />
     <ClInclude Include="..\Headers\Editor.h" />
     <ClInclude Include="..\Headers\GameObject.h" />
@@ -222,7 +221,6 @@
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\Buff.cpp" />
     <ClCompile Include="..\Codes\Character.cpp" />
-    <ClCompile Include="..\Codes\CharacterSelect.cpp" />
     <ClCompile Include="..\Codes\Clock.cpp" />
     <ClCompile Include="..\Codes\Editor.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />

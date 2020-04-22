@@ -31,13 +31,16 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 
 	m_pTransform->Set_Position(Vector4(_vPos.x, _vPos.y, 0, 1));
 	m_pTransform->Set_Size(Vector4(_vSize.x, _vSize.y));
-	
+
+
+
 	return S_OK;
 }
 
 _int CImage::Update(_double _timeDelta)
 {
-	return _int();
+	m_pTransform->Update();
+	return 0;
 }
 
 _int CImage::LateUpate(_double _timeDelta)
@@ -53,10 +56,13 @@ _int CImage::LateUpate(_double _timeDelta)
 
 HRESULT CImage::Render()
 {
-	if (nullptr == m_pVIBuffer	||
-		nullptr == m_pTextrue	||
+	if (nullptr == m_pVIBuffer ||
+		nullptr == m_pTextrue ||
 		nullptr == m_pTransform)
 		return E_FAIL;
+
+
+	ALPHABLEND;
 
 	if (FAILED(m_pTextrue->Set_Texture(0)))
 		return E_FAIL;
@@ -64,7 +70,7 @@ HRESULT CImage::Render()
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 
-	if(FAILED(m_pVIBuffer->Render()))
+	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
 	return S_OK;

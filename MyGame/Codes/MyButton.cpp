@@ -4,7 +4,6 @@
 #include "Transform.h"
 #include "VIBuffer.h"
 #include "KeyMgr.h"
-#include "SceneMgr.h"
 #include "Texture.h"
 USING(MyGame)
 
@@ -15,7 +14,7 @@ CMyButton::CMyButton(CMyButton & _rhs)
 
 }
 
-HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTag, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
+HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize,_tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
@@ -23,9 +22,6 @@ HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTa
 
 	m_pTransform->Set_Position(_vPos);
 	m_pTransform->Set_Size(_vSize);
-	m_tRect = m_pTransform->Get_Rect();
-
-	m_eBtnTag = _eTag;
 
 	return S_OK;
 }
@@ -37,6 +33,10 @@ _int CMyButton::Update(_double _timeDelta)
 	if (nullptr == m_pGraphic_Device)
 		return -1;
 
+	m_pTransform->Update();
+
+	m_tRect = m_pTransform->Get_Rect();
+
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
 		POINT cursorPos;
@@ -45,26 +45,13 @@ _int CMyButton::Update(_double _timeDelta)
 
 		if (PtInRect(&m_tRect, cursorPos))
 		{
-			CSceneMgr* pSceneMgr = CSceneMgr::Get_Instance();
-			if (nullptr == pSceneMgr)
-				return -1;
-
-			switch (m_eBtnTag)
+			for (auto& listener : m_vecOnListener)
 			{
-			case MyGame::CMyButton::BTN_CHARACTER_SELECT:
-			{
-				break;
-			}
-			case MyGame::CMyButton::BTN_GAMESATART:
-			{
-				pSceneMgr->Scene_Change(SCENEID::SCENE_STAGE, m_pGraphic_Device);
-				return -1;
-			}
+				listener();
 			}
 		}
-
-		return m_eBtnTag;
 	}
+
 	return 0;
 }
 
@@ -86,10 +73,16 @@ HRESULT CMyButton::Render()
 	return S_OK;
 }
 
-CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, CMyButton::TAG _eTag, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
+HRESULT CMyButton::Add_Listener(function<void()> _listener)
+{
+	m_vecOnListener.push_back(_listener);
+	return S_OK;
+}
+
+CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	CMyButton* pInstance = new CMyButton(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_vPos, _vSize, _eTag, _pTextureTag, _eTextureSceneID)))
+	if (FAILED(pInstance->Initialize(_vPos, _vSize,  _pTextureTag, _eTextureSceneID)))
 	{
 		MSG_BOX("Fail to create CMyButton");
 		Safe_Release(pInstance);

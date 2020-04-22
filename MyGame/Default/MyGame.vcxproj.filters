@@ -112,9 +112,6 @@
     <Filter Include="03.Scene\Scene\Menu">
       <UniqueIdentifier>{84a0d0ea-84dd-422c-9193-4ded95f503e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Scene\Scene\CharacterSelect">
-      <UniqueIdentifier>{cb2200f1-5b1a-474e-b47e-3e288da3cdb6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject">
       <UniqueIdentifier>{0df0310c-ad54-44ff-9ac0-987e8f90dcca}</UniqueIdentifier>
     </Filter>
@@ -309,9 +306,6 @@
     <ClInclude Include="..\Headers\Image.h">
       <Filter>04.GameObject\GameObject\Image</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\CharacterSelect.h">
-      <Filter>03.Scene\Scene\CharacterSelect</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -436,9 +430,6 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Image.cpp">
       <Filter>04.GameObject\GameObject\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Codes\CharacterSelect.cpp">
-      <Filter>03.Scene\Scene\CharacterSelect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

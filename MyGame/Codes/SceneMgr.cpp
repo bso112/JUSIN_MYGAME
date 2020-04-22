@@ -3,6 +3,7 @@
 #include "Menu.h"
 #include "CharacterSelect.h"
 #include "Stage.h"
+#include "Editor.h"
 
 USING(MyGame)
 
@@ -21,16 +22,16 @@ HRESULT CSceneMgr::Scene_Change(SCENEID _eID, PDIRECT3DDEVICE9 _pGraphic_Device)
 	case MyGame::SCENE_MENU:
 	{
 		m_pCurrScene = CMenu::Create(_pGraphic_Device);
-		if (m_pCurrScene == nullptr)
-			return E_FAIL;
 		break;
 	}
-	case MyGame::SCENE_CHARACTER_SELECT:
+	case MyGame::SCENE_EDITOR:
 	{
-		m_pCurrScene = CCharacterSelect::Create(_pGraphic_Device);
+		m_pCurrScene = CEditor::Create(_pGraphic_Device);
+		break;
 	}
 	case MyGame::SCENE_STAGE:
 	{
+		m_pCurrScene = CStage::Create(_pGraphic_Device);
 		break;
 	}
 	case MyGame::SCENE_END:

@@ -14,7 +14,6 @@ public:
 	virtual HRESULT Initalize();
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
-	virtual	HRESULT	Render(HDC _DC);
 
 
 private:
@@ -28,6 +27,7 @@ private:
 	HRESULT	Initalize_Layers();
 
 public:
+	static CStage* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual void Free() override;
 };
 END

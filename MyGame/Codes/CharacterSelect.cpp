@@ -15,8 +15,8 @@ HRESULT CCharacterSelect::Initialize()
 	m_pImgLogo = CImage::Create(m_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), 190.f, 0.f, 1.f), Vector2(370.f, 200.f), L"logo", SCENE_MENU);
 	//버튼생성
 	float padding = 30;
-	m_vecBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f), CMyButton::BTN_CHARACTER_SELECT, L"character_select", SCENE_MENU));
-	m_vecBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f), CMyButton::BTN_END, L"Ranking", SCENE_MENU));
+	m_vecBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f),  L"character_select", SCENE_MENU));
+	m_vecBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f),  L"Ranking", SCENE_MENU));
 	m_vecBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), CMyButton::BTN_EDITOR, L"Badges", SCENE_MENU));
 	m_vecBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), CMyButton::BTN_QUIT, L"About", SCENE_MENU));
 

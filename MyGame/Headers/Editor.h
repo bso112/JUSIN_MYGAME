@@ -19,9 +19,11 @@ private:
 	CTilePalette* m_pPalette = nullptr;
 
 
-protected:
+public:
+	static CEditor* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
+
 
 
 

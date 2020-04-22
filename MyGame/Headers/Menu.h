@@ -3,12 +3,12 @@
 
 BEGIN(MyGame)
 
-#define ARC1X 5
-#define ARC1Y 3
+#define ARC1X 3
+#define ARC1Y 5
 #define ARC1CX 200
 #define ARC1CY 200
-#define ARC2X 5
-#define ARC2Y 5
+#define ARC2X 7
+#define ARC2Y 10
 #define ARC2CX 100
 #define ARC2CY 100
 
@@ -27,8 +27,8 @@ private:
 	_int					m_iCurrCanvas = 0;
 
 	//배경
-	CImage*					m_pImgArc1[ARC1X][ARC1Y];
-	CImage*					m_pImgArc2[ARC2X][ARC2Y];
+	CImage*					m_pImgArc1[ARC1Y][ARC1X];
+	CImage*					m_pImgArc2[ARC2Y][ARC2X];
 
 	//렌더그룹1
 	CImage*					m_pImgLogo = nullptr;
@@ -38,11 +38,13 @@ private:
 	CImage*					m_pImgCharSelectBanner = nullptr;
 	vector<CMyButton*>		m_vecCharSelectBtn;
 
+	bool					m_bDead = false;
 	
 public:
 	virtual HRESULT Initialize() override;
 	virtual _int Update(_double _timeDelta) override;
 	virtual HRESULT Render() override;
+	
 
 private:
 	HRESULT	Load_Textures();
