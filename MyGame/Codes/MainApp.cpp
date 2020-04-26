@@ -46,19 +46,10 @@ _int CMainApp::Update(_double _timeDelta)
 #if _DEBUG
 	m_dwTimeAcc += _timeDelta;
 #endif
-
-
-
 	m_pSceneMgr->Update(_timeDelta);
-
 
 	if (nullptr == m_pSceneMgr)
 		return -1;
-
-	CKeyMgr* pInstance = CKeyMgr::Get_Instance();
-	if (nullptr == pInstance)
-		return -1;
-	pInstance->Key_Update();
 
 	return 0;
 }
@@ -91,6 +82,11 @@ HRESULT CMainApp::Render()
 
 	m_pGraphic_Device->EndScene();
 	m_pGraphic_Device->Present(nullptr, nullptr, g_hWnd, nullptr);
+
+	//¸¸¾à ¾ÀÀÌ ¹Ù²î¾úÀ¸¸é ÀÌÀü¾ÀÀ» Áö¿î´Ù.
+	if (FAILED(m_pSceneMgr->Clear_PrvScene()))
+		return E_FAIL;
+
 	return S_OK;
 }
 

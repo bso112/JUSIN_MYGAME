@@ -12,8 +12,7 @@ IMPLEMENT_SINGLETON(CSceneMgr)
 
 HRESULT CSceneMgr::Scene_Change(SCENEID _eID, PDIRECT3DDEVICE9 _pGraphic_Device)
 {
-	if (0 != Safe_Release(m_pCurrScene))
-		goto exception;
+	m_pPrvScene = m_pCurrScene;
 
 	switch (_eID)
 	{
@@ -64,6 +63,14 @@ HRESULT CSceneMgr::Render()
 
 	m_pCurrScene->Render();
 	return S_OK;
+}
+
+HRESULT CSceneMgr::Clear_PrvScene()
+{
+	if (0 != Safe_Release(m_pPrvScene)) 
+		return E_FAIL; 
+	return S_OK;
+
 }
 
 

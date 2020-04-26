@@ -2,14 +2,15 @@
 #include "..\Headers\TilePalette.h"
 #include "Terrain.h"
 #include "Transform.h"
-
+#include "TextureLoader.h"
 USING(MyGame)
 
 HRESULT CTilePalette::Initalize()
 {
+	//텍스쳐 로드
+	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Resources/Textures/Terrain/level1/");
 
 	//팔레트의 왼쪽 위 위치를 정한다.
-
 	m_fX = 300.f;
 	m_fY = 300.f;
 
@@ -62,6 +63,8 @@ _int CTilePalette::Update()
 
 HRESULT CTilePalette::Render()
 {
+	if (m_vecTile.size() <= 0)
+		return E_FAIL;
 	float ratio = (float)m_vecTile.size() / PALETTEX * PALETTEY;
 	_uint maxPage = 0;
 	//소수점자리가 있다면
@@ -78,7 +81,7 @@ HRESULT CTilePalette::Render()
 		{
 			_uint index = (m_iCurrPage * PALETTEX * PALETTEY) + j + i * PALETTEX;
 			
-			if (m_vecTile.size() >= index)
+			if (m_vecTile.size()  <= index)
 				return E_FAIL;
 		
 			CModule* pModule = m_vecTile[index]->Get_Module(L"Transform");

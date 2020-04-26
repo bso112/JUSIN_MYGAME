@@ -46,6 +46,7 @@ HRESULT CTexture::Set_Texture(_uint _iIndex)
 	return S_OK;
 }
 
+
 CTexture * CTexture::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath, _uint _iCnt)
 {
 	CTexture* pInstance = new CTexture(_pGraphic_Device);

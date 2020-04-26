@@ -9,7 +9,7 @@ CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 }
 
-HRESULT CEditor::Initalize()
+HRESULT CEditor::Initialize()
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;

@@ -37,6 +37,7 @@ HRESULT CMenu::Initialize()
 	if (FAILED(Load_Textures()))
 		return E_FAIL;
 
+	CMyButton* pBtn = nullptr;
 
 #pragma region 백그라운드준비
 
@@ -63,18 +64,39 @@ HRESULT CMenu::Initialize()
 	m_pImgLogo = CImage::Create(m_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), 190.f, 0.f, 1.f), Vector2(370.f, 200.f), L"logo", SCENE_MENU);
 	//버튼생성
 	float padding = 30;
+	float text_pitch1 = 70;
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f), L"character_select", SCENE_MENU));
 	m_vecMenuBtn[0]->Add_Listener([=] { m_iCurrCanvas = 1;});
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
+	pBtn->Set_Text(L"Play");
+	m_vecMenuBtn.push_back(pBtn);
+	
+
+	pBtn->Set_InstanceID(1);
+
+
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f), L"Ranking", SCENE_MENU));
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 350.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
+	pBtn->Set_Text(L"Ranking");
+	m_vecMenuBtn.push_back(pBtn);
+	
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), L"Badges", SCENE_MENU));
-	m_vecMenuBtn[2]->Add_Listener(
+	
+	m_vecMenuBtn[4]->Add_Listener(
 		[=]
 	{
-		if (CSceneMgr::Get_Instance()->Scene_Change(SCENEID::SCENE_EDITOR, m_pGraphic_Device) == S_OK)
-			m_bDead = true;
+		CSceneMgr::Get_Instance()->Scene_Change(SCENEID::SCENE_EDITOR, m_pGraphic_Device);
 	});
-	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), L"About", SCENE_MENU));
 
+
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 510.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
+	pBtn->Set_Text(L"Editor");
+	m_vecMenuBtn.push_back(pBtn);
+
+	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), L"About", SCENE_MENU));
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
+	pBtn->Set_Text(L"Exit");
+	m_vecMenuBtn.push_back(pBtn);
 
 #pragma endregion
 
@@ -85,13 +107,31 @@ HRESULT CMenu::Initialize()
 
 	//버튼생성
 	//중앙으로 x좌표가 떨어진 정도
-	float padding2 = 100;
+	float padding2 = 100.f;
+	//텍스트가 y좌표로 떨어진 정도
+	float text_pitch = 100.f;
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 250.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_warrior", SCENE_MENU));
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 250.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f), L"empty", SCENE_MENU);
+	pBtn->Set_Text(L"WARRIOR");
+	m_vecCharSelectBtn.push_back(pBtn);
+	
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 250.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_mage", SCENE_MENU));
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 250.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f),  L"empty", SCENE_MENU);
+	pBtn->Set_Text(L"MAGE");
+	m_vecCharSelectBtn.push_back(pBtn);
+	
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 480.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_huntress", SCENE_MENU));
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 480.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f),  L"empty", SCENE_MENU);
+	pBtn->Set_Text(L"HUNTRESS");
+	m_vecCharSelectBtn.push_back(pBtn);
+	
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 480.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_rogue", SCENE_MENU));
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 480.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f),  L"empty", SCENE_MENU);
+	pBtn->Set_Text(L"ROUGUE");
+	m_vecCharSelectBtn.push_back(pBtn);
 
-	CMyButton* pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - 10 - 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
+
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - 10 - 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
 	pBtn->Set_Text(L"Game Load");
 	m_vecCharSelectBtn.push_back(pBtn);
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + 10 + 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
@@ -193,8 +233,6 @@ _int CMenu::Update(_double _timeDelta)
 	for (auto& obj : m_vecCanvas[m_iCurrCanvas])
 	{
 		obj->Update(_timeDelta);
-		if (m_bDead)
-			return -1;
 	}
 
 	CScene::Update(_timeDelta);

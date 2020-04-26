@@ -13,10 +13,14 @@ private:
 
 private:
 	CScene* m_pCurrScene = nullptr;
+	CScene*	m_pPrvScene = nullptr;
 public:
 	HRESULT Scene_Change(SCENEID _eID, PDIRECT3DDEVICE9 _pGraphic_Device);
 	_int	Update(_double _timeDelta);
 	HRESULT	Render();
+
+public:
+	HRESULT	Clear_PrvScene();
 
 private:
 	virtual void Free() override;

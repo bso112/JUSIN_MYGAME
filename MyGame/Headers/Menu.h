@@ -37,8 +37,6 @@ private:
 	//·»´õ±×·ì2
 	CImage*					m_pImgCharSelectBanner = nullptr;
 	vector<CMyButton*>		m_vecCharSelectBtn;
-
-	bool					m_bDead = false;
 	
 public:
 	virtual HRESULT Initialize() override;

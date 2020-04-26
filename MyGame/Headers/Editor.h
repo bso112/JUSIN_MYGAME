@@ -11,7 +11,7 @@ private:
 
 
 public:
-	virtual HRESULT Initalize();
+	virtual HRESULT Initialize();
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
 
