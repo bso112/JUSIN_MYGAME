@@ -15,10 +15,11 @@ private:
 
 
 private:
-	CVIBuffer*	m_pVIBuffer = nullptr;
-	CTransform*	m_pTransform = nullptr;
-	CTexture*	m_pTexture = nullptr;
-	RECT		m_tRect = {};
+	CVIBuffer*		m_pVIBuffer = nullptr;
+	CTransform*		m_pTransform = nullptr;
+	CTexture*		m_pTexture = nullptr;
+	RECT			m_tRect = {};
+	const _tchar*	m_pText = L"";
 
 private:
 	vector<function<void()>> m_vecOnListener;
@@ -31,6 +32,7 @@ public:
 
 public:
 	HRESULT	Add_Listener (function<void()> _listener);
+	void	Set_Text(const _tchar* pText) { m_pText = pText; }
 public:
 	static CMyButton*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 public:

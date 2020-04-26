@@ -70,6 +70,8 @@ HRESULT CMyButton::Render()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+
+	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_Rect(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f,1.0f,1.0f,1.0f));
 	return S_OK;
 }
 

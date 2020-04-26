@@ -1,5 +1,51 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  stdafx.cpp
+  Renderer.cpp
+  MyGame.cpp
+  Warrior.cpp
+  VIBuffer.cpp
+  Transform.cpp
+c:\users\bso11\desktop\myclient\mygame\codes\transform.cpp(93): warning C4244: '인수': '_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\bso11\desktop\myclient\mygame\codes\transform.cpp(104): warning C4244: '인수': '_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\bso11\desktop\myclient\mygame\codes\transform.cpp(111): warning C4244: '인수': '_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\bso11\desktop\myclient\mygame\codes\transform.cpp(117): warning C4244: '인수': '_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  TimerMgr.cpp
+  Timer.cpp
+  World.cpp
+  TilePalette.cpp
+  TextureLoader.cpp
+  Terrain.cpp
+  Texture.cpp
+  Stat.cpp
+  Stage.cpp
+  Scroll.cpp
+  SceneMgr.cpp
+  Scene.cpp
+  Rat.cpp
+  ObjMgr.cpp
+  MyButton.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
   Monster.cpp
-  LINK : ..\Bin\MyGame.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  ModuleMgr.cpp
+  Module.cpp
+  MainApp.cpp
+  Menu.cpp
+  Layer.cpp
+  KeyMgr.cpp
+  Item.cpp
+  Invisible.cpp
+  HeroMgr.cpp
+  Hero.cpp
+  Graphic_Device.cpp
+  GameObject.cpp
+  Editor.cpp
+  Clock.cpp
+  Character.cpp
+  Buff.cpp
+  Base.cpp
+  Image.cpp
+  AiState.cpp
+  코드를 생성하고 있습니다...
   MyGame.vcxproj -> C:\Users\bso11\Desktop\myClient\MyGame\Default\..\Bin\MyGame.exe
   MyGame.vcxproj -> ..\Bin\MyGame.pdb (Full PDB)

@@ -90,7 +90,7 @@ HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _
 	
 	if (vDir.magnitude() <= _fStopDistance)
 	{
-		m_vPosition += vDir.nomalize() * m_tStateDesc.speedPerSec * _timeDelta;
+		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 	}
 	return S_OK;
 }
@@ -101,7 +101,7 @@ HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _
 
 	if (vDir.magnitude() <= _fStopDistance)
 	{
-		m_vPosition += vDir.nomalize() *_speed * _timeDelta;
+		m_vPosition += vDir.nomalize() *float(_speed * _timeDelta);
 	}
 	return S_OK;
 }
@@ -114,7 +114,7 @@ HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
 
 HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta, _double _speed)
 {
-	m_vPosition += _vDir.nomalize() * _speed * _timeDelta;
+	m_vPosition += _vDir.nomalize() * float(_speed * _timeDelta);
 	return S_OK;
 }
 
