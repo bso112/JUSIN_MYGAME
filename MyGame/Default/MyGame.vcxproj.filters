@@ -157,6 +157,9 @@
     <Filter Include="04.GameObject\GameObject\Image">
       <UniqueIdentifier>{bc3c7911-f3d4-424a-a519-f8da5d6a216c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10.Tile">
+      <UniqueIdentifier>{7511e28c-92fa-4a05-8fe8-cf98283baa9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">

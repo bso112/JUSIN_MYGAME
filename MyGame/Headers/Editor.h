@@ -3,6 +3,8 @@
 
 BEGIN(MyGame)
 class CTilePalette;
+class CWorld;
+class CTerrain;
 class CEditor final: public CScene
 {
 private:
@@ -16,7 +18,9 @@ public:
 	virtual HRESULT	Render();
 
 private:
-	CTilePalette* m_pPalette = nullptr;
+	CTilePalette*	m_pPalette = nullptr;
+	CWorld*			m_pWorld = nullptr;
+	CTerrain*		m_pCurrTerrain = nullptr;
 
 
 public:

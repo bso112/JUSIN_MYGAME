@@ -4,6 +4,9 @@
 
 BEGIN(MyGame)
 
+#define WORLDX 100
+#define WORLDY 100
+
 class CTerrain;
 class CWorld final : public CBase
 {
@@ -24,9 +27,11 @@ private:
 	
 
 public:
-	HRESULT	Generate_World(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath);
+	HRESULT	Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);
 	HRESULT Render();
 
+public:
+	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
 
 public:
 	// CBase을(를) 통해 상속됨

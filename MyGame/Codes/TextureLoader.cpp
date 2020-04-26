@@ -30,12 +30,16 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder(PDIRECT3DDEVICE9 _pGraphic_D
 	if (INVALID_HANDLE_VALUE == hFind)
 	{
 		MSG_BOX("Fail to load textures");
+		Safe_Release(_pGraphic_Device);
 		return E_FAIL;
 	}
 
 	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
 	if (nullptr == pModuleMgr)
+	{
+		Safe_Release(_pGraphic_Device);
 		return E_FAIL;
+	}
 
 	Safe_AddRef(pModuleMgr);
 

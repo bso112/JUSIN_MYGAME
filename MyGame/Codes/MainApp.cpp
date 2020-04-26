@@ -148,8 +148,18 @@ HRESULT CMainApp::Initalize_Module()
 
 HRESULT CMainApp::Initalize_Texture()
 {
+	
+	//이거 주석풀면 그래픽디바이스 못지움.
+	//CTextureLoader* pLoader = CTextureLoader::Get_Instance();
 
+	//if (nullptr == pLoader)
+	//	return E_FAIL;
 
+	//Safe_AddRef(pLoader);
+
+	//pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENEID::SCENE_MENU, L"../Bin/Resources/Textures/Static/");
+
+	//Safe_Release(pLoader);
 	return S_OK;
 }
 

@@ -3,14 +3,15 @@
 
 BEGIN(MyGame)
 
-#define PALETTEX 5
-#define PALETTEY 3
+#define PALETTEX 20
+#define PALETTEY 2
 #define PALETTEZ 2
 
 
 
 
 class CTerrain;
+class CGameObject;
 class CTilePalette final : public CBase
 {
 private:
@@ -24,6 +25,8 @@ private:
 	//팔레트의 왼쪽 위
 	float				m_fX;
 	float				m_fY;
+	//최대 페이지 수
+	_uint				m_iMaxPage = 0;
 
 public:
 	HRESULT	Initalize();
@@ -31,7 +34,7 @@ public:
 	HRESULT	Render();
 
 public:
-	CTerrain* Pick_Tile(POINT _pt);
+	CGameObject* Pick_Tile(POINT _pt);
 
 public:
 	static CTilePalette* Create(PDIRECT3DDEVICE9 _pGraphicDevice);

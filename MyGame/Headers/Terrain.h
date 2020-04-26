@@ -20,12 +20,13 @@ private:
 
 
 public:
-	virtual HRESULT	Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, _tchar* _pFilePath = nullptr);
+	virtual HRESULT	Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);
+	virtual	HRESULT	Initialize();
 	virtual HRESULT	Render();
 
 	
 public:
-	static CTerrain*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, _tchar* _pFilePath = nullptr);
+	static CTerrain*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);
 	virtual CGameObject* Clone(void * _param = nullptr);
 	virtual void Free() override;
 
