@@ -125,6 +125,7 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 
 
 	int callCnt = 0;
+	_tchar finalDir[MAX_PATH] = L"";
 
 	do
 	{
@@ -135,7 +136,7 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 
 		wchar_t pFileName[MAX_PATH];
 
-#pragma region 확장자 빼서 파일이름만 추출하기
+#pragma region 애니메이션 카운트 뽑아내기, 확장자 제외하고 파일이름 뽑아내기
 		ZeroMemory(pFileName, sizeof(pFileName));
 		_uint	index = 0;
 		wchar_t* pTmp = ffd.cFileName;
@@ -177,7 +178,7 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 			}
 			++pTmp;
 		}
-#pragma endregion
+#pragma endregion 
 
 		//첫번째 파일이름을 전 이름으로한다.
 		if (callCnt == 0)
@@ -186,15 +187,36 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 
 		//파일이름이 달라졌을 때
 		if (0 != lstrcmp(m_pPrvName, pFileName))
-		{
+		{	
+			ZeroMemory(finalDir, sizeof(finalDir));
+			_tchar* tmp = m_szPrvDir;
+			_uint	index2 = 0;
+			while (*tmp != '\0')
+			{
+				//숫자면
+				if (48 <= *tmp && 57 >= *tmp)
+				{
+					StringCchCat(finalDir, MAX_PATH, L"%d.png");
+					break;
+				}
+
+				finalDir[index2] = m_szPrvDir[index2];
+				++index2;
+				++tmp;
+			}
 			//생성 
 			//m_szPrvDir에 %d로 바꿔야함. 숫자전까지 읽은다음에 cat하면 될듯.
+	
+			if (m_iPrvAniNum == 0)
+				m_iPrvAniNum = 1;
+
 			pModuleMgr->Add_Module(m_pPrvName, _eSceneID,
-				CTexture::Create(_pGraphic_Device, m_szPrvDir, m_iPrvAniNum));
+				CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum));
 		}
 
 		//현재 이름을 전 이름으로		
 		StringCchCopy(m_pPrvName, MAX_PATH, pFileName);
+		//현재 경로를 전 경로로
 		StringCchCopy(m_szPrvDir, MAX_PATH, szFileDir);
 
 		//현재 애니메이션 번호를 마지막 애니메이션 번호로 
@@ -203,6 +225,33 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 
 	} while (FindNextFile(hFind, &ffd) != 0);
 
+#pragma region 마지막 파일처리
+	//마지막 파일에 대해서
+	ZeroMemory(finalDir, sizeof(finalDir));
+	_tchar* tmp = m_szPrvDir;
+	_uint	index2 = 0;
+	while (*tmp != '\0')
+	{
+		//숫자면
+		if (48 <= *tmp && 57 >= *tmp)
+		{
+			StringCchCat(finalDir, MAX_PATH, L"%d.png");
+			break;
+		}
+
+		finalDir[index2] = m_szPrvDir[index2];
+		++index2;
+		++tmp;
+	}
+	//생성 
+	//m_szPrvDir에 %d로 바꿔야함. 숫자전까지 읽은다음에 cat하면 될듯.
+
+	if (m_iPrvAniNum == 0)
+		m_iPrvAniNum = 1;
+
+	pModuleMgr->Add_Module(m_pPrvName, _eSceneID,
+		CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum));
+#pragma endregion
 
 	Safe_Release(pModuleMgr);
 	Safe_Release(_pGraphic_Device);

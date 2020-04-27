@@ -17,7 +17,7 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* _pFilePath, _uint _iCnt)
 {
 	m_vecTexture.reserve(_iCnt);
 	//1부터 시작하는거 맞지?
-	for (_uint i = 1; i < _iCnt; ++i)
+	for (_uint i = 1; i < _iCnt+1; ++i)
 	{
 		_tchar szBuff[MAX_PATH] = L"";
 		wsprintf(szBuff, _pFilePath, i);
