@@ -9,10 +9,8 @@ private:
 	explicit CWarrior(CWarrior& _hero) : CHero(_hero) {}
 	virtual ~CWarrior() = default;
 
-public:
-	static CWarrior* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath = nullptr);
-	virtual CGameObject * Clone(void * _param = nullptr) override;
-
+private:
+	CTexture*	m_pTexture[ANIM_END];
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
@@ -33,6 +31,10 @@ private:
 	virtual void Update_State() override;
 	virtual void OnDead() override;
 	virtual void OnTakeDamage() override;
+
+public:
+	static CWarrior* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath = nullptr);
+	virtual CGameObject * Clone(void * _param = nullptr) override;
 
 public:
 	// CBase을(를) 통해 상속됨

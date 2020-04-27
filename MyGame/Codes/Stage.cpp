@@ -28,7 +28,10 @@ HRESULT CStage::Initialize()
 	if (FAILED(Initalize_World()))
 		return E_FAIL;
 
-	m_pStageUIMgr->Initialize(m_pGraphic_Device);
+	if (nullptr == m_pObjMgr)
+		return E_FAIL;
+
+	m_pStageUIMgr->Initialize(m_pGraphic_Device, (CHero*)m_pObjMgr->Get_Player(SCENE_STAGE));
 
 
 	return S_OK;
@@ -69,7 +72,7 @@ HRESULT CStage::Initalize_Prototypes()
 
 	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
 
-
+	//이부분 캐릭터 선택 반영하게 변경
 	if (FAILED(m_pObjMgr->Add_Prototype(CObjMgr::PROTOTYPE_PLAYER, SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

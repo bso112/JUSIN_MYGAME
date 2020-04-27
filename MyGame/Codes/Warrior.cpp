@@ -31,12 +31,22 @@ CGameObject * CWarrior::Clone(void * _param)
 
 
 HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
-{
+{	
+	
 	return S_OK;
 }
 
 HRESULT CWarrior::Initialize(void * _param)
 {
+	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"warrior_naked_attack", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_ATTACK]);
+	Set_Module(L"warrior_naked_eat", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_EAT]);
+	Set_Module(L"warrior_naked_floating", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_FLOATING]);
+	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_IDLE]);
+	Set_Module(L"warrior_naked_use", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_USE]);
+	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_WALK]);
+
 	return S_OK;
 }
 

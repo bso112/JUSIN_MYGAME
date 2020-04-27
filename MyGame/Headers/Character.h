@@ -4,6 +4,9 @@
 BEGIN(MyGame)
 class CStat;
 class CClock_Single;
+class CTransform;
+class CVIBuffer;
+class CTexture;
 class CCharacter abstract : public CGameObject
 {
 protected:
@@ -27,7 +30,9 @@ protected:
 	enum IMMUNE {IMMUNE_FIRE, IMMUNE_ICE, IMMUNE_END};
 
 protected:
-	
+	CTransform*	m_pTransform;
+	CVIBuffer*	m_pVIBuffer;
+
 protected:
 	STAT	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
@@ -38,6 +43,8 @@ protected:
 	bool	m_bInvisible = false;
 	//이동할 목표지점
 	Vector4			m_vDst = {};
+
+	
 
 
 public:

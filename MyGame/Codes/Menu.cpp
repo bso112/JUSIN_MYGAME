@@ -265,6 +265,9 @@ HRESULT CMenu::Render()
 		obj->Render();
 	}
 
+
+
+
 	return 0;
 }
 
@@ -278,6 +281,7 @@ HRESULT CMenu::Load_Textures()
 	Safe_AddRef(pLoader);
 
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENEID::SCENE_MENU, L"../Bin/Resources/Textures/UI/Menu/");
+	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENEID::SCENE_MENU, L"../Bin/Resources/Textures/Hero/Warrior/naked/");
 
 	Safe_Release(pLoader);
 	return S_OK;
