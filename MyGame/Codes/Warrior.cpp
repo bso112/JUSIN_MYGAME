@@ -1,9 +1,22 @@
 #include "stdafx.h"
 #include "..\Headers\Warrior.h"
 #include "Renderer.h"
-
+#include "Texture.h"
+#include "Transform.h"
+#include "VIBuffer.h"
 USING(MyGame)
 
+
+CWarrior::CWarrior(PDIRECT3DDEVICE9 _pGraphic_Device)
+	: CHero(_pGraphic_Device) 
+{
+	ZeroMemory(m_pTexture, sizeof(m_pTexture));
+};
+
+CWarrior::CWarrior(CWarrior & _hero)
+	: CHero(_hero) 
+{
+}
 
 CWarrior * CWarrior::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar * _pFilePath)
 {
@@ -47,6 +60,9 @@ HRESULT CWarrior::Initialize(void * _param)
 	Set_Module(L"warrior_naked_use", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_USE]);
 	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_WALK]);
 
+	m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
+	m_pTransform->Set_Size(Vector3(100.f, 100.f));
+
 	return S_OK;
 }
 
@@ -78,6 +94,23 @@ _int CWarrior::LateUpate(_double _timeDelta)
 
 HRESULT CWarrior::Render()
 {
+	if (nullptr == m_pVIBuffer ||
+		nullptr == m_pTexture[m_eCurrAnim] ||
+		nullptr == m_pTransform)
+		return E_FAIL;
+
+
+	ALPHABLEND;
+
+	if (FAILED(m_pTexture[m_eCurrAnim]->Set_Texture(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -104,6 +137,13 @@ void CWarrior::OnTakeDamage()
 
 void CWarrior::Free()
 {
-	CGameObject::Free();
+	for (auto& texture : m_pTexture)
+	{
+		Safe_Release(texture);
+	}
+	Safe_Release(m_pTransform);
+	Safe_Release(m_pVIBuffer);
+
+	CHero::Free();
 }
 

@@ -4,18 +4,6 @@
 #include "ModuleMgr.h"
 
 USING(MyGame)
-void CGameObject::Free()
-{
-	
-	for (auto pair : m_mapModule)
-	{
-		Safe_Release(pair.second);
-	}
-
-	Safe_Release(m_pRenderer);
-	Safe_Release(m_pGraphic_Device);
-
-}
 
 CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
 	:m_pGraphic_Device(_pGrahic_Device), m_pRenderer(CRenderer::Get_Instance())
@@ -89,8 +77,6 @@ HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CMo
 
 CModule * CGameObject::Get_Module(const _tchar* _eModuleTag)
 {
-
-
 	auto& iter = find_if(m_mapModule.begin(), m_mapModule.end(), CFinder_Tag(_eModuleTag));
 	if (iter == m_mapModule.end())
 		return nullptr;
@@ -98,3 +84,15 @@ CModule * CGameObject::Get_Module(const _tchar* _eModuleTag)
 	return iter->second;
 }
 
+void CGameObject::Free()
+{
+	
+	for (auto pair : m_mapModule)
+	{
+		Safe_Release(pair.second);
+	}
+
+	Safe_Release(m_pRenderer);
+	Safe_Release(m_pGraphic_Device);
+
+}

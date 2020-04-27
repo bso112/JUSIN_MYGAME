@@ -4,6 +4,7 @@
 #include "Warrior.h"
 #include "TextureLoader.h"
 #include "StageUIMgr.h"
+#include "Transform.h"
 
 USING(MyGame)
 
@@ -70,7 +71,16 @@ HRESULT CStage::Initalize_Prototypes()
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
-	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
+	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	if (nullptr == pLoader)
+		return E_FAIL;
+
+	Safe_AddRef(pLoader);
+
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
+	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Hero/Warrior/");
+
+	Safe_Release(pLoader);
 
 	//이부분 캐릭터 선택 반영하게 변경
 	if (FAILED(m_pObjMgr->Add_Prototype(CObjMgr::PROTOTYPE_PLAYER, SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
@@ -85,8 +95,9 @@ HRESULT CStage::Initalize_Layers()
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
-	if (FAILED(m_pObjMgr->Add_GO_To_Layer(CObjMgr::PROTOTYPE_PLAYER, SCENE_STAGE, CObjMgr::LAYER_PLAYER, SCENE_STAGE)))
+	if (nullptr == m_pObjMgr->Add_GO_To_Layer(CObjMgr::PROTOTYPE_PLAYER, SCENE_STAGE, CObjMgr::LAYER_PLAYER, SCENE_STAGE))
 		return E_FAIL;
+
 	return S_OK;
 }
 

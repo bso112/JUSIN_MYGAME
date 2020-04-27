@@ -57,20 +57,20 @@ HRESULT CObjMgr::Add_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSce
 	return S_OK;
 }
 
-HRESULT CObjMgr::Add_GO_To_Layer(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, LayerID _eLayerID, SCENEID _eLayerSceneID)
+CGameObject* CObjMgr::Add_GO_To_Layer(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, LayerID _eLayerID, SCENEID _eLayerSceneID, void* _pArg)
 {
 	if (SCENE_END <= _ePrototypeSceneID ||
 		SCENE_END <= _eLayerSceneID)
-		return E_FAIL;
+		return nullptr;
 
 	CGameObject* pPrototype = Find_Prototype(_ePrototypeID, _ePrototypeSceneID);
 	if (nullptr == pPrototype)
-		return E_FAIL;
+		return nullptr;
 
 	//프로토타입에서 객체를 복사해 생성한다.
-	CGameObject* pGo = pPrototype->Clone();
+	CGameObject* pGo = pPrototype->Clone(_pArg);
 	if (nullptr == pGo)
-		return E_FAIL;
+		return nullptr;
 
 	CLayer* layer = Find_Layer(_eLayerID, _eLayerSceneID);
 	if (nullptr == layer)
@@ -91,10 +91,10 @@ HRESULT CObjMgr::Add_GO_To_Layer(PrototypeID _ePrototypeID, SCENEID _ePrototypeS
 			goto exception;
 	}
 
-	return S_OK;
+	return pGo;
 exception:
 	Safe_Release(pGo);
-	return E_FAIL;
+	return nullptr;
 }
 
 HRESULT CObjMgr::Add_GO_To_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)

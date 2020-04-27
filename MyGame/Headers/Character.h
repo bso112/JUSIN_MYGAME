@@ -30,8 +30,8 @@ protected:
 	enum IMMUNE {IMMUNE_FIRE, IMMUNE_ICE, IMMUNE_END};
 
 protected:
-	CTransform*	m_pTransform;
-	CVIBuffer*	m_pVIBuffer;
+	CTransform*	m_pTransform = nullptr;
+	CVIBuffer*	m_pVIBuffer = nullptr;
 
 protected:
 	STAT	m_tStat = {};
@@ -64,8 +64,6 @@ protected:
 	virtual void OnTakeDamage() = 0;
 	virtual void Scene_Change() = 0;
 
-protected:
-	void MoveFrame();
 
 public:
 	virtual void Free() override;

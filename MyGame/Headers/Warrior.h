@@ -5,12 +5,13 @@ BEGIN(MyGame)
 class CWarrior final : public CHero
 {
 private:
-	explicit CWarrior(PDIRECT3DDEVICE9 _pGraphic_Device) : CHero(_pGraphic_Device) {};
-	explicit CWarrior(CWarrior& _hero) : CHero(_hero) {}
+	explicit CWarrior(PDIRECT3DDEVICE9 _pGraphic_Device);
+	explicit CWarrior(CWarrior& _hero);
 	virtual ~CWarrior() = default;
 
 private:
 	CTexture*	m_pTexture[ANIM_END];
+	ANIM		m_eCurrAnim = ANIM_IDLE;
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;

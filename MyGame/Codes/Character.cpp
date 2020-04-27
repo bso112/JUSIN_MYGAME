@@ -5,9 +5,6 @@
 USING(MyGame)
 
 
-void CCharacter::Free()
-{
-}
 
 
 void CCharacter::TakeDamage(float _fDamage)
@@ -61,7 +58,7 @@ HRESULT CCharacter::MoveToDst(Vector4 _vDst, _double _timeDelta)
 }
 
 
-void CCharacter::MoveFrame()
+void CCharacter::Free()
 {
+	CGameObject::Free();
 }
-

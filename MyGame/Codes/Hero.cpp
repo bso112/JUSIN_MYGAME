@@ -11,6 +11,7 @@ CHero::CHero(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	Safe_AddRef(m_pKeyMgr);
 }
+
 HRESULT CHero::KeyCheck()
 {
 	if (m_pKeyMgr == nullptr)
@@ -26,6 +27,12 @@ HRESULT CHero::KeyCheck()
 	}
 
 	return S_OK;
+}
+
+void CHero::Free()
+{
+	Safe_Release(m_pKeyMgr);
+	CCharacter::Free();
 }
 
 

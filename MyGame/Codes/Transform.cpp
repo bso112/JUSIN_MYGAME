@@ -52,6 +52,7 @@ _int CTransform::Update()
 HRESULT CTransform::Set_Position(Vector3 _vPosition)
 {
 	m_vPosition = _vPosition;
+	m_vPosition.w = 1;
 	return S_OK;
 }
 

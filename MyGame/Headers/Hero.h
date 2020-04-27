@@ -17,6 +17,8 @@ protected:
 public:
 	virtual	HRESULT KeyCheck();
 
+public:
+	virtual void Free() override;
 
 
 };
