@@ -97,6 +97,37 @@ exception:
 	return E_FAIL;
 }
 
+HRESULT CObjMgr::Add_GO_To_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
+{
+	if (LAYER_END <= _eLayerID		||
+		SCENE_END <= _eLayerSceneID	||
+		nullptr	== _pObj)
+		return E_FAIL;
+
+	//레이어를 찾아 넣는다. 레이어가 없으면 새로 만든다.
+	CLayer* layer = Find_Layer(_eLayerID, _eLayerSceneID);
+	if (nullptr == layer)
+	{
+		layer = CLayer::Create();
+		if (nullptr == layer)
+			return E_FAIL;
+
+		if (FAILED(layer->Add_GameObject(_pObj)))
+			return E_FAIL;
+
+		m_mapLayer[_eLayerSceneID].emplace(_eLayerID, layer);
+
+	}
+	else
+	{
+		if (FAILED(layer->Add_GameObject(_pObj)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+
+}
+
 CGameObject * CObjMgr::Find_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID)
 {
 	if (SCENE_END <= _ePrototypeSceneID ||

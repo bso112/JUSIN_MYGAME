@@ -47,7 +47,7 @@ _int CMainApp::Update(_double _timeDelta)
 	m_dwTimeAcc += _timeDelta;
 #endif
 	m_pSceneMgr->Update(_timeDelta);
-
+	
 	if (nullptr == m_pSceneMgr)
 		return -1;
 
@@ -149,17 +149,17 @@ HRESULT CMainApp::Initalize_Module()
 HRESULT CMainApp::Initalize_Texture()
 {
 	
-	//이거 주석풀면 그래픽디바이스 못지움.
-	//CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
 
-	//if (nullptr == pLoader)
-	//	return E_FAIL;
+	if (nullptr == pLoader)
+		return E_FAIL;
 
-	//Safe_AddRef(pLoader);
+	Safe_AddRef(pLoader);
 
-	//pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENEID::SCENE_MENU, L"../Bin/Resources/Textures/Static/");
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENEID::SCENE_STATIC, L"../Bin/Resources/Textures/Static/");
 
-	//Safe_Release(pLoader);
+	Safe_Release(pLoader);
+
 	return S_OK;
 }
 

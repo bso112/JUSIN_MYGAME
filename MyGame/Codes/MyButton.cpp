@@ -56,6 +56,16 @@ _int CMyButton::Update(_double _timeDelta)
 	return 0;
 }
 
+_int CMyButton::LateUpate(_double _timeDelta)
+{
+	if (nullptr == m_pRenderer)
+		return -1;
+
+	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
+		return -1;
+
+}
+
 HRESULT CMyButton::Render()
 {
 	if (nullptr == m_pVIBuffer ||

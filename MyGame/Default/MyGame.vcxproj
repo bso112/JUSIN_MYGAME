@@ -197,6 +197,7 @@
     <ClInclude Include="..\Headers\SceneMgr.h" />
     <ClInclude Include="..\Headers\Scroll.h" />
     <ClInclude Include="..\Headers\Stage.h" />
+    <ClInclude Include="..\Headers\StageUIMgr.h" />
     <ClInclude Include="..\Headers\Stat.h" />
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\Terrain.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="..\Codes\SceneMgr.cpp" />
     <ClCompile Include="..\Codes\Scroll.cpp" />
     <ClCompile Include="..\Codes\Stage.cpp" />
+    <ClCompile Include="..\Codes\StageUIMgr.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\Terrain.cpp" />

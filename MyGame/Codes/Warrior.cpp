@@ -92,3 +92,8 @@ void CWarrior::OnTakeDamage()
 {
 }
 
+void CWarrior::Free()
+{
+	CGameObject::Free();
+}
+

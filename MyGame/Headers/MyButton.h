@@ -5,7 +5,7 @@ BEGIN(MyGame)
 class CVIBuffer;
 class CTransform;
 class CTexture;
-//이미지와 버튼은 프로토타입을 만들기 싫다. 딱히 재활용안하니까.
+
 class CMyButton final : public CGameObject
 {
 private:
@@ -33,6 +33,7 @@ private:
 public:
 	HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	_int	Update(_double _timeDelta)	override;
+	virtual _int	LateUpate(_double _timeDelta);
 	HRESULT	Render();
 
 public:

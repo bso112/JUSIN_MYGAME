@@ -17,30 +17,30 @@ HRESULT CEditor::Initialize()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
-	//m_pWorld->Initialize(m_pGraphic_Device, SCENE_EDITOR);
+	m_pWorld->Initialize(m_pGraphic_Device, SCENE_EDITOR);
 
 	return S_OK;	
 }
 
 _int CEditor::Update(_double _timeDelta)
 {
-	//if (nullptr == m_pPalette ||
-	//	nullptr == m_pWorld)
-	//	return E_FAIL;
+	if (nullptr == m_pPalette ||
+		nullptr == m_pWorld)
+		return E_FAIL;
 
 
-	//if (GetAsyncKeyState(VK_LBUTTON) && 0x8000)
-	//{
-	//	POINT pt;
-	//	GetCursorPos(&pt);
-	//	ScreenToClient(g_hWnd, &pt);
-	//
-	//	if(m_pCurrTerrain != nullptr)
-	//		m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
+	if (GetAsyncKeyState(VK_LBUTTON) && 0x8000)
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+	
+		if(m_pCurrTerrain != nullptr)
+			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
 
-	//	m_pCurrTerrain = (CTerrain*)m_pPalette->Pick_Tile(pt);
-	//	
-	//}
+		m_pCurrTerrain = (CTerrain*)m_pPalette->Pick_Tile(pt);
+		
+	}
 
 	
 

@@ -3,28 +3,28 @@
 
 BEGIN(MyGame)
 class CWorld;
-class CMyButton;
+class CStageUIMgr;
 class CStage final : public CScene
 {
 private:
-	explicit CStage(PDIRECT3DDEVICE9 _pGraphic_Device) : CScene(_pGraphic_Device) {};
+	explicit CStage(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual ~CStage() = default;
 
 public:
-	virtual HRESULT Initalize();
+	virtual HRESULT Initialize();
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
 
 
 private:
-	CMyButton*	m_pBtn;
-	CWorld*	m_pTileMgr;
-
+	CWorld*			m_pWorld;
+	CStageUIMgr*	m_pStageUIMgr;
 
 private:
-	HRESULT	Initalize_Tile();
+	HRESULT	Initalize_World();
 	HRESULT Initalize_Prototypes();
 	HRESULT	Initalize_Layers();
+
 
 public:
 	static CStage* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

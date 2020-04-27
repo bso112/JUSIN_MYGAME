@@ -160,6 +160,9 @@
     <Filter Include="10.Tile">
       <UniqueIdentifier>{7511e28c-92fa-4a05-8fe8-cf98283baa9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Scene\Scene\Stage\UI">
+      <UniqueIdentifier>{aeacd7ad-4d3f-4036-a519-32dd8f98ebef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -309,6 +312,9 @@
     <ClInclude Include="..\Headers\Image.h">
       <Filter>04.GameObject\GameObject\Image</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\StageUIMgr.h">
+      <Filter>03.Scene\Scene\Stage\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -433,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Image.cpp">
       <Filter>04.GameObject\GameObject\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StageUIMgr.cpp">
+      <Filter>03.Scene\Scene\Stage\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

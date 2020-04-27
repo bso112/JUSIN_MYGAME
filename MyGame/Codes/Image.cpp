@@ -48,7 +48,8 @@ _int CImage::LateUpate(_double _timeDelta)
 	if (nullptr == m_pRenderer)
 		return -1;
 
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PRIOR)))
+	//여러번 호출되지 않음
+	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
 		return -1;
 
 	return 0;

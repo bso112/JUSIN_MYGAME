@@ -10,8 +10,8 @@ class CObjMgr final : public CBase
 	DECLARE_SINGLETON(CObjMgr)
 
 public:
-	enum PrototypeID	{ PROTOTYPE_BACKGROUND, PROTOTYPE_PLAYER, PROTOTYPE_MONSTER, PROTOTYPE_TERRAIN, PROTOTYPE_END};
-	enum LayerID		{ LAYER_BACKGROUND, LAYER_PLAYER, LAYER_MONSTER, LAYER_TERRAIN, LAYER_END};
+	enum PrototypeID	{ PROTOTYPE_BACKGROUND, PROTOTYPE_PLAYER, PROTOTYPE_MONSTER, PROTOTYPE_TERRAIN, PROTOTYPE_UI, PROTOTYPE_END};
+	enum LayerID		{ LAYER_BACKGROUND, LAYER_PLAYER, LAYER_MONSTER, LAYER_TERRAIN, LAYER_UI, LAYER_END};
 private:
 	CObjMgr();
 	virtual ~CObjMgr();
@@ -34,6 +34,8 @@ public:
 	HRESULT			Add_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, CGameObject* _pGO);
 	//프로토타입을 복사해 객체를 생성한다. 생성한 객체는 레이어맵에 넣는다. 만약 해당 레이어가 없으면 새로 만든다.
 	HRESULT			Add_GO_To_Layer(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, LayerID _eLayerID, SCENEID _eLayerSceneID);
+	//오브젝트를 레이어에 등록한다.
+	HRESULT			Add_GO_To_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID, CGameObject* _pObj);
 	CGameObject*	Find_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID);
 	CLayer*			Find_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID);
 	CGameObject*	Get_Player(SCENEID _eLayerSceneID);

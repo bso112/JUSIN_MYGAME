@@ -98,7 +98,8 @@ HRESULT CRenderer::Render_UI()
 				return E_FAIL;
 		}
 
-		Safe_Release(GO);
+		if (0 == Safe_Release(GO))
+			MSG_BOX("GameObject Removed on Renderer");
 	}
 	m_listGO[RENDER_UI].clear();
 	return S_OK;

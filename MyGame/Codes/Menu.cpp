@@ -136,6 +136,7 @@ HRESULT CMenu::Initialize()
 	m_vecCharSelectBtn.push_back(pBtn);
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + 10 + 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
 	pBtn->Set_Text(L"Game Start");
+	pBtn->Add_Listener([&] {CSceneMgr::Get_Instance()->Scene_Change(SCENEID::SCENE_STAGE, m_pGraphic_Device);});
 	m_vecCharSelectBtn.push_back(pBtn);
 
 
@@ -241,7 +242,7 @@ _int CMenu::Update(_double _timeDelta)
 
 HRESULT CMenu::Render()
 {
-	CScene::Render();
+	//CScene::Render();
 
 	for (int i = 0; i < ARC2Y; ++i)
 	{

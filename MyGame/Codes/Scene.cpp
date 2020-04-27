@@ -32,7 +32,7 @@ _int CScene::Update(_double _timeDelta)
 
 HRESULT CScene::Render()
 {
-	if (nullptr == m_pObjMgr)
+	if (nullptr == m_pRenderer)
 		return -1;
 
 	m_pRenderer->Render();
