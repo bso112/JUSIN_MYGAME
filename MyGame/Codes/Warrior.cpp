@@ -77,6 +77,7 @@ _int CWarrior::Update(_double _timeDelta)
 {
 	//목적지가 있을 경우 목적지로 이동
 	MoveToDst(m_vDst, _timeDelta);
+	m_pTransform->Update();
 
 	return 0;
 }
@@ -110,6 +111,8 @@ HRESULT CWarrior::Render()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+
+	ALPHABLEND_END;
 
 	return S_OK;
 }

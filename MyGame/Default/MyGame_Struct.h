@@ -127,15 +127,12 @@ typedef struct tagVector4 : public D3DXVECTOR4
 
 
 
-typedef struct tagFrame
-{
-
-}FRAME;
 
 typedef	struct tagVertex_Texture
 {
 	D3DXVECTOR4 vPosition;
 	D3DXVECTOR2 vTexUV;
+	D3DXVECTOR4	vWinPos;
 }VTXTEX;
 
 

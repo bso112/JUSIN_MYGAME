@@ -193,7 +193,8 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 			_uint	index2 = 0;
 			while (*tmp != '\0')
 			{
-				//숫자면
+
+				// 숫자전까지 읽은다음에 %d를 붙임.
 				if (48 <= *tmp && 57 >= *tmp)
 				{
 					StringCchCat(finalDir, MAX_PATH, L"%d.png");
@@ -204,9 +205,8 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 				++index2;
 				++tmp;
 			}
-			//생성 
-			//m_szPrvDir에 %d로 바꿔야함. 숫자전까지 읽은다음에 cat하면 될듯.
-	
+
+
 			if (m_iPrvAniNum == 0)
 				m_iPrvAniNum = 1;
 
@@ -214,9 +214,9 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 				CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum));
 		}
 
-		//현재 이름을 전 이름으로		
+		//현재 이름을 전이름으로		
 		StringCchCopy(m_pPrvName, MAX_PATH, pFileName);
-		//현재 경로를 전 경로로
+		//현재 경로를 전경로로
 		StringCchCopy(m_szPrvDir, MAX_PATH, szFileDir);
 
 		//현재 애니메이션 번호를 마지막 애니메이션 번호로 
@@ -243,8 +243,6 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 		++index2;
 		++tmp;
 	}
-	//생성 
-	//m_szPrvDir에 %d로 바꿔야함. 숫자전까지 읽은다음에 cat하면 될듯.
 
 	if (m_iPrvAniNum == 0)
 		m_iPrvAniNum = 1;

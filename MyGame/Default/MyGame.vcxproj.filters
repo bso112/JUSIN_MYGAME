@@ -163,6 +163,12 @@
     <Filter Include="03.Scene\Scene\Stage\UI">
       <UniqueIdentifier>{aeacd7ad-4d3f-4036-a519-32dd8f98ebef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\02.Module\Shader">
+      <UniqueIdentifier>{8e9a1b21-0aa9-4078-8e18-024e239b8c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Shader\Files">
+      <UniqueIdentifier>{47a01f56-8ce5-48ee-86bd-55f0a8d03c8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -315,6 +321,9 @@
     <ClInclude Include="..\Headers\StageUIMgr.h">
       <Filter>03.Scene\Scene\Stage\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Shader.h">
+      <Filter>06.Utility\02.Module\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -443,6 +452,9 @@
     <ClCompile Include="..\Codes\StageUIMgr.cpp">
       <Filter>03.Scene\Scene\Stage\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\Shader.cpp">
+      <Filter>06.Utility\02.Module\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">
@@ -461,5 +473,10 @@
     <Text Include="ReadMe.txt">
       <Filter>99.Default</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Default.fx">
+      <Filter>06.Utility\02.Module\Shader\Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

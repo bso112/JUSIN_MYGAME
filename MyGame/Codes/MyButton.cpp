@@ -63,7 +63,8 @@ _int CMyButton::LateUpate(_double _timeDelta)
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
 		return -1;
-
+	
+	return 0;
 }
 
 HRESULT CMyButton::Render()
@@ -72,13 +73,14 @@ HRESULT CMyButton::Render()
 		nullptr == m_pTransform)
 		return E_FAIL;
 
+	ALPHABLEND;
+
 	if (nullptr != m_pTexture)
 	{
 		if (FAILED(m_pTexture->Set_Texture(0)))
 			return E_FAIL;
 
 	}
-
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
@@ -87,6 +89,9 @@ HRESULT CMyButton::Render()
 		return E_FAIL;
 
 	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_Rect(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	
+	ALPHABLEND_END;
+
 	return S_OK;
 }
 

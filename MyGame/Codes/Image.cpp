@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "Renderer.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -28,6 +29,8 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
 		return E_FAIL;
 
+	if (FAILED(Set_Module(L"Shader_Default", SCENE_STATIC, (CModule**)&m_pShader)))
+		return E_FAIL;
 
 	m_pTransform->Set_Position(Vector4(_vPos.x, _vPos.y, 0, 1));
 	m_pTransform->Set_Size(Vector4(_vSize.x, _vSize.y));
@@ -65,14 +68,30 @@ HRESULT CImage::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pTextrue->Set_Texture(0)))
-		return E_FAIL;
-
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 
+	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Begin()))
+		return E_FAIL;
+	if (FAILED(m_pShader->Begin_Pass(0)))
+		return E_FAIL;
+
+
+
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+
+
+	if (FAILED(m_pShader->End_Pass()))
+		return E_FAIL;
+	if (FAILED(m_pShader->End()))
+		return E_FAIL;
+
+	ALPHABLEND_END;
+
+
 
 	return S_OK;
 }
@@ -98,6 +117,7 @@ CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector
 
 void CImage::Free()
 {
+	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pTextrue);
 	Safe_Release(m_pTransform);

@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 //텍스쳐클래스는 여러개의 텍스쳐를 포함할 수 있다. 
 //애니메이션 클립처럼도 쓸 수 있다.
+class CShader;
 class CTexture final : public CModule
 {
 private:
@@ -19,6 +20,7 @@ public:
 
 public:
 	HRESULT Set_Texture(_uint _iIndex);
+	HRESULT Set_TextureOnShader(CShader* _pShader, D3DXHANDLE hParameter, _uint _iIndex);
 
 public:
 	static CTexture* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath, _uint _iCnt = 1);

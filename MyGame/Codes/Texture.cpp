@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Texture.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -45,6 +46,16 @@ HRESULT CTexture::Set_Texture(_uint _iIndex)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CTexture::Set_TextureOnShader(CShader * _pShader, D3DXHANDLE hParameter, _uint _iIndex)
+{
+	if (m_vecTexture.size() <= _iIndex	||
+		nullptr == m_pGraphic_Device	||
+		nullptr == _pShader)
+		return E_FAIL;
+
+	return _pShader->Set_Texture(hParameter, m_vecTexture[_iIndex]);
 }
 
 

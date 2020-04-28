@@ -8,6 +8,7 @@
 #include "ModuleMgr.h"
 #include "KeyMgr.h"
 #include "TextureLoader.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -140,6 +141,10 @@ HRESULT CMainApp::Initalize_Module()
 
 	if (FAILED(pModuleMgr->Add_Module(L"Transform", SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(pModuleMgr->Add_Module(L"Shader_Default", SCENE_STATIC, CShader::Create(m_pGraphic_Device, L"../Bin/ShaderFiles/Shader_Default.fx"))))
+		return E_FAIL;
+
 
 	Safe_Release(pModuleMgr);
 

@@ -6,6 +6,7 @@ BEGIN(MyGame)
 class CVIBuffer;
 class CTexture;
 class CTransform;
+class CShader;
 //이미지와 버튼은 프로토타입을 만들기 싫다. 딱히 재활용안하니까.
 class CImage final : public CGameObject
 {
@@ -18,6 +19,7 @@ private:
 	CVIBuffer*	m_pVIBuffer = nullptr;
 	CTexture*	m_pTextrue = nullptr;
 	CTransform*	m_pTransform = nullptr;
+	CShader*	m_pShader = nullptr;
 
 
 public:
