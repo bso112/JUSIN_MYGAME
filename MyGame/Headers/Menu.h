@@ -17,6 +17,7 @@ class CImage;
 class CGameObject;
 class CMenu final : public CScene
 {
+
 private:
 	explicit CMenu(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual ~CMenu() = default;
@@ -38,6 +39,7 @@ private:
 	CImage*					m_pImgCharSelectBanner = nullptr;
 	vector<CMyButton*>		m_vecCharSelectBtn;
 	
+
 public:
 	virtual HRESULT Initialize() override;
 	virtual _int Update(_double _timeDelta) override;

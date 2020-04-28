@@ -53,10 +53,14 @@ _int CMyButton::Update(_double _timeDelta)
 			{
 				listener();
 			}
+
+			return OBJ_CLICKED;
 		}
+
+		
 	}
 
-	return 0;
+	return OBJ_NOEVENT;
 }
 
 _int CMyButton::LateUpate(_double _timeDelta)
@@ -86,7 +90,7 @@ HRESULT CMyButton::Render()
 
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
-	if (FAILED(m_pShader->Begin_Pass(1)))
+	if (FAILED(m_pShader->Begin_Pass(m_eRenderState)))
 		return E_FAIL;
 	   
 
@@ -112,6 +116,16 @@ HRESULT CMyButton::Render()
 HRESULT CMyButton::Add_Listener(function<void()> _listener)
 {
 	m_vecOnListener.push_back(_listener);
+	return S_OK;
+}
+
+HRESULT CMyButton::Set_RenderState(RENDER_STATE _eRenderState)
+{
+	if (STATE_END <= _eRenderState) 
+		return E_FAIL; 
+
+	m_eRenderState = _eRenderState; 
+	
 	return S_OK;
 }
 

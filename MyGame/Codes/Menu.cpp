@@ -6,6 +6,8 @@
 #include "TextureLoader.h"
 #include "ModuleMgr.h"
 #include "SceneMgr.h"
+#include "Statics.h"
+
 
 USING(MyGame)
 
@@ -70,7 +72,7 @@ HRESULT CMenu::Initialize()
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
 	pBtn->Set_Text(L"Play");
 	m_vecMenuBtn.push_back(pBtn);
-	
+
 
 	pBtn->Set_InstanceID(1);
 
@@ -79,9 +81,9 @@ HRESULT CMenu::Initialize()
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 350.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
 	pBtn->Set_Text(L"Ranking");
 	m_vecMenuBtn.push_back(pBtn);
-	
+
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), L"Badges", SCENE_MENU));
-	
+
 	m_vecMenuBtn[4]->Add_Listener(
 		[=]
 	{
@@ -103,7 +105,7 @@ HRESULT CMenu::Initialize()
 #pragma region 렌더그룹2 준비
 
 	//로고생성
-	m_pImgCharSelectBanner = CImage::Create(m_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), 80.f, 0.f, 1.f), Vector2(450.f, 80.f), L"select_yout_hero", SCENE_MENU);
+	m_pImgCharSelectBanner = CImage::Create(m_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), 80.f, 0.f, 1.f), Vector2(450.f, 80.f), L"select_your_hero", SCENE_MENU);
 
 	//버튼생성
 	//중앙으로 x좌표가 떨어진 정도
@@ -113,32 +115,31 @@ HRESULT CMenu::Initialize()
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 250.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_warrior", SCENE_MENU));
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 250.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f), L"empty", SCENE_MENU);
 	pBtn->Set_Text(L"WARRIOR");
-	m_vecCharSelectBtn.push_back(pBtn);
-	
+	m_vecCanvas[1].push_back(pBtn);
+
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 250.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_mage", SCENE_MENU));
-	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 250.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f),  L"empty", SCENE_MENU);
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 250.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f), L"empty", SCENE_MENU);
 	pBtn->Set_Text(L"MAGE");
-	m_vecCharSelectBtn.push_back(pBtn);
-	
+	m_vecCanvas[1].push_back(pBtn);
+
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 480.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_huntress", SCENE_MENU));
-	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 480.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f),  L"empty", SCENE_MENU);
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding2, 480.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f), L"empty", SCENE_MENU);
 	pBtn->Set_Text(L"HUNTRESS");
-	m_vecCharSelectBtn.push_back(pBtn);
-	
+	m_vecCanvas[1].push_back(pBtn);
+
 	m_vecCharSelectBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 480.f, 0.f, 1.f), Vector2(120.f, 180.f), L"avatars_rogue", SCENE_MENU));
-	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 480.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f),  L"empty", SCENE_MENU);
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding2, 480.f + text_pitch, 0.f, 1.f), Vector2(120.f, 180.f), L"empty", SCENE_MENU);
 	pBtn->Set_Text(L"ROUGUE");
-	m_vecCharSelectBtn.push_back(pBtn);
+	m_vecCanvas[1].push_back(pBtn);
 
 
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - 10 - 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
 	pBtn->Set_Text(L"Game Load");
-	m_vecCharSelectBtn.push_back(pBtn);
+	m_vecCanvas[1].push_back(pBtn);
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + 10 + 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
 	pBtn->Set_Text(L"Game Start");
 	pBtn->Add_Listener([&] {CSceneMgr::Get_Instance()->Scene_Change(SCENEID::SCENE_STAGE, m_pGraphic_Device);});
-	m_vecCharSelectBtn.push_back(pBtn);
-
+	m_vecCanvas[1].push_back(pBtn);
 
 #pragma endregion
 
@@ -149,8 +150,8 @@ HRESULT CMenu::Initialize()
 
 	m_vecCanvas[1].push_back(m_pImgCharSelectBanner);
 
-	for (auto& btn : m_vecCharSelectBtn)
-		m_vecCanvas[1].push_back(btn);
+	//for (auto& btn : m_vecCharSelectBtn)
+	//	m_vecCanvas[1].push_back(btn);
 
 
 
@@ -178,10 +179,10 @@ _int CMenu::Update(_double _timeDelta)
 			{
 				CTransform* pLastArcTransform = nullptr;
 
-				if(i == 0)
-					pLastArcTransform = (CTransform*)(m_pImgArc2[ARC2Y-1][j]->Get_Module(L"Transform"));
+				if (i == 0)
+					pLastArcTransform = (CTransform*)(m_pImgArc2[ARC2Y - 1][j]->Get_Module(L"Transform"));
 				else
-					pLastArcTransform = (CTransform*)(m_pImgArc2[i-1][j]->Get_Module(L"Transform"));
+					pLastArcTransform = (CTransform*)(m_pImgArc2[i - 1][j]->Get_Module(L"Transform"));
 
 				if (pLastArcTransform == nullptr)
 					return -1;
@@ -215,7 +216,7 @@ _int CMenu::Update(_double _timeDelta)
 				CTransform* pLastArcTransform = nullptr;
 
 				if (i == 0)
-					pLastArcTransform = (CTransform*)(m_pImgArc1[ARC1Y-1][j]->Get_Module(L"Transform"));
+					pLastArcTransform = (CTransform*)(m_pImgArc1[ARC1Y - 1][j]->Get_Module(L"Transform"));
 				else
 					pLastArcTransform = (CTransform*)(m_pImgArc1[i - 1][j]->Get_Module(L"Transform"));
 
@@ -236,13 +237,37 @@ _int CMenu::Update(_double _timeDelta)
 		obj->Update(_timeDelta);
 	}
 
+	if (m_iCurrCanvas == 1)
+	{
+		static CMyButton* pPrvBtn = nullptr;
+
+
+		for (size_t i = 0; i < m_vecCharSelectBtn.size(); ++i)
+		{
+			//만약 선택된 버튼이 아니면 비활성화
+			if (pPrvBtn != m_vecCharSelectBtn[i])
+				m_vecCharSelectBtn[i]->Set_RenderState(CMyButton::STATE_DISABLE);
+
+			//선택됬으면
+			if (OBJ_CLICKED == m_vecCharSelectBtn[i]->Update(_timeDelta))
+			{
+				//활성화
+				m_vecCharSelectBtn[i]->Set_RenderState(CMyButton::STATE_ENABLE);
+				pPrvBtn = m_vecCharSelectBtn[i];
+				//선택된 캐릭터 저장
+				CStatics::m_eSelectedHero = (CStatics::SELECTED_HERO)i;
+			}
+		}
+
+	}
+
 	CScene::Update(_timeDelta);
 	return 0;
 }
 
 HRESULT CMenu::Render()
 {
-	//CScene::Render();
+	CScene::Render();
 
 	for (int i = 0; i < ARC2Y; ++i)
 	{
@@ -265,6 +290,13 @@ HRESULT CMenu::Render()
 		obj->Render();
 	}
 
+	if (m_iCurrCanvas == 1)
+	{
+		for (auto& btn : m_vecCharSelectBtn)
+		{
+			btn->Render();
+		}
+	}
 
 
 
@@ -308,6 +340,14 @@ void CMenu::Free()
 				MSG_BOX("Fail to Release Arc2");
 		}
 	}
+
+	for (auto& btn : m_vecCharSelectBtn)
+	{
+		if (0 != Safe_Release(btn))
+			MSG_BOX("Fail to release Btn");
+
+	}
+	m_vecCharSelectBtn.clear();
 
 	for (auto& canvas : m_vecCanvas)
 	{

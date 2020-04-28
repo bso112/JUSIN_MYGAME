@@ -24,8 +24,8 @@ vector PS_Transparent(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, 
 
 	vColor = tex2D(BaseSampler, _vTexUV);
 
-	//반투명화
-	vColor.a = 0.5f;
+	//투명하지 않은 부분만 반투명화
+	vColor.a *= 0.5f;
 
 	return vColor;
 

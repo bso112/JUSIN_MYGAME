@@ -169,6 +169,9 @@
     <Filter Include="06.Utility\02.Module\Shader\Files">
       <UniqueIdentifier>{47a01f56-8ce5-48ee-86bd-55f0a8d03c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\04.Statics">
+      <UniqueIdentifier>{368436af-b95b-4c11-aad2-ff4d3a099850}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -324,6 +327,9 @@
     <ClInclude Include="..\Headers\Shader.h">
       <Filter>06.Utility\02.Module\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Statics.h">
+      <Filter>06.Utility\04.Statics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Shader.cpp">
       <Filter>06.Utility\02.Module\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Statics.cpp">
+      <Filter>06.Utility\04.Statics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

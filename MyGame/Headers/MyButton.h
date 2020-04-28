@@ -2,12 +2,17 @@
 #include "GameObject.h"
 
 BEGIN(MyGame)
+
+
 class CVIBuffer;
 class CTransform;
 class CTexture;
 class CShader;
 class CMyButton final : public CGameObject
 {
+
+public:
+	enum RENDER_STATE { STATE_ENABLE = 0, STATE_DISABLE = 1, STATE_END};
 private:
 	explicit CMyButton(PDIRECT3DDEVICE9 _pGraphic_Device) :CGameObject(_pGraphic_Device) {};
 	explicit CMyButton(CMyButton& _rhs);
@@ -21,6 +26,7 @@ private:
 	CShader*		m_pShader = nullptr;
 	RECT			m_tRect = {};
 	const _tchar*	m_pText = L"";
+	RENDER_STATE	m_eRenderState = STATE_ENABLE;
 
 	int			m_iInstanceID = 0;
 
@@ -39,6 +45,7 @@ public:
 public:
 	HRESULT	Add_Listener (function<void()> _listener);
 	void	Set_Text(const _tchar* pText) { m_pText = pText; }
+	HRESULT	Set_RenderState(RENDER_STATE _eRenderState);
 	
 
 	void	Set_InstanceID(int _iID) { m_iInstanceID = _iID; }
