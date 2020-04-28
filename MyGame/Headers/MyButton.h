@@ -5,7 +5,7 @@ BEGIN(MyGame)
 class CVIBuffer;
 class CTransform;
 class CTexture;
-
+class CShader;
 class CMyButton final : public CGameObject
 {
 private:
@@ -18,9 +18,9 @@ private:
 	CVIBuffer*		m_pVIBuffer = nullptr;
 	CTransform*		m_pTransform = nullptr;
 	CTexture*		m_pTexture = nullptr;
+	CShader*		m_pShader = nullptr;
 	RECT			m_tRect = {};
 	const _tchar*	m_pText = L"";
-
 
 	int			m_iInstanceID = 0;
 

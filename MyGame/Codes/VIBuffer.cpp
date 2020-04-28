@@ -24,7 +24,7 @@ HRESULT CVIBuffer::Render()
 		return E_FAIL;
 
 	m_pGraphic_Device->SetStreamSource(0, m_pVBuffer, 0, sizeof(VTXTEX));
-	m_pGraphic_Device->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+	m_pGraphic_Device->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE4(1));
 	m_pGraphic_Device->SetIndices(m_pIBuffer);
 	m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
 
@@ -70,7 +70,7 @@ HRESULT CVIBuffer::Initialize_Prototype()
 		return E_FAIL;
 
 	//버텍스 버퍼를 생성
-	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(sizeof(VTXTEX) * 4, 0, D3DFVF_XYZRHW | D3DFVF_TEX1, D3DPOOL_MANAGED, &m_pVBuffer, nullptr)))
+	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(sizeof(VTXTEX) * 4, 0, D3DFVF_XYZRHW | D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE4(1), D3DPOOL_MANAGED, &m_pVBuffer, nullptr)))
 		return E_FAIL;
 
 

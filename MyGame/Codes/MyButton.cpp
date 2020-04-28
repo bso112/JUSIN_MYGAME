@@ -5,6 +5,8 @@
 #include "VIBuffer.h"
 #include "KeyMgr.h"
 #include "Texture.h"
+#include "Shader.h"
+
 USING(MyGame)
 
 CMyButton::CMyButton(CMyButton & _rhs)
@@ -18,6 +20,7 @@ HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTa
 {
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(L"Shader_Default", SCENE_STATIC, (CModule**)&m_pShader);
 
 	if (nullptr != _pTextureTag)
 		Set_Module(_pTextureTag, _eTextureSceneID, (CModule**)&m_pTexture);
@@ -63,7 +66,7 @@ _int CMyButton::LateUpate(_double _timeDelta)
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
 		return -1;
-	
+
 	return 0;
 }
 
@@ -75,21 +78,32 @@ HRESULT CMyButton::Render()
 
 	ALPHABLEND;
 
-	if (nullptr != m_pTexture)
-	{
-		if (FAILED(m_pTexture->Set_Texture(0)))
-			return E_FAIL;
-
-	}
-
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
+
+	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Begin()))
+		return E_FAIL;
+	if (FAILED(m_pShader->Begin_Pass(1)))
+		return E_FAIL;
+	   
+
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+
 	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_Rect(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	
+
+	if (FAILED(m_pShader->End_Pass()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->End()))
+		return E_FAIL;
+
+
 	ALPHABLEND_END;
 
 	return S_OK;
@@ -121,6 +135,7 @@ CGameObject * CMyButton::Clone(void * _arg)
 
 void CMyButton::Free()
 {
+	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pTexture);
