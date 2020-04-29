@@ -48,6 +48,7 @@ _int CEditor::Update(_double _timeDelta)
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
+		//ÁöÇüÀ» Âï´Â´Ù.
 		if (nullptr != m_pCurrTerrain)
 			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
 	}

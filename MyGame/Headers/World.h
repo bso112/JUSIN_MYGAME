@@ -12,12 +12,12 @@ class CWorld final : public CBase
 {
 	DECLARE_SINGLETON(CWorld)
 private:
-	explicit CWorld() {};
+	explicit CWorld();
 	virtual ~CWorld() = default;
 
 private:
-	//객체가 아닌 포인터로 지형을 구성한다.
-	vector<CTerrain*> m_vecTerrain;
+	//객체가 아닌 포인터로 지형을 구성한다. (지형이 있는 인덱스만 채워진다. 나머지는 nullptr)
+	CTerrain* m_pTerrains[WORLDY][WORLDX];
 
 private:
 	//프로로타입들
