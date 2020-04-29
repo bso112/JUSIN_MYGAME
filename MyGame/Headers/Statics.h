@@ -17,6 +17,15 @@ public:
 public:
 	static SELECTED_HERO m_eSelectedHero;
 
+public:
+	static HRESULT Set_SelectedHero(SELECTED_HERO _eSelectedHero) 
+	{
+		if (HERO_END <= _eSelectedHero)
+			return E_FAIL;
+		m_eSelectedHero = _eSelectedHero;
+		return S_OK;
+	}
+	static SELECTED_HERO Get_SelectedHero() { return m_eSelectedHero; }
 	
 public:
 	virtual void Free() override;

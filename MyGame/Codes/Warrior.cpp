@@ -10,7 +10,9 @@ USING(MyGame)
 CWarrior::CWarrior(PDIRECT3DDEVICE9 _pGraphic_Device)
 	: CHero(_pGraphic_Device) 
 {
-	ZeroMemory(m_pTexture, sizeof(m_pTexture));
+	
+	//ZeroMemory(m_pTexture, sizeof(m_pTexture));
+
 };
 
 CWarrior::CWarrior(CWarrior & _hero)
@@ -45,23 +47,39 @@ CGameObject * CWarrior::Clone(void * _param)
 
 HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 {	
-	
+	for (int i = 0; i < CLOTH_END; ++i)
+	{
+		for (int j = 0; j < ANIM_END; ++j)
+		{
+			m_pTexture[i][j] = nullptr;
+		}
+	}
 	return S_OK;
 }
 
 HRESULT CWarrior::Initialize(void * _param)
 {
+	for (int i = 0; i < CLOTH_END; ++i)
+	{
+		for (int j = 0; j < ANIM_END; ++j)
+		{
+			m_pTexture[i][j] = nullptr;
+		}
+	}
+
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
-	Set_Module(L"warrior_naked_attack", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_ATTACK]);
-	Set_Module(L"warrior_naked_eat", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_EAT]);
-	Set_Module(L"warrior_naked_floating", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_FLOATING]);
-	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_IDLE]);
-	Set_Module(L"warrior_naked_use", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_USE]);
-	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&m_pTexture[ANIM_WALK]);
+
+
+	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_IDLE]);
+	Set_Module(L"warrior_naked_attack", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_ATTACK]);
+	Set_Module(L"warrior_naked_eat", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_EAT]);
+	Set_Module(L"warrior_naked_floating", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_FLOATING]);
+	Set_Module(L"warrior_naked_use", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_USE]);
+	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_WALK]);
 
 	m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
-	m_pTransform->Set_Size(Vector3(100.f, 100.f));
+	m_pTransform->Set_Size(Vector3(20.f, 25.f));
 
 	return S_OK;
 }
@@ -96,14 +114,14 @@ _int CWarrior::LateUpate(_double _timeDelta)
 HRESULT CWarrior::Render()
 {
 	if (nullptr == m_pVIBuffer ||
-		nullptr == m_pTexture[m_eCurrAnim] ||
+		nullptr == m_pTexture[m_eCurrCloth][m_eCurrAnim] ||
 		nullptr == m_pTransform)
 		return E_FAIL;
 
 
 	ALPHABLEND;
 
-	if (FAILED(m_pTexture[m_eCurrAnim]->Set_Texture(0)))
+	if (FAILED(m_pTexture[m_eCurrCloth][m_eCurrAnim]->Set_Texture(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
@@ -140,10 +158,23 @@ void CWarrior::OnTakeDamage()
 
 void CWarrior::Free()
 {
-	for (auto& texture : m_pTexture)
+
+	for (int i = 0; i < CLOTH_END; ++i)
 	{
-		Safe_Release(texture);
+		for (int j = 0; j < ANIM_END; ++j)
+		{
+			Safe_Release(m_pTexture[i][j]);
+		}
 	}
+
+
+	//for (auto& textureArr : m_pTexture)
+	//{
+	//	for(auto& texture : textureArr)
+	//		Safe_Release(texture);
+	//
+	//}
+
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);
 

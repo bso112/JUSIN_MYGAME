@@ -1,4 +1,4 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  Statics.cpp
-Menu.obj : error LNK2001: "public: static enum MyGame::CStatics::SELECTED_HERO MyGame::CStatics::m_eSelectedHero" (?m_eSelectedHero@CStatics@MyGame@@2W4SELECTED_HERO@12@A) 외부 기호를 확인할 수 없습니다.
-..\Bin\MyGame.exe : fatal error LNK1120: 1개의 확인할 수 없는 외부 참조입니다.
+  Warrior.cpp
+  MyGame.vcxproj -> C:\Users\bso11\Desktop\myClient\MyGame\Default\..\Bin\MyGame.exe
+  MyGame.vcxproj -> ..\Bin\MyGame.pdb (Full PDB)

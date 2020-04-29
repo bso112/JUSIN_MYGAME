@@ -10,7 +10,8 @@ private:
 	virtual ~CWarrior() = default;
 
 private:
-	CTexture*	m_pTexture[ANIM_END];
+	CTexture*	m_pTexture[CLOTH_END][ANIM_END];
+	CLOTH		m_eCurrCloth = CLOTH_NAKED;
 	ANIM		m_eCurrAnim = ANIM_IDLE;
 
 public:

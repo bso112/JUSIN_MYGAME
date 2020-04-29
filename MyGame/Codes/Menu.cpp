@@ -255,7 +255,8 @@ _int CMenu::Update(_double _timeDelta)
 				m_vecCharSelectBtn[i]->Set_RenderState(CMyButton::STATE_ENABLE);
 				pPrvBtn = m_vecCharSelectBtn[i];
 				//선택된 캐릭터 저장
-				CStatics::m_eSelectedHero = (CStatics::SELECTED_HERO)i;
+				if (FAILED(CStatics::Set_SelectedHero((CStatics::SELECTED_HERO)i)))
+					MSG_BOX("Fail to select hero");
 			}
 		}
 

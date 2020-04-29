@@ -6,7 +6,8 @@ class CKeyMgr;
 class CHero abstract : public CCharacter
 {
 protected:
-	enum ANIM { ANIM_IDLE, ANIM_WALK, ANIM_ATTACK, ANIM_EAT,ANIM_USE, ANIM_FLOATING, ANIM_END };
+	enum CLOTH	{ CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END};
+	enum ANIM	{ ANIM_IDLE, ANIM_WALK, ANIM_ATTACK, ANIM_EAT,ANIM_USE, ANIM_FLOATING, ANIM_END };
 protected:
 	explicit CHero(PDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CHero(CHero& _hero) : CCharacter(_hero) {}
