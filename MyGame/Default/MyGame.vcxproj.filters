@@ -285,9 +285,6 @@
     <ClInclude Include="..\Headers\Stage.h">
       <Filter>03.Scene\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\KeyMgr.h">
-      <Filter>06.Utility\03.KeyManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\ModuleMgr.h">
       <Filter>06.Utility\02.Module\Manager</Filter>
     </ClInclude>
@@ -329,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Statics.h">
       <Filter>06.Utility\04.Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\KeyMgr.h">
+      <Filter>06.Utility\03.KeyManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,9 +419,6 @@
     <ClCompile Include="..\Codes\Stage.cpp">
       <Filter>03.Scene\Scene\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\KeyMgr.cpp">
-      <Filter>06.Utility\03.KeyManager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\ModuleMgr.cpp">
       <Filter>06.Utility\02.Module\Manager</Filter>
     </ClCompile>
@@ -463,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Statics.cpp">
       <Filter>06.Utility\04.Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\KeyMgr.cpp">
+      <Filter>06.Utility\03.KeyManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

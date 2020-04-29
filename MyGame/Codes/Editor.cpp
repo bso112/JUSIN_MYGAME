@@ -3,6 +3,7 @@
 #include "TilePalette.h"
 #include "World.h"
 #include "Terrain.h"
+#include "KeyMgr.h"
 USING(MyGame)
 
 CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -19,7 +20,7 @@ HRESULT CEditor::Initialize()
 
 	m_pWorld->Initialize(m_pGraphic_Device, SCENE_EDITOR);
 
-	return S_OK;	
+	return S_OK;
 }
 
 _int CEditor::Update(_double _timeDelta)
@@ -29,20 +30,27 @@ _int CEditor::Update(_double _timeDelta)
 		return E_FAIL;
 
 
-	if (GetAsyncKeyState(VK_LBUTTON) && 0x8000)
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
 	{
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
-	
-		if(m_pCurrTerrain != nullptr)
-			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
 
+		//현재꺼를 지우고
+		Safe_Release(m_pCurrTerrain);
+		//팔레트에서 타일을 다시 선택한다.
 		m_pCurrTerrain = (CTerrain*)m_pPalette->Pick_Tile(pt);
-		
 	}
 
-	
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		if (nullptr != m_pCurrTerrain)
+			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
+	}
 
 	return 0;
 }
@@ -68,16 +76,18 @@ CEditor * CEditor::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 void CEditor::Free()
 {
-	Safe_Release(m_pCurrTerrain);
+
+	if (0 != Safe_Release(m_pCurrTerrain))
+		MSG_BOX("Fail to release m_pCurrTerrain");
 
 	if (0 != Safe_Release(m_pPalette))
 		MSG_BOX("Fail to release Palette");
 
 	Safe_Release(m_pWorld);
 
-	if(0 != m_pWorld->Destroy_Instance())
+	if (0 != m_pWorld->Destroy_Instance())
 		MSG_BOX("Fail to release m_pWorld");
-	
+
 	CScene::Free();
 
 }

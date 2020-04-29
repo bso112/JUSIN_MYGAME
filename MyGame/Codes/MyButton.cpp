@@ -41,7 +41,9 @@ _int CMyButton::Update(_double _timeDelta)
 	m_pTransform->Update();
 
 	m_tRect = m_pTransform->Get_Rect();
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON))
 	{
 		POINT cursorPos;
 		GetCursorPos(&cursorPos);

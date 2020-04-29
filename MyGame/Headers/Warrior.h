@@ -11,7 +11,7 @@ private:
 
 private:
 	CTexture*	m_pTexture[CLOTH_END][ANIM_END];
-	CLOTH		m_eCurrCloth = CLOTH_NAKED;
+	CLOTH		m_eCurrCloth = CLOTH_BASIC;
 	ANIM		m_eCurrAnim = ANIM_IDLE;
 
 public:

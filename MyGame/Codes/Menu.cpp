@@ -263,6 +263,7 @@ _int CMenu::Update(_double _timeDelta)
 	}
 
 	CScene::Update(_timeDelta);
+
 	return 0;
 }
 

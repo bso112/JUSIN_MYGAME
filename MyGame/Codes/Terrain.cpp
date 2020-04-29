@@ -26,8 +26,8 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 	Set_Module(_pTextureTag, _eTextureScene, (CModule**)&m_pTexture);
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
 	m_tData = _tData;
+	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
 	return S_OK;
 }
 

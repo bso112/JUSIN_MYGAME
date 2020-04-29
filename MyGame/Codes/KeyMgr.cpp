@@ -1,9 +1,15 @@
 #include "stdafx.h"
-#include "KeyMgr.h"
+#include "..\Headers\KeyMgr.h"
 
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CKeyMgr)
+
+CKeyMgr::CKeyMgr()
+{
+	ZeroMemory(m_bKeyState, sizeof(m_bKeyState));
+}
+
 
 bool CKeyMgr::Key_Pressing(int _Key)
 {
@@ -48,4 +54,3 @@ void CKeyMgr::Key_Update()
 void CKeyMgr::Free()
 {
 }
-

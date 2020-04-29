@@ -10,14 +10,13 @@ USING(MyGame)
 CWarrior::CWarrior(PDIRECT3DDEVICE9 _pGraphic_Device)
 	: CHero(_pGraphic_Device) 
 {
-	
-	//ZeroMemory(m_pTexture, sizeof(m_pTexture));
-
+	ZeroMemory(m_pTexture, sizeof(m_pTexture));
 };
 
 CWarrior::CWarrior(CWarrior & _hero)
-	: CHero(_hero) 
+	: CHero(_hero)
 {
+	memcpy(m_pTexture, _hero.m_pTexture, sizeof(m_pTexture));
 }
 
 CWarrior * CWarrior::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar * _pFilePath)
@@ -47,25 +46,13 @@ CGameObject * CWarrior::Clone(void * _param)
 
 HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 {	
-	for (int i = 0; i < CLOTH_END; ++i)
-	{
-		for (int j = 0; j < ANIM_END; ++j)
-		{
-			m_pTexture[i][j] = nullptr;
-		}
-	}
+
 	return S_OK;
 }
 
 HRESULT CWarrior::Initialize(void * _param)
 {
-	for (int i = 0; i < CLOTH_END; ++i)
-	{
-		for (int j = 0; j < ANIM_END; ++j)
-		{
-			m_pTexture[i][j] = nullptr;
-		}
-	}
+
 
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
@@ -77,6 +64,20 @@ HRESULT CWarrior::Initialize(void * _param)
 	Set_Module(L"warrior_naked_floating", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_FLOATING]);
 	Set_Module(L"warrior_naked_use", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_USE]);
 	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_WALK]);
+
+	Set_Module(L"warrior_cloth_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_IDLE]);
+	Set_Module(L"warrior_cloth_attack", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_ATTACK]);
+	Set_Module(L"warrior_cloth_eat", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_EAT]);
+	Set_Module(L"warrior_cloth_floating", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_FLOATING]);
+	Set_Module(L"warrior_cloth_use", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_USE]);
+	Set_Module(L"warrior_cloth_walk", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_WALK]);
+
+	Set_Module(L"warrior_leather_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_IDLE]);
+	Set_Module(L"warrior_leather_attack", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_ATTACK]);
+	Set_Module(L"warrior_leather_eat", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_EAT]);
+	Set_Module(L"warrior_leather_floating", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_FLOATING]);
+	Set_Module(L"warrior_leather_use", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_USE]);
+	Set_Module(L"warrior_leather_walk", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_WALK]);
 
 	m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
 	m_pTransform->Set_Size(Vector3(20.f, 25.f));
@@ -166,14 +167,6 @@ void CWarrior::Free()
 			Safe_Release(m_pTexture[i][j]);
 		}
 	}
-
-
-	//for (auto& textureArr : m_pTexture)
-	//{
-	//	for(auto& texture : textureArr)
-	//		Safe_Release(texture);
-	//
-	//}
 
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);
