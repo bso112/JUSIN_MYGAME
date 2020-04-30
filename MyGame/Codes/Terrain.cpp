@@ -15,7 +15,8 @@ CTerrain::CTerrain(CTerrain & _rhs)
 	: CGameObject(_rhs),
 	m_pTexture(_rhs.m_pTexture),
 	m_pVIBuffer(_rhs.m_pVIBuffer),
-	m_pPrototypeTag(_rhs.m_pPrototypeTag)
+	m_pPrototypeTag(_rhs.m_pPrototypeTag),
+	m_iCurFrame(_rhs.m_iCurFrame)
 {
 	m_tInfo = _rhs.m_tInfo;
 	Safe_AddRef(m_pTexture);
@@ -44,7 +45,7 @@ HRESULT CTerrain::Initialize()
 HRESULT CTerrain::Render()
 {
 	m_pTransform->Update();
-	m_pTexture->Set_Texture(0);
+	m_pTexture->Set_Texture(m_iCurFrame);
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
 	return S_OK;
@@ -74,6 +75,34 @@ HRESULT CTerrain::Load_Data(SAVE_DATA _eSaveData)
 
 	return S_OK;
 }
+
+HRESULT CTerrain::Forward_Frame()
+{
+
+	++m_iCurFrame;
+
+	if (m_iCurFrame < 0)
+		m_iCurFrame = 0;
+
+	if (m_iCurFrame >= (_uint)m_pTexture->Get_TextureSize())
+		m_iCurFrame = (_uint)m_pTexture->Get_TextureSize() - 1;
+
+	return S_OK;
+}
+
+HRESULT CTerrain::Backward_Frame()
+{
+	--m_iCurFrame;
+
+	if (m_iCurFrame < 0)
+		m_iCurFrame = 0;
+
+	if (m_iCurFrame >= (_uint)m_pTexture->Get_TextureSize())
+		m_iCurFrame = (_uint)m_pTexture->Get_TextureSize() - 1;
+
+	return S_OK;
+}
+
 
 
 

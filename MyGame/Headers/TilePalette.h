@@ -12,6 +12,7 @@ BEGIN(MyGame)
 
 class CTerrain;
 class CGameObject;
+// 타일들에 대한 원본을 가지고 있다. 오브젝트 매니저에 그 원본들을 등록하기도 함.
 class CTilePalette final : public CBase
 {
 private:
@@ -34,6 +35,7 @@ public:
 	HRESULT	Render();
 
 public:
+	//해당 위치에 있는 원본타일을 clone해서 넘겨준다.
 	CGameObject* Pick_Tile(POINT _pt);
 
 

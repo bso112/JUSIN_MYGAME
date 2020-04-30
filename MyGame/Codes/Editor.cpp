@@ -4,6 +4,7 @@
 #include "World.h"
 #include "Terrain.h"
 #include "KeyMgr.h"
+#include "Transform.h"
 USING(MyGame)
 
 CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -29,13 +30,20 @@ _int CEditor::Update(_double _timeDelta)
 		nullptr == m_pWorld)
 		return E_FAIL;
 
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	//현재 선택된 타일이 마우스를 따라가게 한다.
+	if (nullptr != m_pCurrTerrain)
+	{
+		CTransform* pTransform = (CTransform*)m_pCurrTerrain->Get_Module(L"Transform");
+		pTransform->Set_Position(Vector3((float)pt.x, (float)pt.y, 0.f, 1.f));
+		pTransform->Update();
+	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
 	{
-		POINT pt;
-		GetCursorPos(&pt);
-		ScreenToClient(g_hWnd, &pt);
-
 		//현재꺼를 지우고
 		Safe_Release(m_pCurrTerrain);
 		//팔레트에서 타일을 다시 선택한다.
@@ -44,19 +52,33 @@ _int CEditor::Update(_double _timeDelta)
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
-		POINT pt;
-		GetCursorPos(&pt);
-		ScreenToClient(g_hWnd, &pt);
-
 		//지형을 찍는다.
 		if (nullptr != m_pCurrTerrain)
 			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
 	}
 
+	//현재 선택된 타일의 프레임을 뒤로
+	if (CKeyMgr::Get_Instance()->Key_Down('A'))
+	{
+		if (nullptr != m_pCurrTerrain)
+		{
+			m_pCurrTerrain->Backward_Frame();
+		}
+	}
+	//현재 선택된 타일의 프레임을 앞으로
+	else if (CKeyMgr::Get_Instance()->Key_Down('D'))
+	{
+		if (nullptr != m_pCurrTerrain)
+		{
+			m_pCurrTerrain->Forward_Frame();
+		}
+	}
+	//세이브
 	if (CKeyMgr::Get_Instance()->Key_Down('S'))
 	{
 		m_pWorld->Save_World(L"../Bin/Data/level1.dat");
 	}
+	//로드
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
 	{
 		m_pWorld->Load_World(L"../Bin/Data/level1.dat");
@@ -67,8 +89,17 @@ _int CEditor::Update(_double _timeDelta)
 
 HRESULT CEditor::Render()
 {
+
+	if (nullptr == m_pWorld ||
+		nullptr == m_pPalette)
+		return E_FAIL;
+
 	m_pWorld->Render();
 	m_pPalette->Render();
+
+	if(nullptr != m_pCurrTerrain)
+		m_pCurrTerrain->Render();
+	
 	return S_OK;
 }
 

@@ -25,10 +25,12 @@ private:
 	CTransform*		m_pTransform = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CVIBuffer*		m_pVIBuffer = nullptr;
+
+private:
 	TERRAIN			m_tInfo = {};
-
 	const _tchar*	m_pPrototypeTag;
-
+	// _uint로 하면 음수가 되는순간 4500어쩌구 하는 큰값이 들어가서 최대 텍스쳐 사이즈 -1 이됨.
+	_int			m_iCurFrame = 0;
 
 
 public:
@@ -39,6 +41,11 @@ public:
 public:
 	SAVE_DATA	Get_SaveData();
 	HRESULT		Load_Data(SAVE_DATA _eSaveData);
+
+public:
+	HRESULT		Forward_Frame();
+	HRESULT		Backward_Frame();
+
 
 	
 public:
