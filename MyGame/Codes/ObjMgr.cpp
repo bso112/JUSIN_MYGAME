@@ -45,7 +45,7 @@ _int CObjMgr::Update(_double _timeDelta)
 	return _int();
 }
 
-HRESULT CObjMgr::Add_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, CGameObject* _pGO)
+HRESULT CObjMgr::Add_Prototype(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID, CGameObject* _pGO)
 {
 	if (SCENE_END <= _ePrototypeSceneID ||
 		nullptr == _pGO ||
@@ -57,7 +57,7 @@ HRESULT CObjMgr::Add_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSce
 	return S_OK;
 }
 
-CGameObject* CObjMgr::Add_GO_To_Layer(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID, LayerID _eLayerID, SCENEID _eLayerSceneID, void* _pArg)
+CGameObject* CObjMgr::Add_GO_To_Layer(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID, const _tchar* _eLayerID, SCENEID _eLayerSceneID, void* _pArg)
 {
 	if (SCENE_END <= _ePrototypeSceneID ||
 		SCENE_END <= _eLayerSceneID)
@@ -97,10 +97,9 @@ exception:
 	return nullptr;
 }
 
-HRESULT CObjMgr::Add_GO_To_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
+HRESULT CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
 {
-	if (LAYER_END <= _eLayerID		||
-		SCENE_END <= _eLayerSceneID	||
+	if (SCENE_END <= _eLayerSceneID	||
 		nullptr	== _pObj)
 		return E_FAIL;
 
@@ -128,27 +127,25 @@ HRESULT CObjMgr::Add_GO_To_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID, CGam
 
 }
 
-CGameObject * CObjMgr::Find_Prototype(PrototypeID _ePrototypeID, SCENEID _ePrototypeSceneID)
+CGameObject * CObjMgr::Find_Prototype(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID)
 {
-	if (SCENE_END <= _ePrototypeSceneID ||
-		PROTOTYPE_END <= _ePrototypeID)
+	if (SCENE_END <= _ePrototypeSceneID)
 		return nullptr;
 
-	auto& iter = m_mapPrototype[_ePrototypeSceneID].find(_ePrototypeID);
-
+	auto& iter = find_if(m_mapPrototype[_ePrototypeSceneID].begin(), m_mapPrototype[_ePrototypeSceneID].end(), CFinder_Tag(_ePrototypeID));
+	
 	if (iter == m_mapPrototype[_ePrototypeSceneID].end())
 		return nullptr;
 
 	return iter->second;
 }
 
-CLayer * CObjMgr::Find_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID)
+CLayer * CObjMgr::Find_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID)
 {
-	if (SCENE_END <= _eLayerSceneID ||
-		LAYER_END <= _eLayerID)
+	if (SCENE_END <= _eLayerSceneID)
 		return nullptr;
 
-	auto& iter = m_mapLayer[_eLayerSceneID].find(_eLayerID);
+	auto& iter = find_if(m_mapLayer[_eLayerSceneID].begin(), m_mapLayer[_eLayerSceneID].end(), CFinder_Tag(_eLayerID));
 
 	if (iter == m_mapLayer[_eLayerSceneID].end())
 		return nullptr;
@@ -158,7 +155,7 @@ CLayer * CObjMgr::Find_Layer(LayerID _eLayerID, SCENEID _eLayerSceneID)
 
 CGameObject * CObjMgr::Get_Player(SCENEID _eLayerSceneID)
 {
-	CLayer* pPlayerLayer = Find_Layer(LayerID::LAYER_PLAYER, _eLayerSceneID);
+	CLayer* pPlayerLayer = Find_Layer(L"Player", _eLayerSceneID);
 	if (nullptr == pPlayerLayer)
 		return nullptr;
 	return pPlayerLayer->Get_Front();

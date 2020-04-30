@@ -62,11 +62,13 @@ HRESULT CTransform::Set_Size(Vector3 _vSize)
 	return S_OK;
 }
 
-HRESULT CTransform::Set_Roation(Vector3 _vRotation)
+HRESULT CTransform::Set_Rotation(Vector3 _vRotation)
 {
 	m_vRotation = _vRotation;
 	return S_OK;
 }
+
+
 
 
 

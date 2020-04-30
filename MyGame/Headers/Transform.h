@@ -33,7 +33,7 @@ public:
 public:
 	HRESULT	Set_Position(Vector3 _vPosition);
 	HRESULT	Set_Size(Vector3 _vSize);
-	HRESULT	Set_Roation(Vector3 _vRotation);
+	HRESULT	Set_Rotation(Vector3 _vRotation);
 	_matrix	Get_Matrix() { return m_StateMatrix; }
 	Vector3	Get_Position() { return m_vPosition; }
 	Vector3	Get_Size() { return m_vSize; }

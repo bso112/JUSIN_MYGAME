@@ -33,6 +33,12 @@ public:
 public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
 
+
+public:
+	HRESULT	Save_World();
+	HRESULT	Load_World();
+
+
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

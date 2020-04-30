@@ -21,6 +21,7 @@ public:
 public:
 	HRESULT Set_Texture(_uint _iIndex);
 	HRESULT Set_TextureOnShader(CShader* _pShader, D3DXHANDLE hParameter, _uint _iIndex);
+	
 
 public:
 	static CTexture* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath, _uint _iCnt = 1);

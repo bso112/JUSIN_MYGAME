@@ -36,6 +36,7 @@ public:
 public:
 	CGameObject* Pick_Tile(POINT _pt);
 
+
 public:
 	static CTilePalette* Create(PDIRECT3DDEVICE9 _pGraphicDevice);
 

@@ -53,6 +53,15 @@ _int CEditor::Update(_double _timeDelta)
 			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
 	}
 
+	if (CKeyMgr::Get_Instance()->Key_Down('S'))
+	{
+		m_pWorld->Save_World();
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
+	{
+		m_pWorld->Load_World();
+	}
+
 	return 0;
 }
 

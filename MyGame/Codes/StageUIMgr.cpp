@@ -22,22 +22,22 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	Safe_AddRef(_pGraphic_Device);
 	Safe_AddRef(_pHero);
 
-	m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, CImage::Create(_pGraphic_Device, Vector4(float(g_iWinCX>>1), 50.f, 0.f, 1.f), Vector2((float)g_iWinCX, 100.f), L"status_pane", SCENE_STAGE));
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, Vector4(float(g_iWinCX>>1), 50.f, 0.f, 1.f), Vector2((float)g_iWinCX, 100.f), L"status_pane", SCENE_STAGE));
 	
 	int iBtnCX = 60;
 	int iBtnCY = 70;
 	CMyButton* pBtn = nullptr;
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4(float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"waitBtn", SCENE_STAGE);
 	//pBtn->Add_Listener([&] { _pHero-> })
-	m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4(float(iBtnCX >> 1) + iBtnCX * 1, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"searchBtn", SCENE_STAGE);
-	m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4(float(iBtnCX >> 1) + iBtnCX * 2, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"checkBtn", SCENE_STAGE);
-	m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4(g_iWinCX - float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
-	m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4(g_iWinCX - float(iBtnCX >> 1) - iBtnCX, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"inventoryBtn", SCENE_STAGE);
-	m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), (float)(g_iWinCY >> 1), 0.f, 1.f), Vector2(g_iWinCX - 100.f, 200.f), L"scroll", SCENE_STAGE);
 	//m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
 

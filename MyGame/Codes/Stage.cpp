@@ -83,7 +83,7 @@ HRESULT CStage::Initalize_Prototypes()
 	Safe_Release(pLoader);
 
 	//이부분 캐릭터 선택 반영하게 변경
-	if (FAILED(m_pObjMgr->Add_Prototype(CObjMgr::PROTOTYPE_PLAYER, SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
+	if (FAILED(m_pObjMgr->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
@@ -95,7 +95,7 @@ HRESULT CStage::Initalize_Layers()
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
-	if (nullptr == m_pObjMgr->Add_GO_To_Layer(CObjMgr::PROTOTYPE_PLAYER, SCENE_STAGE, CObjMgr::LAYER_PLAYER, SCENE_STAGE))
+	if (nullptr == m_pObjMgr->Add_GO_To_Layer(L"Player", SCENE_STAGE, L"Player", SCENE_STAGE))
 		return E_FAIL;
 
 	return S_OK;

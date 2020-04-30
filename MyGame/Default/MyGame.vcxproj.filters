@@ -148,9 +148,6 @@
     <Filter Include="04.GameObject\GameObject\Item\Scroll">
       <UniqueIdentifier>{dcd614b8-735b-47b8-af19-e58c449e8b23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Tile">
-      <UniqueIdentifier>{bccb9869-a1f8-4ee0-9aca-ad42dffa552e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Button">
       <UniqueIdentifier>{10201592-2fc4-4bfa-b181-c7e2c0179334}</UniqueIdentifier>
     </Filter>
