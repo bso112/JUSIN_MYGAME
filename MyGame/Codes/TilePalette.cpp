@@ -4,12 +4,13 @@
 #include "Transform.h"
 #include "TextureLoader.h"
 #include "ObjMgr.h"
+
 USING(MyGame)
 
 HRESULT CTilePalette::Initalize()
 {
 	//텍스쳐 로드
-	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Resources/Textures/Terrain/level1/");
+	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Resources/Textures/Terrain/level_one/");
 
 	//팔레트의 왼쪽 위 위치를 정한다.
 	m_fX = 0.f;
@@ -21,77 +22,67 @@ HRESULT CTilePalette::Initalize()
 	if (nullptr == pObjMgr)
 		return E_FAIL;
 
-	//팔레트에 쓸 타일을 만든다.
-	CTerrain* pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_bookshelf", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_bookshelf", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_bookshelf_remain", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_bookshelf_remain", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_door", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_door", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_door_hidden", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_door_hidden", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_door_locked", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_door_locked", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_burned", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_burned", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_grass", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_grass", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_grass_remain", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_grass_remain", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask1", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask1", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask2", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask2", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask3", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask3", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask4", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask4", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask5", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask5", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask6", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask6", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask7", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask7", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask8", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask8", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mask9", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mask9", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_floor_mold", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_floor_mold", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_prison", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_prison", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_prison_opened", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_prison_opened", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_sign", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_sign", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_stair_down", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_stair_down", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_stair_up", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_stair_up", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_statue_rock", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_statue_rock", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_statue_wood", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_statue_wood", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_delusion", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_delusion", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_fire", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_fire", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_orange", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_orange", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_paralyze", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_paralyze", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_poison", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_poison", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_pupple", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_pupple", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_trap_remain", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_trap_remain", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_wall", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_wall", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv1_wall_sewer", SCENE_EDITOR);
-	pObjMgr->Add_Prototype(L"lv1_wall_sewer", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	//팔레트에 쓸 타일(프로토타입)을 만든다.
+	CTerrain* pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_bookshelf", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_bookshelf", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_door", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_door", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_burned", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_burned", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_grass", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_grass", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_A", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_A", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_B", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_B", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_C", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_C", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_D", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_D", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_E", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_E", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_F", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_F", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_G", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_G", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_H", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_H", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_I", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_I", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mold", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mold", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_prison", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_prison", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_sign", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_sign", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_stair_down", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_stair_down", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_stair_up", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_stair_up", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_statue_rock", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_statue_rock", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_statue_wood", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_statue_wood", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_delusion", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_delusion", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_fire", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_fire", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_orange", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_orange", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_paralyze", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_paralyze", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_poison", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_poison", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_pupple", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_pupple", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_trap_remain", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_trap_remain", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_wall", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_wall", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
+	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_wall_sewer", SCENE_EDITOR);
+	pObjMgr->Add_Prototype(L"lv_One_wall_sewer", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
 
 	
 #pragma endregion
@@ -105,7 +96,7 @@ HRESULT CTilePalette::Initalize()
 		m_iMaxPage = (int)ratio + 1;
 
 
-	for (int page = 0; page < m_iMaxPage; ++page)
+	for (_uint page = 0; page < m_iMaxPage; ++page)
 	{
 		//위치정하기
 		for (int i = 0; i < PALETTEY; ++i)
@@ -155,8 +146,8 @@ HRESULT CTilePalette::Render()
 
 CGameObject* CTilePalette::Pick_Tile(POINT _pt)
 {
-	int x = (_pt.x - m_fX)/ (TILECX);
-	int y = (_pt.y - m_fY)/ (TILECY) - 1;
+	int x = int(_pt.x - m_fX)/ (TILECX);
+	int y = int(_pt.y - m_fY)/ (TILECY) - 1;
 
 	size_t index = x + y * PALETTEX;
 

@@ -25,7 +25,8 @@ CTerrain::CTerrain(CTerrain & _rhs)
 HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag, _tchar * _pFilePath)
 {
 	m_pPrototypeTag = _pPrototypeTag;
-	Set_Module(_pTextureTag, _eTextureScene, (CModule**)&m_pTexture);
+	if(FAILED(Set_Module(_pTextureTag, _eTextureScene, (CModule**)&m_pTexture)))
+		return E_FAIL;
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	m_tInfo = _tData;

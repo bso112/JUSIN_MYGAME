@@ -15,7 +15,7 @@ CWorld::CWorld()
 
 HRESULT CWorld::Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID, _tchar* _pFilePath)
 {
-
+	m_eSceneID = _eSceneID;
 	//세이브파일에서 받아와 지형 프로토타입을 만든다.
 
 	//월드 정보 파일을 읽어 지형을 배치한다.
@@ -60,6 +60,14 @@ HRESULT CWorld::Set_Terrain(CTerrain * _pTerrain, POINT& _pt)
 	if (x >= WORLDX || y >= WORLDY)
 		return E_FAIL;
 
+	//만약 이미 타일이 있다면 지우기
+	if (nullptr != m_pTerrains[y][x])
+	{
+		Safe_Release(m_pTerrains[y][x]);
+		return S_OK;
+	}
+
+
 	//깊은복사
 	CTerrain* pTerrain = (CTerrain*)_pTerrain->Clone();
 
@@ -71,16 +79,15 @@ HRESULT CWorld::Set_Terrain(CTerrain * _pTerrain, POINT& _pt)
 		pTransform->Update();
 	}
 
-
-	//제거된 공간에 생성한 지형을 넣는다.
+	//타일을 채운다.
 	m_pTerrains[y][x] = pTerrain;
 
 	return S_OK;
 }
 
-HRESULT CWorld::Save_World()
+HRESULT CWorld::Save_World(const _tchar* _filePath)
 {
-	HANDLE hFile = CreateFile(L"../Bin/Data/Tile.dat", GENERIC_WRITE
+	HANDLE hFile = CreateFile(_filePath, GENERIC_WRITE
 		, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -110,9 +117,9 @@ HRESULT CWorld::Save_World()
 	return S_OK;
 }
 
-HRESULT CWorld::Load_World()
+HRESULT CWorld::Load_World(const _tchar* _filePath)
 {
-	HANDLE hFile = CreateFile(L"../Bin/Data/Tile.dat", GENERIC_READ
+	HANDLE hFile = CreateFile(_filePath, GENERIC_READ
 		, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -129,7 +136,7 @@ HRESULT CWorld::Load_World()
 	while (true)
 	{
 		ReadFile(hFile, &prefix, sizeof(int), &dwByte, NULL);
-	
+
 		if (0 == dwByte)
 			break;
 
@@ -140,11 +147,11 @@ HRESULT CWorld::Load_World()
 		{
 
 			ReadFile(hFile, &tSaveData, sizeof(CTerrain::SAVE_DATA), &dwByte, NULL);
-			
+
 			if (0 == dwByte)
 				break;
-			
-			m_pTerrains[y][x] = (CTerrain*)CObjMgr::Get_Instance()->Add_GO_To_Layer(tSaveData.m_PrototypeTag, SCENE_EDITOR, L"Terrain", SCENE_EDITOR);
+
+			m_pTerrains[y][x] = (CTerrain*)CObjMgr::Get_Instance()->Add_GO_To_Layer(tSaveData.m_PrototypeTag, m_eSceneID, L"Terrain", SCENE_EDITOR);
 			if (nullptr == m_pTerrains[y][x])
 				return E_FAIL;
 			Safe_AddRef(m_pTerrains[y][x]);
@@ -155,12 +162,12 @@ HRESULT CWorld::Load_World()
 			pTransform->Set_Position(tSaveData.m_vPosition);
 			pTransform->Set_Rotation(tSaveData.m_vRotation);
 			pTransform->Set_Size(tSaveData.m_vSize);
-		
+
 		}
 		else
 			m_pTerrains[y][x] = nullptr;
 
-			
+
 		if (0 == dwByte)
 			break;
 

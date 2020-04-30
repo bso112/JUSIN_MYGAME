@@ -210,8 +210,11 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 			if (m_iPrvAniNum == 0)
 				m_iPrvAniNum = 1;
 
-			pModuleMgr->Add_Module(m_pPrvName, _eSceneID,
-				CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum));
+			CTexture* pTexture = CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum);
+
+			//이미 중복된 텍스쳐가 있으면 무시
+			if (FAILED(pModuleMgr->Add_Module(m_pPrvName, _eSceneID, pTexture)))
+				Safe_Release(pTexture);
 		}
 
 		//현재 이름을 전이름으로		
@@ -247,8 +250,11 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 	if (m_iPrvAniNum == 0)
 		m_iPrvAniNum = 1;
 
-	pModuleMgr->Add_Module(m_pPrvName, _eSceneID,
-		CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum));
+	CTexture* pTexture = CTexture::Create(_pGraphic_Device, finalDir, m_iPrvAniNum);
+	//이미 중복된 텍스쳐가 있으면 무시
+	if (FAILED(pModuleMgr->Add_Module(m_pPrvName, _eSceneID, pTexture)))
+		Safe_Release(pTexture);
+
 #pragma endregion
 
 	Safe_Release(pModuleMgr);

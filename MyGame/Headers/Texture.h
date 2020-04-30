@@ -21,6 +21,8 @@ public:
 public:
 	HRESULT Set_Texture(_uint _iIndex);
 	HRESULT Set_TextureOnShader(CShader* _pShader, D3DXHANDLE hParameter, _uint _iIndex);
+	size_t	Get_TextureSize() { return m_vecTexture.size(); }
+	
 	
 
 public:

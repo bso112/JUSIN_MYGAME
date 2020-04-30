@@ -24,6 +24,10 @@ private:
 	CTerrain*	m_Water;
 	CTerrain*	m_Wall;
 	CTerrain*	m_Grass;
+
+private:
+	//어느 씬의 월드인가
+	SCENEID		m_eSceneID = SCENE_END;
 	
 
 public:
@@ -35,8 +39,9 @@ public:
 
 
 public:
-	HRESULT	Save_World();
-	HRESULT	Load_World();
+	HRESULT	Save_World(const _tchar* _filePath);
+	//지형의 프로토타입이 있다고 가정하고 로드한다.
+	HRESULT	Load_World(const _tchar* _filePath);
 
 
 public:

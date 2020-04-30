@@ -55,11 +55,11 @@ _int CEditor::Update(_double _timeDelta)
 
 	if (CKeyMgr::Get_Instance()->Key_Down('S'))
 	{
-		m_pWorld->Save_World();
+		m_pWorld->Save_World(L"../Bin/Data/level1.dat");
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
 	{
-		m_pWorld->Load_World();
+		m_pWorld->Load_World(L"../Bin/Data/level1.dat");
 	}
 
 	return 0;
