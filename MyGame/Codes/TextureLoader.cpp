@@ -161,7 +161,7 @@ HRESULT CTextureLoader::Create_Textrues_From_Folder_Anim(PDIRECT3DDEVICE9 _pGrap
 
 				//자리수 구하기
 				int exp = 1;
-				for (int i = 0; i < exponent; ++i)
+				for (_uint i = 0; i < exponent; ++i)
 					exp *= 10;
 
 				//적절한 자리수로 지정

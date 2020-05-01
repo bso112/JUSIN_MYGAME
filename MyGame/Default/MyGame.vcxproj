@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\AiState.h" />
+    <ClInclude Include="..\Headers\Door.h" />
     <ClInclude Include="..\Headers\Image.h" />
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\Buff.h" />
@@ -244,6 +245,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\AiState.cpp" />
+    <ClCompile Include="..\Codes\Door.cpp" />
     <ClCompile Include="..\Codes\Image.cpp" />
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\Buff.cpp" />

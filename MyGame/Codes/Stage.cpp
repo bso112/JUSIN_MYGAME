@@ -6,6 +6,7 @@
 #include "StageUIMgr.h"
 #include "Transform.h"
 
+
 USING(MyGame)
 
 CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -26,9 +27,6 @@ HRESULT CStage::Initialize()
 	if (FAILED(Initalize_Layers()))
 		return E_FAIL;
 	
-	if (FAILED(Initalize_World()))
-		return E_FAIL;
-
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
@@ -48,8 +46,9 @@ _int CStage::Update(_double _timeDelta)
 
 HRESULT CStage::Render()
 {
-	m_pStageUIMgr->Render();
+	m_pWorld->Render();
 	CScene::Render();
+	m_pStageUIMgr->Render();
 
 	return S_OK;
 }
@@ -58,7 +57,7 @@ HRESULT CStage::Render()
 
 HRESULT CStage::Initalize_World()
 {
-	m_pWorld->Initialize(m_pGraphic_Device, SCENE_STAGE);
+	m_pWorld->Initialize(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level1.dat");
 
 	return S_OK;
 }
@@ -79,6 +78,10 @@ HRESULT CStage::Initalize_Prototypes()
 
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
 	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Hero/Warrior/");
+	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
+
+	if (FAILED(Initalize_World()))
+		return E_FAIL;
 
 	Safe_Release(pLoader);
 
@@ -124,6 +127,20 @@ void CStage::Free()
 
 	if (0 != m_pStageUIMgr->Destroy_Instance())
 		MSG_BOX("Fail to release m_pStageUIMgr");
+
+
+	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기
+	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))
+		MSG_BOX("Fail to Clear GameObject Prototypes");
+
+	//모듈 프로토타입 지우기
+	if (FAILED(CModuleMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))
+		MSG_BOX("Fail to Clear Module Prototypes");
+
+	//게임 오브젝트 인스턴스 지우기
+	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
+		MSG_BOX("Fail to Clear Module Prototypes");
+
 
 	CScene::Free();
 }

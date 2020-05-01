@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "..\Headers\TilePalette.h"
 #include "Terrain.h"
+#include "Door.h"
 #include "Transform.h"
 #include "TextureLoader.h"
 #include "ObjMgr.h"
+
 
 USING(MyGame)
 
@@ -25,7 +27,7 @@ HRESULT CTilePalette::Initalize()
 	//팔레트에 쓸 타일(프로토타입)을 만든다.
 	CTerrain* pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_bookshelf", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_bookshelf", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_door", SCENE_EDITOR);
+	pTerrain = CDoor::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_door", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_door", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
 	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_floor", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_floor", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);

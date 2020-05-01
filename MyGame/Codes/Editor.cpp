@@ -5,6 +5,8 @@
 #include "Terrain.h"
 #include "KeyMgr.h"
 #include "Transform.h"
+#include "Renderer.h"
+#include "ModuleMgr.h"
 USING(MyGame)
 
 CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -81,7 +83,7 @@ _int CEditor::Update(_double _timeDelta)
 	//로드
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
 	{
-		m_pWorld->Load_World(L"../Bin/Data/level1.dat");
+		m_pWorld->Load_World(L"../Bin/Data/level1.dat", SCENE_EDITOR);
 	}
 
 	return 0;
@@ -128,6 +130,19 @@ void CEditor::Free()
 
 	if (0 != m_pWorld->Destroy_Instance())
 		MSG_BOX("Fail to release m_pWorld");
+
+	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기
+	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_EDITOR)))
+		MSG_BOX("Fail to Clear GameObject Prototypes");
+
+	//모듈 프로토타입 지우기
+	if (FAILED(CModuleMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_EDITOR)))
+		MSG_BOX("Fail to Clear Module Prototypes");
+
+	//게임 오브젝트 인스턴스 지우기
+	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
+		MSG_BOX("Fail to Clear Module Prototypes");
+
 
 	CScene::Free();
 

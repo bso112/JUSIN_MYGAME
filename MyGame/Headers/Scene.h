@@ -1,9 +1,12 @@
 #pragma once
 #include "Base.h"
+
+//씬이 끝나면 해제해야 하기때문에 모든 씬이 가지고 있음
 #include "ObjMgr.h"
+#include "ModuleMgr.h"
+#include "Renderer.h"
 
 BEGIN(MyGame)
-class CRenderer;
 
 class CScene abstract: public CBase
 {

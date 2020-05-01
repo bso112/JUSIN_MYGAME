@@ -29,6 +29,13 @@ HRESULT CHero::KeyCheck()
 	return S_OK;
 }
 
+bool CHero::Has_Key(TIER _tier)
+{
+
+
+	return true;
+}
+
 void CHero::Free()
 {
 	Safe_Release(m_pKeyMgr);

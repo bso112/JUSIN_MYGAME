@@ -1,13 +1,11 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  Terrain.cpp
-c:\users\bso11\desktop\myclient\mygame\codes\terrain.cpp(87): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\bso11\desktop\myclient\mygame\codes\terrain.cpp(100): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+  Stage.cpp
+  Menu.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  SceneMgr.cpp
+  Scene.cpp
   Editor.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  TilePalette.cpp
   코드를 생성하고 있습니다...
   MyGame.vcxproj -> C:\Users\bso11\Desktop\myClient\MyGame\Default\..\Bin\MyGame.exe
   MyGame.vcxproj -> ..\Bin\MyGame.pdb (Full PDB)
