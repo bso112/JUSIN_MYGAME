@@ -17,10 +17,10 @@ CTerrain::CTerrain(CTerrain & _rhs)
 	m_pTexture(_rhs.m_pTexture),
 	m_pVIBuffer(_rhs.m_pVIBuffer),
 	m_iCurFrame(_rhs.m_iCurFrame),
-	m_eState(_rhs.m_eState)
+	m_eState(_rhs.m_eState),
+	m_tInfo(_rhs.m_tInfo)
 {
 	memcpy(m_PrototypeTag, _rhs.m_PrototypeTag, sizeof(m_PrototypeTag));
-	m_tInfo = _rhs.m_tInfo;
 	Safe_AddRef(m_pTexture);
 	Safe_AddRef(m_pVIBuffer);
 }

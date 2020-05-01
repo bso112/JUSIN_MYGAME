@@ -9,6 +9,22 @@ class CTerrain  : public CGameObject
 
 public:
 	enum STATE { STATE_NORMAL = 0, STATE_UNLOCKED = 0, STATE_LOCKED = 1, STATE_USED = 1 , STATE_END};
+
+public:
+	typedef struct tagNode
+	{
+		_int Gcost = 0; // distance from staring node
+		_int Hcost = 0; // distance from end node
+		_int Fcost = 0;	// Gcost + Hcost
+
+		tagNode() {}
+		tagNode(_int _Gcost, _int _Hcost, _int _Fcost)
+		{
+			Gcost = _Gcost;
+			Hcost = _Hcost;
+			Fcost = _Fcost;
+		}
+	}NODE;
 public:
 	typedef struct tag_SaveData
 	{
@@ -33,8 +49,9 @@ protected:
 	CVIBuffer*		m_pVIBuffer = nullptr;
 
 protected:
-	STATE			m_eState = STATE_NORMAL;
+	STATE			m_eState	= STATE_NORMAL;
 	bool			m_bHidden	= false;
+	NODE			m_tNode		= {};
 
 protected:
 	TERRAIN			m_tInfo = {};
@@ -54,10 +71,14 @@ public:
 	void		Hide() { m_bHidden = true; }
 	void		Reveal() { m_bHidden = false; }
 	bool		IsHidden() { return m_bHidden; }
+	bool		IsMovable() { return m_tInfo.m_bMovable; }
 
 public:
 	HRESULT		Forward_Frame();
 	HRESULT		Backward_Frame();
+	void		Set_Node(NODE _tNode) { m_tNode = _tNode; }
+	const NODE&	Get_Node() { return m_tNode; }
+	
 
 protected:
 	//에디터씬에서 Frame이 변할때 하위클래스에 맞는 데이터로 셋팅함.

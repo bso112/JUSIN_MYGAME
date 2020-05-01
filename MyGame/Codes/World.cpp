@@ -35,7 +35,7 @@ HRESULT CWorld::Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID,
 _int CWorld::Update()
 {
 	//충돌처리
-	CGameObject* pPlayer =CObjMgr::Get_Instance()->Get_Player(m_eSceneID);
+	CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(m_eSceneID);
 	if (nullptr == pPlayer)
 		return -1;
 	Collision_Terrain(pPlayer);
@@ -114,6 +114,141 @@ HRESULT CWorld::Get_TerrainPos(POINT _dst, Vector3& _out)
 	CTransform* pDstTransform = (CTransform*)m_pTerrains[y][x]->Get_Module(L"Transform");
 	_out = pDstTransform->Get_Position();
 
+	return S_OK;
+}
+
+HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
+{
+	_int srcX = _src.x / TILECX;
+	_int srcY = _src.y / TILECY;
+	_int dstX = _dst.x / TILECX;
+	_int dstY = _dst.y / TILECY;
+
+	if (dstX >= WORLDX || dstY >= WORLDY)
+		return E_FAIL;
+	if (srcX >= WORLDX || srcY >= WORLDY)
+		return E_FAIL;
+
+	if (nullptr == m_pTerrains[srcY][srcX] || nullptr == m_pTerrains[dstY][dstX])
+		return E_FAIL;
+
+
+	//에이스타
+	/*
+	 Gcost // distance from staring node
+	 Hcost // distance from end node
+	 Fcost // Gcost + Hcost
+	*/
+
+#pragma region 초기화
+
+
+	//지나온 노드
+	set<CTerrain*> visited;
+	//검사할 노드
+	set<CTerrain*> nodes;
+	//검사의 중심이 되는 현재노드
+	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
+
+	int currX = srcX;
+	int currY = srcY;
+
+	int currFcost = INT_MAX;
+	//Fcost가 같으면 Hcost 기준으로 루트정함
+	int currHcost = INT_MAX;
+
+	int diaCost = (int)sqrt(TILECX * TILECX + TILECY * TILECY);
+#pragma endregion
+
+	while (m_pTerrains[dstY][dstX] != pCurrNode)
+	{
+
+		//현재노드의 왼쪽 위 타일의 인덱스
+		int tmpY = currY - 1;
+		int tmpX = currX - 1;
+
+
+		//주변 8 타일을 검사한다.
+		for (int i = tmpY; i <= tmpY + 2; ++i)
+		{
+			for (int j = tmpX; j <= tmpX + 2; ++j)
+			{
+#pragma region 예외처리
+				//유효하지 않은 타일 제외
+				if (i >= WORLDX || j >= WORLDY || i < 0 || j < 0)
+					continue;
+				if (nullptr == m_pTerrains[i][j])
+					continue;
+				//가지 못하는 곳이면 제외
+				if (!m_pTerrains[i][j]->IsMovable())
+					continue;
+				//이미 방문한 곳이면 제외
+				if (visited.find(m_pTerrains[i][j]) != visited.end())
+					continue;
+				//자기자신 제외
+				if (i == currY && j == currX)
+					continue;
+				//자기자신이 nullptr면 끝냄
+				if (nullptr == pCurrNode)
+					return E_FAIL;
+
+#pragma endregion
+				//cost 구하기
+				_int Gcost = 0;
+				_int Hcost = 0;
+				_int Fcost = 0;
+
+				//대각선노드면
+				if (i != currY && j != currX)
+				{
+					//이 노드가 출발지로부터 가까워지는건지 멀어지는건지 어케암?
+					Gcost =
+				}
+				else
+				{
+
+				}
+
+
+				if (currFcost > Fcost)
+				{
+					currFcost = Fcost;
+					currHcost = Hcost;
+					pCurrNode = m_pTerrains[i][j];
+					currX = j;
+					currY = i;
+				}
+				//만약 현재 노드와 Fcost가 같으면
+				else if (currFcost == Fcost)
+				{
+					//Hcost가 더 작은 걸 선택
+					if (currHcost > Hcost)
+					{
+						currFcost = Fcost;
+						currHcost = Hcost;
+						pCurrNode = m_pTerrains[i][j];
+						currX = j;
+						currY = i;
+
+					}
+				}
+			}
+		}
+		//만약 선택된 경로가 없다면 길이 없다는 것이므로 끝냄.
+		if (m_pTerrains[tmpY + 1][tmpX + 1] == pCurrNode)
+			break;
+		//지나간 경로를 표시한다.
+		visited.emplace(pCurrNode);
+	}
+
+	for (auto pTerrain : visited)
+	{
+		CTransform* pTransform = (CTransform*)pTerrain->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			return E_FAIL;
+
+		_out.push_back(pTransform->Get_Position());
+	}
 	return S_OK;
 }
 
@@ -228,11 +363,11 @@ HRESULT CWorld::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 	pObjMgr->Add_Prototype(L"lv_One_bookshelf", _eSceneID, pTerrain);
 	pTerrain = CDoor::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_door", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_door", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_burned", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_burned", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor_burned", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_grass", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_grass", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor_grass", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_A", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor_mask_A", _eSceneID, pTerrain);
@@ -252,33 +387,33 @@ HRESULT CWorld::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 	pObjMgr->Add_Prototype(L"lv_One_floor_mask_H", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_I", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor_mask_I", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mold", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_mold", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor_mold", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_prison", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_prison", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_sign", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_sign", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_stair_down", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_stair_down", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_stair_down", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_stair_up", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_stair_up", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_stair_up", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_statue_rock", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_statue_rock", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_statue_wood", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_statue_wood", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_delusion", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_delusion", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_delusion", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_fire", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_fire", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_fire", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_orange", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_orange", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_orange", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_paralyze", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_paralyze", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_paralyze", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_poison", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_poison", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_poison", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_pupple", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_pupple", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_pupple", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_trap_remain", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_remain", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap_remain", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_wall", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_wall", _eSceneID, pTerrain);
@@ -299,11 +434,11 @@ HRESULT CWorld::Collision_Terrain(CGameObject* _pObj)
 		return E_FAIL;
 
 	CTransform* pTransform = (CTransform*)_pObj->Get_Module(L"Transform");
-	
+
 	int x = (int)pTransform->Get_Position().x / TILECX;
 	int y = (int)pTransform->Get_Position().y / TILECY;
 
-	if (x >= WORLDX || y >= WORLDY)
+	if (x < 0 || y < 0 || x >= WORLDX || y >= WORLDY)
 		return E_FAIL;
 
 	if (nullptr == m_pTerrains[y][x])

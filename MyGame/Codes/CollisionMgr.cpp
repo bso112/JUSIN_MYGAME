@@ -90,8 +90,14 @@ bool CCollisionMgr::Collision(list<CGameObject*> _Dst, list<CGameObject*> _Src, 
 
 	for (auto& Dst : _Dst)
 	{
+		if (nullptr == Dst)
+			return false;
+
 		for (auto& Src : _Src)
 		{
+			if (nullptr == Src)
+				return false;
+
 			if (_bisCollided)
 			{
 				//상대방이 죽은경우, 충돌처리를 하지 않는다.

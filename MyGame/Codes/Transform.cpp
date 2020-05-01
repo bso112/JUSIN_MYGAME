@@ -40,15 +40,31 @@ _int CTransform::Update(_double _timeDelta)
 	if (m_bStop)
 		return -1;
 
-	Vector3 vDir = m_vDst - m_vPosition;
+	static _int index = 0;
+		
+	if (index >= m_Route.size())
+	{
+		m_bStop = true;
+		return -1;
+	}
+
+	Vector3 vDir = m_Route[index] - m_vPosition;
 
 	if (vDir.magnitude() >= m_StopDistance)
 	{
 		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 	}
 	else
-		m_bStop = true;
-
+	{
+		if (index == m_Route.size() - 1)
+		{
+			m_bStop = true;
+			index = 0;
+			m_Route.clear();
+			return -1;
+		}
+		++index;
+	}
 	return 0;
 }
 
@@ -166,7 +182,7 @@ HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopD
 HRESULT CTransform::MoveToTarget_Auto(CTransform * _pTransform, _double _fStopDistance)
 {
 	m_bStop = false;
-	m_vDst = _pTransform->Get_Position();
+	m_Route.push_back(_pTransform->Get_Position());
 	m_StopDistance = _fStopDistance;
 	return S_OK;
 }
@@ -174,7 +190,7 @@ HRESULT CTransform::MoveToTarget_Auto(CTransform * _pTransform, _double _fStopDi
 HRESULT CTransform::MoveToDir_Auto(Vector3 _vDir)
 {
 	m_bStop = false;
-	m_vDst = _vDir * FLT_MAX;
+	m_Route.push_back(_vDir * FLT_MAX);
 	m_StopDistance = DBL_MAX;
 	return S_OK;
 }
@@ -184,9 +200,17 @@ HRESULT CTransform::MoveToDir_Auto(Vector3 _vDir)
 HRESULT CTransform::MoveToDst_Auto(Vector3 _vDst, _double _StopDistance)
 {
 	m_bStop = false;
-	m_vDst = _vDst;
+	m_Route.push_back(_vDst);
 	m_StopDistance = _StopDistance;
 	return S_OK;
+}
+
+HRESULT CTransform::Go_Route(vector<Vector3> _route, _double _StopDistance)
+{
+	m_bStop = false;
+	m_Route = _route;
+	m_StopDistance = _StopDistance;
+	return E_NOTIMPL;
 }
 
 

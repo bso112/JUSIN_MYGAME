@@ -39,6 +39,9 @@ public:
 public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
 	HRESULT	Get_TerrainPos(POINT _dst, Vector3& _out);
+	//A* 알고리즘을 적용해 경로를 반환한다.
+	HRESULT	Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out);
+
 
 public:
 	HRESULT	Save_World(const _tchar* _filePath);
