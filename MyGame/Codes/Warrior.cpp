@@ -139,7 +139,7 @@ HRESULT CWarrior::Render()
 
 void CWarrior::OnCollisionEnter(CGameObject * _pOther)
 {
-	++m_iCurFrame;
+
 }
 
 void CWarrior::Scene_Change()

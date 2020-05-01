@@ -168,13 +168,4 @@ void CTerrain::Free()
 	CGameObject::Free();
 }
 
-HRESULT CTerrain::Interact()
-{
-	return E_NOTIMPL;
-}
 
-HRESULT CTerrain::Initalize_Module()
-{
-
-	return E_NOTIMPL;
-}

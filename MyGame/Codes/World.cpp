@@ -310,7 +310,7 @@ HRESULT CWorld::Collision_Terrain(CGameObject* _pObj)
 		return E_FAIL;
 
 	//m_pTerrains[y][x]이 null이 아니라는 말은 해당 타일과 충돌했다는 것.
-	CCollisionMgr::Collision(list<CGameObject*>(1, _pObj), list<CGameObject*>(1, (CGameObject*)m_pTerrains[y][x]), true);
+	CCollisionMgr::Collision(list<CGameObject*>(1, _pObj), list<CGameObject*>(1, m_pTerrains[y][x]), true);
 
 	return S_OK;
 }

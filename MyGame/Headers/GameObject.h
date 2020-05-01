@@ -24,7 +24,7 @@ protected:
 
 private:
 	//충돌했나
-	bool	m_bCollided;
+	bool	m_bCollided = false;
 	//충돌한 오브젝트 셋
 	set<CGameObject*> m_setCollided;
 

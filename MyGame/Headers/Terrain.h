@@ -69,11 +69,8 @@ public:
 	virtual CGameObject* Clone(void * _param = nullptr);
 	virtual void Free() override;
 
-public:
-	virtual HRESULT	Interact();
 
-private:
-	HRESULT	Initalize_Module();
+
 
 };
 END

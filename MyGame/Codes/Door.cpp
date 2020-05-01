@@ -14,11 +14,12 @@ CDoor::CDoor(CDoor & _rhs)
 {
 }
 
-HRESULT CDoor::Interact(CGameObject* _pInteractor)
+
+void CDoor::OnCollisionEnter(CGameObject * _pOther)
 {
-	CHero* pHero = dynamic_cast<CHero*>(_pInteractor);
+	CHero* pHero = dynamic_cast<CHero*>(_pOther);
 	if (nullptr == pHero)
-		return E_FAIL;
+		return;
 
 	if (m_bLocked)
 	{
@@ -28,7 +29,6 @@ HRESULT CDoor::Interact(CGameObject* _pInteractor)
 		}
 
 	}
-	return S_OK;
 }
 
 HRESULT CDoor::OnMoveFrame()
@@ -68,6 +68,32 @@ void CDoor::Lock()
 	m_iCurFrame = 1;
 	m_eState = STATE::STATE_LOCKED;
 }
+
+CDoor * CDoor::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath)
+{
+	CDoor* pInstance = new CDoor(_pGraphic_Device);
+	if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _eTextureScene, _pTextureTag, _pFilePath)))
+	{
+		MSG_BOX("Fail to create CDoor");
+		Safe_Release(pInstance);
+
+	}
+	return pInstance;
+}
+
+CDoor * CDoor::Clone(void * _param)
+{
+	CDoor* pInstance = new CDoor(*this);
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Fail to clone CDoor");
+		Safe_Release(pInstance);
+
+	}
+	return pInstance;
+}
+
+
 
 
 
