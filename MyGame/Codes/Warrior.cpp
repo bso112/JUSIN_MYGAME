@@ -55,7 +55,7 @@ HRESULT CWarrior::Initialize(void * _param)
 
 
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, &CTransform::STATEDESC(100.f, 100.f));
 
 
 	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_IDLE]);
@@ -85,24 +85,24 @@ HRESULT CWarrior::Initialize(void * _param)
 	return S_OK;
 }
 
-HRESULT CWarrior::KeyCheck()
+HRESULT CWarrior::KeyCheck(_double _timeDelta)
 {
-	CHero::KeyCheck();
+	CHero::KeyCheck(_timeDelta);
 
 	return S_OK;
 }
 
 _int CWarrior::Update(_double _timeDelta)
 {
-	//목적지가 있을 경우 목적지로 이동
-	MoveToDst(m_vDst, _timeDelta);
-	m_pTransform->Update();
-
+	KeyCheck(_timeDelta);
+	m_pTransform->Update(_timeDelta);
 	return 0;
 }
 
 _int CWarrior::LateUpate(_double _timeDelta)
-{
+{	
+	m_pTransform->Late_Update();
+
 	if (nullptr == m_pRenderer)
 		return -1;
 

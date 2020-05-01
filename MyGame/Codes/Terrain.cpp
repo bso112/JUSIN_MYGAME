@@ -48,7 +48,7 @@ HRESULT CTerrain::Initialize()
 
 HRESULT CTerrain::Render()
 {
-	m_pTransform->Update();
+	m_pTransform->Late_Update();
 	if (FAILED(m_pTexture->Set_Texture(m_iCurFrame)))
 		MSG_BOX("유효한 프레임이 아닙니다");
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());

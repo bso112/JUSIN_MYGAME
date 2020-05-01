@@ -35,16 +35,13 @@ HRESULT CWorld::Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID,
 HRESULT CWorld::Render()
 {
 
-	for (auto& tileArr : m_pTerrains)
+	for (int i = 0; i < WORLDY; ++i)
 	{
-		if (tileArr != nullptr)
+		for (int j = 0; j < WORLDX; ++j)
 		{
-			for (auto& tile : tileArr)
-			{
-				if (tile != nullptr)
-					tile->Render();
-			}
+			if (nullptr != m_pTerrains[i][j])
 
+				m_pTerrains[i][j]->Render();
 		}
 	}
 	return S_OK;
@@ -82,11 +79,28 @@ HRESULT CWorld::Set_Terrain(CTerrain * _pTerrain, POINT& _pt)
 	if (nullptr != pTransform)
 	{
 		pTransform->Set_Position(Vector2(fX, fY, 0.f, 1.f));
-		pTransform->Update();
+		pTransform->Late_Update();
 	}
 
 	//타일을 채운다.
 	m_pTerrains[y][x] = pTerrain;
+
+	return S_OK;
+}
+
+HRESULT CWorld::Get_TerrainPos(POINT _dst, Vector3& _out)
+{
+	int x = _dst.x / TILECX;
+	int y = _dst.y / TILECY;
+
+	if (x >= WORLDX || y >= WORLDY)
+		return E_FAIL;
+
+	if (nullptr == m_pTerrains[y][x])
+		return E_FAIL;
+
+	CTransform* pDstTransform = (CTransform*)m_pTerrains[y][x]->Get_Module(L"Transform");
+	_out = pDstTransform->Get_Position();
 
 	return S_OK;
 }

@@ -50,7 +50,7 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppOut)
+HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppOut, void* _pArg)
 {
 	if (nullptr != Get_Module(_eModuleTag))
 		return E_FAIL;
@@ -61,7 +61,7 @@ HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CMo
 
 	Safe_AddRef(pModuleMgr);
 
-	*_ppOut = pModuleMgr->Get_Module(_eModuleTag, _eSceneID);
+	*_ppOut = pModuleMgr->Get_Module(_eModuleTag, _eSceneID, _pArg);
 	if (nullptr == *_ppOut)
 		return E_FAIL;
 

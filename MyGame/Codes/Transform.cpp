@@ -30,13 +30,30 @@ HRESULT CTransform::Initialize(void * _pArg)
 	m_vPosition = Vector3(0.f, 0.f, 0.f);
 
 	D3DXMatrixIdentity(&m_StateMatrix);
-	
+
 	return S_OK;
 }
 
-_int CTransform::Update()
+//목표지점으로 간다.
+_int CTransform::Update(_double _timeDelta)
 {
+	if (m_bStop)
+		return -1;
 
+	Vector3 vDir = m_vDst - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+	}
+	else
+		m_bStop = true;
+
+	return 0;
+}
+
+_int CTransform::Late_Update()
+{
 	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix;
 
 	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
@@ -69,9 +86,6 @@ HRESULT CTransform::Set_Rotation(Vector3 _vRotation)
 }
 
 
-
-
-
 RECT CTransform::Get_Rect()
 {
 	RECT rc = {};
@@ -87,37 +101,91 @@ RECT CTransform::Get_Rect()
 	return rc;
 }
 
-HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _fStopDistance)
+HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)
 {
+
 	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
-	
-	if (vDir.magnitude() <= _fStopDistance)
+
+	if (vDir.magnitude() >= m_StopDistance)
 	{
 		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 	}
 	return S_OK;
+
 }
 
-HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _fStopDistance, _double _speed)
+HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed)
 {
+
 	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
 
-	if (vDir.magnitude() <= _fStopDistance)
+	if (vDir.magnitude() >= m_StopDistance)
 	{
-		m_vPosition += vDir.nomalize() *float(_speed * _timeDelta);
+		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
 	}
 	return S_OK;
 }
 
 HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
 {
+
 	m_vPosition += _vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+
 	return S_OK;
 }
 
-HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta, _double _speed)
+HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta, _double _Speed)
 {
-	m_vPosition += _vDir.nomalize() * float(_speed * _timeDelta);
+	m_vPosition += _vDir.nomalize() * float(_Speed * _timeDelta);
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance)
+{
+	Vector3 vDir = _vDst - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed)
+{
+
+	Vector3 vDir = _vDst - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToTarget_Auto(CTransform * _pTransform, _double _fStopDistance)
+{
+	m_bStop = false;
+	m_vDst = _pTransform->Get_Position();
+	m_StopDistance = _fStopDistance;
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDir_Auto(Vector3 _vDir)
+{
+	m_bStop = false;
+	m_vDst = _vDir * FLT_MAX;
+	m_StopDistance = DBL_MAX;
+	return S_OK;
+}
+
+
+
+HRESULT CTransform::MoveToDst_Auto(Vector3 _vDst, _double _StopDistance)
+{
+	m_bStop = false;
+	m_vDst = _vDst;
+	m_StopDistance = _StopDistance;
 	return S_OK;
 }
 

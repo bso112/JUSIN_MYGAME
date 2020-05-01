@@ -25,7 +25,7 @@ HRESULT CModuleMgr::Add_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID, 
 	return S_OK;
 }
 
-CModule * CModuleMgr::Get_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID)
+CModule * CModuleMgr::Get_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID, void* _pArg)
 {
 	if (SCENE_END <= _ePrototypeSceneID)
 		return nullptr;
@@ -34,7 +34,7 @@ CModule * CModuleMgr::Get_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID
 	if (nullptr == pModule)
 		return nullptr;
 
-	return pModule->Clone();
+	return pModule->Clone(_pArg);
 }
 
 HRESULT CModuleMgr::Clear_Scene(SCENEID _eSceneID)

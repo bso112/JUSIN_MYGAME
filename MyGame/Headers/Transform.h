@@ -9,7 +9,19 @@ public:
 	{
 		_double speedPerSec;
 		_double	radianPerSec;
+
+		tagStateDesc() {}
+		tagStateDesc
+		(
+		_double _speedPerSec,
+		_double	_radianPerSec
+		)
+		{
+			speedPerSec = _speedPerSec;
+			radianPerSec = _radianPerSec;
+		}
 	}STATEDESC;
+
 private:
 	explicit CTransform(LPDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CTransform(CTransform& _module);
@@ -24,11 +36,18 @@ private:
 	Vector3		m_vSize;
 	Vector3		m_vRotation;
 
-
+private:
+	//목표 위치
+	Vector3		m_vDst;
+	_double		m_StopDistance;
+	//멈춰 있냐?
+	_bool		m_bStop = true;
+	
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);
-	virtual _int	Update();
+	virtual _int	Update(_double _timeDelta);
+	virtual _int	Late_Update();
 
 public:
 	HRESULT	Set_Position(Vector3 _vPosition);
@@ -39,14 +58,28 @@ public:
 	Vector3	Get_Size() { return m_vSize; }
 	Vector3 Get_Rotation() { return m_vRotation; }
 	RECT	Get_Rect();
+	//저절로 움직이고 있나?
+	bool	Is_Auto() { return !m_bStop; }
 
 public:
-	HRESULT	MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _fStopDistance);
-	HRESULT	MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _fStopDistance, _double _speed);
+	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance);
+	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed);
 	HRESULT MoveToDir(Vector3 _vDir, _double _timeDelta);
-	HRESULT MoveToDir(Vector3 _vDir, _double _timeDelta, _double _speed);
+	HRESULT MoveToDir(Vector3 _vDir, _double _timeDelta, _double _Speed);
+	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance);
+	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed);
 
+	
+public:
+	//타깃을 따라간다.
+	HRESULT	MoveToTarget_Auto(CTransform * _pTransform, _double _StopDistance);
+	//해당 방향으로 간다.
+	HRESULT MoveToDir_Auto(Vector3 _vDir);
+	//해당 위치로 간다.
+	HRESULT	MoveToDst_Auto(Vector3 _vDst, _double _fStopDistance);
 
+public:
+	void	Stop() { m_bStop = true; }
 		
 
 public:

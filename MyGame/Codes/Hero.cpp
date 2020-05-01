@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "..\Headers\Hero.h"
 #include "KeyMgr.h"
-
+#include "World.h"
+#include "Transform.h"
 USING(MyGame)
 
 
@@ -12,18 +13,27 @@ CHero::CHero(PDIRECT3DDEVICE9 _pGraphic_Device)
 	Safe_AddRef(m_pKeyMgr);
 }
 
-HRESULT CHero::KeyCheck()
+CHero::CHero(CHero & _hero)
+	: CCharacter(_hero),
+	m_pKeyMgr(_hero.m_pKeyMgr)
+{
+
+}
+
+HRESULT CHero::KeyCheck(_double _timeDelta)
 {
 	if (m_pKeyMgr == nullptr)
 		return E_FAIL;
+	
+	
 	if (m_pKeyMgr->Key_Down(VK_LBUTTON))
 	{
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
-		m_vDst = Vector4((float)pt.x, (float)pt.y);
-
+		CWorld::Get_Instance()->Get_TerrainPos(pt, m_vDst);
+		m_pTransform->MoveToDst_Auto(m_vDst, 1.f);
 	}
 
 	return S_OK;

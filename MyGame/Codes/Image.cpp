@@ -42,7 +42,7 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 
 _int CImage::Update(_double _timeDelta)
 {
-	m_pTransform->Update();
+	m_pTransform->Late_Update();
 	return 0;
 }
 

@@ -38,7 +38,7 @@ _int CMyButton::Update(_double _timeDelta)
 	if (nullptr == m_pGraphic_Device)
 		return -1;
 
-	m_pTransform->Update();
+	m_pTransform->Late_Update();
 
 	m_tRect = m_pTransform->Get_Rect();
 	

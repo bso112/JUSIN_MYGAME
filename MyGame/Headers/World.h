@@ -8,6 +8,7 @@ BEGIN(MyGame)
 #define WORLDY 100
 
 class CTerrain;
+class CTransform;
 class CWorld final : public CBase
 {
 	DECLARE_SINGLETON(CWorld)
@@ -36,7 +37,7 @@ public:
 
 public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
-
+	HRESULT	Get_TerrainPos(POINT _dst, Vector3& _out);
 
 public:
 	HRESULT	Save_World(const _tchar* _filePath);

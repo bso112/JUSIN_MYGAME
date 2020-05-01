@@ -13,12 +13,15 @@ protected:
 	CKeyMgr*	m_pKeyMgr = nullptr;
 
 protected:
+	Vector3		m_vDst = {};
+
+protected:
 	explicit CHero(PDIRECT3DDEVICE9 _pGraphic_Device);
-	explicit CHero(CHero& _hero) : CCharacter(_hero) {}
+	explicit CHero(CHero& _hero);
 	virtual ~CHero() = default;
 
 public:
-	virtual	HRESULT KeyCheck();
+	virtual	HRESULT KeyCheck(_double _timeDelta);
 
 
 public:

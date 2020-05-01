@@ -33,6 +33,7 @@ HRESULT CDoor::Interact(CGameObject* _pInteractor)
 
 HRESULT CDoor::OnMoveFrame()
 {
+	//프레임이 바뀔때마다 멤버변수를 적합한 상태로 셋팅한다.
 	switch (m_iCurFrame)
 	{
 	case STATE_UNLOCKED:
@@ -47,6 +48,7 @@ HRESULT CDoor::OnMoveFrame()
 
 HRESULT CDoor::OnLoadData()
 {
+	//로드될때 받은 상태에따라 멤버변수를 셋팅한다.
 	OnMoveFrame();
 	return S_OK;
 }
