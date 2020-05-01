@@ -122,7 +122,7 @@ HRESULT CMainApp::Initalize_Scene()
 	if (m_pSceneMgr == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_MENU, m_pGraphic_Device)))
+	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_STAGE, m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;

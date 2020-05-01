@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "ObjMgr.h"
 #include "Door.h"
+#include "CollisionMgr.h"
 
 USING(MyGame)
 
@@ -29,6 +30,17 @@ HRESULT CWorld::Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID,
 
 	return S_OK;
 
+}
+
+_int CWorld::Update()
+{
+	//충돌처리
+	CGameObject* pPlayer =CObjMgr::Get_Instance()->Get_Player(m_eSceneID);
+	if (nullptr == pPlayer)
+		return -1;
+	Collision_Terrain(pPlayer);
+
+	return 0;
 }
 
 
@@ -277,6 +289,28 @@ HRESULT CWorld::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 #pragma endregion
 
 	Safe_Release(pObjMgr);
+
+	return S_OK;
+}
+
+HRESULT CWorld::Collision_Terrain(CGameObject* _pObj)
+{
+	if (nullptr == _pObj)
+		return E_FAIL;
+
+	CTransform* pTransform = (CTransform*)_pObj->Get_Module(L"Transform");
+	
+	int x = (int)pTransform->Get_Position().x / TILECX;
+	int y = (int)pTransform->Get_Position().y / TILECY;
+
+	if (x >= WORLDX || y >= WORLDY)
+		return E_FAIL;
+
+	if (nullptr == m_pTerrains[y][x])
+		return E_FAIL;
+
+	//m_pTerrains[y][x]이 null이 아니라는 말은 해당 타일과 충돌했다는 것.
+	CCollisionMgr::Collision(list<CGameObject*>(1, _pObj), list<CGameObject*>(1, (CGameObject*)m_pTerrains[y][x]), true);
 
 	return S_OK;
 }

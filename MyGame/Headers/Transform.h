@@ -71,11 +71,11 @@ public:
 
 	
 public:
-	//타깃을 따라간다.
+	//타깃을 자동으로 따라간다. (Transform Update 불러줘야함)
 	HRESULT	MoveToTarget_Auto(CTransform * _pTransform, _double _StopDistance);
-	//해당 방향으로 간다.
+	//해당 방향으로 자동으로 간다.(Transform Update 불러줘야함)
 	HRESULT MoveToDir_Auto(Vector3 _vDir);
-	//해당 위치로 간다.
+	//해당 위치로 자동으로 간다.(Transform Update 불러줘야함)
 	HRESULT	MoveToDst_Auto(Vector3 _vDst, _double _fStopDistance);
 
 public:

@@ -154,9 +154,6 @@
     <Filter Include="04.GameObject\GameObject\Image">
       <UniqueIdentifier>{bc3c7911-f3d4-424a-a519-f8da5d6a216c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="10.Tile">
-      <UniqueIdentifier>{7511e28c-92fa-4a05-8fe8-cf98283baa9b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.Scene\Scene\Stage\UI">
       <UniqueIdentifier>{aeacd7ad-4d3f-4036-a519-32dd8f98ebef}</UniqueIdentifier>
     </Filter>
@@ -177,6 +174,9 @@
     </Filter>
     <Filter Include="00.World\Terrain\02. Statue">
       <UniqueIdentifier>{1222098e-a73a-41ce-8172-d1f6bee20de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\05.CollisionMgr">
+      <UniqueIdentifier>{f767d9f7-4b0c-4bcb-afe8-3f457f66c6f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -339,6 +339,9 @@
     <ClInclude Include="..\Headers\Door.h">
       <Filter>00.World\Terrain\00. Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\CollisionMgr.h">
+      <Filter>06.Utility\05.CollisionMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -475,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Door.cpp">
       <Filter>00.World\Terrain\00. Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\CollisionMgr.cpp">
+      <Filter>06.Utility\05.CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

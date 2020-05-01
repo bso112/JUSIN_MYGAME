@@ -18,12 +18,51 @@ protected:
 	CRenderer*				m_pRenderer = nullptr;
 	PDIRECT3DDEVICE9		m_pGraphic_Device = nullptr;
 	map<const _tchar*, CModule*>	m_mapModule;
+
+protected:
+	bool	m_bDead = false;
+
+private:
+	//충돌했나
+	bool	m_bCollided;
+	//충돌한 오브젝트 셋
+	set<CGameObject*> m_setCollided;
+
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
 	virtual _int	Update(_double _timeDelta);
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
+
+
+public:
+	bool Get_isCollided() { return m_bCollided; }
+	void Set_isCollided(bool _bCollided) { m_bCollided = _bCollided; }
+	//충돌한 오브젝트를 저장한다.
+	void Add_Collided(CGameObject* _pColided) { m_setCollided.insert(_pColided); }
+	//충돌한 오브젝트 셋의 사이즈를 가져온다.
+	size_t Get_CollidedSize() { return m_setCollided.size(); }
+	//충돌한 오브젝트 셋에 _pCollied가 있는지 검사한다.
+	bool Contain_Collided(CGameObject* _pCollided)
+	{
+		return m_setCollided.find(_pCollided) != m_setCollided.end();
+	}
+
+	bool Erase_Collided(CGameObject* _pCollided)
+	{
+
+		return m_setCollided.erase(_pCollided) ? true : false;
+
+	}
+	void Set_Dead() { m_bDead = true; }
+	const bool& Get_Dead() const { return m_bDead; }
+
+
+public:
+	virtual void OnCollisionEnter(CGameObject* _pOther);
+	virtual void OnCollisionStay(CGameObject* _pOther);
+	virtual void OnCollisionExit(CGameObject* _pOther);
 
 
 public:

@@ -39,6 +39,7 @@ HRESULT CStage::Initialize()
 _int CStage::Update(_double _timeDelta)
 {
 	m_pStageUIMgr->Update();
+	m_pWorld->Update();
 	CScene::Update(_timeDelta);
 
 	return 0;

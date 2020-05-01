@@ -34,6 +34,7 @@ protected:
 	CVIBuffer*	m_pVIBuffer = nullptr;
 
 protected:
+	_int	m_iCurFrame = 0;
 	STAT	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
 	

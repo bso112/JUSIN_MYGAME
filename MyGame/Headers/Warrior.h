@@ -22,10 +22,11 @@ public:
 	virtual HRESULT	Render() override;
 	virtual	HRESULT KeyCheck(_double _timeDelta) override;
 
-
 public:
 	void Set_Destination(Vector4 _vDst) { m_vDst = _vDst; }
 
+public:
+	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 private:
 	virtual void Scene_Change() override;

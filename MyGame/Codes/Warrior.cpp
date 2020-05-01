@@ -122,7 +122,7 @@ HRESULT CWarrior::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pTexture[m_eCurrCloth][m_eCurrAnim]->Set_Texture(0)))
+	if (FAILED(m_pTexture[m_eCurrCloth][m_eCurrAnim]->Set_Texture(m_iCurFrame)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
@@ -136,6 +136,11 @@ HRESULT CWarrior::Render()
 	return S_OK;
 }
 
+
+void CWarrior::OnCollisionEnter(CGameObject * _pOther)
+{
+	++m_iCurFrame;
+}
 
 void CWarrior::Scene_Change()
 {

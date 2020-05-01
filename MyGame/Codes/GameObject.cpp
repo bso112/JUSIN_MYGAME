@@ -50,6 +50,18 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+void CGameObject::OnCollisionEnter(CGameObject * _pOther)
+{
+}
+
+void CGameObject::OnCollisionStay(CGameObject * _pOther)
+{
+}
+
+void CGameObject::OnCollisionExit(CGameObject * _pOther)
+{
+}
+
 HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppOut, void* _pArg)
 {
 	if (nullptr != Get_Module(_eModuleTag))

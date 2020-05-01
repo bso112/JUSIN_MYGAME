@@ -8,7 +8,7 @@ BEGIN(MyGame)
 #define WORLDY 100
 
 class CTerrain;
-class CTransform;
+class CGameObject;
 class CWorld final : public CBase
 {
 	DECLARE_SINGLETON(CWorld)
@@ -33,6 +33,7 @@ private:
 
 public:
 	HRESULT	Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);
+	_int	Update();
 	HRESULT Render();
 
 public:
@@ -46,6 +47,10 @@ public:
 
 private:
 	HRESULT	Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID);
+
+private:
+	//지형과 충돌처리
+	HRESULT	Collision_Terrain(CGameObject* _pObj);
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
