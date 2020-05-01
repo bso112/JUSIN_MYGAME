@@ -146,16 +146,16 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 	//지나온 노드
 	set<CTerrain*> visited;
 	//검사할 노드
-	set<CTerrain*> nodes;
+	set<CTerrain*> open;
 	//검사의 중심이 되는 현재노드
 	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
 
 	int currX = srcX;
 	int currY = srcY;
 
-	int currFcost = INT_MAX;
+	int minFcost = INT_MAX;
 	//Fcost가 같으면 Hcost 기준으로 루트정함
-	int currHcost = INT_MAX;
+	int minHcost = INT_MAX;
 
 	int diaCost = (int)sqrt(TILECX * TILECX + TILECY * TILECY);
 #pragma endregion
@@ -168,7 +168,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 		int tmpX = currX - 1;
 
 
-		//주변 8 타일을 검사한다.
+		//주변 8 타일을 검사해서 cost를 셋팅한다.
 		for (int i = tmpY; i <= tmpY + 2; ++i)
 		{
 			for (int j = tmpX; j <= tmpX + 2; ++j)
@@ -197,48 +197,68 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 				_int Gcost = 0;
 				_int Hcost = 0;
 				_int Fcost = 0;
+				
+				//끝 노드와의 거리
+				_int distX = abs(dstX - j);
+				_int distY = abs(dstY - i);
 
-				//대각선노드면
-				if (i != currY && j != currX)
+				/*
+				대각선을 이용해야 최단거리다. 따라서 대각선을 만든다.
+				X방향으로 1번 + Y방향으로 1번 = 대각선으로 1번
+				*/
+				//cost는 양수가 나와야 되기 때문에 나눠서 처리 
+				if (distX > distY)
+					Hcost = diaCost * distY + (distX - distY) * TILECX;
+				Hcost = diaCost * distX + (distY - distX) * TILECX;
+
+				//현재노드와의 거리
+				distX = abs(currX - j);
+				distY = abs(currY - i);
+
+				if (distX > distY)
+					Gcost = pCurrNode->Get_Node().Gcost + (diaCost * distY + (distX - distY) * TILECX);
+				Gcost = pCurrNode->Get_Node().Gcost + (diaCost * distX + (distY - distX) * TILECX);
+
+				Fcost = Hcost + Gcost;
+
+				m_pTerrains[i][j]->Set_Node(CTerrain::NODE(Gcost, Hcost, Fcost, j, i));
+
+				//일단 검사대상에 넣는다.
+				open.emplace(m_pTerrains[i][j]);
+				
+			}
+		}
+
+		//open set을 검사해서 Fcost가 가장 작은 노드를 찾는다.
+		for (auto& pTerrain : open)
+		{
+			CTerrain::NODE node = pTerrain->Get_Node();
+			if (minFcost > node.Fcost)
+			{
+				minFcost = node.Fcost;
+				pCurrNode = pTerrain;
+				currX = node.X;
+				currY = node.Y;
+			}
+			else if (minFcost == node.Fcost)
+			{
+				if (minHcost > node.Hcost)
 				{
-					//이 노드가 출발지로부터 가까워지는건지 멀어지는건지 어케암?
-					Gcost =
-				}
-				else
-				{
-
-				}
-
-
-				if (currFcost > Fcost)
-				{
-					currFcost = Fcost;
-					currHcost = Hcost;
-					pCurrNode = m_pTerrains[i][j];
-					currX = j;
-					currY = i;
-				}
-				//만약 현재 노드와 Fcost가 같으면
-				else if (currFcost == Fcost)
-				{
-					//Hcost가 더 작은 걸 선택
-					if (currHcost > Hcost)
-					{
-						currFcost = Fcost;
-						currHcost = Hcost;
-						pCurrNode = m_pTerrains[i][j];
-						currX = j;
-						currY = i;
-
-					}
+					minHcost = node.Hcost;
+					pCurrNode = pTerrain;
+					currX = node.X;
+					currY = node.Y;
 				}
 			}
 		}
+
 		//만약 선택된 경로가 없다면 길이 없다는 것이므로 끝냄.
 		if (m_pTerrains[tmpY + 1][tmpX + 1] == pCurrNode)
 			break;
 		//지나간 경로를 표시한다.
 		visited.emplace(pCurrNode);
+		//선택된 노드는 open리스트에서 제거한다.
+		open.erase(pCurrNode);
 	}
 
 	for (auto pTerrain : visited)

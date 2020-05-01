@@ -17,12 +17,18 @@ public:
 		_int Hcost = 0; // distance from end node
 		_int Fcost = 0;	// Gcost + Hcost
 
+		//¿Œµ¶Ω∫
+		_int X = 0;
+		_int Y = 0;
+
 		tagNode() {}
-		tagNode(_int _Gcost, _int _Hcost, _int _Fcost)
+		tagNode(_int _Gcost, _int _Hcost, _int _Fcost, _int _X, _int _Y)
 		{
 			Gcost = _Gcost;
 			Hcost = _Hcost;
 			Fcost = _Fcost;
+			X = _X;
+			Y = _Y;
 		}
 	}NODE;
 public:
