@@ -178,6 +178,9 @@
     <Filter Include="06.Utility\05.CollisionMgr">
       <UniqueIdentifier>{f767d9f7-4b0c-4bcb-afe8-3f457f66c6f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\06.Spawner">
+      <UniqueIdentifier>{8c9a99d7-8bdd-4d9e-95bd-52965b44706c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -342,6 +345,7 @@
     <ClInclude Include="..\Headers\CollisionMgr.h">
       <Filter>06.Utility\05.CollisionMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Spawner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -482,6 +486,7 @@
     <ClCompile Include="..\Codes\CollisionMgr.cpp">
       <Filter>06.Utility\05.CollisionMgr</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\Spawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">

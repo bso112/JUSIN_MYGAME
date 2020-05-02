@@ -223,6 +223,7 @@
     <ClInclude Include="..\Headers\SceneMgr.h" />
     <ClInclude Include="..\Headers\Scroll.h" />
     <ClInclude Include="..\Headers\Shader.h" />
+    <ClInclude Include="..\Headers\Spawner.h" />
     <ClInclude Include="..\Headers\Stage.h" />
     <ClInclude Include="..\Headers\StageUIMgr.h" />
     <ClInclude Include="..\Headers\Stat.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="..\Codes\SceneMgr.cpp" />
     <ClCompile Include="..\Codes\Scroll.cpp" />
     <ClCompile Include="..\Codes\Shader.cpp" />
+    <ClCompile Include="..\Codes\Spawner.cpp" />
     <ClCompile Include="..\Codes\Stage.cpp" />
     <ClCompile Include="..\Codes\StageUIMgr.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />

@@ -5,6 +5,7 @@
 #include "TextureLoader.h"
 #include "StageUIMgr.h"
 #include "Transform.h"
+#include "Spawner.h"
 
 
 USING(MyGame)
@@ -78,7 +79,6 @@ HRESULT CStage::Initalize_Prototypes()
 	Safe_AddRef(pLoader);
 
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
-	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Hero/Warrior/");
 	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
 
 	if (FAILED(Initalize_World()))
@@ -90,6 +90,8 @@ HRESULT CStage::Initalize_Prototypes()
 	if (FAILED(m_pObjMgr->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(CSpawner::Ready_Prototypes(m_pGraphic_Device, SCENE_STAGE)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -101,6 +103,10 @@ HRESULT CStage::Initalize_Layers()
 
 	if (nullptr == m_pObjMgr->Add_GO_To_Layer(L"Player", SCENE_STAGE, L"Player", SCENE_STAGE))
 		return E_FAIL;
+
+	if (FAILED(CSpawner::Spawn(SCENE_STAGE)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

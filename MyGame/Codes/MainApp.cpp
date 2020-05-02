@@ -113,6 +113,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);
 
+	srand(_uint(time(NULL)));
 
 	return S_OK;
 }
@@ -122,7 +123,7 @@ HRESULT CMainApp::Initalize_Scene()
 	if (m_pSceneMgr == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_MENU, m_pGraphic_Device)))
+	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_STAGE, m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;

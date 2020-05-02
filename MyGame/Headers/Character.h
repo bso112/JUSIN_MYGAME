@@ -1,17 +1,17 @@
 #pragma once
 #include "GameObject.h"
+#include "Transform.h"
+#include "VIBuffer.h"
 
 BEGIN(MyGame)
 class CStat;
 class CClock_Single;
-class CTransform;
-class CVIBuffer;
-class CTexture;
+
 class CCharacter abstract : public CGameObject
 {
 protected:
 	explicit CCharacter(PDIRECT3DDEVICE9 _pGraphic_Device) :CGameObject(_pGraphic_Device){};
-	explicit CCharacter(CCharacter& _character) :CGameObject(_character) {}
+	explicit CCharacter(CCharacter& _character);
 	virtual ~CCharacter() = default;
 
 protected:
@@ -38,15 +38,10 @@ protected:
 	STAT	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
 	
-	float	m_fSpeed = 0.f;
-
 	bool	m_bDead = false;
 	bool	m_bInvisible = false;
 	//이동할 목표지점
 	Vector4			m_vDst = {};
-
-	
-
 
 public:
 	virtual void TakeDamage(float _fDamage);

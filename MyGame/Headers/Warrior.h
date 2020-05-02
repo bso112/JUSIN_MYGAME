@@ -2,6 +2,7 @@
 #include "Hero.h"
 
 BEGIN(MyGame)
+class CTexture;
 class CWarrior final : public CHero
 {
 private:

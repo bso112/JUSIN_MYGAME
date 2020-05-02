@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "VIBuffer.h"
+#include "TextureLoader.h"
 USING(MyGame)
 
 
@@ -46,16 +47,10 @@ CGameObject * CWarrior::Clone(void * _param)
 
 HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 {	
-
-	return S_OK;
-}
-
-HRESULT CWarrior::Initialize(void * _param)
-{
-
-
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, &CTransform::STATEDESC(100.f, 100.f));
+
+	
+	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Hero/Warrior/");
 
 
 	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_IDLE]);
@@ -79,9 +74,16 @@ HRESULT CWarrior::Initialize(void * _param)
 	Set_Module(L"warrior_leather_use", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_USE]);
 	Set_Module(L"warrior_leather_walk", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_LEATHER][ANIM_WALK]);
 
+
+	return S_OK;
+}
+
+HRESULT CWarrior::Initialize(void * _param)
+{
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, &CTransform::STATEDESC(100.f, 100.f));
+
 	m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
 	m_pTransform->Set_Size(Vector3(20.f, 25.f));
-
 	return S_OK;
 }
 
@@ -172,9 +174,6 @@ void CWarrior::Free()
 			Safe_Release(m_pTexture[i][j]);
 		}
 	}
-
-	Safe_Release(m_pTransform);
-	Safe_Release(m_pVIBuffer);
 
 	CHero::Free();
 }

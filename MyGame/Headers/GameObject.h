@@ -1,9 +1,9 @@
 #pragma once
 #include "Base.h"
+#include "Renderer.h"
 
 BEGIN(MyGame)
 
-class CRenderer;
 class CModule;
 
 class CGameObject abstract : public CBase

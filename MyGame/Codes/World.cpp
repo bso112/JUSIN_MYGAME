@@ -151,11 +151,11 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 		}
 	}
 
-	//지나온 노드
+	//지나온 노드(최종경로가 아니다)
 	vector<CTerrain*> visited;
-	//검사할 노드
+	//탐사한 노드
 	set<CTerrain*> open;
-	//검사의 중심이 되는 현재노드
+	//검사의 중심이 되는 현재노드(그냥 visited의 마지막 노드)
 	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
 
 	_int currX = srcX;
@@ -181,7 +181,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 
 #pragma endregion
 	
-	//더이상 갈데가 없을때까지
+	//더이상 탐색할 노드가 없을때까지
 	while (open.size() > 0)
 	{
 		minFcost = INT_MAX;
@@ -306,7 +306,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 	if (open.size() == 0)
 	{
 		//경로중에 Hcost가 가장 낮은것을 목적지로함.
-		//Hcost가 같으면 Gcost를 비교 낮은걸 취함.
+		//Hcost가 같으면 Gcost를 비교 낮은걸 취함. (더 이동이 적은것을 택함)
 		if (visited.size() > 0)
 		{
 			pLastNode = visited[0];
@@ -347,6 +347,21 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 	//뽑아낸건 경로의 반대이기 때문에 제대로 해줌
 	reverse(_out.begin(), _out.end());
 	return S_OK;
+}
+
+Vector3 CWorld::Get_RandomPos()
+{
+	_uint ranX = 0;
+	_uint ranY = 0;
+
+	do
+	{
+		ranX = rand() % WORLDX;
+		ranY = rand() % WORLDY;
+
+	} while (m_pTerrains[ranY][ranX] == nullptr || !m_pTerrains[ranY][ranX]->IsMovable());
+	
+	return Vector3(ranX * TILECX, ranY * TILECY, 0.f, 1.f);
 }
 
 

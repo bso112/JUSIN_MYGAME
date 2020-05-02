@@ -2,10 +2,19 @@
 #include "..\Headers\Character.h"
 #include "Stat.h"
 #include "Clock.h"
+
 USING(MyGame)
 
 
 
+
+CCharacter::CCharacter(CCharacter & _character)
+	:CGameObject(_character),
+	m_tStat(_character.m_tStat),
+	m_pVIBuffer(_character.m_pVIBuffer),
+	m_vecImmune(_character.m_vecImmune)
+{
+}
 
 void CCharacter::TakeDamage(float _fDamage)
 {
@@ -60,5 +69,8 @@ HRESULT CCharacter::MoveToDst(Vector4 _vDst, _double _timeDelta)
 
 void CCharacter::Free()
 {
+	Safe_Release(m_pTransform);
+	Safe_Release(m_pVIBuffer);
+
 	CGameObject::Free();
 }

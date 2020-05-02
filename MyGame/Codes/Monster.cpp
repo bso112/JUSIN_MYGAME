@@ -3,3 +3,12 @@
 
 USING(MyGame)
 
+CMonster::CMonster(CMonster & _rhs)
+	:CCharacter(_rhs)
+{
+}
+
+void CMonster::Free()
+{
+	CCharacter::Free();
+}
