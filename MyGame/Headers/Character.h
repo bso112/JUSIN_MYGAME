@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "VIBuffer.h"
-
+#include "Animator.h"
 BEGIN(MyGame)
 class CStat;
 class CClock_Single;

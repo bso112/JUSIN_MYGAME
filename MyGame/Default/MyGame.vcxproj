@@ -190,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\AiState.h" />
+    <ClInclude Include="..\Headers\Animation.h" />
+    <ClInclude Include="..\Headers\Animator.h" />
     <ClInclude Include="..\Headers\CollisionMgr.h" />
     <ClInclude Include="..\Headers\Door.h" />
     <ClInclude Include="..\Headers\Image.h" />
@@ -247,6 +249,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\AiState.cpp" />
+    <ClCompile Include="..\Codes\Animation.cpp" />
+    <ClCompile Include="..\Codes\Animator.cpp" />
     <ClCompile Include="..\Codes\CollisionMgr.cpp" />
     <ClCompile Include="..\Codes\Door.cpp" />
     <ClCompile Include="..\Codes\Image.cpp" />

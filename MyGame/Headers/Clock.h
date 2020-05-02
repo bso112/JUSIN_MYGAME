@@ -16,6 +16,7 @@ public:
 	_bool isUsing() { return m_bUsing; }
 };
 
+//주어진 시간간격으로 true를 반환하는 시계
 class CClock_Trigger final : public CClock
 {
 private:
@@ -27,6 +28,7 @@ public:
 	virtual void Free() override;
 };
 
+//주어진 시간이 지나면 계속 true를 반환하는 시계
 class CClock_Delay final : public CClock
 {
 private:
@@ -39,6 +41,7 @@ public:
 	virtual void Free() override;
 };
 
+//주어진 시간이 되면 한번 true를 반환하고 false가 되는 시계
 class CClock_Single final : public CClock
 {
 private:
@@ -50,6 +53,7 @@ public:
 	virtual void Free() override;
 };
 
+//주어진 시간 간격으로 false, true, false.. 뒤바뀌며 반환하는 시계
 class CClock_Reversal final : public CClock
 {
 private:

@@ -120,10 +120,10 @@ HRESULT CWorld::Get_TerrainPos(POINT _dst, Vector3& _out)
 
 HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 {
-	_int srcX = _src.x / TILECX;
-	_int srcY = _src.y / TILECY;
-	_int dstX = _dst.x / TILECX;
-	_int dstY = _dst.y / TILECY;
+	_int srcX = (_int)_src.x / TILECX;
+	_int srcY = (_int)_src.y / TILECY;
+	_int dstX = (_int)_dst.x / TILECX;
+	_int dstY = (_int)_dst.y / TILECY;
 
 	if (dstX >= WORLDX || dstY >= WORLDY)
 		return E_FAIL;
@@ -361,7 +361,7 @@ Vector3 CWorld::Get_RandomPos()
 
 	} while (m_pTerrains[ranY][ranX] == nullptr || !m_pTerrains[ranY][ranX]->IsMovable());
 	
-	return Vector3(ranX * TILECX, ranY * TILECY, 0.f, 1.f);
+	return Vector3((float)ranX * TILECX, (float)ranY * TILECY, 0.f, 1.f);
 }
 
 

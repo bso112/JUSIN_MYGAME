@@ -5,17 +5,13 @@ BEGIN(MyGame)
 class CTexture;
 class CRat final : public CMonster
 {
-public:
-	enum ANIM { ANIM_IDLE, ANIM_ATTACK, ANIM_JUMP, ANIM_DEAD, ANIM_END };
 private:
 	explicit CRat(PDIRECT3DDEVICE9 _pGraphic_Device) :CMonster(_pGraphic_Device) {};
 	explicit CRat(CRat& _rhs);
 	virtual ~CRat() = default;
 	
 private:
-	CTexture*	m_pTexture[ANIM_END];
-	ANIM		m_eCurrAnim = ANIM_IDLE;
-
+	CAnimator*	m_pAnimator = nullptr;
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);

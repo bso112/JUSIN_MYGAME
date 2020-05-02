@@ -181,6 +181,12 @@
     <Filter Include="06.Utility\06.Spawner">
       <UniqueIdentifier>{8c9a99d7-8bdd-4d9e-95bd-52965b44706c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\02.Module\Module\Animator">
+      <UniqueIdentifier>{489af9d1-9d14-4df4-a18e-1d82496eb1dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\Animator\Animation">
+      <UniqueIdentifier>{c73d45c9-47b3-4491-89db-a0e6d758766b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -345,7 +351,15 @@
     <ClInclude Include="..\Headers\CollisionMgr.h">
       <Filter>06.Utility\05.CollisionMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Spawner.h" />
+    <ClInclude Include="..\Headers\Animator.h">
+      <Filter>06.Utility\02.Module\Module\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Spawner.h">
+      <Filter>06.Utility\06.Spawner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Animation.h">
+      <Filter>06.Utility\02.Module\Module\Animator\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -486,7 +500,15 @@
     <ClCompile Include="..\Codes\CollisionMgr.cpp">
       <Filter>06.Utility\05.CollisionMgr</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Spawner.cpp" />
+    <ClCompile Include="..\Codes\Animator.cpp">
+      <Filter>06.Utility\02.Module\Module\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Spawner.cpp">
+      <Filter>06.Utility\06.Spawner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Animation.cpp">
+      <Filter>06.Utility\02.Module\Module\Animator\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">
