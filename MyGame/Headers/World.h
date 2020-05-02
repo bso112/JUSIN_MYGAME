@@ -29,7 +29,7 @@ private:
 private:
 	//어느 씬의 월드인가
 	SCENEID		m_eSceneID = SCENE_END;
-	
+
 
 public:
 	HRESULT	Initialize(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);

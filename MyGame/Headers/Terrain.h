@@ -13,22 +13,37 @@ public:
 public:
 	typedef struct tagNode
 	{
-		_int Gcost = 0; // distance from staring node
-		_int Hcost = 0; // distance from end node
-		_int Fcost = 0;	// Gcost + Hcost
+		_int Gcost = INT_MAX; // distance from staring node
+		_int Hcost = INT_MAX; // distance from end node
+		_int Fcost = INT_MAX;	// Gcost + Hcost
 
 		//ÀÎµ¦½º
 		_int X = 0;
 		_int Y = 0;
 
+		//ºÎ¸ð
+		CTerrain* pParent = nullptr;
+
 		tagNode() {}
-		tagNode(_int _Gcost, _int _Hcost, _int _Fcost, _int _X, _int _Y)
+		tagNode(_int _Gcost, _int _Hcost, _int _Fcost, _int _X, _int _Y, CTerrain* _pParent)
 		{
 			Gcost = _Gcost;
 			Hcost = _Hcost;
 			Fcost = _Fcost;
 			X = _X;
 			Y = _Y;
+			pParent = _pParent;
+		}
+
+		void Clear()
+		{
+			Gcost = INT_MAX;	// distance from staring node
+			Hcost = INT_MAX;	// distance from end node
+			Fcost = INT_MAX;	// Gcost + Hcost
+
+			X = 0;
+			Y = 0;
+			pParent = nullptr;
 		}
 	}NODE;
 public:
@@ -84,6 +99,7 @@ public:
 	HRESULT		Backward_Frame();
 	void		Set_Node(NODE _tNode) { m_tNode = _tNode; }
 	const NODE&	Get_Node() { return m_tNode; }
+	void		Clear_Node() { m_tNode.Clear(); }
 	
 
 protected:

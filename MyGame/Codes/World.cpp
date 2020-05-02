@@ -117,6 +117,7 @@ HRESULT CWorld::Get_TerrainPos(POINT _dst, Vector3& _out)
 	return S_OK;
 }
 
+
 HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 {
 	_int srcX = _src.x / TILECX;
@@ -132,104 +133,65 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 	if (nullptr == m_pTerrains[srcY][srcX] || nullptr == m_pTerrains[dstY][dstX])
 		return E_FAIL;
 
-
 	//에이스타
 	/*
-	 Gcost // distance from staring node
-	 Hcost // distance from end node
-	 Fcost // Gcost + Hcost
+	Gcost // distance from staring node
+	Hcost // distance from end node
+	Fcost // Gcost + Hcost
 	*/
 
 #pragma region 초기화
 
+	for (int i = 0; i < WORLDY; ++i)
+	{
+		for (int j = 0; j < WORLDX; ++j)
+		{
+			if (nullptr != m_pTerrains[i][j])
+				m_pTerrains[i][j]->Clear_Node();
+		}
+	}
 
 	//지나온 노드
-	set<CTerrain*> visited;
+	vector<CTerrain*> visited;
 	//검사할 노드
 	set<CTerrain*> open;
 	//검사의 중심이 되는 현재노드
 	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
 
-	int currX = srcX;
-	int currY = srcY;
+	_int currX = srcX;
+	_int currY = srcY;
 
-	int minFcost = INT_MAX;
+	_int minFcost = INT_MAX;
 	//Fcost가 같으면 Hcost 기준으로 루트정함
-	int minHcost = INT_MAX;
+	_int minHcost = INT_MAX;
 
-	int diaCost = (int)sqrt(TILECX * TILECX + TILECY * TILECY);
+	_int diaCost = (int)sqrt(TILECX * TILECX + TILECY * TILECY);
+
+	int startHcost = 0;
+	_int tmpX = abs(dstX - srcX);
+	_int tmpY = abs(dstY - srcY);
+	if (tmpX > tmpY)
+		startHcost = tmpY * diaCost + (tmpX - tmpY) * TILECX;
+	else
+		startHcost = tmpX * diaCost + (tmpY - tmpX) * TILECX;
+
+	//시작노드를 open리스트에 넣음
+	pCurrNode->Set_Node(CTerrain::NODE(0, startHcost, startHcost, srcX, srcY, nullptr));
+	open.emplace(pCurrNode);
+
 #pragma endregion
-
-	while (m_pTerrains[dstY][dstX] != pCurrNode)
+	
+	//더이상 갈데가 없을때까지
+	while (open.size() > 0)
 	{
+		minFcost = INT_MAX;
+		minHcost = INT_MAX;
 
-		//현재노드의 왼쪽 위 타일의 인덱스
-		int tmpY = currY - 1;
-		int tmpX = currX - 1;
-
-
-		//주변 8 타일을 검사해서 cost를 셋팅한다.
-		for (int i = tmpY; i <= tmpY + 2; ++i)
-		{
-			for (int j = tmpX; j <= tmpX + 2; ++j)
-			{
-#pragma region 예외처리
-				//유효하지 않은 타일 제외
-				if (i >= WORLDX || j >= WORLDY || i < 0 || j < 0)
-					continue;
-				if (nullptr == m_pTerrains[i][j])
-					continue;
-				//가지 못하는 곳이면 제외
-				if (!m_pTerrains[i][j]->IsMovable())
-					continue;
-				//이미 방문한 곳이면 제외
-				if (visited.find(m_pTerrains[i][j]) != visited.end())
-					continue;
-				//자기자신 제외
-				if (i == currY && j == currX)
-					continue;
-				//자기자신이 nullptr면 끝냄
-				if (nullptr == pCurrNode)
-					return E_FAIL;
-
-#pragma endregion
-				//cost 구하기
-				_int Gcost = 0;
-				_int Hcost = 0;
-				_int Fcost = 0;
-				
-				//끝 노드와의 거리
-				_int distX = abs(dstX - j);
-				_int distY = abs(dstY - i);
-
-				/*
-				대각선을 이용해야 최단거리다. 따라서 대각선을 만든다.
-				X방향으로 1번 + Y방향으로 1번 = 대각선으로 1번
-				*/
-				//cost는 양수가 나와야 되기 때문에 나눠서 처리 
-				if (distX > distY)
-					Hcost = diaCost * distY + (distX - distY) * TILECX;
-				Hcost = diaCost * distX + (distY - distX) * TILECX;
-
-				//현재노드와의 거리
-				distX = abs(currX - j);
-				distY = abs(currY - i);
-
-				if (distX > distY)
-					Gcost = pCurrNode->Get_Node().Gcost + (diaCost * distY + (distX - distY) * TILECX);
-				Gcost = pCurrNode->Get_Node().Gcost + (diaCost * distX + (distY - distX) * TILECX);
-
-				Fcost = Hcost + Gcost;
-
-				m_pTerrains[i][j]->Set_Node(CTerrain::NODE(Gcost, Hcost, Fcost, j, i));
-
-				//일단 검사대상에 넣는다.
-				open.emplace(m_pTerrains[i][j]);
-				
-			}
-		}
-
-		//open set을 검사해서 Fcost가 가장 작은 노드를 찾는다.
+		/*
+		open set을 검사해서 Fcost가 가장 작은 노드를 찾는다.
+		주의) 만약 INT_MAX가 아닌 curFcost랑 비교하면 Fcost가 현재 노드보다 더 커지는 경우는 배제해버린다.
+		즉, 장애물을 돌아가는 경로는 아예 생각도 안해버림.
+		*/
 		for (auto& pTerrain : open)
 		{
 			CTerrain::NODE node = pTerrain->Get_Node();
@@ -250,27 +212,145 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 					currY = node.Y;
 				}
 			}
+
 		}
 
-		//만약 선택된 경로가 없다면 길이 없다는 것이므로 끝냄.
-		if (m_pTerrains[tmpY + 1][tmpX + 1] == pCurrNode)
-			break;
-		//지나간 경로를 표시한다.
-		visited.emplace(pCurrNode);
 		//선택된 노드는 open리스트에서 제거한다.
 		open.erase(pCurrNode);
+		//방문했다고 표시
+		visited.push_back(pCurrNode);
+
+		//목적지에 도달했으면 끝
+		if (m_pTerrains[dstY][dstX] == pCurrNode)
+			break;
+
+
+		//현재노드의 왼쪽 위 타일의 인덱스
+		int tmpY = currY - 1;
+		int tmpX = currX - 1;
+
+		//주변 8 타일을 검사해서 cost를 셋팅한다.
+		for (int i = tmpY; i <= tmpY + 2; ++i)
+		{
+			for (int j = tmpX; j <= tmpX + 2; ++j)
+			{
+#pragma region 예외처리
+				//유효하지 않은 타일 제외
+				if (i >= WORLDX || j >= WORLDY || i < 0 || j < 0)
+					continue;
+				if (nullptr == m_pTerrains[i][j])
+					continue;
+				//가지 못하는 곳이면 제외
+				if (!m_pTerrains[i][j]->IsMovable())
+					continue;
+				//이미 방문한 곳이면 제외
+				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
+					continue;
+				//자기자신 제외
+				if (i == currY && j == currX)
+					continue;
+				//자기자신이 nullptr면 끝냄
+				if (nullptr == pCurrNode)
+					return E_FAIL;
+
+#pragma endregion
+				//cost 구하기
+				_int Gcost = 0;
+				_int Hcost = 0;
+				_int Fcost = 0;
+
+				//끝 노드와의 거리
+				_int distX = abs(dstX - j);
+				_int distY = abs(dstY - i);
+
+				/*
+				대각선을 이용해야 최단거리다. 따라서 대각선을 만든다.
+				X방향으로 1번 + Y방향으로 1번 = 대각선으로 1번
+				*/
+				//cost는 양수가 나와야 되기 때문에 나눠서 처리 
+				if (distX > distY)
+					Hcost = diaCost * distY + (distX - distY) * TILECX;
+				else
+					Hcost = diaCost * distX + (distY - distX) * TILECX;
+
+				//현재노드와의 거리
+				distX = abs(currX - j);
+				distY = abs(currY - i);
+
+				if (distX > distY)
+					Gcost = pCurrNode->Get_Node().Gcost + (diaCost * distY + (distX - distY) * TILECX);
+				else
+					Gcost = pCurrNode->Get_Node().Gcost + (diaCost * distX + (distY - distX) * TILECX);
+
+				Fcost = Hcost + Gcost;
+
+				//만약 구한 Fcost가 기존의 것보다 작으면 기존 것을 갱신, 부모설정
+				if (m_pTerrains[i][j]->Get_Node().Fcost > Fcost)
+					m_pTerrains[i][j]->Set_Node(CTerrain::NODE(Gcost, Hcost, Fcost, j, i, pCurrNode));
+
+				//검사대상에 넣는다. (중복없이)
+				open.emplace(m_pTerrains[i][j]);
+
+
+			}
+		}
 	}
 
-	for (auto pTerrain : visited)
+
+	//visited에 들어가 있는건 방문했던 모든 노드다. 그 중에서 경로를 뽑아내야한다.
+
+	//도착지점
+	CTerrain* pLastNode = visited.back();
+	
+	//길을 찾지 못했을때는 목표와 가장 가까운 곳을 도착지로 설정
+	if (open.size() == 0)
 	{
-		CTransform* pTransform = (CTransform*)pTerrain->Get_Module(L"Transform");
+		//경로중에 Hcost가 가장 낮은것을 목적지로함.
+		//Hcost가 같으면 Gcost를 비교 낮은걸 취함.
+		if (visited.size() > 0)
+		{
+			pLastNode = visited[0];
+
+			for (int i = 1; i < visited.size(); ++i)
+			{
+				_int lastHcost = pLastNode->Get_Node().Hcost;
+				_int lastGcost = pLastNode->Get_Node().Gcost;
+				_int currHcost = visited[i]->Get_Node().Hcost;
+				_int currGcost = visited[i]->Get_Node().Gcost;
+
+				if (lastHcost > currHcost)
+				{
+					pLastNode = visited[i];
+				}
+				else if (lastHcost == currHcost)
+				{
+					if (lastGcost > currGcost)
+						pLastNode = visited[i];
+				}
+			}
+		}
+	}
+
+	//부모가 없을때까지(시작노드까지)
+	while (pLastNode->Get_Node().pParent != nullptr)
+	{
+		CTransform* pTransform = (CTransform*)pLastNode->Get_Module(L"Transform");
 		if (nullptr == pTransform)
 			return E_FAIL;
 
 		_out.push_back(pTransform->Get_Position());
+
+		//부모를 타고 들어가기
+		pLastNode = pLastNode->Get_Node().pParent;
 	}
+
+	//뽑아낸건 경로의 반대이기 때문에 제대로 해줌
+	reverse(_out.begin(), _out.end());
 	return S_OK;
 }
+
+
+
 
 HRESULT CWorld::Save_World(const _tchar* _filePath)
 {

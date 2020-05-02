@@ -50,7 +50,7 @@ _int CTransform::Update(_double _timeDelta)
 
 	Vector3 vDir = m_Route[index] - m_vPosition;
 
-	if (vDir.magnitude() >= m_StopDistance)
+	if (vDir.magnitude() > m_StopDistance)
 	{
 		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 	}
