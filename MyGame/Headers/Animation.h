@@ -17,9 +17,19 @@ private:
 	_bool				m_bLoop = false;
 	CClock_Trigger*		m_pClock = nullptr;
 	_uint				m_iCurrFrame = 0;
+	
+private:
+	CAnimation*			m_pNextAnim = nullptr;
+	
 public:
-	_int	Render();
-	HRESULT Play();
+	//다음에 실행할 애니메이션의 포인터를 반환한다.
+	CAnimation*	Render();
+	//애니메이션을 실행한다.
+	HRESULT		Play();
+
+public:
+	HRESULT	Set_NextAnim(CAnimation* _pAnimation);
+
 
 public:
 	HRESULT Initialize(CTexture * _pTextures, _double _dFrameTime, _bool _bLoop);

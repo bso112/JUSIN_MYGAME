@@ -43,15 +43,28 @@ HRESULT CRat::Initialize(void * _param)
 	Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator);
 
 	CTexture* pTexture = nullptr;
-	Set_Module(L"rat_att", SCENE_STAGE, (CModule**)&pTexture);
-	m_pAnimator->Add_Animation(L"attack", CAnimation::Create(pTexture, 0.2, false));
-	Set_Module(L"rat_idle", SCENE_STAGE, (CModule**)&pTexture);
-	m_pAnimator->Add_Animation(L"idle", CAnimation::Create(pTexture, 0.2, true));
-	Set_Module(L"rat_dead", SCENE_STAGE, (CModule**)&pTexture);
-	m_pAnimator->Add_Animation(L"dead", CAnimation::Create(pTexture, 0.2, false));
-	Set_Module(L"rat_jump", SCENE_STAGE, (CModule**)&pTexture);
-	m_pAnimator->Add_Animation(L"jump", CAnimation::Create(pTexture, 0.2, true));
 
+	Set_Module(L"rat_att", SCENE_STAGE, (CModule**)&pTexture);
+	CAnimation* pAttackAnim = CAnimation::Create(pTexture, 0.2, false);
+	m_pAnimator->Add_Animation(L"attack", pAttackAnim);
+
+	Set_Module(L"rat_idle", SCENE_STAGE, (CModule**)&pTexture);
+	CAnimation* pIdleAnim = CAnimation::Create(pTexture, 1.0, true);
+	m_pAnimator->Add_Animation(L"idle", pIdleAnim);
+	
+	Set_Module(L"rat_dead", SCENE_STAGE, (CModule**)&pTexture);
+	CAnimation* pDeadAnim	= CAnimation::Create(pTexture, 0.2, false);
+	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
+	
+	Set_Module(L"rat_jump", SCENE_STAGE, (CModule**)&pTexture);
+	CAnimation* pJumpAnim	= CAnimation::Create(pTexture, 0.2, false);
+	m_pAnimator->Add_Animation(L"jump", pJumpAnim);
+
+	//애니메이션의 관계설정
+	pAttackAnim->Set_NextAnim(pIdleAnim);
+	pJumpAnim->Set_NextAnim(pIdleAnim);
+
+	//기본 애니메이션 설정
 	m_pAnimator->Play(L"idle");
 
 	m_iRecogRange = 5;

@@ -35,7 +35,13 @@ _int CAnimator::Render()
 	if (nullptr == m_pCurrAnim)
 		return -1;
 
-	m_pCurrAnim->Render();
+	//현재 애니메이션이 끝나면 다음에 설정된 애니메이션으로 넘어간다.
+	CAnimation* next = m_pCurrAnim->Render();
+	if (nullptr != next)
+	{
+		next->Play();
+		m_pCurrAnim = next;
+	}
 	return 0;
 }
 
