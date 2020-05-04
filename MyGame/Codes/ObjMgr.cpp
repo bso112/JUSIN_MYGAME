@@ -42,7 +42,7 @@ _int CObjMgr::Update(_double _timeDelta)
 
 		}
 	}
-	return _int();
+	return 0;
 }
 
 HRESULT CObjMgr::Add_Prototype(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID, CGameObject* _pGO)

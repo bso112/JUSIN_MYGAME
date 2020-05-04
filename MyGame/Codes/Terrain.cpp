@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "ModuleMgr.h"	
 #include "VIBuffer.h"
+#include "Character.h"
 
 USING(MyGame)
 
@@ -119,6 +120,34 @@ HRESULT CTerrain::Backward_Frame()
 		m_iCurFrame = (_int)m_pTexture->Get_TextureSize() - 1;
 
 	return S_OK;
+}
+
+void CTerrain::OnCollisionEnter(CGameObject * _pOther)
+{
+	OnCollisionEnterTerrain(_pOther);
+}
+
+void CTerrain::OnCollisionStay(CGameObject * _pOther)
+{
+	OnCollisionStayTerrain(_pOther);
+}
+
+void CTerrain::OnCollisionExit(CGameObject * _pOther)
+{
+	OnCollisionExitTerrain(_pOther);
+}
+
+void CTerrain::OnCollisionEnterTerrain(CGameObject * _pOther)
+{
+
+}
+
+void CTerrain::OnCollisionStayTerrain(CGameObject * _pOther)
+{
+}
+
+void CTerrain::OnCollisionExitTerrain(CGameObject * _pOther)
+{
 }
 
 HRESULT CTerrain::OnMoveFrame()

@@ -189,6 +189,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Headers\Actor.h" />
     <ClInclude Include="..\Headers\AiState.h" />
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\Animator.h" />
@@ -234,6 +235,7 @@
     <ClInclude Include="..\Headers\Terrain.h" />
     <ClInclude Include="..\Headers\TextureLoader.h" />
     <ClInclude Include="..\Headers\TilePalette.h" />
+    <ClInclude Include="..\Headers\TurnMgr.h" />
     <ClInclude Include="..\Headers\World.h" />
     <ClInclude Include="..\Headers\Timer.h" />
     <ClInclude Include="..\Headers\TimerMgr.h" />
@@ -248,6 +250,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Codes\Actor.cpp" />
     <ClCompile Include="..\Codes\AiState.cpp" />
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\Animator.cpp" />
@@ -288,6 +291,7 @@
     <ClCompile Include="..\Codes\Terrain.cpp" />
     <ClCompile Include="..\Codes\TextureLoader.cpp" />
     <ClCompile Include="..\Codes\TilePalette.cpp" />
+    <ClCompile Include="..\Codes\TurnMgr.cpp" />
     <ClCompile Include="..\Codes\World.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />
     <ClCompile Include="..\Codes\TimerMgr.cpp" />

@@ -70,9 +70,6 @@
     <Filter Include="03.Scene\Scene\Stage">
       <UniqueIdentifier>{ff8a4e24-1fec-40ec-a7bf-9b31a54bb96c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06.Utility\03.KeyManager">
-      <UniqueIdentifier>{fe25f361-67eb-4c4b-90ac-0d6e4440f336}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Utility\02.Module\Module">
       <UniqueIdentifier>{0384e254-a825-47f2-9e32-6228b3528ca4}</UniqueIdentifier>
     </Filter>
@@ -121,27 +118,6 @@
     <Filter Include="04.GameObject\GameObject">
       <UniqueIdentifier>{7571bd39-7ab4-403a-a8be-52cb3bb68e61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Character">
-      <UniqueIdentifier>{84908b22-5494-4dfc-be69-7a1dd977b2a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Character\Hero">
-      <UniqueIdentifier>{80908c40-e165-479f-aa8f-37782af18487}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Character\Hero\Manager">
-      <UniqueIdentifier>{f1756551-0325-48c9-8887-3b417a2549af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Character\Hero\Warrior">
-      <UniqueIdentifier>{8e78c4fe-0080-45b2-a2f7-adadee94b547}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Monster">
-      <UniqueIdentifier>{0b86c09d-35f6-4d7f-b9cc-120ae531ce34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Monster\99.AiState">
-      <UniqueIdentifier>{97520fc8-91b8-4c32-9958-02288aaf3217}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.GameObject\GameObject\Monster\00.Rat">
-      <UniqueIdentifier>{b9f848a3-d6d1-432c-b1e2-cbe6f4a481b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Item">
       <UniqueIdentifier>{ba7bb73e-a7d1-4ba5-ab27-467dd6635d9d}</UniqueIdentifier>
     </Filter>
@@ -186,6 +162,36 @@
     </Filter>
     <Filter Include="06.Utility\02.Module\Module\Animator\Animation">
       <UniqueIdentifier>{c73d45c9-47b3-4491-89db-a0e6d758766b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\07.TurnMgr">
+      <UniqueIdentifier>{18130575-2a20-4c43-91cb-772d17d10763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\03.KeyMgr">
+      <UniqueIdentifier>{fe25f361-67eb-4c4b-90ac-0d6e4440f336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor">
+      <UniqueIdentifier>{e3856dda-d0ab-47e4-a467-b5127d9367f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character">
+      <UniqueIdentifier>{84908b22-5494-4dfc-be69-7a1dd977b2a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Hero">
+      <UniqueIdentifier>{80908c40-e165-479f-aa8f-37782af18487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Hero\Manager">
+      <UniqueIdentifier>{f1756551-0325-48c9-8887-3b417a2549af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Hero\Warrior">
+      <UniqueIdentifier>{8e78c4fe-0080-45b2-a2f7-adadee94b547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Monster">
+      <UniqueIdentifier>{0b86c09d-35f6-4d7f-b9cc-120ae531ce34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\99.AiState">
+      <UniqueIdentifier>{97520fc8-91b8-4c32-9958-02288aaf3217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\00.Rat">
+      <UniqueIdentifier>{b9f848a3-d6d1-432c-b1e2-cbe6f4a481b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -253,31 +259,31 @@
       <Filter>06.Utility\01.Clock\Clock</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Character.h">
-      <Filter>04.GameObject\GameObject\Character</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Stat.h">
       <Filter>08.Stat</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Hero.h">
-      <Filter>04.GameObject\GameObject\Character\Hero</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Hero</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Monster.h">
-      <Filter>04.GameObject\GameObject\Monster</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\AiState.h">
-      <Filter>04.GameObject\GameObject\Monster\99.AiState</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\99.AiState</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Warrior.h">
-      <Filter>04.GameObject\GameObject\Character\Hero\Warrior</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Hero\Warrior</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Rat.h">
-      <Filter>04.GameObject\GameObject\Monster\00.Rat</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\00.Rat</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Buff.h">
       <Filter>09.Buff</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\HeroMgr.h">
-      <Filter>04.GameObject\GameObject\Character\Hero\Manager</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Hero\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Invisible.h">
       <Filter>09.Buff\00.Invisible</Filter>
@@ -343,7 +349,7 @@
       <Filter>06.Utility\04.Statics</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\KeyMgr.h">
-      <Filter>06.Utility\03.KeyManager</Filter>
+      <Filter>06.Utility\03.KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Door.h">
       <Filter>00.World\Terrain\00. Door</Filter>
@@ -359,6 +365,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Animation.h">
       <Filter>06.Utility\02.Module\Module\Animator\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TurnMgr.h">
+      <Filter>06.Utility\07.TurnMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Actor.h">
+      <Filter>04.GameObject\GameObject\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -405,31 +417,31 @@
       <Filter>06.Utility\01.Clock\Clock</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Character.cpp">
-      <Filter>04.GameObject\GameObject\Character</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Stat.cpp">
       <Filter>08.Stat</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Hero.cpp">
-      <Filter>04.GameObject\GameObject\Character\Hero</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Hero</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Monster.cpp">
-      <Filter>04.GameObject\GameObject\Monster</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\AiState.cpp">
-      <Filter>04.GameObject\GameObject\Monster\99.AiState</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\99.AiState</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Warrior.cpp">
-      <Filter>04.GameObject\GameObject\Character\Hero\Warrior</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Hero\Warrior</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Rat.cpp">
-      <Filter>04.GameObject\GameObject\Monster\00.Rat</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\00.Rat</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Buff.cpp">
       <Filter>09.Buff</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\HeroMgr.cpp">
-      <Filter>04.GameObject\GameObject\Character\Hero\Manager</Filter>
+      <Filter>04.GameObject\GameObject\Actor\Character\Hero\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Invisible.cpp">
       <Filter>09.Buff\00.Invisible</Filter>
@@ -492,7 +504,7 @@
       <Filter>06.Utility\04.Statics</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\KeyMgr.cpp">
-      <Filter>06.Utility\03.KeyManager</Filter>
+      <Filter>06.Utility\03.KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Door.cpp">
       <Filter>00.World\Terrain\00. Door</Filter>
@@ -508,6 +520,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Animation.cpp">
       <Filter>06.Utility\02.Module\Module\Animator\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TurnMgr.cpp">
+      <Filter>06.Utility\07.TurnMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Actor.cpp">
+      <Filter>04.GameObject\GameObject\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

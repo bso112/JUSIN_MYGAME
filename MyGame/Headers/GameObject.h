@@ -33,6 +33,7 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 	virtual _int	Update(_double _timeDelta);
 	virtual _int	LateUpate(_double _timeDelta);
+	virtual HRESULT	Act(_int _iTurnCnt);
 	virtual HRESULT	Render();
 
 
@@ -51,7 +52,7 @@ public:
 
 	bool Erase_Collided(CGameObject* _pCollided)
 	{
-
+		//returns the number of elements removed
 		return m_setCollided.erase(_pCollided) ? true : false;
 
 	}

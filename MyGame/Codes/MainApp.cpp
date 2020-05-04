@@ -141,10 +141,6 @@ HRESULT CMainApp::Initalize_Module()
 	if (FAILED(pModuleMgr->Add_Module(L"VIBuffer", SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(pModuleMgr->Add_Module(L"Texture_Default", SCENE_STATIC, CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/Loading.jpg"))))
-		return E_FAIL;
-
-
 	if (FAILED(pModuleMgr->Add_Module(L"Transform", SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

@@ -16,6 +16,7 @@ private:
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
+	virtual HRESULT Act(_int _iTurnCnt) override;
 	virtual _int	Update(_double _timeDelta);
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();

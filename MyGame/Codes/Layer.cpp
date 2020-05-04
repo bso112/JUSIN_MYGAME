@@ -8,6 +8,19 @@ HRESULT CLayer::Initialize()
 	return S_OK;
 }
 
+HRESULT CLayer::Act(_int _iTurnCnt)
+{
+	for (auto& obj : m_listGO)
+	{
+		if (nullptr != obj)
+		{
+			if (FAILED(obj->Act(_iTurnCnt)))
+				MSG_BOX("Fail to act actor");
+		}
+	}
+	return S_OK;
+}
+
 _int CLayer::Update(_double _timeDelta)
 {
 	for (auto& obj : m_listGO)

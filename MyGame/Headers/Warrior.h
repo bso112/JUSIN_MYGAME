@@ -30,6 +30,7 @@ public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 private:
+	virtual HRESULT Act(_int _iTurnCnt) override;
 	virtual void Scene_Change() override;
 	virtual void Process() override;
 	virtual void Update_State() override;
@@ -43,9 +44,6 @@ public:
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
-
-
-
 
 
 };

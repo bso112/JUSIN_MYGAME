@@ -13,6 +13,7 @@ private:
 	list<CGameObject*> m_listGO;
 public:
 	HRESULT Initialize();
+	HRESULT	Act(_int _iTurnCnt);
 	_int	Update(_double _timeDelta);
 	_int	Late_Update(_double _timeDelta);
 	HRESULT Add_GameObject(CGameObject* _pGO);

@@ -45,6 +45,11 @@ _int CGameObject::LateUpate(_double _timeDelta)
 	return _int();
 }
 
+HRESULT CGameObject::Act(_int _iTurnCnt)
+{
+	return S_OK;
+}
+
 HRESULT CGameObject::Render()
 {
 	return S_OK;
@@ -61,6 +66,7 @@ void CGameObject::OnCollisionStay(CGameObject * _pOther)
 void CGameObject::OnCollisionExit(CGameObject * _pOther)
 {
 }
+
 
 HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppOut, void* _pArg)
 {

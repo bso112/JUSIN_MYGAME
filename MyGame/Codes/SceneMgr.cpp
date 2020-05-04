@@ -13,6 +13,7 @@ IMPLEMENT_SINGLETON(CSceneMgr)
 HRESULT CSceneMgr::Scene_Change(SCENEID _eID, PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	m_pPrvScene = m_pCurrScene;
+	m_eCurrSceneID = _eID;
 
 	switch (_eID)
 	{

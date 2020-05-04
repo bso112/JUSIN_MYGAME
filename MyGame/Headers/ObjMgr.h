@@ -39,6 +39,8 @@ public:
 	//씬이 포함하는 프로토타입들과 레이어들을 클리어한다.
 	HRESULT			Clear_Scene(SCENEID _eSceneID);
 	
+public:
+	map<const _tchar*, CLayer*>* Get_Layers() { return m_mapLayer; }
 
 private:
 	// CBase을(를) 통해 상속됨

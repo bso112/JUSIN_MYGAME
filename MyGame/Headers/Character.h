@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Actor.h"
 #include "Transform.h"
 #include "VIBuffer.h"
 #include "Animator.h"

@@ -9,16 +9,19 @@ public:
 	{
 		_double speedPerSec;
 		_double	radianPerSec;
-
+		//한턴에 몇 타일 움직이는가
+		_uint	movePerTurn;
 		tagStateDesc() {}
 		tagStateDesc
 		(
 		_double _speedPerSec,
-		_double	_radianPerSec
+		_double	_radianPerSec,
+		_uint	_movePerTurn = 1
 		)
 		{
 			speedPerSec = _speedPerSec;
 			radianPerSec = _radianPerSec;
+			movePerTurn = _movePerTurn;
 		}
 	}STATEDESC;
 
@@ -42,8 +45,13 @@ private:
 	vector<Vector3>		m_Route;
 	_double				m_StopDistance;
 	//멈춰 있냐?
-	_bool		m_bStop = true;
+	_bool				m_bStop = true;
 	
+private:
+	//현재 이동할 경로의 인덱스
+	_int				m_iCurrRouteIndex = 0;
+	_int				m_iTurnCnt = 1;
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);
@@ -54,11 +62,15 @@ public:
 	HRESULT	Set_Position(Vector3 _vPosition);
 	HRESULT	Set_Size(Vector3 _vSize);
 	HRESULT	Set_Rotation(Vector3 _vRotation);
-	_matrix	Get_Matrix() { return m_StateMatrix; }
-	Vector3	Get_Position() { return m_vPosition; }
-	Vector3	Get_Size() { return m_vSize; }
-	Vector3 Get_Rotation() { return m_vRotation; }
-	RECT	Get_Rect();
+
+public:
+	_matrix		Get_Matrix() { return m_StateMatrix; }
+	Vector3		Get_Position() { return m_vPosition; }
+	Vector3		Get_Size() { return m_vSize; }
+	Vector3		Get_Rotation() { return m_vRotation; }
+	RECT		Get_Rect();
+	STATEDESC	Get_Desc(){ return m_tStateDesc; }
+
 	//저절로 움직이고 있나?
 	bool	Is_Auto() { return !m_bStop; }
 	//아직 덜구현함
@@ -81,7 +93,7 @@ public:
 	HRESULT MoveToDir_Auto(Vector3 _vDir);
 	//해당 위치로 자동으로 간다.(Transform Update 불러줘야함)
 	HRESULT	MoveToDst_Auto(Vector3 _vDst, _double _fStopDistance);
-	HRESULT	Go_Route(vector<Vector3> _route, _double _fStopDistance);
+	HRESULT	Go_Route(vector<Vector3> _route, _double _fStopDistance, _int _iTurnCnt);
 
 public:
 	void	Stop() { m_bStop = true; }

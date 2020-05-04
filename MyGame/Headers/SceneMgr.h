@@ -12,6 +12,7 @@ private:
 	virtual ~CSceneMgr() = default;
 
 private:
+	SCENEID m_eCurrSceneID = SCENE_END;
 	CScene* m_pCurrScene = nullptr;
 	CScene*	m_pPrvScene = nullptr;
 public:
@@ -20,6 +21,7 @@ public:
 	HRESULT	Render();
 
 public:
+	SCENEID	Get_CurrScene() { return m_eCurrSceneID; }
 	HRESULT	Clear_PrvScene();
 
 private:

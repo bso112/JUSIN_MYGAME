@@ -15,7 +15,7 @@ CDoor::CDoor(CDoor & _rhs)
 }
 
 
-void CDoor::OnCollisionEnter(CGameObject * _pOther)
+void CDoor::OnCollisionEnterTerrain(CGameObject * _pOther)
 {
 	CHero* pHero = dynamic_cast<CHero*>(_pOther);
 	if (nullptr == pHero)

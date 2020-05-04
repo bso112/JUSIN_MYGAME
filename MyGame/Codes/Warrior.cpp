@@ -54,6 +54,7 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 
 
 	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_IDLE]);
+
 	Set_Module(L"warrior_naked_attack", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_ATTACK]);
 	Set_Module(L"warrior_naked_eat", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_EAT]);
 	Set_Module(L"warrior_naked_floating", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_FLOATING]);
@@ -61,6 +62,7 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_NAKED][ANIM_WALK]);
 
 	Set_Module(L"warrior_cloth_idle", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_IDLE]);
+	//Set_Module(L"empty_bound", SCENE_STATIC, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_IDLE]);
 	Set_Module(L"warrior_cloth_attack", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_ATTACK]);
 	Set_Module(L"warrior_cloth_eat", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_EAT]);
 	Set_Module(L"warrior_cloth_floating", SCENE_STAGE, (CModule**)&m_pTexture[CLOTH_BASIC][ANIM_FLOATING]);
@@ -176,5 +178,10 @@ void CWarrior::Free()
 	}
 
 	CHero::Free();
+}
+
+HRESULT CWarrior::Act(_int _iTurnCnt)
+{
+	return S_OK;
 }
 

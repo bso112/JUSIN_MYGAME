@@ -2,7 +2,8 @@
 #include "..\Headers\Rat.h"
 #include "TextureLoader.h"
 #include "Texture.h"
-
+#include "World.h"
+#include "Hero.h"
 USING(MyGame)
 
 CRat::CRat(CRat & _rhs)
@@ -61,7 +62,29 @@ _int CRat::LateUpate(_double _timeDelta)
 		return -1;
 
 	return 0;
+
 }
+
+HRESULT CRat::Act(_int _iTurnCnt)
+{
+	if (nullptr == m_pHero)
+		return E_FAIL;
+
+	//플레이어가 이동하려는 곳으로 이동해야하기 때문에 몬스터도 마우스 클릭을 받음
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	vector<Vector3> route;
+	CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), pt, route);
+
+	m_pTransform->Go_Route(route, 1.f, _iTurnCnt);
+
+	return S_OK;
+}
+
+
+
 
 HRESULT CRat::Render()
 {
@@ -136,3 +159,4 @@ void CRat::Free()
 	Safe_Release(m_pAnimator);
 	CMonster::Free();
 }
+

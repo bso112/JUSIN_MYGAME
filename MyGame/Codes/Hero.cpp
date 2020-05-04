@@ -3,6 +3,7 @@
 #include "KeyMgr.h"
 #include "World.h"
 #include "Transform.h"
+#include "TurnMgr.h"
 USING(MyGame)
 
 
@@ -35,11 +36,15 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
-		//CWorld::Get_Instance()->Get_TerrainPos(pt, m_vDst);
-		//m_pTransform->MoveToDst_Auto(m_vDst, 1.f);
 		vector<Vector3> route;
 		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), pt, route);
-		m_pTransform->Go_Route(route, 1.f);
+
+		//해당 루트를 따라가기 위해 필요한 턴수를 계산
+		_int iTurnCnt = route.size() / m_pTransform->Get_Desc().movePerTurn;
+
+		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
+		//플레이어가 움직인만큼 턴 이동
+		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt);
 	}
 
 	return S_OK;

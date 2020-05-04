@@ -102,6 +102,17 @@ public:
 	void		Clear_Node() { m_tNode.Clear(); }
 	
 
+public:
+	virtual void OnCollisionEnter(CGameObject* _pOther);
+	virtual void OnCollisionStay(CGameObject* _pOther);
+	virtual void OnCollisionExit(CGameObject* _pOther);
+
+protected:
+	virtual void OnCollisionEnterTerrain(CGameObject* _pOther);
+	virtual void OnCollisionStayTerrain(CGameObject* _pOther);
+	virtual void OnCollisionExitTerrain(CGameObject* _pOther);
+
+
 protected:
 	//에디터씬에서 Frame이 변할때 하위클래스에 맞는 데이터로 셋팅함.
 	virtual	HRESULT	OnMoveFrame();

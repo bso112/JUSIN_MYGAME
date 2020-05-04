@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 
 class CAiState;
+class CHero;
 class CMonster abstract : public CCharacter
 {
 
@@ -12,7 +13,8 @@ protected:
 	explicit CMonster(CMonster& _rhs);
 	virtual ~CMonster() = default;
 
-
+protected:
+	CHero*	m_pHero = nullptr;
 protected:
 	CAiState* m_pSLEEPING	= nullptr;
 	CAiState* m_pHUNTING	= nullptr;

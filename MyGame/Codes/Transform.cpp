@@ -40,15 +40,17 @@ _int CTransform::Update(_double _timeDelta)
 	if (m_bStop)
 		return -1;
 
-	static _int index = 0;
 		
-	if (index >= m_Route.size())
+	//이동력만큼 이동하고 멈춤
+	if (m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= m_tStateDesc.movePerTurn * m_iTurnCnt)
 	{
 		m_bStop = true;
+		m_iCurrRouteIndex = 0;
+		m_Route.clear();
 		return -1;
 	}
 
-	Vector3 vDir = m_Route[index] - m_vPosition;
+	Vector3 vDir = m_Route[m_iCurrRouteIndex] - m_vPosition;
 
 	if (vDir.magnitude() > m_StopDistance)
 	{
@@ -56,14 +58,17 @@ _int CTransform::Update(_double _timeDelta)
 	}
 	else
 	{
-		if (index == m_Route.size() - 1)
+		//마지막 타일에 도달했으면 끝내기
+		if (m_iCurrRouteIndex == m_Route.size() - 1)
 		{
 			m_bStop = true;
-			index = 0;
+			m_iCurrRouteIndex = 0;
 			m_Route.clear();
 			return -1;
 		}
-		++index;
+
+		//한 타일지나면 인덱스 더하기
+		++m_iCurrRouteIndex;
 	}
 	return 0;
 }
@@ -205,12 +210,13 @@ HRESULT CTransform::MoveToDst_Auto(Vector3 _vDst, _double _StopDistance)
 	return S_OK;
 }
 
-HRESULT CTransform::Go_Route(vector<Vector3> _route, _double _StopDistance)
+HRESULT CTransform::Go_Route(vector<Vector3> _route, _double _StopDistance, _int _iTurnCnt)
 {
 	m_bStop = false;
 	m_Route = _route;
 	m_StopDistance = _StopDistance;
-	return E_NOTIMPL;
+	m_iTurnCnt = _iTurnCnt;
+	return S_OK;
 }
 
 
