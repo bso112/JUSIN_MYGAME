@@ -69,6 +69,7 @@ public:
 public:
 	HRESULT		Set_Module(const _tchar* _eModuleTag, SCENEID _eSceneID, CModule** _ppModule, void* _pArg = nullptr);
 	CModule*	Get_Module(const _tchar* _eModuleTag);
+	
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;
 

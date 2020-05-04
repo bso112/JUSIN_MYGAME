@@ -11,7 +11,7 @@ private:
 	virtual ~CRat() = default;
 	
 private:
-	CAnimator*	m_pAnimator = nullptr;
+	CAnimator*		m_pAnimator = nullptr;
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);

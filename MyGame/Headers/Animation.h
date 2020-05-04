@@ -18,6 +18,7 @@ private:
 	CClock_Trigger*		m_pClock = nullptr;
 	_uint				m_iCurrFrame = 0;
 public:
+	_int	Render();
 	HRESULT Play();
 
 public:

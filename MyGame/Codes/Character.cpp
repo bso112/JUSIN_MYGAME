@@ -47,24 +47,40 @@ bool CCharacter::IsImmune(IMMUNE _eImmune)
 	return false;
 }
 
-HRESULT CCharacter::MoveToDst(Vector4 _vDst, _double _timeDelta)
-{
-
-	//if ((_vDst.x == 0 && _vDst.y == 0))
-	//	return E_FAIL;
-
-	//Vector2 toTarget = (_vDst - m_tInfo.vPos);
-	//float dist = toTarget.magnitude();
-	//if (dist > 0.5f)
-	//{
-	//	Vector2 dir = toTarget.Nomalize();
-	//	m_tInfo.vPos.x += dir.x * m_fSpeed * (float)_timeDelta;
-	//	m_tInfo.vPos.y += dir.y * m_fSpeed * (float)_timeDelta;
-	//}
+HRESULT CCharacter::Get_TerrainIndex(pair<_int,_int>& _out)
+{	
+	if (nullptr == m_pTransform)
+		return E_FAIL;
+	 _int x = (_int)m_pTransform->Get_Position().x / TILECX;
+	 _int y = (_int)m_pTransform->Get_Position().y / TILECY;
+	
+	_out.first	= x;
+	_out.second	= y;
 
 	return S_OK;
-
 }
+
+bool CCharacter::IsTargetInRange(CCharacter * pTarget, _int _iRange)
+{
+	pair<_int, _int> vTargetTerrainIndex;
+	if (FAILED(pTarget->Get_TerrainIndex(vTargetTerrainIndex)))
+		return false;
+
+	pair<_int, _int> vMyTerrainIndex;
+	if(FAILED(Get_TerrainIndex(vMyTerrainIndex)))
+		return false;
+
+	//타깃이 범위안에 들어오면
+	if (vTargetTerrainIndex.first >= vMyTerrainIndex.first - _iRange && vTargetTerrainIndex.first <= vMyTerrainIndex.first + _iRange)
+	{
+		if (vTargetTerrainIndex.second >= vMyTerrainIndex.second - _iRange && vTargetTerrainIndex.second <= vMyTerrainIndex.second + _iRange)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 
 
 void CCharacter::Free()

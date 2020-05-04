@@ -15,6 +15,8 @@ protected:
 
 protected:
 	CHero*	m_pHero = nullptr;
+	//인식범위
+	_uint	m_iRecogRange = 0;
 protected:
 	CAiState* m_pSLEEPING	= nullptr;
 	CAiState* m_pHUNTING	= nullptr;

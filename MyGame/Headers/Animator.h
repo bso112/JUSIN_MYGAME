@@ -14,12 +14,14 @@ private:
 
 private:
 	map<const _tchar*, CAnimation*> m_mapAnim;
+	CAnimation*						m_pCurrAnim = nullptr;
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);
 
 public:
 	HRESULT	Add_Animation(const _tchar* _pTag, CAnimation* _pAnimation);
+	_int	Render();
 	HRESULT	Play(const _tchar* _pTag);
 public:
 	static CAnimator* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

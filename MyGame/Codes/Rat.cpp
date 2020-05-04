@@ -4,24 +4,33 @@
 #include "Texture.h"
 #include "World.h"
 #include "Hero.h"
+
 USING(MyGame)
 
 CRat::CRat(CRat & _rhs)
 	:CMonster(_rhs)
 {
-
+	m_tStat = _rhs.m_tStat;
 }
 
 HRESULT CRat::Initialize_Prototype(_tchar * _pFilePath)
 {
 	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Monster/Rat/");
 
+	m_tStat.m_fExp = 10.f;
+	m_tStat.m_fMaxHp = CStat::Create(16.f);
+	m_tStat.m_fAtt = CStat::Create(5.f);
+	m_tStat.m_iGold = 5;
+	m_tStat.m_fArmor = CStat::Create(2.f);
+	m_tStat.m_fHP = 16.f;
+
+
 	return S_OK;
 }
 
 HRESULT CRat::Initialize(void * _param)
 {
-		
+
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, &CTransform::STATEDESC(100.0, 100.0));
 
@@ -42,14 +51,23 @@ HRESULT CRat::Initialize(void * _param)
 	m_pAnimator->Add_Animation(L"dead", CAnimation::Create(pTexture, 0.2, false));
 	Set_Module(L"rat_jump", SCENE_STAGE, (CModule**)&pTexture);
 	m_pAnimator->Add_Animation(L"jump", CAnimation::Create(pTexture, 0.2, true));
+
+	m_pAnimator->Play(L"idle");
+
+	m_iRecogRange = 5;
+	m_iAttackRange = 1;
+
+
+
+
 	return S_OK;
 }
 
 _int CRat::Update(_double _timeDelta)
 {
-	
+
 	m_pTransform->Update(_timeDelta);
-	return _int();
+	return 0;
 }
 
 _int CRat::LateUpate(_double _timeDelta)
@@ -70,11 +88,26 @@ HRESULT CRat::Act(_int _iTurnCnt)
 	if (nullptr == m_pHero)
 		return E_FAIL;
 
-	CTransform* pHeroTransform = (CTransform*)m_pHero->Get_Module(L"Transform");
-	if (nullptr == pHeroTransform)
-		return E_FAIL;
-	
-	m_pTransform->Go_Target(pHeroTransform, 1.f, _iTurnCnt);
+	//타깃이 인식범위 안에 있으면
+	if (IsTargetInRange(m_pHero, m_iRecogRange))
+	{
+		CTransform* pHeroTransform = (CTransform*)m_pHero->Get_Module(L"Transform");
+		if (nullptr == pHeroTransform)
+			return E_FAIL;
+
+		//타깃을 향해 간다.
+		m_pTransform->Go_Target(pHeroTransform, 1.f, _iTurnCnt);
+
+	}
+
+
+	//만약 타깃이 공격범위 안에 들어오면 공격한다.
+	if (IsTargetInRange(m_pHero, m_iAttackRange))
+	{
+		m_pHero->TakeDamage(m_tStat.m_fAtt->GetValue());
+		m_pAnimator->Play(L"attack");
+	}
+
 
 	return S_OK;
 }
@@ -92,7 +125,7 @@ HRESULT CRat::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pAnimator->Play(L"idle")))
+	if (FAILED(m_pAnimator->Render()))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))

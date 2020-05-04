@@ -16,10 +16,10 @@ CAnimation::CAnimation(CAnimation & _rhs)
 }
 
 
-HRESULT CAnimation::Play()
+_int CAnimation::Render()
 {
 	if (nullptr == m_pClock)
-		return E_FAIL;
+		return -1;
 
 	//애니메이션이 끝났을때
 	if (m_iCurrFrame == m_pTexture->Get_TextureSize())
@@ -27,18 +27,23 @@ HRESULT CAnimation::Play()
 		//루프
 		if (m_bLoop)
 			m_iCurrFrame = 0;
-		//아무것도 안함
 		else
-			return S_OK;
+			m_iCurrFrame = m_pTexture->Get_TextureSize() - 1;
 	}
 
-	
 	m_pTexture->Set_Texture(m_iCurrFrame);
 
 	if (m_pClock->isThreashHoldReached(m_dFrameTime))
 	{
 		++m_iCurrFrame;
 	}
+	return 0;
+}
+
+HRESULT CAnimation::Play()
+{
+	m_iCurrFrame = 0;
+
 	return S_OK;
 }
 

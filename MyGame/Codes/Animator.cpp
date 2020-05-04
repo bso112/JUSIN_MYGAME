@@ -30,13 +30,24 @@ HRESULT CAnimator::Add_Animation(const _tchar* _pTag, CAnimation * _pAnimation)
 	return S_OK;
 }
 
+_int CAnimator::Render()
+{
+	if (nullptr == m_pCurrAnim)
+		return -1;
+
+	m_pCurrAnim->Render();
+	return 0;
+}
+
 HRESULT CAnimator::Play(const _tchar* _pTag)
 {
 	auto& iter = find_if(m_mapAnim.begin(), m_mapAnim.end(), CFinder_Tag(_pTag));
 	if (iter == m_mapAnim.end())
 		return E_FAIL;
 
-	iter->second->Play();
+	m_pCurrAnim = iter->second;
+
+	m_pCurrAnim->Play();
 
 	return S_OK;
 }

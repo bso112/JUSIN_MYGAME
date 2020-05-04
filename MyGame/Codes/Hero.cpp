@@ -40,7 +40,7 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), pt, route);
 
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
-		_int iTurnCnt = route.size() / m_pTransform->Get_Desc().movePerTurn;
+		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
 
 		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
 

@@ -7,7 +7,7 @@ BEGIN(MyGame)
 class CStat final: public CBase
 {
 private:
-	explicit CStat();
+	explicit CStat() {};
 	virtual ~CStat() = default;
 
 private:

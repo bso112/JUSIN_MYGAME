@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "VIBuffer.h"
 #include "Animator.h"
+#include "Stat.h"
 BEGIN(MyGame)
 class CStat;
 class CClock_Single;
@@ -15,16 +16,16 @@ protected:
 	virtual ~CCharacter() = default;
 
 protected:
-	typedef struct tagStat
+	typedef struct tagStats
 	{
-		float	m_fHP;
-		CStat*	m_pMaxHp;
-		CStat*	m_pArmor;
-		CStat*	m_pAtt;
-		int		m_iGold;
-		float	m_fExp;
-		float	m_fMaxExp;
-	}STAT;
+		float	m_fHP		= 0.f;
+		CStat*	m_fMaxHp	= nullptr;
+		CStat*	m_fArmor	= nullptr;
+		CStat*	m_fAtt		= nullptr;
+		int		m_iGold		= 0;
+		float	m_fExp		= 0.f;
+		float	m_fMaxExp	= 0.f;
+	}STATS;
 
 	//저항
 	enum IMMUNE {IMMUNE_FIRE, IMMUNE_ICE, IMMUNE_END};
@@ -35,7 +36,7 @@ protected:
 
 protected:
 	_int	m_iCurFrame = 0;
-	STAT	m_tStat = {};
+	STATS	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
 	
 	bool	m_bDead = false;
@@ -43,17 +44,23 @@ protected:
 	//이동할 목표지점
 	Vector4			m_vDst = {};
 
+	//공격범위
+	_uint	m_iAttackRange = 0;
+
 public:
 	virtual void TakeDamage(float _fDamage);
 	void SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
 	bool IsAlive();
 	bool IsImmune(IMMUNE _eImmune);
 	
+public:
+	//어느 지형을 밟고있는지 인덱스를 리턴한다.
+	HRESULT	Get_TerrainIndex(pair<_int, _int>& _out);
+	//타겟이 이 객체를 중심으로 해당 범위에 있는가?
+	bool	IsTargetInRange(CCharacter* pTarget, _int _iRange);
 
 
 protected:
-	//해당 좌표로 이동한다.
-	HRESULT MoveToDst(Vector4 _vDst, _double _timeDelta);
 	virtual void Process() = 0;
 	virtual void Update_State() = 0;
 	virtual void OnDead() = 0;
