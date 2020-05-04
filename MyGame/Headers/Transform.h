@@ -40,8 +40,11 @@ private:
 	Vector3		m_vRotation;
 
 private:
+	//목표 트랜스폼
+	CTransform*			m_pTarget = nullptr;
 	//목표 위치
 	Vector3				m_vDst;
+	//목표까지의 루트
 	vector<Vector3>		m_Route;
 	_double				m_StopDistance;
 	//멈춰 있냐?
@@ -93,7 +96,10 @@ public:
 	HRESULT MoveToDir_Auto(Vector3 _vDir);
 	//해당 위치로 자동으로 간다.(Transform Update 불러줘야함)
 	HRESULT	MoveToDst_Auto(Vector3 _vDst, _double _fStopDistance);
+
+public:
 	HRESULT	Go_Route(vector<Vector3> _route, _double _fStopDistance, _int _iTurnCnt);
+	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance, _int _iTurnCnt);
 
 public:
 	void	Stop() { m_bStop = true; }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Transform.h"
+#include "World.h"
 
 USING(MyGame)
 
@@ -40,13 +41,15 @@ _int CTransform::Update(_double _timeDelta)
 	if (m_bStop)
 		return -1;
 
-		
+
 	//이동력만큼 이동하고 멈춤
 	if (m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= m_tStateDesc.movePerTurn * m_iTurnCnt)
 	{
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
-		m_Route.clear();
+		m_iTurnCnt = 0;
+		m_Route.swap(vector<Vector3>());
+		m_pTarget = nullptr;
 		return -1;
 	}
 
@@ -56,16 +59,17 @@ _int CTransform::Update(_double _timeDelta)
 	{
 		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 	}
+	//타일에 도달했으면
 	else
 	{
-		//마지막 타일에 도달했으면 끝내기
-		if (m_iCurrRouteIndex == m_Route.size() - 1)
+		//타깃을 쫒는 상태라면
+		if (nullptr != m_pTarget)
 		{
-			m_bStop = true;
-			m_iCurrRouteIndex = 0;
-			m_Route.clear();
-			return -1;
+			//루트 갱신
+			m_Route.swap(vector<Vector3>());
+			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
 		}
+
 
 		//한 타일지나면 인덱스 더하기
 		++m_iCurrRouteIndex;
@@ -216,6 +220,21 @@ HRESULT CTransform::Go_Route(vector<Vector3> _route, _double _StopDistance, _int
 	m_Route = _route;
 	m_StopDistance = _StopDistance;
 	m_iTurnCnt = _iTurnCnt;
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance, _int _iTurnCnt)
+{
+	if (nullptr == _pTarget)
+		return E_FAIL;
+
+	m_bStop = false;
+	m_pTarget = _pTarget;
+	m_StopDistance = _StopDistance;
+	m_iTurnCnt = _iTurnCnt;
+	//루트 설정
+	CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
+
 	return S_OK;
 }
 

@@ -70,15 +70,11 @@ HRESULT CRat::Act(_int _iTurnCnt)
 	if (nullptr == m_pHero)
 		return E_FAIL;
 
-	//플레이어가 이동하려는 곳으로 이동해야하기 때문에 몬스터도 마우스 클릭을 받음
-	POINT pt;
-	GetCursorPos(&pt);
-	ScreenToClient(g_hWnd, &pt);
-
-	vector<Vector3> route;
-	CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), pt, route);
-
-	m_pTransform->Go_Route(route, 1.f, _iTurnCnt);
+	CTransform* pHeroTransform = (CTransform*)m_pHero->Get_Module(L"Transform");
+	if (nullptr == pHeroTransform)
+		return E_FAIL;
+	
+	m_pTransform->Go_Target(pHeroTransform, 1.f, _iTurnCnt);
 
 	return S_OK;
 }
