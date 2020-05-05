@@ -88,6 +88,8 @@ public:
 	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance);
 	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed);
 
+public:
+	HRESULT Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta);
 	
 public:
 	//타깃을 자동으로 따라간다. (Transform Update 불러줘야함)

@@ -73,9 +73,6 @@
     <Filter Include="06.Utility\02.Module\Module">
       <UniqueIdentifier>{0384e254-a825-47f2-9e32-6228b3528ca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Default">
-      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Utility\02.Module\Manager">
       <UniqueIdentifier>{a82446e5-fe8d-48d0-95db-66f3ec2e8ebd}</UniqueIdentifier>
     </Filter>
@@ -187,11 +184,17 @@
     <Filter Include="04.GameObject\GameObject\Actor\Character\Monster">
       <UniqueIdentifier>{0b86c09d-35f6-4d7f-b9cc-120ae531ce34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\99.AiState">
-      <UniqueIdentifier>{97520fc8-91b8-4c32-9958-02288aaf3217}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\00.Rat">
       <UniqueIdentifier>{b9f848a3-d6d1-432c-b1e2-cbe6f4a481b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController">
+      <UniqueIdentifier>{97520fc8-91b8-4c32-9958-02288aaf3217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController\Controller">
+      <UniqueIdentifier>{ba76bff2-1bf6-43c4-bc6a-89a7a381c8f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +272,6 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Monster.h">
       <Filter>04.GameObject\GameObject\Actor\Character\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\AiState.h">
-      <Filter>04.GameObject\GameObject\Actor\Character\Monster\99.AiState</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Warrior.h">
       <Filter>04.GameObject\GameObject\Actor\Character\Hero\Warrior</Filter>
@@ -372,6 +372,12 @@
     <ClInclude Include="..\Headers\Actor.h">
       <Filter>04.GameObject\GameObject\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\State.h">
+      <Filter>06.Utility\02.Module\Module\StateController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\StateCon.h">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -427,9 +433,6 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Monster.cpp">
       <Filter>04.GameObject\GameObject\Actor\Character\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Codes\AiState.cpp">
-      <Filter>04.GameObject\GameObject\Actor\Character\Monster\99.AiState</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Warrior.cpp">
       <Filter>04.GameObject\GameObject\Actor\Character\Hero\Warrior</Filter>
@@ -526,6 +529,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Actor.cpp">
       <Filter>04.GameObject\GameObject\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\State.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StateCon.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

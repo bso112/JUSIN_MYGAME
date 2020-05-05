@@ -10,6 +10,7 @@
 #include "TextureLoader.h"
 #include "Shader.h"
 #include "Animator.h"
+#include "StateCon.h"
 
 USING(MyGame)
 
@@ -148,6 +149,9 @@ HRESULT CMainApp::Initalize_Module()
 		return E_FAIL;
 
 	if (FAILED(pModuleMgr->Add_Module(L"Animator", SCENE_STATIC, CAnimator::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(pModuleMgr->Add_Module(L"StateCon", SCENE_STATIC, CStateCon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

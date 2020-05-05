@@ -19,6 +19,7 @@ private:
 	_uint				m_iCurrFrame = 0;
 	
 private:
+	//다음에 실행할 애니메이션
 	CAnimation*			m_pNextAnim = nullptr;
 	
 public:

@@ -3,6 +3,7 @@
 
 BEGIN(MyGame)
 class CTexture;
+class CStateCon;
 class CRat final : public CMonster
 {
 private:
@@ -12,7 +13,7 @@ private:
 	
 private:
 	CAnimator*		m_pAnimator = nullptr;
-
+	CStateCon*		m_pStateCon = nullptr;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
@@ -38,5 +39,20 @@ public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
 
+};
+
+class CHunting_Jump : public Hunting
+{
+private:
+	explicit CHunting_Jump(CCharacter* _pActor) :Hunting(_pActor) {};
+private:
+	Vector3 m_vJumpVelo;
+	
+public:
+	virtual HRESULT Initialize(Vector3 _vJumpVelo);
+	virtual CState*	Update(_double _timeDelta) override;
+public:
+	static CHunting_Jump* Create(CCharacter* _pActor, Vector3 _vJumpVelo);
+	virtual void Free() override;
 };
 END

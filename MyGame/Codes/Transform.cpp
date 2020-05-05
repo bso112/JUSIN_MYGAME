@@ -43,7 +43,7 @@ _int CTransform::Update(_double _timeDelta)
 
 
 	//이동력만큼 이동하고 멈춤
-	if (m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= m_tStateDesc.movePerTurn * m_iTurnCnt)
+	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt)
 	{
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
@@ -185,6 +185,12 @@ HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopD
 	{
 		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
 	}
+	return S_OK;
+}
+
+HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
+{
+	m_vPosition += _vDir * _fForce * float(_timeDelta);
 	return S_OK;
 }
 

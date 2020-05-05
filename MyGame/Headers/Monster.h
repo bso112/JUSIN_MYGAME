@@ -1,9 +1,8 @@
 #pragma once
 #include "Character.h"
-
+#include "State.h"
 BEGIN(MyGame)
 
-class CAiState;
 class CHero;
 class CMonster abstract : public CCharacter
 {
@@ -18,10 +17,9 @@ protected:
 	//인식범위
 	_uint	m_iRecogRange = 0;
 protected:
-	CAiState* m_pSLEEPING	= nullptr;
-	CAiState* m_pHUNTING	= nullptr;
-	CAiState* m_pWANDERING	= nullptr;
-	CAiState* m_pCurState	= nullptr;
+	CAIState* m_pSLEEPING	= nullptr;
+	CAIState* m_pHUNTING	= nullptr;
+	CAIState* m_pWANDERING	= nullptr;
 
 
 public:

@@ -190,7 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\Actor.h" />
-    <ClInclude Include="..\Headers\AiState.h" />
+    <ClInclude Include="..\Headers\State.h" />
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\Animator.h" />
     <ClInclude Include="..\Headers\CollisionMgr.h" />
@@ -230,6 +230,7 @@
     <ClInclude Include="..\Headers\Stage.h" />
     <ClInclude Include="..\Headers\StageUIMgr.h" />
     <ClInclude Include="..\Headers\Stat.h" />
+    <ClInclude Include="..\Headers\StateCon.h" />
     <ClInclude Include="..\Headers\Statics.h" />
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\Terrain.h" />
@@ -251,7 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\Actor.cpp" />
-    <ClCompile Include="..\Codes\AiState.cpp" />
+    <ClCompile Include="..\Codes\State.cpp" />
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\Animator.cpp" />
     <ClCompile Include="..\Codes\CollisionMgr.cpp" />
@@ -286,6 +287,7 @@
     <ClCompile Include="..\Codes\Stage.cpp" />
     <ClCompile Include="..\Codes\StageUIMgr.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />
+    <ClCompile Include="..\Codes\StateCon.cpp" />
     <ClCompile Include="..\Codes\Statics.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\Terrain.cpp" />
