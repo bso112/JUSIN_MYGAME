@@ -196,6 +196,15 @@
     <Filter Include="06.Utility\02.Module\Module\StateController\Controller">
       <UniqueIdentifier>{ba76bff2-1bf6-43c4-bc6a-89a7a381c8f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController\State">
+      <UniqueIdentifier>{22840efc-97a0-47ed-aa61-b77d680694e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController\State\00.PlayerState">
+      <UniqueIdentifier>{44b021ca-edb8-4fb4-8148-18e47a975fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController\State\01.AIState">
+      <UniqueIdentifier>{fce6e239-41ac-45f4-a0eb-65026df44a07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -378,6 +387,9 @@
     <ClInclude Include="..\Headers\StateCon.h">
       <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\AIState.h">
+      <Filter>06.Utility\02.Module\Module\StateController\State\01.AIState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -535,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\StateCon.cpp">
       <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\AIState.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController\State\01.AIState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

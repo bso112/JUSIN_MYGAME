@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\StateCon.h"
+#include "TimerMgr.h"
 
 
 USING(MyGame)
@@ -14,15 +15,25 @@ HRESULT CStateCon::Initialize(void * _pArg)
 	return S_OK;
 }
 
-_int CStateCon::Update(_double _timeDelta)
+_int CStateCon::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt)
 {
-	CState*	pNextState = m_pCurrState->Update(_timeDelta);
+	CState*	pNextState = m_pCurrState->Act(_canAttack, _isAlerted, _iTurnCnt, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	
 	if (nullptr != pNextState)
 	{
 		m_pCurrState = pNextState;
+		m_listState.push_back(m_pCurrState);
 	}
 
+	return S_OK;
+}
+
+HRESULT CStateCon::Set_Defualt_State(CState * _pState)
+{
+	if (_pState == nullptr) 
+		return E_FAIL;
+	m_pCurrState = _pState; 
+	m_listState.push_back(m_pCurrState);
 	return S_OK;
 }
 

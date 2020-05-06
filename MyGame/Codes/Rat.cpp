@@ -52,17 +52,7 @@ HRESULT CRat::Initialize(void * _param)
 #pragma endregion
 
 #pragma region 상태셋팅
-	//상태 셋팅
-	m_pHUNTING = CHunting_Jump::Create(this, Vector3(0.f, -7.f, 0.f));
-	m_pWANDERING = Wandering::Create(this);
-	m_pSLEEPING = Sleeping::Create(this);
-
-	m_pStateCon->AddState(m_pHUNTING);
-	m_pStateCon->AddState(m_pWANDERING);
-	m_pStateCon->AddState(m_pSLEEPING);
-
-	m_pHUNTING->SetNextState(m_pWANDERING);
-	m_pStateCon->Set_Defualt_State(m_pHUNTING);
+	m_pStateCon->Set_Defualt_State(new CAIIdle_Rat(this));
 
 #pragma endregion
 
@@ -107,16 +97,12 @@ HRESULT CRat::Initialize(void * _param)
 	m_iRecogRange = 5;
 	m_iAttackRange = 1;
 
-
-
-
 	return S_OK;
 }
 
 _int CRat::Update(_double _timeDelta)
 {
 	m_pTransform->Update(_timeDelta);
-	m_pStateCon->Update(_timeDelta);
 	return 0;
 }
 
@@ -135,30 +121,10 @@ _int CRat::LateUpate(_double _timeDelta)
 
 HRESULT CRat::Act(_int _iTurnCnt)
 {
-	if (nullptr == m_pHero)
+
+	if (nullptr == m_pFocus)
 		return E_FAIL;
-
-	//타깃이 인식범위 안에 있으면
-	if (IsTargetInRange(m_pHero, m_iRecogRange))
-	{
-		CTransform* pHeroTransform = (CTransform*)m_pHero->Get_Module(L"Transform");
-		if (nullptr == pHeroTransform)
-			return E_FAIL;
-
-		//타깃을 향해 간다.
-		m_pTransform->Go_Target(pHeroTransform, 1.f, _iTurnCnt);
-		m_pAnimator->Play(L"jump");
-
-	}
-
-
-	//만약 타깃이 공격범위 안에 들어오면 공격한다.
-	if (IsTargetInRange(m_pHero, m_iAttackRange))
-	{
-		m_pHero->TakeDamage(m_tStat.m_fAtt->GetValue());
-		m_pAnimator->Play(L"attack");
-	}
-
+	m_pStateCon->Act(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange), _iTurnCnt);
 
 	return S_OK;
 }
@@ -239,40 +205,4 @@ void CRat::Free()
 	Safe_Release(m_pStateCon);
 	Safe_Release(m_pAnimator);
 	CMonster::Free();
-}
-
-CState* CHunting_Jump::Update(_double _timeDelta)
-{
-	m_vJumpVelo -= m_vJumpVelo * float(_timeDelta);
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-	pTransform->Add_Froce(m_vJumpVelo.Nomalize(), 2.f, _timeDelta);
-
-	if (m_vJumpVelo.y > 0)
-	{
-		return m_pNextState;
-	}
-
-	return nullptr;
-}
-
-CHunting_Jump * CHunting_Jump::Create(CCharacter* _pActor, Vector3 _vJumpVelo)
-{
-	CHunting_Jump* pInstance = new CHunting_Jump(_pActor);
-	if (FAILED(pInstance->Initialize(_vJumpVelo)))
-	{
-		MSG_BOX("Fail to create CHunting_Jump");
-		Safe_Release(pInstance);
-
-	}
-	return pInstance;
-}
-
-void CHunting_Jump::Free()
-{
-}
-
-HRESULT CHunting_Jump::Initialize(Vector3 _vJumpVelo)
-{
-	m_vJumpVelo = _vJumpVelo;
-	return S_OK;
 }

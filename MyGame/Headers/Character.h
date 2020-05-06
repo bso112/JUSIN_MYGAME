@@ -33,6 +33,11 @@ protected:
 protected:
 	CTransform*	m_pTransform = nullptr;
 	CVIBuffer*	m_pVIBuffer = nullptr;
+	//포커스하고 있는 대상
+	CCharacter*	m_pFocus = nullptr;
+
+public:
+	CCharacter*	Get_Focus() { return m_pFocus; }
 
 protected:
 	_int	m_iCurFrame = 0;
@@ -58,7 +63,7 @@ public:
 	HRESULT	Get_TerrainIndex(pair<_int, _int>& _out);
 	//타겟이 이 객체를 중심으로 해당 범위에 있는가?
 	bool	IsTargetInRange(CCharacter* pTarget, _int _iRange);
-
+	const STATS&	Get_Stat() { return m_tStat; }
 
 protected:
 	virtual void Process() = 0;

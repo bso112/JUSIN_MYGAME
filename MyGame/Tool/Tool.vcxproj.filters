@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{2f0a2e37-41d1-4b6d-847c-9f505166cfb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View">
+      <UniqueIdentifier>{f9016b26-0a7b-4a22-a10b-de15f6532264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\00.MainView">
+      <UniqueIdentifier>{22e908a3-ddb8-4564-9f0d-5c82b6a538ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\01.DialogView">
+      <UniqueIdentifier>{fc4df551-6354-4418-abb9-5e89edb730c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.System">
+      <UniqueIdentifier>{55ffbc4f-61d8-4f9f-a706-41d270370fa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Headers">
+      <UniqueIdentifier>{35c625be-496c-4950-a8a6-8ed2fd33aaa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.SuperClass">
+      <UniqueIdentifier>{f424da37-74e8-4283-870b-6287394979c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.System\00.Device">
+      <UniqueIdentifier>{cddf8deb-8c9b-4f4e-8760-5c8901eb9d46}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainFrm.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolDoc.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolView.h">
+      <Filter>01.View\00.MainView</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool_Include.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame_Constant.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame_Function.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame_Mecro.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame_Typedef.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame_Struct.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic_Device.h">
+      <Filter>02.System\00.Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>97.SuperClass</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolDoc.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolView.cpp">
+      <Filter>01.View\00.MainView</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic_Device.cpp">
+      <Filter>02.System\00.Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Base.cpp">
+      <Filter>97.SuperClass</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Tool.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="res\ToolDoc.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tool.rc">
+      <Filter>99.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Tool.rc2">
+      <Filter>99.Default</Filter>
+    </None>
+  </ItemGroup>
+</Project>

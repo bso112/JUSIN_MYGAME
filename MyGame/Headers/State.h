@@ -4,76 +4,20 @@
 BEGIN(MyGame)
 
 class CCharacter;
+class CTransform;
+class CAnimator;
 
 class CState abstract : public CBase
 {
-protected:
+public:
 	explicit CState(CCharacter* _pActor) :m_pActor(_pActor) {};
 protected:
 	CCharacter*	m_pActor = nullptr;
-	CState*		m_pNextState = nullptr;
-
 public:
-	virtual CState*	Update(_double _timeDelta) = 0;
-	virtual  HRESULT Initialize(_bool enemyInFOV, _bool justAlerted) = 0;
-
-public:
-	void	SetActor(CCharacter* _pActor) { m_pActor = _pActor; }
-	void	SetNextState(CState* _pNext) { m_pNextState = _pNext; }
-
-
+	//변경 된 이후 계속 실행할 루프
+	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) = 0;
 
 
 };
 
-
-class CAIState abstract : public CState
-{
-protected:
-	explicit CAIState(CCharacter* _pActor) :CState(_pActor) {};
-};
-
-class Sleeping : public CAIState
-{
-protected:
-	explicit Sleeping(CCharacter* _pActor) :CAIState(_pActor) {};
-public:
-	virtual CState*	Update(_double _timeDelta) override;
-	// AiState을(를) 통해 상속됨
-	virtual HRESULT Initialize(_bool enemyInFOV, _bool justAlerted) override;
-
-
-public:
-	static Sleeping* Create(CCharacter* _pActor, _bool enemyInFOV = false, _bool justAlerted = false);
-	virtual void Free() override;
-};
-
-class Hunting : public CAIState
-{
-protected:
-	explicit Hunting(CCharacter* _pActor) :CAIState(_pActor) {};
-public:
-	virtual CState*	Update(_double _timeDelta) override;
-	virtual HRESULT Initialize(_bool enemyInFOV, _bool justAlerted) override;
-
-
-public:
-	static Hunting* Create(CCharacter* _pActor, _bool enemyInFOV = false, _bool justAlerted = false);
-	virtual void Free() override;
-};
-
-class Wandering : public CAIState
-{
-protected:
-	explicit Wandering(CCharacter* _pActor) :CAIState(_pActor) {};
-
-public:
-	virtual CState*	Update(_double _timeDelta) override;
-	// AiState을(를) 통해 상속됨
-	virtual HRESULT Initialize(_bool enemyInFOV, _bool justAlerted) override;
-
-public:
-	static Wandering* Create(CCharacter* _pActor, _bool enemyInFOV = false, _bool justAlerted = false);
-	virtual void Free() override;
-};
 END

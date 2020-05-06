@@ -17,7 +17,7 @@ public:
 	HRESULT	Add_Timer(const _tchar* _pKey);
 	_double	Compute_TimeDelta(const _tchar* _pKey);
 	CTimer*	Find_Timer(const _tchar* _pKey);
-	_double Get_TimeDelta(const _tchar* _pKey);
+	_double Get_TimeDelta(const _tchar* _pKey= L"Timer_100");
 
 private:
 	virtual void Free() override;

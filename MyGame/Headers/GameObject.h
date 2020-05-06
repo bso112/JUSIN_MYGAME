@@ -38,6 +38,8 @@ public:
 
 
 public:
+	map<const _tchar*, CModule*>* Get_Modules() { return &m_mapModule; }
+public:
 	bool Get_isCollided() { return m_bCollided; }
 	void Set_isCollided(bool _bCollided) { m_bCollided = _bCollided; }
 	//충돌한 오브젝트를 저장한다.

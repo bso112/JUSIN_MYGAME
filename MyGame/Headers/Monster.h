@@ -3,7 +3,6 @@
 #include "State.h"
 BEGIN(MyGame)
 
-class CHero;
 class CMonster abstract : public CCharacter
 {
 
@@ -13,13 +12,9 @@ protected:
 	virtual ~CMonster() = default;
 
 protected:
-	CHero*	m_pHero = nullptr;
 	//인식범위
 	_uint	m_iRecogRange = 0;
-protected:
-	CAIState* m_pSLEEPING	= nullptr;
-	CAIState* m_pHUNTING	= nullptr;
-	CAIState* m_pWANDERING	= nullptr;
+
 
 
 public:

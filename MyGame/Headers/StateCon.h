@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "State.h"
+#include "AIState.h"
 BEGIN(MyGame)
 
 class CStateCon final : public CModule
@@ -11,15 +12,19 @@ private:
 	virtual ~CStateCon() = default;
 
 private:
-	list<CState*>	m_listState;
-	CState*			m_pCurrState = nullptr;
+	list<CState*>					m_listState;
+	CState*							m_pCurrState = nullptr;
+
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);
 
+
 public:
-	_int	Update(_double _timeDelta);
-	HRESULT	Set_Defualt_State(CState* _pState) { if (_pState == nullptr) return E_FAIL; m_pCurrState = _pState; return S_OK; }
+	//턴당 한번 실행함
+	_int	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt);
+	HRESULT	Set_Defualt_State(CState* _pState);
 
 public:
 	HRESULT	AddState(CState* _pState) { m_listState.push_back(_pState); return S_OK; }

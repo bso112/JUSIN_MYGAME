@@ -41,18 +41,5 @@ public:
 
 };
 
-class CHunting_Jump : public Hunting
-{
-private:
-	explicit CHunting_Jump(CCharacter* _pActor) :Hunting(_pActor) {};
-private:
-	Vector3 m_vJumpVelo;
-	
-public:
-	virtual HRESULT Initialize(Vector3 _vJumpVelo);
-	virtual CState*	Update(_double _timeDelta) override;
-public:
-	static CHunting_Jump* Create(CCharacter* _pActor, Vector3 _vJumpVelo);
-	virtual void Free() override;
-};
+
 END
