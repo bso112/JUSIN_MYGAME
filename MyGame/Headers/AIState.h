@@ -3,10 +3,18 @@
 
 BEGIN(MyGame)
 
+
 class CAIState abstract : public CState
 {
 public:
+	//AI의 부모상태들이다.
+	enum STATE { STATE_IDLE, STATE_SLEEP, STATE_HUNTING, STATE_WADERING, STATE_END};
+public:
 	explicit CAIState(CCharacter* _pActor) :CState(_pActor) {};
+
+public:
+	//변경 된 이후 계속 실행할 루프
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) = 0;
 };
 
 
@@ -15,7 +23,7 @@ class CAISleeping : public CAIState
 public:
 	explicit CAISleeping(CCharacter* _pActor) :CAIState(_pActor) {};
 public:
-	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
 
 
 	// CAIState을(를) 통해 상속됨
@@ -28,7 +36,7 @@ class CAIHunting : public CAIState
 public:
 	explicit CAIHunting(CCharacter* _pActor) :CAIState(_pActor) {};
 public:
-	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
 
 
 	// CAIState을(를) 통해 상속됨
@@ -42,7 +50,7 @@ public:
 	explicit CAIWandering(CCharacter* _pActor) :CAIState(_pActor) {};
 
 public:
-	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
 
 
 	// CAIState을(를) 통해 상속됨
@@ -55,7 +63,7 @@ class CAIIdle : public CAIState
 public:
 	explicit CAIIdle(CCharacter* _pActor) :CAIState(_pActor) {};
 public:
-	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
 
 
 	// CAIState을(를) 통해 상속됨
@@ -63,28 +71,17 @@ public:
 
 };
 
-class CAIIdle_Rat : public CAIIdle
+
+
+class CAIHunting_Jump : public CAIHunting
 {
 public:
-	explicit CAIIdle_Rat(CCharacter* _pActor) :CAIIdle(_pActor) {};
-public:
-	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
-
-
-	// CAIState을(를) 통해 상속됨
-	virtual void Free() override;
-
-};
-
-class CAIHunting_Rat : public CAIHunting
-{
-public:
-	explicit CAIHunting_Rat(CCharacter* _pActor) :CAIHunting(_pActor) {};
+	explicit CAIHunting_Jump(CCharacter* _pActor) :CAIHunting(_pActor) {};
 private:
 	Vector3 m_vJumpVelo = Vector3(0.f, -7.f, 0.f);
 
 public:
-	virtual CState*	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta) override;
 
 
 	// CAIHunting을(를) 통해 상속됨

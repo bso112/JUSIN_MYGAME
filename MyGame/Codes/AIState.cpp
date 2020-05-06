@@ -5,9 +5,14 @@
 
 USING(MyGame)
 
-CState * CAIIdle::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
-	return nullptr;
+	if (_isAlerted)
+	{
+		return STATE_HUNTING;
+	}
+
+	return STATE_END;
 }
 
 void CAIIdle::Free()
@@ -16,62 +21,49 @@ void CAIIdle::Free()
 
 
 
-CState * CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
-	return nullptr;
+	return STATE_END;
 }
 
 void CAISleeping::Free()
 {
 }
 
-CState * CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
-	return nullptr;
+	return STATE_END;
 }
 
 void CAIHunting::Free()
 {
 }
 
-CState * CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
-	return nullptr;
+	return STATE_END;
 }
 
 void CAIWandering::Free()
 {
 }
 
-CState * CAIIdle_Rat::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
-{
-	if (_isAlerted)
-	{
-		return new CAIHunting_Rat(m_pActor);
-	}
 
-	return nullptr;
-}
-
-void CAIIdle_Rat::Free()
-{
-}
-
-CState * CAIHunting_Rat::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
 	if (nullptr == m_pActor)
-		return nullptr;
+		return STATE_END;
 
 	//공격할 수 있으면
 	if (_canAttack)
 	{
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 		if (nullptr == pTransform)
-			return nullptr;
+			return STATE_END;
 
 		CCharacter* pFocus = m_pActor->Get_Focus();
 		if (nullptr == pFocus)
-			return nullptr;
+			return STATE_END;
 
 		//공격
 		pFocus->TakeDamage(m_pActor->Get_Stat().m_fAtt->GetValue());
@@ -79,7 +71,7 @@ CState * CAIHunting_Rat::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt,
 		//공격 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
 		if (nullptr == pAnimator)
-			return nullptr;
+			return STATE_END;
 		pAnimator->Play(L"attack");
 	}
 	//상대를 인식했으면
@@ -87,15 +79,15 @@ CState * CAIHunting_Rat::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt,
 	{
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 		if (nullptr == pTransform)
-			return nullptr;
+			return STATE_END;
 
 		CCharacter* pFocus = m_pActor->Get_Focus();
 		if (nullptr == pFocus)
-			return nullptr;
+			return STATE_END;
 
 		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
 		if (nullptr == pTargetTransform)
-			return nullptr;
+			return STATE_END;
 
 
 		//타깃을 향해 간다.
@@ -104,15 +96,15 @@ CState * CAIHunting_Rat::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt,
 		//점프 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
 		if (nullptr == pAnimator)
-			return nullptr;
+			return STATE_END;
 		pAnimator->Play(L"jump");
 	}
 
 	
-	return nullptr;
+	return STATE_END;
 }
 
-void CAIHunting_Rat::Free()
+void CAIHunting_Jump::Free()
 {
 }
 

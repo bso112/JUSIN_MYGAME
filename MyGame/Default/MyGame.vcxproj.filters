@@ -384,11 +384,11 @@
     <ClInclude Include="..\Headers\State.h">
       <Filter>06.Utility\02.Module\Module\StateController</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\StateCon.h">
-      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\AIState.h">
       <Filter>06.Utility\02.Module\Module\StateController\State\01.AIState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\AIStateCon.h">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -545,11 +545,11 @@
     <ClCompile Include="..\Codes\State.cpp">
       <Filter>06.Utility\02.Module\Module\StateController</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\StateCon.cpp">
-      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\AIState.cpp">
       <Filter>06.Utility\02.Module\Module\StateController\State\01.AIState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\AIStateCon.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

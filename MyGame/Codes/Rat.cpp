@@ -5,7 +5,7 @@
 #include "World.h"
 #include "Hero.h"
 #include "Clock.h"
-#include "StateCon.h"
+#include "AIStateCon.h"
 
 USING(MyGame)
 
@@ -44,7 +44,7 @@ HRESULT CRat::Initialize(void * _param)
 		return E_FAIL;
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, &CTransform::STATEDESC(100.0, 100.0))))
 		return E_FAIL;
-	if (FAILED(Set_Module(L"StateCon", SCENE_STATIC, (CModule**)&m_pStateCon)))
+	if (FAILED(Set_Module(L"AIStateCon", SCENE_STATIC, (CModule**)&m_pStateCon)))
 		return E_FAIL;
 	if (FAILED(Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator)))
 		return E_FAIL;
@@ -52,7 +52,11 @@ HRESULT CRat::Initialize(void * _param)
 #pragma endregion
 
 #pragma region 상태셋팅
-	m_pStateCon->Set_Defualt_State(new CAIIdle_Rat(this));
+	m_pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
+	m_pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting_Jump(this));
+	m_pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
+	m_pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
+	m_pStateCon->Set_Default_State(CAIState::STATE_IDLE);
 
 #pragma endregion
 

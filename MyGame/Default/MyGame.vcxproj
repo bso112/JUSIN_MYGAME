@@ -231,7 +231,7 @@
     <ClInclude Include="..\Headers\Stage.h" />
     <ClInclude Include="..\Headers\StageUIMgr.h" />
     <ClInclude Include="..\Headers\Stat.h" />
-    <ClInclude Include="..\Headers\StateCon.h" />
+    <ClInclude Include="..\Headers\AIStateCon.h" />
     <ClInclude Include="..\Headers\Statics.h" />
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\Terrain.h" />
@@ -289,7 +289,7 @@
     <ClCompile Include="..\Codes\Stage.cpp" />
     <ClCompile Include="..\Codes\StageUIMgr.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />
-    <ClCompile Include="..\Codes\StateCon.cpp" />
+    <ClCompile Include="..\Codes\AIStateCon.cpp" />
     <ClCompile Include="..\Codes\Statics.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\Terrain.cpp" />

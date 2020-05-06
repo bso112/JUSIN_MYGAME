@@ -3,7 +3,7 @@
 
 BEGIN(MyGame)
 class CTexture;
-class CStateCon;
+class CAIStateCon;
 class CRat final : public CMonster
 {
 private:
@@ -13,7 +13,7 @@ private:
 	
 private:
 	CAnimator*		m_pAnimator = nullptr;
-	CStateCon*		m_pStateCon = nullptr;
+	CAIStateCon*		m_pStateCon = nullptr;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
