@@ -1,1 +1,0 @@
-crab_01.png.png 1 3, crab_02.png.png 16 4, crab_03.png.png 34 4, crab_04.png.png 51 4, crab_05.png.png 66 4, crab_06.png.png 82 4, crab_07.png.png 99 4, crab_08.png.png 112 4, crab_09.png.png 130 0, crab_10.png.png 146 6, crab_11.png.png 161 3, crab_12.png.png 176 4, crab_13.png.png 193 6, crab_14.png.png 208 10, crab_15.png.png 148 0.
