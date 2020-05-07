@@ -83,18 +83,13 @@ int CControlView::StringToInt(TCHAR * _pCharArr)
 	return num;
 }
 
-void CControlView::OnBnClicked7btn()
-{
-	lstrcat(m_pinput, L"7");
-	SetDlgItemText(IDC_RESULT_TEXT,m_pinput);
-}
 
 
 void CControlView::OnBnClickedPlusbtn()
 {
 	m_iResult += StringToInt(m_pinput);
 	ZeroMemory(m_pinput, sizeof(m_pinput));
-	m_eLastOperation = PLUS;
+	m_eLastOperation = OP_PLUS;
 }
 
 
@@ -106,7 +101,7 @@ void CControlView::OnBnClickedMinusbtn()
 		m_iResult -= StringToInt(m_pinput);
 
 	ZeroMemory(m_pinput, sizeof(m_pinput));
-	m_eLastOperation = MINUS;
+	m_eLastOperation = OP_MINUS;
 }
 
 
@@ -118,25 +113,38 @@ void CControlView::OnBnClickedMultibtn()
 		m_iResult *= StringToInt(m_pinput);
 
 	ZeroMemory(m_pinput, sizeof(m_pinput));
-	m_eLastOperation = MULTI;
+	m_eLastOperation = OP_MULTI;
 }
 
 
 void CControlView::OnBnClickedDivbtn()
 {
-	if (m_iResult == 0)
+	int operand = StringToInt(m_pinput);
+	
+	if (operand == 0)
 		return;
-	m_iResult /= StringToInt(m_pinput);
+	
+	if (m_iResult == 0)
+		m_iResult = operand;
+	else
+		m_iResult /= operand;
+	
 	ZeroMemory(m_pinput, sizeof(m_pinput));
-	m_eLastOperation = DIV;
+	m_eLastOperation = OP_DIV;
 }
 
 
 
+void CControlView::OnBnClicked7btn()
+{
+	lstrcat(m_pinput, L"7");
+	SetDlgItemText(IDC_RESULT_TEXT,m_pinput);
+}
 void CControlView::OnBnClicked8btn()
 {
 	lstrcat(m_pinput, L"8");
 	SetDlgItemText(IDC_RESULT_TEXT, m_pinput);
+
 }
 
 
@@ -210,26 +218,26 @@ void CControlView::OnBnClickedResultbtn()
 {
 	switch (m_eLastOperation)
 	{
-	case CControlView::PLUS:
+	case CControlView::OP_PLUS:
 		OnBnClickedPlusbtn();
 		break;
-	case CControlView::MINUS:
+	case CControlView::OP_MINUS:
 		OnBnClickedMinusbtn();
 		break;
-	case CControlView::MULTI:
+	case CControlView::OP_MULTI:
 		OnBnClickedMultibtn();
 		break;
-	case CControlView::DIV:
+	case CControlView::OP_DIV:
 		OnBnClickedDivbtn();
 		break;
-	case CControlView::END:
+	case CControlView::OP_END:
 		break;
 	default:
 		break;
 	}
 	wsprintf(m_pinput, L"%d", m_iResult);
 	SetDlgItemText(IDC_RESULT_TEXT, m_pinput);
-	m_eLastOperation = END;
+	m_eLastOperation = OP_END;
 	ZeroMemory(m_pinput, sizeof(m_pinput));
 	
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.

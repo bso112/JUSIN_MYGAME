@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 // CControlView 폼 뷰입니다.
 
 class CControlView : public CFormView
@@ -9,14 +7,14 @@ class CControlView : public CFormView
 	DECLARE_DYNCREATE(CControlView)
 
 private:
-	enum OPERATION { PLUS, MINUS, MULTI, DIV, END};
+	enum OPERATION { OP_PLUS, OP_MINUS, OP_MULTI, OP_DIV, OP_END};
 protected:
 	CControlView();           // 동적 만들기에 사용되는 protected 생성자입니다.
 	virtual ~CControlView();
 
 private:
 	int			m_iResult = 0;
-	OPERATION	m_eLastOperation = END;
+	OPERATION	m_eLastOperation = OP_END;
 	TCHAR		m_pinput[MAX_PATH];
 public:
 #ifdef AFX_DESIGN_TIME
@@ -32,6 +30,7 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 	
+public:
 	DECLARE_MESSAGE_MAP()
 
 private:

@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
+    <ClInclude Include="CalculatorView.h" />
     <ClInclude Include="ControlView.h" />
     <ClInclude Include="Graphic_Device.h" />
     <ClInclude Include="MainFrm.h" />
@@ -221,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base.cpp" />
+    <ClCompile Include="CalculatorView.cpp" />
     <ClCompile Include="ControlView.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
     <ClCompile Include="MainFrm.cpp" />

@@ -31,6 +31,12 @@
     <Filter Include="01.View\01.SideView">
       <UniqueIdentifier>{64f91b3c-7b68-4474-96b1-bd5dc60c23b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.View\02.Calculator">
+      <UniqueIdentifier>{0b59e242-ce66-4fc2-9955-ab0286f67578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.ControllView">
+      <UniqueIdentifier>{2ebc4d21-8ed9-41b7-97a5-9427f3464f0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -84,8 +90,11 @@
     <ClInclude Include="SideView.h">
       <Filter>01.View\01.SideView</Filter>
     </ClInclude>
+    <ClInclude Include="CalculatorView.h">
+      <Filter>01.View\02.Calculator</Filter>
+    </ClInclude>
     <ClInclude Include="ControlView.h">
-      <Filter>01.View</Filter>
+      <Filter>01.View\03.ControllView</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,8 +122,11 @@
     <ClCompile Include="SideView.cpp">
       <Filter>01.View\01.SideView</Filter>
     </ClCompile>
+    <ClCompile Include="CalculatorView.cpp">
+      <Filter>01.View\02.Calculator</Filter>
+    </ClCompile>
     <ClCompile Include="ControlView.cpp">
-      <Filter>01.View</Filter>
+      <Filter>01.View\03.ControllView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

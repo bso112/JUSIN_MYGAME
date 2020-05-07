@@ -7,6 +7,7 @@
 #include "ToolView.h"
 #include "SideView.h"
 #include "MainFrm.h"
+#include "CalculatorView.h"
 #include "ControlView.h"
 
 #ifdef _DEBUG
@@ -98,10 +99,10 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	if (FALSE == m_Splitter.CreateStatic(this, 1, 2))
 		AfxMessageBox(L"Fail to split MainFrame");
 
-	if (FALSE == m_Splitter.CreateView(0, 0, RUNTIME_CLASS(CToolView), CSize(800, 600), pContext))
+	if (FALSE == m_Splitter.CreateView(0, 0, RUNTIME_CLASS(CToolView), CSize(400, 600), pContext))
 		AfxMessageBox(L"Fail to create view");
 
-	if (FALSE == m_Splitter.CreateView(0, 1, RUNTIME_CLASS(CControlView), CSize(300, 600), pContext))
+	if (FALSE == m_Splitter.CreateView(0, 1, RUNTIME_CLASS(CCalculatorView), CSize(400, 600), pContext))
 		AfxMessageBox(L"Fail to create view");
 
 
