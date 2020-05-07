@@ -11,6 +11,7 @@
 
 #include "ToolDoc.h"
 #include "ToolView.h"
+#include "MainFrm.h"
 #include "Graphic_Device.h"
 
 USING(MyGame)
@@ -121,6 +122,30 @@ void CToolView::OnInitialUpdate()
 	CView::OnInitialUpdate();
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+
+	//메인프레임을 얻어온다. 
+	CMainFrame*	pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	if (nullptr == pMainFrame)
+		return;
+
+	//메인프레임의 RECT를 얻어온다.
+	RECT	mainFrameRc;
+	pMainFrame->GetWindowRect(&mainFrameRc);
+
+	RECT toolViewRC = {};
+	GetClientRect(&toolViewRC);
+
+	RECT sideViewRC = {};
+	pMainFrame->Get_ClientRect(0, 1, sideViewRC);
+
+
+	int iFrameWidth = (mainFrameRc.right - mainFrameRc.left) - (toolViewRC.right + sideViewRC.right);
+	int iFrameHeight = (mainFrameRc.bottom - mainFrameRc.top) - (toolViewRC.bottom);
+
+	pMainFrame->SetWindowPos(nullptr, 0, 0, 800 + 300 + iFrameWidth, 600 + iFrameHeight, SWP_NOMOVE);
+
+
+
 	CGraphic_Device* pGraphic_DeviceMgr = CGraphic_Device::Get_Instance();
 	if (nullptr == pGraphic_DeviceMgr)
 		return;

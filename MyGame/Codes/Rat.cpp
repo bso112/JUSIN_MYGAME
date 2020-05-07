@@ -18,9 +18,6 @@ CRat::CRat(CRat & _rhs)
 HRESULT CRat::Initialize_Prototype(_tchar * _pFilePath)
 {
 	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Monster/Rat/");
-
-
-
 	return S_OK;
 }
 

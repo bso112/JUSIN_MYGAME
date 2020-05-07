@@ -205,6 +205,12 @@
     <Filter Include="06.Utility\02.Module\Module\StateController\State\01.AIState">
       <UniqueIdentifier>{fce6e239-41ac-45f4-a0eb-65026df44a07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\01.Gnoll">
+      <UniqueIdentifier>{c063e11b-8c94-4e39-aaef-224b0e499aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\02.Crab">
+      <UniqueIdentifier>{e9cb1e4a-f097-4938-85ca-2ab1de415a21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -390,6 +396,12 @@
     <ClInclude Include="..\Headers\AIStateCon.h">
       <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Gnoll.h">
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\01.Gnoll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Crab.h">
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\02.Crab</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -550,6 +562,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\AIStateCon.cpp">
       <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Gnoll.cpp">
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\01.Gnoll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Crab.cpp">
+      <Filter>04.GameObject\GameObject\Actor\Character\Monster\02.Crab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

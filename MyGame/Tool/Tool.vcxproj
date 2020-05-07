@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
+    <ClInclude Include="ControlView.h" />
     <ClInclude Include="Graphic_Device.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MyGame_Constant.h" />
@@ -210,6 +211,7 @@
     <ClInclude Include="MyGame_Struct.h" />
     <ClInclude Include="MyGame_Typedef.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SideView.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tool.h" />
@@ -219,8 +221,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base.cpp" />
+    <ClCompile Include="ControlView.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="SideView.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

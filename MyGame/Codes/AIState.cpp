@@ -23,6 +23,17 @@ void CAIIdle::Free()
 
 CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
+
+	if (_isAlerted)
+	{
+		return STATE_HUNTING;
+	}
+
+	CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+	if (nullptr == pAnimator)
+		return STATE_END;
+
+	pAnimator->Play(L"Sleep");
 	return STATE_END;
 }
 
@@ -32,6 +43,52 @@ void CAISleeping::Free()
 
 CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
 {
+	if (nullptr == m_pActor)
+		return STATE_END;
+
+	if (_canAttack)
+	{
+		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			return STATE_END;
+
+		CCharacter* pFocus = m_pActor->Get_Focus();
+		if (nullptr == pFocus)
+			return STATE_END;
+
+		//공격
+		pFocus->TakeDamage(m_pActor->Get_Stat().m_fAtt->GetValue());
+
+		//공격 모션
+		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+		if (nullptr == pAnimator)
+			return STATE_END;
+		pAnimator->Play(L"attack");
+	}
+	else if (_isAlerted)
+	{
+		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			return STATE_END;
+
+		CCharacter* pFocus = m_pActor->Get_Focus();
+		if (nullptr == pFocus)
+			return STATE_END;
+
+		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
+		if (nullptr == pTargetTransform)
+			return STATE_END;
+
+
+		//타깃을 향해 간다.
+		pTransform->Go_Target(pTargetTransform, 1.f, _iTurnCnt);
+
+		//점프 모션
+		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+		if (nullptr == pAnimator)
+			return STATE_END;
+		pAnimator->Play(L"walk");
+	}
 	return STATE_END;
 }
 

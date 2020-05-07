@@ -25,14 +25,17 @@
     <Filter Include="02.System\00.Device">
       <UniqueIdentifier>{cddf8deb-8c9b-4f4e-8760-5c8901eb9d46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.MainView">
+      <UniqueIdentifier>{ce0d193b-fc41-4d78-b46a-d84ba7a581c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\01.SideView">
+      <UniqueIdentifier>{64f91b3c-7b68-4474-96b1-bd5dc60c23b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainFrm.h">
-      <Filter>99.Default</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>99.Default</Filter>
     </ClInclude>
@@ -75,11 +78,17 @@
     <ClInclude Include="Base.h">
       <Filter>97.SuperClass</Filter>
     </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>00.MainView</Filter>
+    </ClInclude>
+    <ClInclude Include="SideView.h">
+      <Filter>01.View\01.SideView</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlView.h">
+      <Filter>01.View</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MainFrm.cpp">
-      <Filter>99.Default</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>99.Default</Filter>
     </ClCompile>
@@ -97,6 +106,15 @@
     </ClCompile>
     <ClCompile Include="Base.cpp">
       <Filter>97.SuperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>00.MainView</Filter>
+    </ClCompile>
+    <ClCompile Include="SideView.cpp">
+      <Filter>01.View\01.SideView</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlView.cpp">
+      <Filter>01.View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

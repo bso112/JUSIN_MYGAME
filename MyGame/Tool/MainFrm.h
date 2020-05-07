@@ -24,6 +24,11 @@ public:
 // 구현입니다.
 public:
 	virtual ~CMainFrame();
+
+public:
+	BOOL	Get_ClientRect(int _iRow, int _iCol, RECT& _outRC);
+private:
+	CSplitterWnd	m_Splitter;
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -38,6 +43,7 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 };
 
 

@@ -3,6 +3,7 @@
 //
 
 #include "Base.h"
+#include "ToolDoc.h"
 #pragma once
 
 

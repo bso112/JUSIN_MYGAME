@@ -191,6 +191,8 @@
   <ItemGroup>
     <ClInclude Include="..\Headers\Actor.h" />
     <ClInclude Include="..\Headers\AIState.h" />
+    <ClInclude Include="..\Headers\Crab.h" />
+    <ClInclude Include="..\Headers\Gnoll.h" />
     <ClInclude Include="..\Headers\State.h" />
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\Animator.h" />
@@ -254,6 +256,8 @@
   <ItemGroup>
     <ClCompile Include="..\Codes\Actor.cpp" />
     <ClCompile Include="..\Codes\AIState.cpp" />
+    <ClCompile Include="..\Codes\Crab.cpp" />
+    <ClCompile Include="..\Codes\Gnoll.cpp" />
     <ClCompile Include="..\Codes\State.cpp" />
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\Animator.cpp" />

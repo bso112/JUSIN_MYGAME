@@ -28,7 +28,7 @@ HRESULT CTransform::Initialize(void * _pArg)
 
 	m_vSize = Vector3(1.f, 1.f, 1.f);
 	m_vRotation = Vector3(0.f, 0.f, 0.f);
-	m_vPosition = Vector3(0.f, 0.f, 0.f);
+	m_vPosition = Vector3(0.f, 0.f, 0.f, 1.f);
 
 	D3DXMatrixIdentity(&m_StateMatrix);
 
