@@ -22,12 +22,10 @@ HRESULT CTurnMgr::MoveTurn(_int _iCnt)
 	if (SCENE_END <= eSceneID)
 		return E_FAIL;
 
+	//오브젝트 매니저의 맵을 순회하며 act를 부른다.
 	for (auto& pair : m_mapLayer[eSceneID])
 	{
-		if (0 != lstrcmp(pair.first, L"Player"))
-		{
-			pair.second->Act(_iCnt);
-		}
+		pair.second->Act(_iCnt);
 	}
 
 	++m_iCurrTurn;

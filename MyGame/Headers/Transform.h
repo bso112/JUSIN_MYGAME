@@ -74,6 +74,7 @@ public:
 	RECT		Get_Rect();
 	STATEDESC	Get_Desc(){ return m_tStateDesc; }
 
+
 	//저절로 움직이고 있나?
 	bool	Is_Auto() { return !m_bStop; }
 	//아직 덜구현함

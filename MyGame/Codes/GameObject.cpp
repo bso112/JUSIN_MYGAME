@@ -68,9 +68,13 @@ void CGameObject::OnCollisionExit(CGameObject * _pOther)
 }
 
 
-HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CModule** _ppOut, void* _pArg)
+HRESULT CGameObject::Set_Module(const _tchar* _pPrototypeModuleTag, SCENEID _eSceneID, CModule** _ppOut, const _tchar* _pModuleTag, void* _pArg)
 {
-	if (nullptr != Get_Module(_eModuleTag))
+	//따로 모듈이름 지정안하면 프로토타입 태그와 같은 태그로 모듈을 저장한다.
+	if (_pModuleTag == nullptr)
+		_pModuleTag = _pPrototypeModuleTag;
+
+	if (nullptr != Get_Module(_pModuleTag))
 		return E_FAIL;
 
 	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
@@ -79,12 +83,12 @@ HRESULT CGameObject::Set_Module(const _tchar* _eModuleTag,SCENEID _eSceneID, CMo
 
 	Safe_AddRef(pModuleMgr);
 
-	*_ppOut = pModuleMgr->Get_Module(_eModuleTag, _eSceneID, _pArg);
+	*_ppOut = pModuleMgr->Get_Module(_pPrototypeModuleTag, _eSceneID, _pArg);
 	if (nullptr == *_ppOut)
 		return E_FAIL;
 
 
-	m_mapModule.emplace(_eModuleTag, *_ppOut);
+	m_mapModule.emplace(_pModuleTag, *_ppOut);
 	//map에 추가했으니까 AddRef
 	Safe_AddRef(*_ppOut);
 

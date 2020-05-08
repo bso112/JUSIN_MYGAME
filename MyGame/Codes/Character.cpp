@@ -62,6 +62,9 @@ HRESULT CCharacter::Get_TerrainIndex(pair<_int,_int>& _out)
 
 bool CCharacter::IsTargetInRange(CCharacter * pTarget, _int _iRange)
 {
+	if (nullptr == pTarget)
+		return false;
+
 	pair<_int, _int> vTargetTerrainIndex;
 	if (FAILED(pTarget->Get_TerrainIndex(vTargetTerrainIndex)))
 		return false;

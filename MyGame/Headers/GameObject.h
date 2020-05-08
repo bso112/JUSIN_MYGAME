@@ -69,7 +69,7 @@ public:
 
 
 public:
-	HRESULT		Set_Module(const _tchar* _eModuleTag, SCENEID _eSceneID, CModule** _ppModule, void* _pArg = nullptr);
+	HRESULT		Set_Module(const _tchar* _pModulePrototypeTag, SCENEID _eSceneID, CModule** _ppModule, const _tchar* _pModuleTag = nullptr, void* _pArg = nullptr);
 	CModule*	Get_Module(const _tchar* _eModuleTag);
 	
 public:

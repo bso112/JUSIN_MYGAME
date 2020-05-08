@@ -11,6 +11,7 @@
 #include "Shader.h"
 #include "Animator.h"
 #include "AIStateCon.h"
+#include "PlayerStateCon.h"
 
 USING(MyGame)
 
@@ -152,6 +153,9 @@ HRESULT CMainApp::Initalize_Module()
 		return E_FAIL;
 
 	if (FAILED(pModuleMgr->Add_Module(L"AIStateCon", SCENE_STATIC, CAIStateCon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(pModuleMgr->Add_Module(L"PlayerStateCon", SCENE_STATIC, CPlayerStateCon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

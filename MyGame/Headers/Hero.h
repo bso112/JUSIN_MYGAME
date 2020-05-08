@@ -7,10 +7,11 @@ class CHero abstract : public CCharacter
 {
 protected:
 	enum CLOTH	{ CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END};
-	enum ANIM	{ ANIM_IDLE, ANIM_WALK, ANIM_ATTACK, ANIM_EAT,ANIM_USE, ANIM_FLOATING, ANIM_END };
 
 protected:
 	CKeyMgr*	m_pKeyMgr = nullptr;
+	CLOTH		m_eCurrCloth = CLOTH_BASIC;
+	CAnimator*	m_pAnimator[CLOTH_END];
 
 protected:
 	Vector3		m_vDst = {};
@@ -20,11 +21,12 @@ protected:
 	explicit CHero(CHero& _hero);
 	virtual ~CHero() = default;
 
-public:
+protected:
 	virtual	HRESULT KeyCheck(_double _timeDelta);
-
+	
 
 public:
+	HRESULT	PlayAnimation(const _tchar* _pTag);
 	_bool	Has_Key(TIER _tier);
 
 public:

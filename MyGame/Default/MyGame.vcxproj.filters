@@ -211,6 +211,12 @@
     <Filter Include="04.GameObject\GameObject\Actor\Character\Monster\02.Crab">
       <UniqueIdentifier>{e9cb1e4a-f097-4938-85ca-2ab1de415a21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController\Controller\AIStateController">
+      <UniqueIdentifier>{f8a62d94-13f9-4a21-8cf6-fbc9a5c48036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\02.Module\Module\StateController\Controller\PlayerStateController">
+      <UniqueIdentifier>{c8b2b200-3025-492b-8ca9-1301ed43675f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -393,14 +399,20 @@
     <ClInclude Include="..\Headers\AIState.h">
       <Filter>06.Utility\02.Module\Module\StateController\State\01.AIState</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\AIStateCon.h">
-      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Gnoll.h">
       <Filter>04.GameObject\GameObject\Actor\Character\Monster\01.Gnoll</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Crab.h">
       <Filter>04.GameObject\GameObject\Actor\Character\Monster\02.Crab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\PlayerState.h">
+      <Filter>06.Utility\02.Module\Module\StateController\State\00.PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\PlayerStateCon.h">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller\PlayerStateController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\AIStateCon.h">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller\AIStateController</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -560,14 +572,20 @@
     <ClCompile Include="..\Codes\AIState.cpp">
       <Filter>06.Utility\02.Module\Module\StateController\State\01.AIState</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\AIStateCon.cpp">
-      <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Gnoll.cpp">
       <Filter>04.GameObject\GameObject\Actor\Character\Monster\01.Gnoll</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Crab.cpp">
       <Filter>04.GameObject\GameObject\Actor\Character\Monster\02.Crab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\PlayerState.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController\State\00.PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\PlayerStateCon.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller\PlayerStateController</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\AIStateCon.cpp">
+      <Filter>06.Utility\02.Module\Module\StateController\Controller\AIStateController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

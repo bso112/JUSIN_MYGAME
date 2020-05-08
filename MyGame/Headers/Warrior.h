@@ -2,7 +2,8 @@
 #include "Hero.h"
 
 BEGIN(MyGame)
-class CTexture;
+class CShader;
+class CPlayerStateCon;
 class CWarrior final : public CHero
 {
 private:
@@ -11,10 +12,8 @@ private:
 	virtual ~CWarrior() = default;
 
 private:
-	CTexture*	m_pTexture[CLOTH_END][ANIM_END];
-	CLOTH		m_eCurrCloth = CLOTH_BASIC;
-	ANIM		m_eCurrAnim = ANIM_IDLE;
-
+	CShader*			m_pShader = nullptr;
+	CPlayerStateCon*	m_pStateCon = nullptr;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
 	virtual HRESULT Initialize(void * _param = nullptr) override;

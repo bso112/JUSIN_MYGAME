@@ -21,6 +21,14 @@ CAnimation* CAnimation::Render()
 	if (nullptr == m_pClock)
 		return nullptr;
 
+
+	m_pTexture->Set_Texture(m_iCurrFrame);
+
+	if (m_pClock->isThreashHoldReached(m_dFrameTime))
+	{
+		++m_iCurrFrame;
+	}
+
 	//애니메이션이 끝났을때
 	if (m_iCurrFrame == m_pTexture->Get_TextureSize())
 	{
@@ -33,14 +41,6 @@ CAnimation* CAnimation::Render()
 			return m_pNextAnim;
 		}
 	}
-
-	m_pTexture->Set_Texture(m_iCurrFrame);
-
-	if (m_pClock->isThreashHoldReached(m_dFrameTime))
-	{
-		++m_iCurrFrame;
-	}
-
 	return nullptr;
 }
 

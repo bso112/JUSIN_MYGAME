@@ -4,8 +4,7 @@
 BEGIN(MyGame)
 
 class CCharacter;
-class CTransform;
-class CAnimator;
+
 
 class CState abstract : public CBase
 {
