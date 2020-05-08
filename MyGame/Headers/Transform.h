@@ -2,6 +2,7 @@
 #include "Module.h"
 
 BEGIN(MyGame)
+class CTerrain;
 class CTransform final : public CModule
 {
 public:
@@ -14,9 +15,9 @@ public:
 		tagStateDesc() {}
 		tagStateDesc
 		(
-		_double _speedPerSec,
-		_double	_radianPerSec,
-		_uint	_movePerTurn = 1
+			_double _speedPerSec,
+			_double	_radianPerSec,
+			_uint	_movePerTurn = 1
 		)
 		{
 			speedPerSec = _speedPerSec;
@@ -34,7 +35,7 @@ private:
 private:
 	STATEDESC	m_tStateDesc;
 	_matrix		m_StateMatrix;
-	
+
 	Vector3		m_vPosition;
 	Vector3		m_vSize;
 	Vector3		m_vRotation;
@@ -44,12 +45,16 @@ private:
 	CTransform*			m_pTarget = nullptr;
 	//목표 위치
 	Vector3				m_vDst;
-	//목표까지의 루트
-	vector<Vector3>		m_Route;
+	//이동할 방향
+	Vector3				m_vDir;
+	//목표까지의 루트(지형)
+	vector<CTerrain*>	m_Route;
 	_double				m_StopDistance;
 	//멈춰 있냐?
 	_bool				m_bStop = true;
-	
+	//콜라이더 사이즈
+	Vector3				m_vColliderSize;
+
 private:
 	//현재 이동할 경로의 인덱스
 	_int				m_iCurrRouteIndex = 0;
@@ -64,6 +69,7 @@ public:
 public:
 	HRESULT	Set_Position(Vector3 _vPosition);
 	HRESULT	Set_Size(Vector3 _vSize);
+	HRESULT	Set_ColliderSize(Vector3 _vSize) { m_vColliderSize = _vSize; return S_OK; }
 	HRESULT	Set_Rotation(Vector3 _vRotation);
 
 public:
@@ -71,10 +77,17 @@ public:
 	Vector3		Get_Position() { return m_vPosition; }
 	Vector3		Get_Size() { return m_vSize; }
 	Vector3		Get_Rotation() { return m_vRotation; }
-	RECT		Get_Rect();
-	STATEDESC	Get_Desc(){ return m_tStateDesc; }
+	RECT		Get_Collider();
+	RECT		Get_RECT();
+	STATEDESC	Get_Desc() { return m_tStateDesc; }
+	Vector3		Get_Dir() { return m_vDir; }
 
 
+private:
+	//이동하는 방향을 바라본다.
+	void		FaceDir();
+
+public:
 	//저절로 움직이고 있나?
 	bool	Is_Auto() { return !m_bStop; }
 	//아직 덜구현함
@@ -91,22 +104,20 @@ public:
 
 public:
 	HRESULT Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta);
-	
-public:
-	//타깃을 자동으로 따라간다. (Transform Update 불러줘야함)
-	HRESULT	MoveToTarget_Auto(CTransform * _pTransform, _double _StopDistance);
-	//해당 방향으로 자동으로 간다.(Transform Update 불러줘야함)
-	HRESULT MoveToDir_Auto(Vector3 _vDir);
-	//해당 위치로 자동으로 간다.(Transform Update 불러줘야함)
-	HRESULT	MoveToDst_Auto(Vector3 _vDst, _double _fStopDistance);
+
 
 public:
-	HRESULT	Go_Route(vector<Vector3> _route, _double _fStopDistance, _int _iTurnCnt);
+	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
 	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance, _int _iTurnCnt);
+
+private:
+	//현재 루트를 따라 이동한다.
+	HRESULT Update_Route(_double _timeDelta);
+
 
 public:
 	void	Stop() { m_bStop = true; }
-		
+
 
 public:
 	static CTransform*	Create(LPDIRECT3DDEVICE9 _pGraphic_Device);

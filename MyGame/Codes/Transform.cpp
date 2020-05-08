@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Transform.h"
+#include "Terrain.h"
 #include "World.h"
-
 USING(MyGame)
 
 
@@ -29,6 +29,9 @@ HRESULT CTransform::Initialize(void * _pArg)
 	m_vSize = Vector3(1.f, 1.f, 1.f);
 	m_vRotation = Vector3(0.f, 0.f, 0.f);
 	m_vPosition = Vector3(0.f, 0.f, 0.f, 1.f);
+	m_vDir = Vector3();
+
+	m_vColliderSize = Vector3((float)TILECX - 5, (float)TILECY - 5, 1.f);
 
 	D3DXMatrixIdentity(&m_StateMatrix);
 
@@ -38,43 +41,7 @@ HRESULT CTransform::Initialize(void * _pArg)
 //목표지점으로 간다.
 _int CTransform::Update(_double _timeDelta)
 {
-	if (m_bStop)
-		return -1;
-
-
-	//이동력만큼 이동하고 멈춤
-	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt)
-	{
-		m_bStop = true;
-		m_iCurrRouteIndex = 0;
-		m_iTurnCnt = 0;
-		m_Route.swap(vector<Vector3>());
-		m_pTarget = nullptr;
-		return -1;
-	}
-
-	Vector3 vDir = m_Route[m_iCurrRouteIndex] - m_vPosition;
-
-	if (vDir.magnitude() > m_StopDistance)
-	{
-		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
-	}
-	//타일에 도달했으면
-	else
-	{
-		//타깃을 쫒는 상태라면
-		if (nullptr != m_pTarget)
-		{
-			//루트 갱신
-			m_Route.swap(vector<Vector3>());
-			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
-		}
-
-
-		//한 타일지나면 인덱스 더하기
-		++m_iCurrRouteIndex;
-	}
-	return 0;
+	return Update_Route(_timeDelta);
 }
 
 _int CTransform::Late_Update()
@@ -111,19 +78,45 @@ HRESULT CTransform::Set_Rotation(Vector3 _vRotation)
 }
 
 
-RECT CTransform::Get_Rect()
+RECT CTransform::Get_Collider()
 {
 	RECT rc = {};
-	float fX = Get_Position().x;
-	float fY = Get_Position().y;
-	int iCX = (int)Get_Size().x;
-	int iCY = (int)Get_Size().y;
+	float fX = m_vPosition.x;
+	float fY = m_vPosition.y;
+	int iCX = (int)m_vColliderSize.x;
+	int iCY = (int)m_vColliderSize.y;
 
 	rc.left = (LONG)fX - (iCX >> 1);
 	rc.right = (LONG)fX + (iCX >> 1);
 	rc.top = (LONG)fY - (iCY >> 1);
 	rc.bottom = (LONG)fY + (iCY >> 1);
 	return rc;
+}
+
+RECT CTransform::Get_RECT()
+{
+	RECT rc = {};
+	float fX = m_vPosition.x;
+	float fY = m_vPosition.y;
+	int iCX = (int)m_vSize.x;
+	int iCY = (int)m_vSize.y;
+
+	rc.left = (LONG)fX - (iCX >> 1);
+	rc.right = (LONG)fX + (iCX >> 1);
+	rc.top = (LONG)fY - (iCY >> 1);
+	rc.bottom = (LONG)fY + (iCY >> 1);
+	return rc;
+}
+
+
+void CTransform::FaceDir()
+{
+	float sizeX = abs(m_vSize.x);
+
+	if (m_vDir.x < 0)
+		m_vSize.x = -1 * sizeX;
+	else
+		m_vSize.x = sizeX;
 }
 
 HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)
@@ -194,38 +187,27 @@ HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
 	return S_OK;
 }
 
-HRESULT CTransform::MoveToTarget_Auto(CTransform * _pTransform, _double _fStopDistance)
+
+
+HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _int _iTurnCnt)
 {
-	m_bStop = false;
-	m_Route.push_back(_pTransform->Get_Position());
-	m_StopDistance = _fStopDistance;
-	return S_OK;
-}
 
-HRESULT CTransform::MoveToDir_Auto(Vector3 _vDir)
-{
-	m_bStop = false;
-	m_Route.push_back(_vDir * FLT_MAX);
-	m_StopDistance = DBL_MAX;
-	return S_OK;
-}
+	if (_route.empty())
+		return E_FAIL;
+	
 
-
-
-HRESULT CTransform::MoveToDst_Auto(Vector3 _vDst, _double _StopDistance)
-{
-	m_bStop = false;
-	m_Route.push_back(_vDst);
-	m_StopDistance = _StopDistance;
-	return S_OK;
-}
-
-HRESULT CTransform::Go_Route(vector<Vector3> _route, _double _StopDistance, _int _iTurnCnt)
-{
+	m_iCurrRouteIndex = 0;
+	m_Route.swap(vector<CTerrain*>());
 	m_bStop = false;
 	m_Route = _route;
 	m_StopDistance = _StopDistance;
 	m_iTurnCnt = _iTurnCnt;
+	CTransform* pTransform = (CTransform*)m_Route.back()->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return E_FAIL;
+	m_vDst = pTransform->Get_Position();
+
+
 	return S_OK;
 }
 
@@ -234,6 +216,8 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance, _int
 	if (nullptr == _pTarget)
 		return E_FAIL;
 
+	m_iCurrRouteIndex = 0;
+	m_Route.swap(vector<CTerrain*>());
 	m_bStop = false;
 	m_pTarget = _pTarget;
 	m_StopDistance = _StopDistance;
@@ -241,6 +225,70 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance, _int
 	//루트 설정
 	CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
 
+	return S_OK;
+}
+
+
+HRESULT CTransform::Update_Route(_double _timeDelta)
+{
+	if (m_bStop)
+		return E_FAIL;
+
+
+	//이동력만큼 이동하고 멈춤
+	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt)
+	{
+		m_bStop = true;
+		m_iCurrRouteIndex = 0;
+		m_iTurnCnt = 0;
+		m_Route.swap(vector<CTerrain*>());
+		m_pTarget = nullptr;
+		return -1;
+	}
+
+	CTransform* pTransform = (CTransform*)m_Route[m_iCurrRouteIndex]->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return E_FAIL;
+
+	m_vDir = pTransform->Get_Position() - m_vPosition;
+
+	if (m_vDir.magnitude() > 1.f)
+	{
+		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
+		if (m_Route[m_iCurrRouteIndex]->IsMovable())
+		{
+			m_vPosition += m_vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+		}
+		else
+		{
+			m_Route.swap(vector<CTerrain*>());
+			//갈 수 없으면 루트갱신
+			if (m_pTarget != nullptr)
+				CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
+			else
+				CWorld::Get_Instance()->Get_Route(m_vPosition, m_vDst, m_Route);
+
+			m_iCurrRouteIndex = 0;
+		}
+
+		FaceDir();
+	}
+	//타일에 도달했으면
+	else
+	{
+		//한 타일지나면 인덱스 더하기
+		++m_iCurrRouteIndex;
+		
+		//타깃을 쫒는 상태라면 (주로 몬스터)
+		if (nullptr != m_pTarget)
+		{
+			//타깃의 위치는 변하기 때문에 루트를 매번 갱신해줘야한다.(한칸 갈때마다)
+			m_Route.swap(vector<CTerrain*>());
+			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
+
+			m_iCurrRouteIndex = 0;
+		}
+	}
 	return S_OK;
 }
 

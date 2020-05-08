@@ -4,6 +4,7 @@
 #include "World.h"
 #include "Transform.h"
 #include "TurnMgr.h"
+#include "Terrain.h"
 USING(MyGame)
 
 
@@ -37,8 +38,8 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
-		vector<Vector3> route;
-		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), pt, route);
+		vector<CTerrain*> route;
+		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route);
 
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;

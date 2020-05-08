@@ -21,6 +21,9 @@ CMainApp::CMainApp()
 {
 
 	Safe_AddRef(m_pSceneMgr);
+	//랜덤시드 정해주기
+	srand(_uint(time(NULL)));
+
 }
 
 HRESULT CMainApp::Initalize()
@@ -109,14 +112,15 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	if (FAILED(pGraphic_Device->Ready_Graphic_Device(CGraphic_Device::TYPE_WIN, &m_pGraphic_Device)))
 		return E_FAIL;
 
-
 	Safe_Release(pGraphic_Device);
 
+	//그래픽 디바이스 셋팅
 	ALPHATEST;
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	//폰트셋팅
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);
 
-	srand(_uint(time(NULL)));
 
 	return S_OK;
 }
@@ -146,7 +150,7 @@ HRESULT CMainApp::Initalize_Module()
 	if (FAILED(pModuleMgr->Add_Module(L"Transform", SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(pModuleMgr->Add_Module(L"Shader_Default", SCENE_STATIC, CShader::Create(m_pGraphic_Device, L"../Bin/ShaderFiles/Shader_Default.fx"))))
+	if (FAILED(pModuleMgr->Add_Module(L"Shader", SCENE_STATIC, CShader::Create(m_pGraphic_Device, L"../Bin/ShaderFiles/Shader_Default.fx"))))
 		return E_FAIL;
 
 	if (FAILED(pModuleMgr->Add_Module(L"Animator", SCENE_STATIC, CAnimator::Create(m_pGraphic_Device))))

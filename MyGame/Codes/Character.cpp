@@ -84,6 +84,14 @@ bool CCharacter::IsTargetInRange(CCharacter * pTarget, _int _iRange)
 	return false;
 }
 
+void CCharacter::OnCollisionEnter(CGameObject * _pOther)
+{
+	//if (nullptr != dynamic_cast<CCharacter*>(_pOther))
+	//{
+	//	m_pTransform->Stop();
+	//}
+}
+
 
 
 void CCharacter::Free()

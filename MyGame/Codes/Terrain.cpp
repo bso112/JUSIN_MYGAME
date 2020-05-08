@@ -4,6 +4,7 @@
 #include "ModuleMgr.h"	
 #include "VIBuffer.h"
 #include "Character.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -43,17 +44,44 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 HRESULT CTerrain::Initialize()
 {
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"Shader", SCENEID::SCENE_STATIC, (CModule**)&m_pShader);
+
 	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
+	m_pTransform->Set_ColliderSize(Vector3(5.f, 5.f));
 	return S_OK;
 }
 
 HRESULT CTerrain::Render()
 {
 	m_pTransform->Late_Update();
-	if (FAILED(m_pTexture->Set_Texture(m_iCurFrame)))
-		MSG_BOX("유효한 프레임이 아닙니다");
-	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
-	m_pVIBuffer->Render();
+
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+		return E_FAIL;
+	
+
+	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iCurFrame)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Begin()))
+		return E_FAIL;
+
+	int pass = (!m_tInfo.m_bMovable || m_bStanding || m_bMarked) ? 2 : 0;
+	if (FAILED(m_pShader->Begin_Pass(pass)))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+
+	if (FAILED(m_pShader->End_Pass()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->End()))
+		return E_FAIL;
+
+	
 	return S_OK;
 }
 
@@ -129,6 +157,7 @@ void CTerrain::OnCollisionEnter(CGameObject * _pOther)
 
 void CTerrain::OnCollisionStay(CGameObject * _pOther)
 {
+
 	OnCollisionStayTerrain(_pOther);
 }
 
@@ -193,7 +222,7 @@ void CTerrain::Free()
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pVIBuffer);
-
+	Safe_Release(m_pShader);
 	CGameObject::Free();
 }
 

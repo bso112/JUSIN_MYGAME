@@ -4,6 +4,7 @@ BEGIN(MyGame)
 class CTransform;
 class CTexture;
 class CVIBuffer;
+class CShader;
 class CTerrain  : public CGameObject
 {
 
@@ -68,10 +69,12 @@ protected:
 	CTransform*		m_pTransform = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CVIBuffer*		m_pVIBuffer = nullptr;
-
+	CShader*		m_pShader = nullptr;
 protected:
 	STATE			m_eState	= STATE_NORMAL;
 	bool			m_bHidden	= false;
+	//누군가 서있는 타일인가
+	bool			m_bStanding = false;
 	NODE			m_tNode		= {};
 
 protected:
@@ -79,6 +82,9 @@ protected:
 	_tchar			m_PrototypeTag[MAX_PATH];
 	// _uint로 하면 음수가 되는순간 4500어쩌구 하는 큰값이 들어가서 최대 텍스쳐 사이즈 -1 이됨.
 	_int			m_iCurFrame = 0;
+
+private:
+	bool			m_bMarked = false;
 
 
 public:
@@ -92,7 +98,7 @@ public:
 	void		Hide() { m_bHidden = true; }
 	void		Reveal() { m_bHidden = false; }
 	bool		IsHidden() { return m_bHidden; }
-	bool		IsMovable() { return m_tInfo.m_bMovable; }
+	bool		IsMovable() { return m_tInfo.m_bMovable && !m_bStanding; }
 
 public:
 	HRESULT		Forward_Frame();
@@ -100,7 +106,7 @@ public:
 	void		Set_Node(NODE _tNode) { m_tNode = _tNode; }
 	const NODE&	Get_Node() { return m_tNode; }
 	void		Clear_Node() { m_tNode.Clear(); }
-	
+	void		Set_Mark(bool _bMarked) { m_bMarked = _bMarked; }
 
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);

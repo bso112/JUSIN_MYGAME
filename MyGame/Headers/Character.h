@@ -65,6 +65,9 @@ public:
 	bool	IsTargetInRange(CCharacter* pTarget, _int _iRange);
 	const STATS&	Get_Stat() { return m_tStat; }
 
+public:
+	virtual void OnCollisionEnter(CGameObject* _pOther);
+
 protected:
 	virtual void Process() = 0;
 	virtual void Update_State() = 0;

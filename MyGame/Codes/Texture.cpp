@@ -50,10 +50,13 @@ HRESULT CTexture::Set_Texture(_uint _iIndex)
 
 HRESULT CTexture::Set_TextureOnShader(CShader * _pShader, D3DXHANDLE hParameter, _uint _iIndex)
 {
-	if (m_vecTexture.size() <= _iIndex	||
-		nullptr == m_pGraphic_Device	||
+	if (m_vecTexture.size() <= _iIndex ||
+		nullptr == m_pGraphic_Device ||
 		nullptr == _pShader)
+	{
+		MSG_BOX("유효한 텍스쳐가 아닙니다.");
 		return E_FAIL;
+	}
 
 	return _pShader->Set_Texture(hParameter, m_vecTexture[_iIndex]);
 }

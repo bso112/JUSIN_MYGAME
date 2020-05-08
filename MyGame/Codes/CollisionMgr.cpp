@@ -31,7 +31,7 @@ bool CCollisionMgr::Collision_Rect(list<CGameObject*> _Dst, list<CGameObject*> _
 				return false;
 
 
-			if (IntersectRect(&rc, &pDstTransform->Get_Rect(), &pSrcTransform->Get_Rect()))
+			if (IntersectRect(&rc, &pDstTransform->Get_RECT(), &pSrcTransform->Get_RECT()))
 			{
 				//상대방이 죽은경우, 충돌처리를 하지 않는다.
 				if (Src->Get_Dead())
@@ -83,6 +83,85 @@ bool CCollisionMgr::Collision_Rect(list<CGameObject*> _Dst, list<CGameObject*> _
 	}
 	return false;
 }
+
+bool CCollisionMgr::GameObjectInTile(list<CGameObject*> _listObj, list<CGameObject*> _listTerrain)
+{
+	RECT rc = {};
+
+	for (auto& pObj : _listObj)
+	{
+		CTransform* pObjTransform = (CTransform*)pObj->Get_Module(L"Transform");
+
+		if (nullptr == pObjTransform)
+			return false;
+
+		for (auto& pTile : _listTerrain)
+		{
+
+			CTransform* pTileTransform = (CTransform*)pTile->Get_Module(L"Transform");
+
+			if (nullptr == pTileTransform)
+				return false;
+
+			POINT pt;
+			pt.x = pObjTransform->Get_Position().x;
+			pt.y = pObjTransform->Get_Position().y;
+
+			if (PtInRect(&pTileTransform->Get_RECT(), pt))
+			{
+				//상대방이 죽은경우, 충돌처리를 하지 않는다.
+				if (pTile->Get_Dead())
+					pObj->Erase_Collided(pTile);
+				if (pObj->Get_Dead())
+					pTile->Erase_Collided(pObj);
+				if (pTile->Get_Dead() || pObj->Get_Dead())
+					continue;
+
+
+				//만약 서로 충돌한 적이 없으면 서로의 충돌리스트에 서로를 추가한다.
+				if (!pObj->Contain_Collided(pTile))
+				{
+					pObj->Add_Collided(pTile);
+					pObj->Set_isCollided(true);
+					pObj->OnCollisionEnter(pTile);
+				}
+				if (!pTile->Contain_Collided(pObj))
+				{
+					pTile->Add_Collided(pObj);
+					pTile->Set_isCollided(true);
+					pTile->OnCollisionEnter(pObj);
+				}
+
+
+				pObj->OnCollisionStay(pTile);
+				pTile->OnCollisionStay(pObj);
+
+			}
+			else
+			{
+				//만약 상대방이 전에 충돌한 리스트에 있으면 삭제한다.
+				pObj->Erase_Collided(pTile);
+				pTile->Erase_Collided(pObj);
+
+				//충돌리스트가 비었고, 전에 충돌한적이 있으면 collisionExit을 실행한다.
+				if (pObj->Get_CollidedSize() == 0 && pObj->Get_isCollided())
+				{
+					pObj->Set_isCollided(false);
+					pObj->OnCollisionExit(pTile);
+				}
+				if (pTile->Get_CollidedSize() == 0 && pTile->Get_isCollided())
+				{
+					pTile->Set_isCollided(false);
+					pTile->OnCollisionExit(pObj);
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
+
 
 bool CCollisionMgr::Collision(list<CGameObject*> _Dst, list<CGameObject*> _Src, bool _bisCollided)
 {
@@ -186,6 +265,7 @@ bool CCollisionMgr::Collision(list<CGameObject*> _Dst, list<CGameObject*> _Src, 
 //
 //	return false;
 //}
+
 
 
 void CCollisionMgr::Free()

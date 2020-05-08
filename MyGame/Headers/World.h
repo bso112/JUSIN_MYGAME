@@ -42,6 +42,8 @@ public:
 	//A* 알고리즘을 적용해 경로를 반환한다.
 	HRESULT	Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out);
 	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out);
+	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out);
+
 
 	Vector3	Get_RandomPos();
 
@@ -54,9 +56,10 @@ public:
 private:
 	HRESULT	Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID);
 
-private:
+public:
 	//지형과 충돌처리
 	HRESULT	Collision_Terrain(CGameObject* _pObj);
+	HRESULT Collision_Terrain(list<CGameObject*> _pObjlist);
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

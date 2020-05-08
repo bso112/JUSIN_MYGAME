@@ -20,7 +20,7 @@ HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTa
 {
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Shader_Default", SCENE_STATIC, (CModule**)&m_pShader);
+	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
 
 	if (nullptr != _pTextureTag)
 		Set_Module(_pTextureTag, _eTextureSceneID, (CModule**)&m_pTexture);
@@ -40,7 +40,7 @@ _int CMyButton::Update(_double _timeDelta)
 
 	m_pTransform->Late_Update();
 
-	m_tRect = m_pTransform->Get_Rect();
+	m_tRect = m_pTransform->Get_RECT();
 	
 
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON))
@@ -101,7 +101,7 @@ HRESULT CMyButton::Render()
 		return E_FAIL;
 
 
-	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_Rect(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_RECT(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 
 	if (FAILED(m_pShader->End_Pass()))
 		return E_FAIL;

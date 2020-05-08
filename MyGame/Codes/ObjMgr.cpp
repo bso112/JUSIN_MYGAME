@@ -2,6 +2,8 @@
 #include "..\Headers\ObjMgr.h"
 #include "Layer.h"
 #include "GameObject.h"
+#include "World.h"
+#include "CollisionMgr.h"
 
 USING(MyGame)
 
@@ -42,6 +44,33 @@ _int CObjMgr::Update(_double _timeDelta)
 
 		}
 	}
+
+#pragma region Collision
+
+	CWorld* pWorld = CWorld::Get_Instance();
+	if (nullptr == pWorld)
+		return -1;
+
+	CGameObject* pPlayer = Get_Player(SCENE_STAGE);
+	if (nullptr == pPlayer)
+		return -1;
+
+	CLayer* pMonsterLayer = Find_Layer(L"Monster", SCENE_STAGE);
+	if (nullptr == pMonsterLayer)
+		return -1;
+
+	pWorld->Collision_Terrain(pPlayer);
+	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
+	
+	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
+
+
+
+#pragma endregion
+
+
+	
+
 	return 0;
 }
 

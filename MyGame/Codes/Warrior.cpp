@@ -128,6 +128,10 @@ HRESULT CWarrior::Initialize(void * _param)
 	CAnimation* pClothIdleAnim = CAnimation::Create(pTexture, 1.0, true);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"idle", pClothIdleAnim);
 
+	Set_Module(L"warrior_cloth_walk", SCENE_STAGE, (CModule**)&pTexture);
+	CAnimation* pClothWalkAnim = CAnimation::Create(pTexture, 0.1, true);
+	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"walk", pClothWalkAnim);
+
 	Set_Module(L"warrior_cloth_attack", SCENE_STAGE, (CModule**)&pTexture);
 	CAnimation* pClothAttackAnim = CAnimation::Create(pTexture, 0.2, false);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"attack", pClothAttackAnim);
@@ -144,9 +148,6 @@ HRESULT CWarrior::Initialize(void * _param)
 	CAnimation* pClothUseAnim = CAnimation::Create(pTexture, 0.2, false);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"use", pClothUseAnim);
 
-	Set_Module(L"warrior_cloth_walk", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothWalkAnim = CAnimation::Create(pTexture, 0.1, true);
-	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"walk", pClothWalkAnim);
 
 	pClothAttackAnim->Set_NextAnim(pClothIdleAnim);
 	pClothEatAnim->Set_NextAnim(pClothIdleAnim);
@@ -270,7 +271,7 @@ void CWarrior::OnTakeDamage()
 	if (nullptr == m_pTransform)
 		return;
 
-	m_pTransform->Stop();
+	//m_pTransform->Stop();
 
 }
 
@@ -287,7 +288,13 @@ void CWarrior::Free()
 
 HRESULT CWarrior::Act(_int _iTurnCnt)
 {
+	if (nullptr == m_pTransform ||
+		nullptr == m_pStateCon)
+		return E_FAIL;
+
 	m_pStateCon->Act(IsTargetInRange(m_pFocus, m_iAttackRange), false ,_iTurnCnt);
+
+	
 	return S_OK;
 }
 

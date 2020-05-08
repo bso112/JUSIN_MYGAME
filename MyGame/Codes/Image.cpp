@@ -29,7 +29,7 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
 		return E_FAIL;
 
-	if (FAILED(Set_Module(L"Shader_Default", SCENE_STATIC, (CModule**)&m_pShader)))
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
 		return E_FAIL;
 
 	m_pTransform->Set_Position(Vector4(_vPos.x, _vPos.y, 0, 1));
