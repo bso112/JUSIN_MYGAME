@@ -44,10 +44,10 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
 
-		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
+		m_pTransform->Go_Route(route, 1.f);
 
 		//플레이어가 움직인만큼 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt);
+		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt, _timeDelta);
 	}
 
 	return S_OK;

@@ -7,7 +7,7 @@
 BEGIN(MyGame)
 class CStat;
 class CClock_Single;
-
+class CStateCon;
 class CCharacter abstract : public CGameObject
 {
 protected:
@@ -35,8 +35,12 @@ protected:
 	CVIBuffer*	m_pVIBuffer = nullptr;
 	//포커스하고 있는 대상
 	CCharacter*	m_pFocus = nullptr;
+	CStateCon*	m_pStateCon = nullptr;
+
 
 public:
+	_int		StartAct();
+	_int		UpdateAct();
 	CCharacter*	Get_Focus() { return m_pFocus; }
 
 protected:
@@ -51,6 +55,8 @@ protected:
 
 	//공격범위
 	_uint	m_iAttackRange = 0;
+	//인식범위
+	_uint	m_iRecogRange = 0;
 
 public:
 	virtual void TakeDamage(float _fDamage);

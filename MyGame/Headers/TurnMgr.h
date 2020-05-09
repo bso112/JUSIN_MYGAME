@@ -13,12 +13,13 @@ private:
 
 private:
 	_uint	m_iCurrTurn = 0;
-	map<const _tchar*, CLayer*>*	m_mapLayer;
-
+	size_t	m_iLayerIndex = 0;
+	vector<CLayer*> m_vecLayer;
 public:
-	//_iCnt만큼 턴을 넘긴다.
-	HRESULT	MoveTurn(_int _iCnt);
-
+	int		MoveTurn(_int _iTurnCnt, _double _timeDelta);
+	
+private:
+	void	OnNextTurn(_double _timeDelta);
 public:
 	virtual void Free() override;
 };

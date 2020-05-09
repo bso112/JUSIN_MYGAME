@@ -49,11 +49,12 @@ HRESULT CRat::Initialize(void * _param)
 #pragma endregion
 
 #pragma region 상태셋팅
-	m_pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
-	m_pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting_Jump(this));
-	m_pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
-	m_pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
-	m_pStateCon->Set_Default_State(CAIState::STATE_IDLE);
+	CAIStateCon* pStateCon = dynamic_cast<CAIStateCon*>(m_pStateCon);
+	pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
+	pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting_Jump(this));
+	pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
+	pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
+	pStateCon->Set_Default_State(CAIState::STATE_IDLE);
 
 #pragma endregion
 
@@ -110,27 +111,19 @@ _int CRat::Update(_double _timeDelta)
 _int CRat::LateUpate(_double _timeDelta)
 {
 	m_pTransform->Late_Update();
+	
 	if (nullptr == m_pRenderer)
-		return -1;
+		return E_FAIL;
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
-		return -1;
-
-	return 0;
-
-}
-
-HRESULT CRat::Act(_int _iTurnCnt)
-{
+		return E_FAIL;
 
 	if (nullptr == m_pFocus)
 		return E_FAIL;
-	m_pStateCon->Act(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange), _iTurnCnt);
 
-	return S_OK;
+	return m_pStateCon->Update(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
+
 }
-
-
 
 
 HRESULT CRat::Render()
@@ -203,7 +196,6 @@ void CRat::Scene_Change()
 
 void CRat::Free()
 {
-	Safe_Release(m_pStateCon);
 	Safe_Release(m_pAnimator);
 	CMonster::Free();
 }

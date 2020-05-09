@@ -6,7 +6,7 @@
 USING(MyGame)
 
 CPlayerStateCon::CPlayerStateCon(PDIRECT3DDEVICE9 _pGraphic_Device)
-	: CModule(_pGraphic_Device)
+	: CStateCon(_pGraphic_Device)
 {
 	ZeroMemory(m_pStateArr, sizeof(m_pStateArr));
 };
@@ -21,22 +21,22 @@ HRESULT CPlayerStateCon::Initialize(void * _pArg)
 	return S_OK;
 }
 
-_int CPlayerStateCon::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt)
+_int CPlayerStateCon::Start(_bool _canAttack, _bool _isAlerted)
 {
-	CPlayerState::STATE	eNextState = m_pCurrState->Act(_canAttack, _isAlerted, _iTurnCnt,CTimerMgr::Get_Instance()->Get_TimeDelta());
+	CPlayerState::STATE	eNextState = m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 
 	if (CPlayerState::STATE_END != eNextState)
 	{
 		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
 		//한번 행동
-		m_pCurrState->Act(_canAttack, _isAlerted, _iTurnCnt, CTimerMgr::Get_Instance()->Get_TimeDelta());
+		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	}
 
-	return S_OK;
+	return TURN_NOEVENT;
 }
 
-_int CPlayerStateCon::LateUpdate(_bool _canAttack, _bool _isAlerted)
+_int CPlayerStateCon::Update(_bool _canAttack, _bool _isAlerted)
 {
 	CPlayerState::STATE	eNextState = m_pCurrState->LateUpdate();
 
@@ -45,10 +45,11 @@ _int CPlayerStateCon::LateUpdate(_bool _canAttack, _bool _isAlerted)
 		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
 		//한번 행동
-		m_pCurrState->Act(_canAttack, _isAlerted, 1, CTimerMgr::Get_Instance()->Get_TimeDelta());
+		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
+		return TURN_END;
 	}
 
-	return S_OK;
+	return TURN_NOEVENT;
 }
 
 HRESULT CPlayerStateCon::Set_State(CPlayerState::STATE _eState, CPlayerState * _pAIState)

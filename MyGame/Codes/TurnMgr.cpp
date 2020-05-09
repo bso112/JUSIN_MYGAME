@@ -3,36 +3,46 @@
 #include "Layer.h"
 #include "ObjMgr.h"
 #include "SceneMgr.h"
+#include "GameObject.h"
+#include "TimerMgr.h"
 
 USING(MyGame)
 IMPLEMENT_SINGLETON(CTurnMgr)
 
 CTurnMgr::CTurnMgr()
 {
-	m_mapLayer = CObjMgr::Get_Instance()->Get_Layers();
+
 }
 
 CTurnMgr::CTurnMgr(CTurnMgr & _rhs)
 {
 }
 
-HRESULT CTurnMgr::MoveTurn(_int _iCnt)
+
+
+
+
+_int CTurnMgr::MoveTurn(_int _iTurnCnt, _double _timeDelta)
 {
-	SCENEID eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
-	if (SCENE_END <= eSceneID)
-		return E_FAIL;
 
-	//오브젝트 매니저의 맵을 순회하며 act를 부른다.
-	for (auto& pair : m_mapLayer[eSceneID])
-	{
-		pair.second->Act(_iCnt);
-	}
 
-	++m_iCurrTurn;
 
 	return S_OK;
 }
 
+void CTurnMgr::OnNextTurn(_double _timeDelta)
+{
+
+
+	
+
+}
+
 void CTurnMgr::Free()
 {
+	for (auto& layer : m_vecLayer)
+	{
+		Safe_Release(layer);
+	}
+	m_vecLayer.clear();
 }

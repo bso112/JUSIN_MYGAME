@@ -83,10 +83,11 @@ HRESULT CWarrior::Initialize(void * _param)
 #pragma endregion
 
 #pragma region 상태설정
-	m_pStateCon->Set_State(CPlayerState::STATE_IDLE, new CPlayerIdle(this));
-	m_pStateCon->Set_State(CPlayerState::STATE_USING, new CPlayerUsing(this));
-	m_pStateCon->Set_State(CPlayerState::STATE_WALK, new CPlayerWalk(this));
-	m_pStateCon->Set_Default_State(CPlayerState::STATE_IDLE);
+	CPlayerStateCon* pStateCon = dynamic_cast<CPlayerStateCon*>(m_pStateCon);
+	pStateCon->Set_State(CPlayerState::STATE_IDLE, new CPlayerIdle(this));
+	pStateCon->Set_State(CPlayerState::STATE_USING, new CPlayerUsing(this));
+	pStateCon->Set_State(CPlayerState::STATE_WALK, new CPlayerWalk(this));
+	pStateCon->Set_Default_State(CPlayerState::STATE_IDLE);
 #pragma endregion
 
 #pragma region 애니메이션 설정
@@ -209,7 +210,6 @@ _int CWarrior::Update(_double _timeDelta)
 _int CWarrior::LateUpate(_double _timeDelta)
 {
 	m_pTransform->Late_Update();
-	m_pStateCon->LateUpdate(IsTargetInRange(m_pFocus, m_iAttackRange), false);
 
 	if (nullptr == m_pRenderer)
 		return -1;
@@ -268,10 +268,6 @@ void CWarrior::OnDead()
 
 void CWarrior::OnTakeDamage()
 {
-	if (nullptr == m_pTransform)
-		return;
-
-	//m_pTransform->Stop();
 
 }
 
@@ -280,21 +276,10 @@ void CWarrior::Free()
 
 	for (int i = 0; i < CLOTH_END; ++i)
 		Safe_Release(m_pAnimator[i]);
-	Safe_Release(m_pStateCon);
 	Safe_Release(m_pShader);
 
 	CHero::Free();
 }
 
-HRESULT CWarrior::Act(_int _iTurnCnt)
-{
-	if (nullptr == m_pTransform ||
-		nullptr == m_pStateCon)
-		return E_FAIL;
 
-	m_pStateCon->Act(IsTargetInRange(m_pFocus, m_iAttackRange), false ,_iTurnCnt);
-
-	
-	return S_OK;
-}
 

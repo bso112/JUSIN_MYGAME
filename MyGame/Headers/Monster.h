@@ -11,9 +11,7 @@ protected:
 	explicit CMonster(CMonster& _rhs);
 	virtual ~CMonster() = default;
 
-protected:
-	//인식범위
-	_uint	m_iRecogRange = 0;
+
 
 
 

@@ -1,14 +1,14 @@
 #pragma once
-#include "Module.h"
+#include "StateCon.h"
 #include "AIState.h"
 BEGIN(MyGame)
 
-class CAIStateCon final : public CModule
+class CAIStateCon final : public CStateCon
 {
 	
 private:
 	explicit CAIStateCon(PDIRECT3DDEVICE9 _pGraphic_Device);
-	explicit CAIStateCon(CAIStateCon& _rhs) : CModule(_rhs) {};
+	explicit CAIStateCon(CAIStateCon& _rhs) : CStateCon(_rhs) {};
 	virtual ~CAIStateCon() = default;
 
 private:
@@ -23,7 +23,8 @@ public:
 
 public:
 	//턴당 한번 실행함
-	_int	Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt);
+	_int	Start(_bool _canAttack, _bool _isAlerted);
+	_int	Update(_bool _canAttack, _bool _isAlerted);
 	HRESULT	Set_State(CAIState::STATE _eState, CAIState* _pAIState);
 	HRESULT	Set_Default_State(CAIState::STATE _eState);
 

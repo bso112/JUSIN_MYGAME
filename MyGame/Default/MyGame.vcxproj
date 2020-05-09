@@ -189,7 +189,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Headers\Actor.h" />
     <ClInclude Include="..\Headers\AIState.h" />
     <ClInclude Include="..\Headers\Crab.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
@@ -236,6 +235,7 @@
     <ClInclude Include="..\Headers\StageUIMgr.h" />
     <ClInclude Include="..\Headers\Stat.h" />
     <ClInclude Include="..\Headers\AIStateCon.h" />
+    <ClInclude Include="..\Headers\StateCon.h" />
     <ClInclude Include="..\Headers\Statics.h" />
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\Terrain.h" />
@@ -256,7 +256,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Codes\Actor.cpp" />
     <ClCompile Include="..\Codes\AIState.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
@@ -298,6 +297,7 @@
     <ClCompile Include="..\Codes\StageUIMgr.cpp" />
     <ClCompile Include="..\Codes\Stat.cpp" />
     <ClCompile Include="..\Codes\AIStateCon.cpp" />
+    <ClCompile Include="..\Codes\StateCon.cpp" />
     <ClCompile Include="..\Codes\Statics.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\Terrain.cpp" />

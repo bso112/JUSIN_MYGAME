@@ -8,12 +8,12 @@ USING(MyGame)
 
 
 
-CPlayerState::STATE CPlayerState::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CPlayerState::STATE CPlayerState::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
 {
 	return STATE_END;
 }
 
-CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
 {
 	if (m_pActor == nullptr)
 		return STATE_END;
@@ -55,7 +55,7 @@ CPlayerState::STATE CPlayerWalk::LateUpdate()
 	return STATE_END;
 }
 
-CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	CHero* pHero = dynamic_cast<CHero*>(m_pActor);
 	if (nullptr == pHero)
@@ -71,7 +71,7 @@ void CPlayerWalk::Free()
 {
 }
 
-CPlayerState::STATE CPlayerUsing::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CPlayerState::STATE CPlayerUsing::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
 {
 	return STATE_END;
 }

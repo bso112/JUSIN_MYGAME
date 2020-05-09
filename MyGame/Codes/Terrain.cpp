@@ -120,6 +120,9 @@ HRESULT CTerrain::Load_Data(SAVE_DATA& _eSaveData)
 
 bool CTerrain::IsMovable(CTransform * _pTransform)
 {
+	if (nullptr == _pTransform)
+		return m_tInfo.m_bMovable;
+
 	return  m_tInfo.m_bMovable && (m_pCharacterTranform == nullptr || m_pCharacterTranform == _pTransform);
 }
 

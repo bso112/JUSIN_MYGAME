@@ -47,11 +47,6 @@ _int CGameObject::LateUpate(_double _timeDelta)
 	return _int();
 }
 
-HRESULT CGameObject::Act(_int _iTurnCnt)
-{
-	return S_OK;
-}
-
 HRESULT CGameObject::Render()
 {
 	return S_OK;

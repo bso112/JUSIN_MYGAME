@@ -13,7 +13,6 @@ private:
 
 private:
 	CShader*			m_pShader = nullptr;
-	CPlayerStateCon*	m_pStateCon = nullptr;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
 	virtual HRESULT Initialize(void * _param = nullptr) override;
@@ -29,7 +28,6 @@ public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 private:
-	virtual HRESULT Act(_int _iTurnCnt) override;
 	virtual void Scene_Change() override;
 	virtual void Process() override;
 	virtual void Update_State() override;

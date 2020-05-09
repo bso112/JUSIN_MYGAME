@@ -6,7 +6,7 @@
 USING(MyGame)
 
 CAIStateCon::CAIStateCon(PDIRECT3DDEVICE9 _pGraphic_Device)
-	: CModule(_pGraphic_Device) 
+	: CStateCon(_pGraphic_Device) 
 {
 	ZeroMemory(m_pStateArr, sizeof(m_pStateArr));
 };
@@ -21,16 +21,35 @@ HRESULT CAIStateCon::Initialize(void * _pArg)
 	return S_OK;
 }
 
-_int CAIStateCon::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt)
+_int CAIStateCon::Start(_bool _canAttack, _bool _isAlerted)
 {
-	CAIState::STATE	eNextState = m_pCurrState->Act(_canAttack, _isAlerted, _iTurnCnt, CTimerMgr::Get_Instance()->Get_TimeDelta());
+	CAIState::STATE	eNextState = m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	
 	if (CAIState::STATE_END != eNextState)
 	{
+		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
+		//한번 행동
+		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	}
 
-	return S_OK;
+	return TURN_NOEVENT;
+}
+
+_int CAIStateCon::Update(_bool _canAttack, _bool _isAlerted)
+{
+	CAIState::STATE	eNextState = m_pCurrState->LateUpdate(CTimerMgr::Get_Instance()->Get_TimeDelta());
+
+	if (CAIState::STATE_END != eNextState)
+	{
+		//상태를 바꾼다.
+		m_pCurrState = m_pStateArr[eNextState];
+		//한번 행동
+		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
+		return TURN_END;
+	}
+
+	return TURN_NOEVENT;
 }
 
 HRESULT CAIStateCon::Set_State(CAIState::STATE _eState, CAIState * _pAIState)

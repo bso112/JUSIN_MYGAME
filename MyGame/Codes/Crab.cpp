@@ -49,11 +49,12 @@ HRESULT CCrab::Initialize(void * _param)
 #pragma endregion
 
 #pragma region 상태셋팅
-	m_pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
-	m_pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting(this));
-	m_pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
-	m_pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
-	m_pStateCon->Set_Default_State(CAIState::STATE_SLEEP);
+	CAIStateCon* pStateCon = dynamic_cast<CAIStateCon*>(m_pStateCon);
+	pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
+	pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting(this));
+	pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
+	pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
+	pStateCon->Set_Default_State(CAIState::STATE_SLEEP);
 
 #pragma endregion
 
@@ -122,16 +123,6 @@ _int CCrab::LateUpate(_double _timeDelta)
 
 	return 0;
 
-}
-
-HRESULT CCrab::Act(_int _iTurnCnt)
-{
-
-	if (nullptr == m_pFocus)
-		return E_FAIL;
-	m_pStateCon->Act(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange), _iTurnCnt);
-
-	return S_OK;
 }
 
 

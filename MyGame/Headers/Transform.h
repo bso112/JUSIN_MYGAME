@@ -58,7 +58,6 @@ private:
 private:
 	//현재 이동할 경로의 인덱스
 	_int				m_iCurrRouteIndex = 0;
-	_int				m_iTurnCnt = 1;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -107,8 +106,8 @@ public:
 
 
 public:
-	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
-	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance, _int _iTurnCnt);
+	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance);
+	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
 private:
 	//현재 루트를 따라 이동한다.

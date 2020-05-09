@@ -189,7 +189,7 @@ HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
 
 
 
-HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _int _iTurnCnt)
+HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance)
 {
 
 	if (_route.empty())
@@ -201,7 +201,6 @@ HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _i
 	m_bStop = false;
 	m_Route = _route;
 	m_StopDistance = _StopDistance;
-	m_iTurnCnt = _iTurnCnt;
 	CTransform* pTransform = (CTransform*)m_Route.back()->Get_Module(L"Transform");
 	if (nullptr == pTransform)
 		return E_FAIL;
@@ -211,7 +210,7 @@ HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _i
 	return S_OK;
 }
 
-HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance, _int _iTurnCnt)
+HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance)
 {
 	if (nullptr == _pTarget)
 		return E_FAIL;
@@ -221,7 +220,6 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance, _int
 	m_bStop = false;
 	m_pTarget = _pTarget;
 	m_StopDistance = _StopDistance;
-	m_iTurnCnt = _iTurnCnt;
 	//루트 설정
 	CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
@@ -236,14 +234,13 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 
 	//이동력만큼 이동하고 멈춤
-	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt)
+	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= (_int)m_tStateDesc.movePerTurn)
 	{
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
-		m_iTurnCnt = 0;
 		m_Route.swap(vector<CTerrain*>());
 		m_pTarget = nullptr;
-		return -1;
+		return TURN_END;
 	}
 
 	CTransform* pTransform = (CTransform*)m_Route[m_iCurrRouteIndex]->Get_Module(L"Transform");

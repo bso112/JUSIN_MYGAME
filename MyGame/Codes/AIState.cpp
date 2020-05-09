@@ -5,7 +5,7 @@
 
 USING(MyGame)
 
-CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted,_double _timeDelta)
 {
 	if (_isAlerted)
 	{
@@ -21,7 +21,7 @@ void CAIIdle::Free()
 
 
 
-CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
 {
 
 	if (_isAlerted)
@@ -41,7 +41,7 @@ void CAISleeping::Free()
 {
 }
 
-CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
 {
 	if (nullptr == m_pActor)
 		return STATE_END;
@@ -81,7 +81,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnC
 
 
 		//타깃을 향해 간다.
-		pTransform->Go_Target(pTargetTransform, 1.f, _iTurnCnt);
+		pTransform->Go_Target(pTargetTransform, 1.f);
 
 		//점프 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
@@ -96,7 +96,7 @@ void CAIHunting::Free()
 {
 }
 
-CAIState::STATE CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	return STATE_END;
 }
@@ -106,7 +106,18 @@ void CAIWandering::Free()
 }
 
 
-CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _int _iTurnCnt, _double _timeDelta)
+CAIState::STATE CAIHunting_Jump::LateUpdate(_double _timeDelta)
+{
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return STATE_END;
+
+	if (!pTransform->Is_Moving())
+		return STATE_IDLE;
+	return STATE_END;
+}
+
+CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	if (nullptr == m_pActor)
 		return STATE_END;
@@ -148,7 +159,7 @@ CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _int _i
 
 
 		//타깃을 향해 간다.
-		pTransform->Go_Target(pTargetTransform, 1.f, _iTurnCnt);
+		pTransform->Go_Target(pTargetTransform, 1.f);
 
 		//점프 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
@@ -165,3 +176,7 @@ void CAIHunting_Jump::Free()
 {
 }
 
+CAIState::STATE CAIState::LateUpdate(_double _timeDelta)
+{
+	return STATE_END;
+}
