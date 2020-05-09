@@ -14,6 +14,7 @@ private:
 private:
 	CPlayerState*			m_pStateArr[CPlayerState::STATE_END];
 	CPlayerState*			m_pCurrState = nullptr;
+	CPlayerState::STATE		m_eCurrState = CPlayerState::STATE_END;
 
 
 public:

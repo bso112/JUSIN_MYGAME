@@ -5,6 +5,7 @@ BEGIN(MyGame)
 class CWorld;
 class CStageUIMgr;
 class CHero;
+class CTurnMgr;
 class CStage final : public CScene
 {
 private:
@@ -21,6 +22,8 @@ private:
 	CWorld*			m_pWorld;
 	CStageUIMgr*	m_pStageUIMgr;
 	CHero*			m_pHero;
+	CTurnMgr*		m_pTurnMgr;
+
 
 private:
 	HRESULT	Initalize_World();

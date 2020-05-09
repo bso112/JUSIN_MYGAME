@@ -14,6 +14,7 @@ private:
 private:
 	CAIState*			m_pStateArr[CAIState::STATE_END];
 	CAIState*			m_pCurrState = nullptr;
+	CAIState::STATE		m_eCurrState = CAIState::STATE_END;
 
 
 public:

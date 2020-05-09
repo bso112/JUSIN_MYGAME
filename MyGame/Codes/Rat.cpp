@@ -121,7 +121,7 @@ _int CRat::LateUpate(_double _timeDelta)
 	if (nullptr == m_pFocus)
 		return E_FAIL;
 
-	return m_pStateCon->Update(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
+	return 0;
 
 }
 

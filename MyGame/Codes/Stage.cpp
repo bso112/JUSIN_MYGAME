@@ -6,14 +6,15 @@
 #include "StageUIMgr.h"
 #include "Transform.h"
 #include "Spawner.h"
-
+#include "TurnMgr.h"
 
 USING(MyGame)
 
 CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 	: CScene(_pGraphic_Device),
 	m_pWorld(CWorld::Get_Instance()),
-	m_pStageUIMgr(CStageUIMgr::Get_Instance())
+	m_pStageUIMgr(CStageUIMgr::Get_Instance()),
+	m_pTurnMgr(CTurnMgr::Get_Instance())
 {
 	Safe_AddRef(m_pWorld);
 	Safe_AddRef(m_pStageUIMgr);
@@ -41,6 +42,7 @@ _int CStage::Update(_double _timeDelta)
 {
 	m_pStageUIMgr->Update();
 	m_pWorld->Update();
+	m_pTurnMgr->Update();
 	CScene::Update(_timeDelta);
 
 	return 0;

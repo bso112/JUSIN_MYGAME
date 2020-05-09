@@ -10,7 +10,7 @@ public:
 	explicit CPlayerState(CCharacter* _pActor) :CState(_pActor) {};
 
 public:
-	virtual STATE	LateUpdate() { return STATE_END; }
+	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta) = 0;
 	//인자 값이 계속바뀐다면 구조체로 만드는걸 고려해보자.
 	virtual STATE	Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta) = 0;
 };
@@ -21,6 +21,7 @@ public:
 	explicit CPlayerIdle(CCharacter* _pActor) :CPlayerState(_pActor) {};
 
 public:
+	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta);
 	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta);
 
 	// CPlayerState을(를) 통해 상속됨
@@ -33,7 +34,7 @@ public:
 	explicit CPlayerWalk(CCharacter* _pActor) :CPlayerState(_pActor) {};
 
 public:
-	virtual STATE	LateUpdate() override;
+	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta);
 	virtual STATE	Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta);
 
 	// CPlayerState을(를) 통해 상속됨
@@ -46,6 +47,7 @@ public:
 	explicit CPlayerUsing(CCharacter* _pActor) :CPlayerState(_pActor) {};
 
 public:
+	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta);
 	virtual STATE	Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta);
 
 	// CPlayerState을(를) 통해 상속됨

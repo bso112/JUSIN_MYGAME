@@ -47,7 +47,7 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		m_pTransform->Go_Route(route, 1.f);
 
 		//플레이어가 움직인만큼 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt, _timeDelta);
+		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt);
 	}
 
 	return S_OK;

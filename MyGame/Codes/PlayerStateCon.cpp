@@ -29,8 +29,7 @@ _int CPlayerStateCon::Start(_bool _canAttack, _bool _isAlerted)
 	{
 		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
-		//한번 행동
-		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
+		return TURN_END;
 	}
 
 	return TURN_NOEVENT;
@@ -38,15 +37,15 @@ _int CPlayerStateCon::Start(_bool _canAttack, _bool _isAlerted)
 
 _int CPlayerStateCon::Update(_bool _canAttack, _bool _isAlerted)
 {
-	CPlayerState::STATE	eNextState = m_pCurrState->LateUpdate();
+	CPlayerState::STATE	eNextState = m_pCurrState->LateUpdate(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 
+	//상태가 바뀌면
 	if (CPlayerState::STATE_END != eNextState)
 	{
 		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
-		//한번 행동
-		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 		return TURN_END;
+
 	}
 
 	return TURN_NOEVENT;

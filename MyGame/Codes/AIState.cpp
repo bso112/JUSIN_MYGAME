@@ -5,7 +5,7 @@
 
 USING(MyGame)
 
-CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted,_double _timeDelta)
+CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted,_double _timeDelta)
 {
 	if (_isAlerted)
 	{
@@ -13,6 +13,11 @@ CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted,_double _timeDel
 	}
 
 	return STATE_END;
+}
+
+CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted,_double _timeDelta)
+{
+	return STATE_IDLE;
 }
 
 void CAIIdle::Free()
@@ -21,24 +26,42 @@ void CAIIdle::Free()
 
 
 
-CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
+CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-
 	if (_isAlerted)
 	{
 		return STATE_HUNTING;
 	}
+	return STATE_END;
+}
+
+CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
+{
 
 	CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
 	if (nullptr == pAnimator)
 		return STATE_END;
 
 	pAnimator->Play(L"Sleep");
+
+	
 	return STATE_END;
 }
 
 void CAISleeping::Free()
 {
+}
+
+CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
+{
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return STATE_END;
+
+	if (!pTransform->Is_Moving())
+		return STATE_IDLE;
+
+	return STATE_END;
 }
 
 CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
@@ -96,6 +119,11 @@ void CAIHunting::Free()
 {
 }
 
+CAIState::STATE CAIWandering::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
+{
+	return STATE_END;
+}
+
 CAIState::STATE CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	return STATE_END;
@@ -106,7 +134,7 @@ void CAIWandering::Free()
 }
 
 
-CAIState::STATE CAIHunting_Jump::LateUpdate(_double _timeDelta)
+CAIState::STATE CAIHunting_Jump::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 	if (nullptr == pTransform)
@@ -114,6 +142,7 @@ CAIState::STATE CAIHunting_Jump::LateUpdate(_double _timeDelta)
 
 	if (!pTransform->Is_Moving())
 		return STATE_IDLE;
+
 	return STATE_END;
 }
 
@@ -176,7 +205,3 @@ void CAIHunting_Jump::Free()
 {
 }
 
-CAIState::STATE CAIState::LateUpdate(_double _timeDelta)
-{
-	return STATE_END;
-}
