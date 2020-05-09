@@ -5,11 +5,12 @@ class CTransform;
 class CTexture;
 class CVIBuffer;
 class CShader;
-class CTerrain  : public CGameObject
+class CCharacter;
+class CTerrain : public CGameObject
 {
 
 public:
-	enum STATE { STATE_NORMAL = 0, STATE_UNLOCKED = 0, STATE_LOCKED = 1, STATE_USED = 1 , STATE_END};
+	enum STATE { STATE_NORMAL = 0, STATE_UNLOCKED = 0, STATE_LOCKED = 1, STATE_USED = 1, STATE_END };
 
 public:
 	typedef struct tagNode
@@ -71,11 +72,13 @@ protected:
 	CVIBuffer*		m_pVIBuffer = nullptr;
 	CShader*		m_pShader = nullptr;
 protected:
-	STATE			m_eState	= STATE_NORMAL;
-	bool			m_bHidden	= false;
-	//누군가 서있는 타일인가
-	bool			m_bStanding = false;
-	NODE			m_tNode		= {};
+	STATE			m_eState = STATE_NORMAL;
+	bool			m_bHidden = false;
+	NODE			m_tNode = {};
+
+	//타일 위에 있는 것들
+protected:
+	CTransform*		m_pCharacterTranform = nullptr;
 
 protected:
 	TERRAIN			m_tInfo = {};
@@ -83,12 +86,13 @@ protected:
 	// _uint로 하면 음수가 되는순간 4500어쩌구 하는 큰값이 들어가서 최대 텍스쳐 사이즈 -1 이됨.
 	_int			m_iCurFrame = 0;
 
+	//디버그용
 private:
 	bool			m_bMarked = false;
 
 
 public:
-	virtual HRESULT	Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag,_tchar* _pFilePath = nullptr);
+	virtual HRESULT	Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag, _tchar* _pFilePath = nullptr);
 	virtual	HRESULT	Initialize();
 	virtual HRESULT	Render();
 
@@ -98,7 +102,9 @@ public:
 	void		Hide() { m_bHidden = true; }
 	void		Reveal() { m_bHidden = false; }
 	bool		IsHidden() { return m_bHidden; }
-	bool		IsMovable() { return m_tInfo.m_bMovable && !m_bStanding; }
+	//원래부터 movable이고, _pTransform 이외의 누군가 서있지 않으면 갈 수 있다.
+	bool		IsMovable(CTransform* _pTransform);
+
 
 public:
 	HRESULT		Forward_Frame();
@@ -125,7 +131,7 @@ protected:
 	//Terrain을 로드할때 하위클래스에 맞는 데이터로 셋팅함.
 	virtual HRESULT	OnLoadData();
 public:
-	static CTerrain*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene,  _tchar* _pFilePath = nullptr);
+	static CTerrain*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);
 	virtual CGameObject* Clone(void * _param = nullptr);
 	virtual void Free() override;
 

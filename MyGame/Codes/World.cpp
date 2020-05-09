@@ -113,7 +113,7 @@ HRESULT CWorld::Get_TerrainPos(POINT _dst, Vector3& _out)
 }
 
 
-HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
+HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out, CTransform* _pMover)
 {
 	_int srcX = (_int)_src.x / TILECX;
 	_int srcY = (_int)_src.y / TILECY;
@@ -236,7 +236,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 				if (nullptr == m_pTerrains[i][j])
 					continue;
 				//가지 못하는 곳이면 제외
-				if (!m_pTerrains[i][j]->IsMovable())
+				if (!m_pTerrains[i][j]->IsMovable(_pMover))
 					continue;
 				//이미 방문한 곳이면 제외
 				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
@@ -344,7 +344,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out)
 	return S_OK;
 }
 
-HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out)
+HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out, CTransform* _pMover)
 {
 	_int srcX = (_int)_src.x / TILECX;
 	_int srcY = (_int)_src.y / TILECY;
@@ -467,7 +467,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out)
 				if (nullptr == m_pTerrains[i][j])
 					continue;
 				//가지 못하는 곳이면 제외
-				if (!m_pTerrains[i][j]->IsMovable())
+				if (!m_pTerrains[i][j]->IsMovable(_pMover))
 					continue;
 				//이미 방문한 곳이면 제외
 				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
@@ -575,7 +575,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out)
 	return S_OK;
 }
 
-HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out)
+HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, CTransform* _pMover)
 {
 	_int srcX = (_int)_src.x / TILECX;
 	_int srcY = (_int)_src.y / TILECY;
@@ -698,7 +698,7 @@ HRESULT CWorld::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out)
 				if (nullptr == m_pTerrains[i][j])
 					continue;
 				//가지 못하는 곳이면 제외
-				if (!m_pTerrains[i][j]->IsMovable())
+				if (!m_pTerrains[i][j]->IsMovable(_pMover))
 					continue;
 				//이미 방문한 곳이면 제외
 				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
@@ -813,7 +813,7 @@ Vector3 CWorld::Get_RandomPos()
 		ranX = rand() % WORLDX;
 		ranY = rand() % WORLDY;
 
-	} while (m_pTerrains[ranY][ranX] == nullptr || !m_pTerrains[ranY][ranX]->IsMovable());
+	} while (m_pTerrains[ranY][ranX] == nullptr || !m_pTerrains[ranY][ranX]->IsMovable(nullptr));
 
 	return Vector3((float)ranX * TILECX, (float)ranY * TILECY, 0.f, 1.f);
 }

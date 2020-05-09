@@ -39,7 +39,7 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		ScreenToClient(g_hWnd, &pt);
 
 		vector<CTerrain*> route;
-		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route);
+		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, m_pTransform);
 
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;

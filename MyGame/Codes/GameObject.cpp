@@ -5,13 +5,15 @@
 
 USING(MyGame)
 
+_uint CGameObject::m_iMaxInstanceID = 0;
+
 CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
 	:m_pGraphic_Device(_pGrahic_Device), m_pRenderer(CRenderer::Get_Instance())
 {
 	Safe_AddRef(m_pRenderer);
 	Safe_AddRef(m_pGraphic_Device);
-
-
+	m_iInstanceID = m_iMaxInstanceID + 1;
+	++m_iMaxInstanceID;
 };
 
 

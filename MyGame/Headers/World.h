@@ -8,6 +8,7 @@ BEGIN(MyGame)
 #define WORLDY 100
 
 class CTerrain;
+class CTransform;
 class CGameObject;
 class CWorld final : public CBase
 {
@@ -40,9 +41,9 @@ public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
 	HRESULT	Get_TerrainPos(POINT _dst, Vector3& _out);
 	//A* 알고리즘을 적용해 경로를 반환한다.
-	HRESULT	Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out);
-	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out);
-	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out);
+	HRESULT	Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out, CTransform* _pMover);
+	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out, CTransform* _pMover);
+	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, CTransform* _pMover);
 
 
 	Vector3	Get_RandomPos();

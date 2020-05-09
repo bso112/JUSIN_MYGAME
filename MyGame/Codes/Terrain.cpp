@@ -31,9 +31,9 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 {
 	memcpy(m_PrototypeTag, _pPrototypeTag, sizeof(_tchar) * lstrlen(_pPrototypeTag));
 
-	if(FAILED(Set_Module(_pTextureTag, _eTextureScene, (CModule**)&m_pTexture)))
+	if (FAILED(Set_Module(_pTextureTag, _eTextureScene, (CModule**)&m_pTexture)))
 		return E_FAIL;
-	
+
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	m_tInfo = _tData;
@@ -57,7 +57,7 @@ HRESULT CTerrain::Render()
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
-	
+
 
 	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iCurFrame)))
 		return E_FAIL;
@@ -65,7 +65,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
 
-	int pass = (!m_tInfo.m_bMovable || m_bStanding || m_bMarked) ? 2 : 0;
+	int pass = (!m_tInfo.m_bMovable || m_bMarked) ? 2 : 0;
 	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
 
@@ -81,7 +81,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->End()))
 		return E_FAIL;
 
-	
+
 	return S_OK;
 }
 
@@ -89,10 +89,10 @@ HRESULT CTerrain::Render()
 CTerrain::SAVE_DATA CTerrain::Get_SaveData()
 {
 	SAVE_DATA tSaveData;
-	tSaveData.m_vPosition	= m_pTransform->Get_Position();
-	tSaveData.m_vRotation	= m_pTransform->Get_Rotation();
-	tSaveData.m_vSize		= m_pTransform->Get_Size();
-	tSaveData.m_iCurFrame	= m_iCurFrame;
+	tSaveData.m_vPosition = m_pTransform->Get_Position();
+	tSaveData.m_vRotation = m_pTransform->Get_Rotation();
+	tSaveData.m_vSize = m_pTransform->Get_Size();
+	tSaveData.m_iCurFrame = m_iCurFrame;
 	ZeroMemory(&tSaveData.m_PrototypeTag, sizeof(tSaveData.m_PrototypeTag));
 	memcpy(tSaveData.m_PrototypeTag, m_PrototypeTag, sizeof(_tchar) * lstrlen(m_PrototypeTag));
 
@@ -110,12 +110,18 @@ HRESULT CTerrain::Load_Data(SAVE_DATA& _eSaveData)
 	memcpy(m_PrototypeTag, _eSaveData.m_PrototypeTag, sizeof(m_PrototypeTag));
 	m_iCurFrame = _eSaveData.m_iCurFrame;
 	m_eState = _eSaveData.m_eState;
-	
+
 	OnLoadData();
 	return S_OK;
 }
 
 
+
+
+bool CTerrain::IsMovable(CTransform * _pTransform)
+{
+	return  m_tInfo.m_bMovable && (m_pCharacterTranform == nullptr || m_pCharacterTranform == _pTransform);
+}
 
 HRESULT CTerrain::Forward_Frame()
 {
@@ -138,7 +144,7 @@ HRESULT CTerrain::Backward_Frame()
 {
 	--m_iCurFrame;
 
-	if(FAILED(OnMoveFrame()))
+	if (FAILED(OnMoveFrame()))
 		return E_FAIL;
 
 	if (m_iCurFrame < 0)
@@ -152,6 +158,14 @@ HRESULT CTerrain::Backward_Frame()
 
 void CTerrain::OnCollisionEnter(CGameObject * _pOther)
 {
+	if (nullptr != dynamic_cast<CCharacter*>(_pOther))
+	{
+		CTransform* pTransform = (CTransform*)_pOther->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			return;
+		m_pCharacterTranform = pTransform;
+	}
+
 	OnCollisionEnterTerrain(_pOther);
 }
 
@@ -163,6 +177,11 @@ void CTerrain::OnCollisionStay(CGameObject * _pOther)
 
 void CTerrain::OnCollisionExit(CGameObject * _pOther)
 {
+	if (nullptr != dynamic_cast<CCharacter*>(_pOther))
+	{
+		m_pCharacterTranform = nullptr;
+	}
+
 	OnCollisionExitTerrain(_pOther);
 }
 

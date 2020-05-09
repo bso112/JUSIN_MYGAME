@@ -28,6 +28,10 @@ private:
 	//충돌한 오브젝트 셋
 	set<CGameObject*> m_setCollided;
 
+private:
+	static _uint	m_iMaxInstanceID;
+	_uint	m_iInstanceID = 0;
+
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
@@ -71,6 +75,7 @@ public:
 public:
 	HRESULT		Set_Module(const _tchar* _pModulePrototypeTag, SCENEID _eSceneID, CModule** _ppModule, const _tchar* _pModuleTag = nullptr, void* _pArg = nullptr);
 	CModule*	Get_Module(const _tchar* _eModuleTag);
+	_uint		Get_InstanceID() { return m_iInstanceID; }
 	
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;

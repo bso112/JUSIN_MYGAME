@@ -223,7 +223,7 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance, _int
 	m_StopDistance = _StopDistance;
 	m_iTurnCnt = _iTurnCnt;
 	//루트 설정
-	CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
+	CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
 	return S_OK;
 }
@@ -255,7 +255,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	if (m_vDir.magnitude() > 1.f)
 	{
 		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
-		if (m_Route[m_iCurrRouteIndex]->IsMovable())
+		if (m_Route[m_iCurrRouteIndex]->IsMovable(this))
 		{
 			m_vPosition += m_vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 		}
@@ -264,9 +264,9 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 			m_Route.swap(vector<CTerrain*>());
 			//갈 수 없으면 루트갱신
 			if (m_pTarget != nullptr)
-				CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
+				CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 			else
-				CWorld::Get_Instance()->Get_Route(m_vPosition, m_vDst, m_Route);
+				CWorld::Get_Instance()->Get_Route(m_vPosition, m_vDst, m_Route, this);
 
 			m_iCurrRouteIndex = 0;
 		}
@@ -284,7 +284,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		{
 			//타깃의 위치는 변하기 때문에 루트를 매번 갱신해줘야한다.(한칸 갈때마다)
 			m_Route.swap(vector<CTerrain*>());
-			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route);
+			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
 			m_iCurrRouteIndex = 0;
 		}
