@@ -17,9 +17,12 @@ private:
 	size_t	m_iLayerIndex = 0;
 	size_t	m_iObjIndex = 0;
 	int		m_iCurrTurn = 0;
+	int		m_iMaxTurn = 0;
 
 private:
-	int		m_iMaxTurn = 0;
+	CLayer*	m_pActorLayers[2];
+
+	
 
 private:
 	CCharacter*				m_pCurrActor = nullptr;

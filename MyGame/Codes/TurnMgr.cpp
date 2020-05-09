@@ -13,6 +13,9 @@ IMPLEMENT_SINGLETON(CTurnMgr)
 CTurnMgr::CTurnMgr()
 {
 	m_eCurrScene = CSceneMgr::Get_Instance()->Get_CurrScene();
+	ZeroMemory(m_pActorLayers, sizeof(m_pActorLayers));
+	m_pActorLayers[0] = CObjMgr::Get_Instance()->Find_Layer(L"Player", SCENE_STAGE);
+	m_pActorLayers[1] = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
 }
 
 CTurnMgr::CTurnMgr(CTurnMgr & _rhs)
@@ -22,10 +25,6 @@ CTurnMgr::CTurnMgr(CTurnMgr & _rhs)
 
 _int CTurnMgr::Update()
 {
-	if (nullptr == m_pCurrActor)
-	{
-		return E_FAIL;
-	}
 
 	if (m_iCurrTurn >= m_iMaxTurn)
 	{
@@ -48,10 +47,10 @@ _int CTurnMgr::Update()
 		if (TURN_END == msg)
 		{
 			++m_iCurrTurn;
+			//다시 몬스터레이어의 첫번째 몬스터를 셋팅
+			Get_NextActor(&m_pCurrActor);
 		}
-
-		if (nullptr != m_pCurrActor)
-			_int msg = m_pCurrActor->StartAct();
+		m_pCurrActor->StartAct();
 	}
 
 	return S_OK;
@@ -61,7 +60,7 @@ HRESULT CTurnMgr::MoveTurn(_int _iTurnCnt)
 {
 	m_iMaxTurn += _iTurnCnt;
 
-	if(FAILED(Get_NextActor(&m_pCurrActor)))
+	if (FAILED(Get_NextActor(&m_pCurrActor)))
 		return E_FAIL;
 
 	if (nullptr == m_pCurrActor)
@@ -78,25 +77,19 @@ _int CTurnMgr::Get_NextActor(CCharacter** _pOutCharacter)
 	if (m_eCurrScene >= SCENE_END)
 		return E_FAIL;
 
-	//레이어를 찾는다.
-	map<const _tchar*, CLayer*>* pMapLayer = CObjMgr::Get_Instance()->Get_Layers();
-	if (m_iLayerIndex >= pMapLayer[m_eCurrScene].size())
+	//모든 레이어 턴 종료
+	if (2 <= m_iLayerIndex)
 	{
-		//턴종료
 		m_iLayerIndex = 0;
 		m_iObjIndex = 0;
-		*_pOutCharacter = nullptr;
 		return TURN_END;
 	}
 
-	auto& mapIter = pMapLayer[m_eCurrScene].begin();
-	std::advance(mapIter, m_iLayerIndex);
-
 	//게임오브젝트를 찾는다.
-	list<CGameObject*> listGO = mapIter->second->Get_List();
+	list<CGameObject*> listGO = m_pActorLayers[m_iLayerIndex]->Get_List();
 	if (m_iObjIndex >= listGO.size())
 	{
-		//다음 레이어로
+		//레이어 턴 종료
 		++m_iLayerIndex;
 		m_iObjIndex = 0;
 	}

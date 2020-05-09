@@ -54,11 +54,13 @@ private:
 	_bool				m_bStop = true;
 	//콜라이더 사이즈
 	Vector3				m_vColliderSize;
+	
 
 private:
 	//현재 이동할 경로의 인덱스
 	_int				m_iCurrRouteIndex = 0;
-
+	//현재까지 이동한 타일 수
+	_int				m_iTotalMoveCnt = 0;
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);

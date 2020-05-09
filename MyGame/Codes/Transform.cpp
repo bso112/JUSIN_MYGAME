@@ -194,7 +194,7 @@ HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance)
 
 	if (_route.empty())
 		return E_FAIL;
-	
+
 
 	m_iCurrRouteIndex = 0;
 	m_Route.swap(vector<CTerrain*>());
@@ -234,10 +234,11 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 
 	//이동력만큼 이동하고 멈춤
-	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iCurrRouteIndex >= (_int)m_tStateDesc.movePerTurn)
+	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn)
 	{
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
+		m_iTotalMoveCnt = 0;
 		m_Route.swap(vector<CTerrain*>());
 		m_pTarget = nullptr;
 		return TURN_END;
@@ -256,15 +257,19 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		{
 			m_vPosition += m_vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 		}
+		//갈 수 없으면 루트갱신
 		else
 		{
+			//루트 삭제
 			m_Route.swap(vector<CTerrain*>());
-			//갈 수 없으면 루트갱신
+
+			//타겟이 있으면 타겟을 따라가고, 아니면 목표위치로 간다.
 			if (m_pTarget != nullptr)
 				CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 			else
 				CWorld::Get_Instance()->Get_Route(m_vPosition, m_vDst, m_Route, this);
 
+			//루트 인덱스 초기화
 			m_iCurrRouteIndex = 0;
 		}
 
@@ -273,9 +278,11 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	//타일에 도달했으면
 	else
 	{
+		//지나간 타일 수 세기
+		++m_iTotalMoveCnt;
 		//한 타일지나면 인덱스 더하기
 		++m_iCurrRouteIndex;
-		
+
 		//타깃을 쫒는 상태라면 (주로 몬스터)
 		if (nullptr != m_pTarget)
 		{
@@ -283,6 +290,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 			m_Route.swap(vector<CTerrain*>());
 			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
+			//갱신시에는 루트 인덱스도 초기화
 			m_iCurrRouteIndex = 0;
 		}
 	}

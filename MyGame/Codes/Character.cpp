@@ -42,7 +42,7 @@ void CCharacter::TakeDamage(float _fDamage)
 		if (nullptr == m_pTransform)
 			return;
 
-		m_pTransform->Stop();
+		//m_pTransform->Stop();
 
 		OnTakeDamage();
 	}

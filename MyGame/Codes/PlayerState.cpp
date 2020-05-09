@@ -3,6 +3,9 @@
 #include "Transform.h"
 #include "Character.h"
 #include "Hero.h"
+#include "KeyMgr.h"
+#include "World.h"
+#include "TurnMgr.h"
 
 USING(MyGame)
 
@@ -17,10 +20,29 @@ CPlayerState::STATE CPlayerIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 	if (nullptr == pTransform)
 		return STATE_END;
 
-	if (pTransform->Is_Moving())
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
+		if (nullptr == pTransform)
+			return STATE_END;
+
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		vector<CTerrain*> route;
+		CWorld::Get_Instance()->Get_Route(pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, pTransform);
+
+		//해당 루트를 따라가기 위해 필요한 턴수를 계산
+		_int iTurnCnt = (_int)route.size() / pTransform->Get_Desc().movePerTurn;
+
+		pTransform->Go_Route(route, 1.f);
+
+		//플레이어가 움직인만큼 턴 이동
+		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt);
+
 		return STATE_WALK;
 	}
+
 
 	return STATE_END;
 }
