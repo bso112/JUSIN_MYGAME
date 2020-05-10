@@ -273,9 +273,6 @@
     <ClInclude Include="..\Headers\Layer.h">
       <Filter>05.Layer</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>06.Utility\00.Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Clock.h">
       <Filter>06.Utility\01.Clock\Clock</Filter>
     </ClInclude>
@@ -411,6 +408,9 @@
     <ClInclude Include="..\Headers\StateCon.h">
       <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Renderer.h">
+      <Filter>06.Utility\00.Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -448,9 +448,6 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Layer.cpp">
       <Filter>05.Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>06.Utility\00.Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Clock.cpp">
       <Filter>06.Utility\01.Clock\Clock</Filter>
@@ -583,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\StateCon.cpp">
       <Filter>06.Utility\02.Module\Module\StateController\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Renderer.cpp">
+      <Filter>06.Utility\00.Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

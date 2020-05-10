@@ -13,6 +13,13 @@
 #include "ToolView.h"
 #include "MainFrm.h"
 #include "Graphic_Device.h"
+#include "ModuleMgr.h"
+#include "ObjMgr.h"
+#include "Transform.h"
+#include "VIBuffer.h"
+#include "Texture.h"
+#include "Terrain.h"
+#include "Renderer.h"
 
 USING(MyGame)
 #ifdef _DEBUG
@@ -35,9 +42,10 @@ END_MESSAGE_MAP()
 // CToolView 생성/소멸
 
 CToolView::CToolView()
+	:m_pRenderer(CRenderer::Get_Instance())
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
-
+	Safe_AddRef(m_pRenderer);
 }
 
 CToolView::~CToolView()
@@ -61,14 +69,20 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	if (!pDoc)
 		return;
 
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	pObjMgr->Update(0.0);
+
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 
-	if (nullptr == m_pGraphic_Device)
+	if (nullptr == m_pGraphic_Device	||
+		nullptr == m_pRenderer)
 		return;
 
-	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f,0.f,1.f,1.f), 1.f, 0);
+	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
 	m_pGraphic_Device->BeginScene();
 
+	m_pRenderer->Render();
+	
 	m_pGraphic_Device->EndScene();
 	m_pGraphic_Device->Present(nullptr, nullptr, 0, nullptr);
 }
@@ -123,10 +137,46 @@ void CToolView::OnInitialUpdate()
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 
+	if (FAILED(Ready_WindowSize()))
+		return;
+	if (FAILED(Ready_GraphicDevice()))
+		return;
+	if (FAILED(Ready_PrototypeModule()))
+		return;
+	if (FAILED(Ready_PrototypeGameObject()))
+		return;
+}
+
+
+void CToolView::OnDestroy()
+{
+	CView::OnDestroy();
+
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+
+	Safe_Release(m_pGraphic_Device);
+
+	m_pRenderer->Clear_RenderGroup();
+	Safe_Release(m_pRenderer);
+
+
+	if (0 != CRenderer::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CRenderer");
+	if (0 != CObjMgr::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CObjMgr");
+	if (0 != CModuleMgr::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CModuleMgr");
+	if (0 != CGraphic_Device::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CGraphic_Device");
+
+}
+
+HRESULT CToolView::Ready_WindowSize()
+{
 	//메인프레임을 얻어온다. 
 	CMainFrame*	pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	if (nullptr == pMainFrame)
-		return;
+		return E_FAIL;
 
 	//메인프레임의 RECT를 얻어온다.
 	RECT	mainFrameRc;
@@ -145,26 +195,52 @@ void CToolView::OnInitialUpdate()
 	pMainFrame->SetWindowPos(nullptr, 0, 0, 400 + 400 + iFrameWidth, 600 + iFrameHeight, SWP_NOMOVE);
 
 
+	return S_OK;
+}
+
+HRESULT CToolView::Ready_GraphicDevice()
+{
 
 	CGraphic_Device* pGraphic_DeviceMgr = CGraphic_Device::Get_Instance();
 	if (nullptr == pGraphic_DeviceMgr)
-		return;
+		return E_FAIL;
 	Safe_AddRef(pGraphic_DeviceMgr);
-	
+
 	pGraphic_DeviceMgr->Ready_Graphic_Device(m_hWnd, CGraphic_Device::TYPE_WIN, &m_pGraphic_Device);
 
 	Safe_Release(pGraphic_DeviceMgr);
+	return S_OK;
 }
 
-
-void CToolView::OnDestroy()
+HRESULT CToolView::Ready_PrototypeModule()
 {
-	CView::OnDestroy();
+	CModuleMgr* pModuleMgr = CModuleMgr::Get_Instance();
+	if (nullptr == pModuleMgr)
+		return E_FAIL;
 
-	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-	Safe_Release(m_pGraphic_Device);
+	if (FAILED(pModuleMgr->Add_Module(L"Transform", SCENE_STATIC, CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	if (0 != CGraphic_Device::Destroy_Instance())
-		AfxMessageBox(L"Failed To Destroy CGraphic_Device");
+	if (FAILED(pModuleMgr->Add_Module(L"VIBuffer", SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	if (FAILED(pModuleMgr->Add_Module(L"Texture_Tile", SCENE_STATIC, CTexture::Create(m_pGraphic_Device, L"Resources/Textures/Terrain/%d.png", 40))))
+		return E_FAIL;
+
+
+	return S_OK;
 }
+
+HRESULT CToolView::Ready_PrototypeGameObject()
+{
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr)
+		return E_FAIL;
+
+	if (FAILED(pObjMgr->Add_Prototype(L"Tile", SCENE_STATIC, CTerrain::Create(m_pGraphic_Device, TERRAIN(true), L"Texture_Tile", SCENE_STATIC))))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+

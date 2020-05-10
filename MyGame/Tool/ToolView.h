@@ -7,7 +7,9 @@
 #pragma once
 
 
-
+BEGIN(MyGame)
+class CRenderer;
+END
 class CToolView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -21,6 +23,7 @@ public:
 // 작업입니다.
 public:
 	PDIRECT3DDEVICE9			m_pGraphic_Device = nullptr;
+	MyGame::CRenderer*					m_pRenderer = nullptr;
 
 // 재정의입니다.
 public:
@@ -30,6 +33,7 @@ protected:
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
+
 
 // 구현입니다.
 public:
@@ -47,6 +51,14 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnDestroy();
+
+private:
+	HRESULT	Ready_WindowSize();
+	HRESULT	Ready_GraphicDevice();
+	HRESULT	Ready_PrototypeModule();
+	HRESULT	Ready_PrototypeGameObject();
+
+public:
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

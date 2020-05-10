@@ -194,6 +194,7 @@
     <ClInclude Include="..\Headers\Gnoll.h" />
     <ClInclude Include="..\Headers\PlayerState.h" />
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
+    <ClInclude Include="..\Headers\Renderer.h" />
     <ClInclude Include="..\Headers\State.h" />
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\Animator.h" />
@@ -250,7 +251,6 @@
     <ClInclude Include="..\Headers\Warrior.h" />
     <ClInclude Include="MyGame_Struct.h" />
     <ClInclude Include="MyGame.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -261,6 +261,7 @@
     <ClCompile Include="..\Codes\Gnoll.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
+    <ClCompile Include="..\Codes\Renderer.cpp" />
     <ClCompile Include="..\Codes\State.cpp" />
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\Animator.cpp" />
@@ -311,7 +312,6 @@
     <ClCompile Include="..\Codes\VIBuffer.cpp" />
     <ClCompile Include="..\Codes\Warrior.cpp" />
     <ClCompile Include="MyGame.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

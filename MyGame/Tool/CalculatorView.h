@@ -1,22 +1,24 @@
 #pragma once
 
-
-
-// CCalculatorView 폼 뷰입니다.
+// CControlView 폼 뷰입니다.
 
 class CCalculatorView : public CFormView
 {
 	DECLARE_DYNCREATE(CCalculatorView)
 
 private:
-	enum OPERATION { OP_PLUS, OP_MINUS, OP_MUL, OP_DIV, OP_END};
+	enum OPERATION { OP_PLUS, OP_MINUS, OP_MULTI, OP_DIV, OP_END};
 protected:
 	CCalculatorView();           // 동적 만들기에 사용되는 protected 생성자입니다.
 	virtual ~CCalculatorView();
 
+private:
+	int			m_iResult = 0;
+	OPERATION	m_eLastOperation = OP_END;
+	TCHAR		m_pinput[MAX_PATH];
 public:
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_CALCULATORVIEW };
+	enum { IDD = IDD_CONTROLVIEW };
 #endif
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -27,35 +29,30 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-
+	
+public:
 	DECLARE_MESSAGE_MAP()
 
-public:
-	afx_msg void OnEnChangeEdit1();
-
-public:
-	int StringToInt(TCHAR * _pCharArr);
 private:
-	int		m_iOperand = 0;
-	OPERATION	m_eOperation = OP_END;
-
+	int StringToInt(TCHAR* _pCharArr);
 public:
-	afx_msg void OnBnClickedButton7();
-	afx_msg void OnBnClickedButton8();
-	afx_msg void OnBnClickedButton9();
-	afx_msg void OnBnClickedButton4();
-	afx_msg void OnBnClickedButton5();
-	afx_msg void OnBnClickedButton6();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
-	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedButton0();
-	afx_msg void OnBnClickedButtonPlus();
-	afx_msg void OnBnClickedButtonMinus();
-	afx_msg void OnBnClickedButtonMulti();
-	afx_msg void OnBnClickedButtonDiv();
-	afx_msg void OnBnClickedButtonEqul();
-	afx_msg void OnBnClickedButtonClear();
+	afx_msg void OnBnClicked7btn();
+	afx_msg void OnBnClickedPlusbtn();
+	afx_msg void OnBnClickedMinusbtn();
+	afx_msg void OnBnClickedMultibtn();
+	afx_msg void OnBnClickedDivbtn();
+	afx_msg void OnBnClicked8btn();
+	afx_msg void OnBnClicked9btn();
+	afx_msg void OnBnClicked4btn();
+	afx_msg void OnBnClicked5btn();
+	afx_msg void OnBnClicked6btn();
+	afx_msg void OnBnClicked1btn();
+	afx_msg void OnBnClicked2btn();
+	afx_msg void OnBnClicked3btn();
+	afx_msg void OnBnClicked0btn();
+
+	afx_msg void OnBnClickedResultbtn();
+	afx_msg void OnEnChangeEdit1();
 };
 
 

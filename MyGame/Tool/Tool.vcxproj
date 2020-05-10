@@ -76,25 +76,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\Bin\</OutDir>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -204,28 +204,46 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="CalculatorView.h" />
     <ClInclude Include="ControlView.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphic_Device.h" />
+    <ClInclude Include="KeyMgr.h" />
+    <ClInclude Include="Layer.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Module.h" />
+    <ClInclude Include="ModuleMgr.h" />
     <ClInclude Include="MyGame_Constant.h" />
     <ClInclude Include="MyGame_Function.h" />
     <ClInclude Include="MyGame_Mecro.h" />
     <ClInclude Include="MyGame_Struct.h" />
     <ClInclude Include="MyGame_Typedef.h" />
+    <ClInclude Include="ObjMgr.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SideView.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Tool.h" />
     <ClInclude Include="ToolDoc.h" />
     <ClInclude Include="ToolView.h" />
     <ClInclude Include="Tool_Include.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="VIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="CalculatorView.cpp" />
     <ClCompile Include="ControlView.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
+    <ClCompile Include="KeyMgr.cpp" />
+    <ClCompile Include="Layer.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Module.cpp" />
+    <ClCompile Include="ModuleMgr.cpp" />
+    <ClCompile Include="ObjMgr.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SideView.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -233,9 +251,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="ToolDoc.cpp" />
     <ClCompile Include="ToolView.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="VIBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tool.rc" />

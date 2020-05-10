@@ -27,6 +27,7 @@ public:
 
 public:
 	BOOL	Get_ClientRect(int _iRow, int _iCol, RECT& _outRC);
+	void	Invaildate(int _iRow, int _iCol);
 private:
 	CSplitterWnd	m_Splitter;
 #ifdef _DEBUG

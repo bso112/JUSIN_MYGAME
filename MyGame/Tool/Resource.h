@@ -8,6 +8,7 @@
 #define IDR_ToolTYPE                    130
 #define IDD_CONTROLVIEW                 310
 #define IDD_CALCULATORVIEW              311
+#define IDD_CONTROLVIEW1                313
 #define IDC_MINUSBTN                    1001
 #define IDC_RESULT_TEXT                 1002
 #define IDC_BUTTON_MINUS                1004
@@ -17,8 +18,11 @@
 #define IDC_EDIT1                       1007
 #define IDC_MULTIBTN                    1008
 #define IDC_BUTTON_DIV                  1008
+#define IDC_EDIT2                       1008
 #define IDC_8BTN                        1009
+#define IDC_BUTTON1                     1009
 #define IDC_7BTN                        1010
+#define IDC_COMBO1                      1010
 #define IDC_9BTN                        1011
 #define IDC_5BTN                        1012
 #define IDC_4BTN                        1013
@@ -41,7 +45,6 @@
 #define IDC_BUTTON_2                    1025
 #define IDC_BUTTON_1                    1026
 #define IDC_BUTTON_3                    1027
-#define IDC_BUTTON16                    1028
 #define IDC_BUTTON_0                    1028
 #define IDC_0BTN                        1033
 #define IDC_BUTTON19                    1034
@@ -52,9 +55,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        312
+#define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1008
-#define _APS_NEXT_SYMED_VALUE           312
+#define _APS_NEXT_CONTROL_VALUE         1011
+#define _APS_NEXT_SYMED_VALUE           314
 #endif
 #endif

@@ -7,7 +7,6 @@
 #include "ToolView.h"
 #include "SideView.h"
 #include "MainFrm.h"
-#include "CalculatorView.h"
 #include "ControlView.h"
 
 #ifdef _DEBUG
@@ -51,6 +50,18 @@ BOOL CMainFrame::Get_ClientRect(int _iRow, int _iCol, RECT & _outRC)
 	pWnd->GetClientRect(&_outRC);
 
 	return TRUE;
+}
+
+void CMainFrame::Invaildate(int _iRow, int _iCol)
+{
+	CWnd* pWnd = m_Splitter.GetPane(_iRow, _iCol);
+
+	if (nullptr == pWnd)
+		return;
+
+	//화면을 지우고 다시그린다.
+	pWnd->Invalidate(FALSE);
+
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -102,7 +113,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	if (FALSE == m_Splitter.CreateView(0, 0, RUNTIME_CLASS(CToolView), CSize(400, 600), pContext))
 		AfxMessageBox(L"Fail to create view");
 
-	if (FALSE == m_Splitter.CreateView(0, 1, RUNTIME_CLASS(CCalculatorView), CSize(400, 600), pContext))
+	if (FALSE == m_Splitter.CreateView(0, 1, RUNTIME_CLASS(CControlView), CSize(400, 600), pContext))
 		AfxMessageBox(L"Fail to create view");
 
 

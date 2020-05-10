@@ -9,7 +9,6 @@ const unsigned int		g_iWinCY = 720;
 #define TILECX 25
 #define TILECY 25
 
-
 #define OBJ_NOEVENT 0
 #define OBJ_CLICKED 1
 
