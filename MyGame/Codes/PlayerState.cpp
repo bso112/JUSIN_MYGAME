@@ -40,6 +40,13 @@ CPlayerState::STATE CPlayerIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 		//플레이어가 움직인만큼 턴 이동
 		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt);
 
+		CHero* pHero = dynamic_cast<CHero*>(m_pActor);
+		if (nullptr == pHero)
+			return STATE_END;
+
+		//걷는 애니메이션.(상태 바뀔때 한번만 실행)
+		pHero->PlayAnimation(L"walk");
+
 		return STATE_WALK;
 	}
 
@@ -71,9 +78,15 @@ CPlayerState::STATE CPlayerWalk::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 	if (nullptr == pTransform)
 		return STATE_END;
 
+	//루트를 모두 이동했으면 턴을 끝낸다.
 	if (!pTransform->Is_Moving())
 	{
 		return STATE_IDLE;
+	}
+	//이동력만큼 이동했으면 턴을 끝낸다.
+	if (pTransform->Is_TurnEnd())
+	{
+		return STATE_WALK;
 	}
 
 	return STATE_END;
@@ -81,11 +94,12 @@ CPlayerState::STATE CPlayerWalk::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 
 CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	CHero* pHero = dynamic_cast<CHero*>(m_pActor);
-	if (nullptr == pHero)
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
 		return STATE_END;
 
-	pHero->PlayAnimation(L"walk");
+	//행동력만큼 움직인다.
+	pTransform->NextTurn();
 
 
 	return STATE_END;

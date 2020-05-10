@@ -198,6 +198,7 @@ HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance)
 
 	m_iCurrRouteIndex = 0;
 	m_Route.swap(vector<CTerrain*>());
+	m_bTurnEnd = false;
 	m_bStop = false;
 	m_Route = _route;
 	m_StopDistance = _StopDistance;
@@ -217,6 +218,7 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance)
 
 	m_iCurrRouteIndex = 0;
 	m_Route.swap(vector<CTerrain*>());
+	m_bTurnEnd = false;
 	m_bStop = false;
 	m_pTarget = _pTarget;
 	m_StopDistance = _StopDistance;
@@ -233,14 +235,24 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		return E_FAIL;
 
 
-	//이동력만큼 이동하고 멈춤
-	if ((_int)m_iCurrRouteIndex >= m_Route.size() || m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn)
+	//행동력만큼 이동하고 멈춤
+	if ((m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn) || m_bTurnEnd == true)
 	{
+		m_bTurnEnd = true;
+		m_iTotalMoveCnt = 0;
+		return TURN_END;
+	}
+
+	//모든 루트를 이동하면 멈춤
+	if ((_int)m_iCurrRouteIndex >= m_Route.size())
+	{	
+		//초기화
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
 		m_iTotalMoveCnt = 0;
 		m_Route.swap(vector<CTerrain*>());
 		m_pTarget = nullptr;
+		m_bTurnEnd = false;
 		return TURN_END;
 	}
 

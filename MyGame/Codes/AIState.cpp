@@ -9,6 +9,22 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted,_double _
 {
 	if (_isAlerted)
 	{
+		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			return STATE_END;
+
+		//타깃을 향해 간다.
+
+		CCharacter* pFocus = m_pActor->Get_Focus();
+		if (nullptr == pFocus)
+			return STATE_END;
+
+		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
+		if (nullptr == pTargetTransform)
+			return STATE_END;
+
+		pTransform->Go_Target(pTargetTransform, 1.f);
+
 		return STATE_HUNTING;
 	}
 
@@ -61,6 +77,7 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 	if (!pTransform->Is_Moving())
 		return STATE_IDLE;
 
+
 	return STATE_END;
 }
 
@@ -86,6 +103,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted,  _double _ti
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
 		if (nullptr == pAnimator)
 			return STATE_END;
+
 		pAnimator->Play(L"attack");
 	}
 	else if (_isAlerted)
@@ -140,8 +158,16 @@ CAIState::STATE CAIHunting_Jump::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 	if (nullptr == pTransform)
 		return STATE_END;
 
+	//루트를 모두 이동했으면 턴을 끝낸다.
 	if (!pTransform->Is_Moving())
+	{
 		return STATE_IDLE;
+	}
+	//이동력만큼 이동했으면 턴을 끝낸다.
+	if (pTransform->Is_TurnEnd())
+	{
+		return STATE_HUNTING;
+	}
 
 	return STATE_END;
 }
@@ -170,6 +196,8 @@ CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _double
 		if (nullptr == pAnimator)
 			return STATE_END;
 		pAnimator->Play(L"attack");
+		//턴을 끝낸다.
+		return STATE_HUNTING;
 	}
 	//상대를 인식했으면
 	else if (_isAlerted)
@@ -178,17 +206,8 @@ CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _double
 		if (nullptr == pTransform)
 			return STATE_END;
 
-		CCharacter* pFocus = m_pActor->Get_Focus();
-		if (nullptr == pFocus)
-			return STATE_END;
-
-		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
-		if (nullptr == pTargetTransform)
-			return STATE_END;
-
-
-		//타깃을 향해 간다.
-		pTransform->Go_Target(pTargetTransform, 1.f);
+		//행동력만큼 움직인다.
+		pTransform->NextTurn();
 
 		//점프 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");

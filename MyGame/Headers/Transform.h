@@ -54,6 +54,8 @@ private:
 	_bool				m_bStop = true;
 	//콜라이더 사이즈
 	Vector3				m_vColliderSize;
+	//이동력만큼 모두 움직였나?
+	_bool				m_bTurnEnd = false;
 	
 
 private:
@@ -90,9 +92,10 @@ private:
 
 public:
 	//저절로 움직이고 있나?
-	bool	Is_Auto() { return !m_bStop; }
-	//아직 덜구현함
-	bool	Is_Moving() { return !m_bStop; }
+	_bool	Is_Auto() { return !m_bStop; }
+	_bool	Is_Moving() { return !m_bStop; }
+	_bool	Is_TurnEnd() { return m_bTurnEnd; }
+	void	NextTurn() { m_bTurnEnd = false; }
 
 
 public:
