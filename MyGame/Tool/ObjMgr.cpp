@@ -186,6 +186,18 @@ HRESULT CObjMgr::Clear_Scene(SCENEID _eSceneID)
 	return S_OK;
 }
 
+CGameObject * CObjMgr::Picking_Tile(POINT _pt, _int _iTileX)
+{
+	int x = _pt.x / TILECX;
+	int y = _pt.y / TILECY;
+
+	CLayer* pLayer = Find_Layer(L"Tile", SCENE_STATIC);
+	if (nullptr == pLayer)
+		return nullptr;
+
+	return pLayer->Get_GO(_iTileX * y + x);;
+}
+
 void CObjMgr::Free()
 {
 	for (auto& map : m_mapLayer)

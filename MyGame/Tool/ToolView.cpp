@@ -20,6 +20,9 @@
 #include "Texture.h"
 #include "Terrain.h"
 #include "Renderer.h"
+#include "KeyMgr.h"
+#include "ControlView.h"
+
 
 USING(MyGame)
 #ifdef _DEBUG
@@ -37,6 +40,8 @@ BEGIN_MESSAGE_MAP(CToolView, CView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_WM_DESTROY()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CToolView 생성/소멸
@@ -71,6 +76,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	pObjMgr->Update(0.0);
+
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 
@@ -244,3 +250,26 @@ HRESULT CToolView::Ready_PrototypeGameObject()
 	return S_OK;
 }
 
+
+
+
+void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	if (nullptr == pMainFrame)
+		return;
+
+	CControlView* pControlView = static_cast<CControlView*>(pMainFrame->Get_Client(0, 0));
+	if (nullptr == pControlView)
+		return;
+
+	CGameObject* pObject = pObjMgr->Picking_Tile(point, MyGame::g_iTileX);
+	if (nullptr == pObject)
+		return;
+
+	g_pSelected = pObject;
+
+	CView::OnLButtonDown(nFlags, point);
+}

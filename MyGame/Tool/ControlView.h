@@ -1,9 +1,11 @@
 #pragma once
 #include "afxwin.h"
-
-
-
+#include "Base.h"
 // CControlView Æû ºäÀÔ´Ï´Ù.
+BEGIN(MyGame)
+class CGameObject;
+END
+
 
 class CControlView : public CFormView
 {
@@ -29,16 +31,23 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	int m_iTileNumX;
-	int m_iTileNumY;
+	int m_iTileNumX = 0;
+	int m_iTileNumY = 0;
+	MyGame::CGameObject* m_pSelected = nullptr;
 
-private:
-	HRESULT Initialize_Tile();
+public:
+	int Get_TileNumX() { UpdateData(TRUE); return m_iTileNumX; }
+	void Set_Selected(MyGame::CGameObject* pSelected) { m_pSelected = pSelected; }
 public:
 	afx_msg	void CreateTile();
+private:
+	HRESULT Initialize_Tile();
+
 
 	CComboBox m_Combo;
 	virtual void OnInitialUpdate();
+public:
+	afx_msg void OnCbnSelchangeCombo1();
 };
 
 

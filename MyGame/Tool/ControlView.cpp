@@ -9,11 +9,17 @@
 #include "Transform.h"
 #include "MainFrm.h"
 #include "Texture.h"
+#include "MyGame_Constant.h"
 
 // CControlView
 
 USING(MyGame)
 IMPLEMENT_DYNCREATE(CControlView, CFormView)
+
+BEGIN(MyGame)
+int g_iTileX = 0;
+CGameObject* g_pSelected;
+END
 
 CControlView::CControlView()
 	: CFormView(IDD_CONTROLVIEW1)
@@ -66,6 +72,7 @@ void CControlView::CreateTile()
 {	
 	//현재 연결된 변수를 가져온다.
 	UpdateData(TRUE);
+	MyGame::g_iTileX = m_iTileNumX;
 
 	//가져온 변수를 이용해 타일을 그린다.
 	if (FAILED(Initialize_Tile()))
@@ -80,16 +87,13 @@ void CControlView::CreateTile()
 	//화면을 지우고 다시그린다.
 	Invalidate(FALSE);
 
-	
-	
-
-
-
-
 }
 
 BEGIN_MESSAGE_MAP(CControlView, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON1, &CControlView::CreateTile)
+	ON_WM_KEYDOWN()
+	ON_WM_LBUTTONDOWN()
+	ON_CBN_SELCHANGE(IDC_COMBO1, &CControlView::OnCbnSelchangeCombo1)
 END_MESSAGE_MAP()
 
 
@@ -131,4 +135,23 @@ void CControlView::OnInitialUpdate()
 	m_Combo.GetCurSel();
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+}
+
+
+
+
+
+void CControlView::OnCbnSelchangeCombo1()
+{
+	if (nullptr != g_pSelected)
+	{
+		((CTerrain*)g_pSelected)->Set_Texture(m_Combo.GetCurSel());
+
+		CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+		if (nullptr == pMainFrame)
+			return;
+		//화면을 다시그린다.(메시지 발생시키기)
+		pMainFrame->Invaildate(0, 0);
+	}
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

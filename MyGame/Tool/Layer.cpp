@@ -47,6 +47,18 @@ HRESULT CLayer::Add_GameObject(CGameObject * _pGO)
 	return S_OK;
 }
 
+CGameObject * CLayer::Get_GO(size_t _iIndex)
+{
+	if (_iIndex >= m_listGO.size())
+		return nullptr;
+	
+	auto& iter = m_listGO.begin();
+	for (int i = 0; i < _iIndex; ++i)
+		++iter;
+	
+	return *iter;
+}
+
 CLayer * CLayer::Create()
 {
 	CLayer* pInstance = new CLayer;

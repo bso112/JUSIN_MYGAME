@@ -46,9 +46,6 @@
     <Filter Include="03.GameObject\GameObject">
       <UniqueIdentifier>{afefd55d-4e89-48a2-ba58-2168d76a0ca3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\GameObject\Image">
-      <UniqueIdentifier>{2876fa93-e34e-415b-95c8-2a2900796d1a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97.SuperClass\00. Base">
       <UniqueIdentifier>{82aee309-2a24-400e-870f-592b16575c66}</UniqueIdentifier>
     </Filter>
@@ -82,7 +79,13 @@
     <Filter Include="04.Utility\02.KeyMgr">
       <UniqueIdentifier>{874c87cc-ab63-49c3-88bb-6ac7e15c45b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.GameObject\GameObject\Terrain">
+    <Filter Include="03.GameObject\GameObject\GameObject">
+      <UniqueIdentifier>{e2cf8adf-89b1-4516-bf3b-9153fb52c0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\GameObject\GameObject\Image">
+      <UniqueIdentifier>{2876fa93-e34e-415b-95c8-2a2900796d1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.GameObject\GameObject\GameObject\Terrain">
       <UniqueIdentifier>{d05b0b2c-0186-4da1-9cd3-f548137a71b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -147,9 +150,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>04.Utility\01.Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>03.GameObject\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>04.Utility\00.Module\Module\Transform</Filter>
     </ClInclude>
@@ -169,13 +169,16 @@
       <Filter>04.Utility\02.KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="Terrain.h">
-      <Filter>03.GameObject\GameObject\Terrain</Filter>
+      <Filter>03.GameObject\GameObject\GameObject\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="CalculatorView.h">
       <Filter>01.View\02.Calculator</Filter>
     </ClInclude>
     <ClInclude Include="ControlView.h">
       <Filter>01.View\03.ControllView</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>03.GameObject\GameObject\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +215,6 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>04.Utility\01.Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>03.GameObject\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>04.Utility\00.Module\Module\Transform</Filter>
     </ClCompile>
@@ -234,13 +234,16 @@
       <Filter>04.Utility\02.KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
-      <Filter>03.GameObject\GameObject\Terrain</Filter>
+      <Filter>03.GameObject\GameObject\GameObject\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="CalculatorView.cpp">
       <Filter>01.View\02.Calculator</Filter>
     </ClCompile>
     <ClCompile Include="ControlView.cpp">
       <Filter>01.View\03.ControllView</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>03.GameObject\GameObject\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

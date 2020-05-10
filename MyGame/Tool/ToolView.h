@@ -23,7 +23,7 @@ public:
 // 작업입니다.
 public:
 	PDIRECT3DDEVICE9			m_pGraphic_Device = nullptr;
-	MyGame::CRenderer*					m_pRenderer = nullptr;
+	MyGame::CRenderer*			m_pRenderer = nullptr;
 
 // 재정의입니다.
 public:
@@ -59,6 +59,7 @@ private:
 	HRESULT	Ready_PrototypeGameObject();
 
 public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

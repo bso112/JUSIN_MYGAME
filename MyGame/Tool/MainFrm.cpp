@@ -52,6 +52,11 @@ BOOL CMainFrame::Get_ClientRect(int _iRow, int _iCol, RECT & _outRC)
 	return TRUE;
 }
 
+CWnd* CMainFrame::Get_Client(int _iRow, int _iCol)
+{
+	return m_Splitter.GetPane(_iRow, _iCol);
+}
+
 void CMainFrame::Invaildate(int _iRow, int _iCol)
 {
 	CWnd* pWnd = m_Splitter.GetPane(_iRow, _iCol);
