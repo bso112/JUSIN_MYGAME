@@ -16,7 +16,6 @@ CTerrain::CTerrain(PDIRECT3DDEVICE9 _pGraphic_Device)
 CTerrain::CTerrain(CTerrain & _rhs)
 	: CGameObject(_rhs),
 	m_pTexture(_rhs.m_pTexture),
-	m_pVIBuffer(_rhs.m_pVIBuffer),
 	m_iCurFrame(_rhs.m_iCurFrame),
 	m_eState(_rhs.m_eState),
 	m_tInfo(_rhs.m_tInfo)
@@ -24,6 +23,7 @@ CTerrain::CTerrain(CTerrain & _rhs)
 	memcpy(m_PrototypeTag, _rhs.m_PrototypeTag, sizeof(m_PrototypeTag));
 	Safe_AddRef(m_pTexture);
 	Safe_AddRef(m_pVIBuffer);
+	Add_Module(L"Texture_Tile", m_pTexture);
 }
 
 HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag, _tchar * _pFilePath)
@@ -43,6 +43,8 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 HRESULT CTerrain::Initialize()
 {
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
+
 
 	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
 	m_pTransform->Set_ColliderSize(Vector3(5.f, 5.f));
@@ -63,7 +65,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 
-	if (FAILED(m_pTexture->Set_Texture(0)))
+	if (FAILED(m_pTexture->Set_Texture(m_iCurFrame)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))

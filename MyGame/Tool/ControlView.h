@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 
@@ -36,6 +37,8 @@ private:
 public:
 	afx_msg	void CreateTile();
 
+	CComboBox m_Combo;
+	virtual void OnInitialUpdate();
 };
 
 

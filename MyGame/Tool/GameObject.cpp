@@ -103,6 +103,17 @@ CModule * CGameObject::Get_Module(const _tchar* _eModuleTag)
 	return iter->second;
 }
 
+HRESULT CGameObject::Add_Module(const _tchar* _pModuleTag, CModule * _pModule)
+{
+	if (nullptr == _pModule	||
+		nullptr != Get_Module(_pModuleTag))
+		return E_FAIL;
+
+	m_mapModule.emplace(_pModuleTag, _pModule);
+
+	return S_OK;
+}
+
 void CGameObject::Free()
 {
 	

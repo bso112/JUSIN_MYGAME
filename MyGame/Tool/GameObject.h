@@ -74,6 +74,7 @@ public:
 public:
 	HRESULT		Set_Module(const _tchar* _pModulePrototypeTag, SCENEID _eSceneID, CModule** _ppModule, const _tchar* _pModuleTag = nullptr, void* _pArg = nullptr);
 	CModule*	Get_Module(const _tchar* _eModuleTag);
+	HRESULT		Add_Module(const _tchar* _pModuleTag, CModule* _pModule);
 	_uint		Get_InstanceID() { return m_iInstanceID; }
 	
 public:

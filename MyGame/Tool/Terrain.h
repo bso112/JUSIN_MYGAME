@@ -68,11 +68,11 @@ protected:
 	CTransform*		m_pTransform = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CVIBuffer*		m_pVIBuffer = nullptr;
+
 protected:
 	STATE			m_eState = STATE_NORMAL;
 	bool			m_bHidden = false;
 	NODE			m_tNode = {};
-
 	//타일 위에 있는 것들
 protected:
 	CTransform*		m_pCharacterTranform = nullptr;
@@ -102,6 +102,7 @@ public:
 	bool		IsHidden() { return m_bHidden; }
 	//원래부터 movable이고, _pTransform 이외의 누군가 서있지 않으면 갈 수 있다.
 	bool		IsMovable(CTransform* _pTransform);
+	void		Set_Texture(_int index) { m_iCurFrame = index; }
 
 
 public:
