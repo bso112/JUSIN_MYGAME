@@ -28,6 +28,7 @@ private:
 	CCharacter*				m_pCurrActor = nullptr;
 
 public:
+	HRESULT	Initialize();
 	int		Update();
 
 public:

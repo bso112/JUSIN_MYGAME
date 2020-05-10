@@ -12,16 +12,22 @@ IMPLEMENT_SINGLETON(CTurnMgr)
 
 CTurnMgr::CTurnMgr()
 {
-	m_eCurrScene = CSceneMgr::Get_Instance()->Get_CurrScene();
 	ZeroMemory(m_pActorLayers, sizeof(m_pActorLayers));
-	m_pActorLayers[0] = CObjMgr::Get_Instance()->Find_Layer(L"Player", SCENE_STAGE);
-	m_pActorLayers[1] = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
 }
 
 CTurnMgr::CTurnMgr(CTurnMgr & _rhs)
 {
 }
 
+
+HRESULT CTurnMgr::Initialize()
+{
+	m_eCurrScene = CSceneMgr::Get_Instance()->Get_CurrScene();
+	m_pActorLayers[0] = CObjMgr::Get_Instance()->Find_Layer(L"Player", SCENE_STAGE);
+	m_pActorLayers[1] = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
+	MoveTurn(1);
+	return S_OK;
+}
 
 _int CTurnMgr::Update()
 {

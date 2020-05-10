@@ -33,7 +33,7 @@ HRESULT CStage::Initialize()
 		return E_FAIL;
 
 	m_pStageUIMgr->Initialize(m_pGraphic_Device, (CHero*)m_pObjMgr->Get_Player(SCENE_STAGE));
-
+	m_pTurnMgr->Initialize();
 
 	return S_OK;
 }
