@@ -42,7 +42,7 @@ _int CStage::Update(_double _timeDelta)
 {
 	m_pStageUIMgr->Update();
 	m_pWorld->Update();
-	m_pTurnMgr->Update();
+	m_pTurnMgr->Update_Simultaneously();
 	CScene::Update(_timeDelta);
 
 	return 0;

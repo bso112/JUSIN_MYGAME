@@ -20,41 +20,14 @@ CPlayerState::STATE CPlayerIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 	if (nullptr == pTransform)
 		return STATE_END;
 
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
-	{
-		if (nullptr == pTransform)
-			return STATE_END;
-
-		POINT pt;
-		GetCursorPos(&pt);
-		ScreenToClient(g_hWnd, &pt);
-
-		vector<CTerrain*> route;
-		CWorld::Get_Instance()->Get_Route(pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, pTransform);
-
-		//해당 루트를 따라가기 위해 필요한 턴수를 계산
-		_int iTurnCnt = (_int)route.size() / pTransform->Get_Desc().movePerTurn;
-
-		pTransform->Go_Route(route, 1.f);
-
-		//플레이어가 움직인만큼 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn(iTurnCnt);
-
-		CHero* pHero = dynamic_cast<CHero*>(m_pActor);
-		if (nullptr == pHero)
-			return STATE_END;
-
-		//걷는 애니메이션.(상태 바뀔때 한번만 실행)
-		pHero->PlayAnimation(L"walk");
-
+	if (pTransform->Is_Moving())
 		return STATE_WALK;
-	}
 
 
 	return STATE_END;
 }
 
-CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
+CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	if (m_pActor == nullptr)
 		return STATE_END;
@@ -98,7 +71,7 @@ CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _double
 	if (nullptr == pTransform)
 		return STATE_END;
 
-	//행동력만큼 움직인다.
+	//턴을 초기화해서 다음턴에 Act가 불리게함.
 	pTransform->NextTurn();
 
 
@@ -114,7 +87,7 @@ CPlayerState::STATE CPlayerUsing::LateUpdate(_bool _canAttack, _bool _isAlerted,
 	return STATE_END;
 }
 
-CPlayerState::STATE CPlayerUsing::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
+CPlayerState::STATE CPlayerUsing::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	return STATE_END;
 }

@@ -2,9 +2,10 @@
 #include "..\Headers\Transform.h"
 #include "Terrain.h"
 #include "World.h"
+#include "TurnMgr.h"
 USING(MyGame)
 
-
+_int CTransform::m_iTurnCnt = 0;
 CTransform::CTransform(LPDIRECT3DDEVICE9 _pGraphic_Device)
 	:CModule(_pGraphic_Device)
 {
@@ -189,13 +190,13 @@ HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
 
 
 
-HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance)
+HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _int _iTurnCnt)
 {
 
 	if (_route.empty())
 		return E_FAIL;
 
-
+	m_iTurnCnt = _iTurnCnt;
 	m_iCurrRouteIndex = 0;
 	m_Route.swap(vector<CTerrain*>());
 	m_bTurnEnd = false;
@@ -235,21 +236,15 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		return E_FAIL;
 
 
-	//행동력만큼 이동하고 멈춤
-	if ((m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn) || m_bTurnEnd == true)
-	{
-		m_bTurnEnd = true;
-		m_iTotalMoveCnt = 0;
-		return TURN_END;
-	}
-
 	//모든 루트를 이동하면 멈춤
-	if ((_int)m_iCurrRouteIndex >= m_Route.size())
+	if ((_int)m_iCurrRouteIndex >= m_Route.size() ||
+		(m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt))
 	{	
 		//초기화
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
 		m_iTotalMoveCnt = 0;
+		m_iCntForTurn = 0;
 		m_Route.swap(vector<CTerrain*>());
 		m_pTarget = nullptr;
 		m_bTurnEnd = false;
@@ -291,6 +286,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	else
 	{
 		//지나간 타일 수 세기
+		++m_iCntForTurn;
 		++m_iTotalMoveCnt;
 		//한 타일지나면 인덱스 더하기
 		++m_iCurrRouteIndex;
@@ -306,6 +302,14 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 			m_iCurrRouteIndex = 0;
 		}
 	}
+
+	//행동력만큼 이동했는지 체크
+	if ((m_iCntForTurn >= (_int)m_tStateDesc.movePerTurn))
+	{
+		m_bTurnEnd = true;
+		m_iCntForTurn = 0;
+	}
+
 	return S_OK;
 }
 

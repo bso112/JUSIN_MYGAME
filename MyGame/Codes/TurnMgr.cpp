@@ -25,11 +25,32 @@ HRESULT CTurnMgr::Initialize()
 	m_eCurrScene = CSceneMgr::Get_Instance()->Get_CurrScene();
 	m_pActorLayers[0] = CObjMgr::Get_Instance()->Find_Layer(L"Player", SCENE_STAGE);
 	m_pActorLayers[1] = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
-	MoveTurn(1);
+	MoveTurn_sequentially(1);
 	return S_OK;
 }
 
-_int CTurnMgr::Update()
+/*
+0. MoveTurn이 불리고, 소비할 턴수가 셋팅된다.
+1. 액터를 하나하나 체크한다.
+2. 한 액터의 행동이 끝나야 다른 액터가 행동할 수 있다.
+3. 한 액터의 턴이 끝나는 시점은 UpdateAct의 메세지로 판단한다.
+4. 한 액터의 턴이 끝났으면 다음 액터로 바꾸고, 바뀐 액터의 StartAct를 부른다.
+5. 3번으로
+6. 만약 모든 턴을 소비하면 루프는 다음에 MoveTurn이 불릴때까지 멤버변수를 초기화하고 TURN_END를 리턴한다.
+
+UpdateAct는 턴의 종료시점을 판단하는 '루프'다.
+StartAct는 실제 Actor의 행동이다. 이 턴종료가 StartAct종료 즉시 이루어질 경우, StartAct안에서도 턴을 종료할 수 있다.
+
+주의할 점은 턴의 종료가 곧 모든행동의 종료는 아니라는 것이다.
+예를들어, 이동의 경우 턴의 종료는 Actor의 이동력만큼 이동한 시점이다.
+그러나 턴이 종료됬다고 해서 Actor는 멈추지 않는다. Actor는 이동력 * 소비할 턴수 만큼 움직인다.
+그러는 동시에 UpdateAct에서 매 턴마다 return을 통해 StartAct를 다시부르도록 한다.
+즉, 행동은 소비할 턴수만큼 하는 것이다.
+이동의 경우에는 턴 종료시 멈추게하면 다음턴이 돌아올때까지 멈춰있어야한다.
+그건 완전턴제게임에는 맞는 로직이지만, 픽셀던전에 맞지 않는다.
+*/
+
+_int CTurnMgr::Update_sequentially()
 {
 
 	if (m_iCurrTurn >= m_iMaxTurn)
@@ -62,9 +83,57 @@ _int CTurnMgr::Update()
 	return S_OK;
 }
 
-HRESULT CTurnMgr::MoveTurn(_int _iTurnCnt)
+_int CTurnMgr::Update_Simultaneously()
+{
+	if (m_iCurrTurn >= m_iMaxTurn)
+	{
+		m_iLayerIndex = 0;
+		m_iObjIndex = 0;
+		m_pCurrActor = nullptr;
+		return TURN_END;
+	}
+
+	_bool bTurnEnd = false;
+	//끝난 오브젝트의 수
+	_uint iEndGOCnt = 0;
+	//검사한 오브젝트의 수
+	_uint iGOCnt = 0;
+
+	//모든 오브젝트의 Update를 부른다.
+	for (auto& layer : m_pActorLayers)
+	{
+		for (auto& GO : layer->Get_List())
+		{
+			++iGOCnt;
+			_int msg = ((CCharacter*)GO)->UpdateAct();
+			if (TURN_END == msg)
+			{
+				++iEndGOCnt;
+			}
+		}
+	}
+
+	//모든 오브젝트의 턴이 끝났으면
+	if (iGOCnt == iEndGOCnt)
+	{
+		//모든 오브젝트의 Start를 다시 부름
+		for (auto& layer : m_pActorLayers)
+		{
+			for (auto& GO : layer->Get_List())
+			{
+				((CCharacter*)GO)->StartAct();
+			}
+		}
+		++m_iCurrTurn;
+	}
+
+	return S_OK;
+}
+
+HRESULT CTurnMgr::MoveTurn_sequentially(_int _iTurnCnt)
 {
 	m_iMaxTurn += _iTurnCnt;
+	m_iTurnToSpend = _iTurnCnt;
 
 	if (FAILED(Get_NextActor(&m_pCurrActor)))
 		return E_FAIL;
@@ -76,6 +145,22 @@ HRESULT CTurnMgr::MoveTurn(_int _iTurnCnt)
 
 	return S_OK;
 
+}
+
+HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
+{
+	m_iMaxTurn += _iTurnCnt;
+	m_iTurnToSpend = _iTurnCnt;
+
+	//모든 오브젝트의 Start를 부름
+	for (auto& layer : m_pActorLayers)
+	{
+		for (auto& GO : layer->Get_List())
+		{
+			((CCharacter*)GO)->StartAct();
+		}
+	}
+	return S_OK;
 }
 
 _int CTurnMgr::Get_NextActor(CCharacter** _pOutCharacter)

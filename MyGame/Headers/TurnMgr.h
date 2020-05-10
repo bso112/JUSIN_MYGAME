@@ -16,8 +16,11 @@ private:
 	SCENEID	m_eCurrScene = SCENE_END;
 	size_t	m_iLayerIndex = 0;
 	size_t	m_iObjIndex = 0;
-	int		m_iCurrTurn = 0;
-	int		m_iMaxTurn = 0;
+	_int	m_iCurrTurn = 0;
+	_int	m_iMaxTurn = 0;
+
+private:
+	_int	m_iTurnToSpend = 0;
 
 private:
 	CLayer*	m_pActorLayers[2];
@@ -29,10 +32,17 @@ private:
 
 public:
 	HRESULT	Initialize();
-	int		Update();
+	_int		Update_sequentially();
+	_int		Update_Simultaneously();
 
 public:
-	HRESULT	MoveTurn(_int _iTurnCnt);
+	HRESULT	MoveTurn_sequentially(_int _iTurnCnt);
+	HRESULT	MoveTurn_Simultaneously(_int _iTurnCnt);
+
+
+public:
+	_int	Get_TurnCnt() { return m_iTurnToSpend; }
+	
 
 private:
 	_int	Get_NextActor(CCharacter** _pOutCharacter);

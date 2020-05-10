@@ -76,7 +76,11 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 
 	if (!pTransform->Is_Moving())
 		return STATE_IDLE;
-
+	//이동력만큼 이동했으면 턴을 끝낸다.
+	if (pTransform->Is_TurnEnd())
+	{
+		return STATE_HUNTING;
+	}
 
 	return STATE_END;
 }

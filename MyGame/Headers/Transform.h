@@ -56,12 +56,17 @@ private:
 	Vector3				m_vColliderSize;
 	//이동력만큼 모두 움직였나?
 	_bool				m_bTurnEnd = false;
+
+private:
+	static _int m_iTurnCnt;
 	
 
 private:
 	//현재 이동할 경로의 인덱스
 	_int				m_iCurrRouteIndex = 0;
-	//현재까지 이동한 타일 수
+	//이동력만큼 이동했는지 알아보기 위한 카운트변수
+	_int				m_iCntForTurn = 0;
+	//총 몇개의 타일을 이동했는가
 	_int				m_iTotalMoveCnt = 0;
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -111,7 +116,7 @@ public:
 
 
 public:
-	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance);
+	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt = 1);
 	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
 private:
