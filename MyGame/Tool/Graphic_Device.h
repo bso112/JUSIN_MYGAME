@@ -13,6 +13,7 @@ private:
 	explicit CGraphic_Device();
 	virtual ~CGraphic_Device() = default;
 public:
+	PDIRECT3DDEVICE9 Get_GraphicDevice() { return m_pGraphic_Device; }
 	HRESULT Ready_Graphic_Device(HWND hWnd, WINMODE eMode, PDIRECT3DDEVICE9* ppGraphic_Device);
 private:
 	PDIRECT3D9			m_pSDK = nullptr;

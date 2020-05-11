@@ -2,6 +2,7 @@
 #include "ObjMgr.h"
 #include "Layer.h"
 #include "GameObject.h"
+#include "Transform.h"
 
 
 USING(MyGame)
@@ -47,7 +48,7 @@ _int CObjMgr::Update(_double _timeDelta)
 
 
 
-	
+
 
 	return 0;
 }
@@ -94,7 +95,7 @@ CGameObject* CObjMgr::Add_GO_To_Layer(const _tchar* _ePrototypeID, SCENEID _ePro
 	}
 	else
 	{
-		if(FAILED(layer->Add_GameObject(pGo)))
+		if (FAILED(layer->Add_GameObject(pGo)))
 			goto exception;
 	}
 
@@ -106,8 +107,8 @@ exception:
 
 HRESULT CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
 {
-	if (SCENE_END <= _eLayerSceneID	||
-		nullptr	== _pObj)
+	if (SCENE_END <= _eLayerSceneID ||
+		nullptr == _pObj)
 		return E_FAIL;
 
 	//레이어를 찾아 넣는다. 레이어가 없으면 새로 만든다.
@@ -140,7 +141,7 @@ CGameObject * CObjMgr::Find_Prototype(const _tchar* _ePrototypeID, SCENEID _ePro
 		return nullptr;
 
 	auto& iter = find_if(m_mapPrototype[_ePrototypeSceneID].begin(), m_mapPrototype[_ePrototypeSceneID].end(), CFinder_Tag(_ePrototypeID));
-	
+
 	if (iter == m_mapPrototype[_ePrototypeSceneID].end())
 		return nullptr;
 
@@ -156,7 +157,7 @@ CLayer * CObjMgr::Find_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID)
 
 	if (iter == m_mapLayer[_eLayerSceneID].end())
 		return nullptr;
-	
+
 	return iter->second;
 }
 
@@ -195,7 +196,64 @@ CGameObject * CObjMgr::Picking_Tile(POINT _pt, _int _iTileX)
 	if (nullptr == pLayer)
 		return nullptr;
 
-	return pLayer->Get_GO(_iTileX * y + x);;
+	return pLayer->Get_GO(_iTileX * y + x);
+}
+
+CGameObject * CObjMgr::Picking_Tile(POINT _pt)
+{
+	CLayer* pLayer = Find_Layer(L"Tile_Homework", SCENE_STATIC);
+	if (nullptr == pLayer)
+		return nullptr;
+
+	for (auto& pTile : pLayer->Get_List())
+	{
+
+		//pt가 오른쪽에 있다고 판단한 벡터의 수
+		int cnt = 0;
+
+		CTransform* pTransform = dynamic_cast<CTransform*>(pTile->Get_Module(L"Transform"));
+
+		//위치벡터
+		Vector3 vPos = pTransform->Get_Position();
+
+		//마름모 네 꼭지점 구하기
+		Vector2 vTopPt = Vector2(vPos.x, vPos.y - (TILECY >> 1));
+		Vector2 vBottomPt = Vector2(vPos.x, vPos.y + (TILECY >> 1));
+		Vector2 vRightPt = Vector2(vPos.x + (TILECX >> 1), vPos.y);
+		Vector2 vLeftPt = Vector2(vPos.x - (TILECX >> 1), vPos.y);
+
+		Vector2 vPt[4] = { vTopPt, vRightPt, vBottomPt, vLeftPt };
+		//마름모 네 변 구하기 (시계방향)
+		Vector2 vTop = vRightPt - vTopPt;
+		Vector2 vRight = vBottomPt - vRightPt;
+		Vector2 vBottom = vLeftPt - vBottomPt;
+		Vector2 vLeft = vTopPt - vLeftPt;
+
+		Vector2 vLine[4] = { vTop, vRight, vBottom, vLeft };
+
+		for (int i = 0; i < 4; ++i)
+		{
+			//법선벡터 구하기
+			Vector2 vNomalVec = Vector2(-vLine[i].y, vLine[i].x);
+			//방향벡터의 시작점에서 바라본 마우스포인터 위치벡터 구하기
+			Vector2 vPos = Vector2(Vector2(_pt.x, _pt.y) - vPt[i]);
+			//사이각 구하기
+			float cosTheata = D3DXVec4Dot(&vPos.Nomalize(), &vNomalVec.Nomalize());
+
+			//costTheata가 음수면 오른쪽에 있다고 판단
+			if (cosTheata < 0)
+				++cnt;
+		}
+
+
+		//만약 마우스포인트가 모든 변의 오른쪽에 있으면 해당 타일을 리턴
+		if (cnt >= 4)
+		{
+			return pTile;
+		}
+	}
+
+	return nullptr;
 }
 
 void CObjMgr::Free()

@@ -8,17 +8,24 @@
 #include "SideView.h"
 #include "MainFrm.h"
 #include "ControlView.h"
+#include "VIBuffer.h"
+#include "Transform.h"
+#include "ModuleMgr.h"
+#include "ObjMgr.h"
+#include "Renderer.h"
+#include "Graphic_Device.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 // CMainFrame
-
+USING(MyGame)
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -124,4 +131,22 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 	return TRUE;
 	//return CFrameWnd::OnCreateClient(lpcs, pContext);
+}
+
+
+void CMainFrame::OnDestroy()
+{
+	CFrameWnd::OnDestroy();
+
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	m_Splitter.DestroyWindow();
+
+	if (0 != CObjMgr::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CObjMgr");
+	if (0 != CRenderer::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CRenderer");
+	if (0 != CModuleMgr::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CModuleMgr");
+	if (0 != CGraphic_Device::Destroy_Instance())
+		AfxMessageBox(L"Failed To Destroy CGraphic_Device");
 }

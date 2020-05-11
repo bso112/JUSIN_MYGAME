@@ -42,6 +42,7 @@ public:
 public:
 	map<const _tchar*, CLayer*>* Get_Layers() { return m_mapLayer; }
 	CGameObject*	Picking_Tile(POINT _pt, _int _iTileX);
+	CGameObject*	Picking_Tile(POINT _pt);
 private:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

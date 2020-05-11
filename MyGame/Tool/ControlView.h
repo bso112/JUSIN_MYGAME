@@ -4,6 +4,10 @@
 // CControlView Æû ºäÀÔ´Ï´Ù.
 BEGIN(MyGame)
 class CGameObject;
+class CTransform;
+class CVIBuffer;
+class CGraphic_Device;
+class CTexture;
 END
 
 
@@ -35,19 +39,28 @@ private:
 	int m_iTileNumY = 0;
 	MyGame::CGameObject* m_pSelected = nullptr;
 
+private:
+	MyGame::CTransform*			m_pTransform = nullptr;
+	MyGame::CVIBuffer*			m_pVIBuffer = nullptr;
+	MyGame::CTexture*			m_pTexture = nullptr;
+	MyGame::CGraphic_Device*	m_pGraphic_DeviceMgr = nullptr;
+
 public:
-	int Get_TileNumX() { UpdateData(TRUE); return m_iTileNumX; }
-	void Set_Selected(MyGame::CGameObject* pSelected) { m_pSelected = pSelected; }
+	int		Get_TileNumX() { UpdateData(TRUE); return m_iTileNumX; }
+	int	Get_SelectedTextureIndex() { return m_Combo.GetCurSel(); }
+	void	Set_Selected(MyGame::CGameObject* pSelected) { m_pSelected = pSelected; }
 public:
 	afx_msg	void CreateTile();
 private:
 	HRESULT Initialize_Tile();
-
-
 	CComboBox m_Combo;
-	virtual void OnInitialUpdate();
+	CStatic m_Picture;
+
 public:
+	virtual void OnInitialUpdate();
 	afx_msg void OnCbnSelchangeCombo1();
+	afx_msg void OnDestroy();
+	virtual void OnDraw(CDC* /*pDC*/);
 };
 
 

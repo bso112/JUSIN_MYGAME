@@ -84,6 +84,8 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 		nullptr == m_pRenderer)
 		return;
 
+	ALPHATEST;
+
 	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
 	m_pGraphic_Device->BeginScene();
 
@@ -91,6 +93,8 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	
 	m_pGraphic_Device->EndScene();
 	m_pGraphic_Device->Present(nullptr, nullptr, 0, nullptr);
+
+	ALPHATEST_END;
 }
 
 
@@ -160,20 +164,12 @@ void CToolView::OnDestroy()
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 
-	Safe_Release(m_pGraphic_Device);
 
+	Safe_Release(m_pGraphic_Device);
 	m_pRenderer->Clear_RenderGroup();
 	Safe_Release(m_pRenderer);
 
 
-	if (0 != CRenderer::Destroy_Instance())
-		AfxMessageBox(L"Failed To Destroy CRenderer");
-	if (0 != CObjMgr::Destroy_Instance())
-		AfxMessageBox(L"Failed To Destroy CObjMgr");
-	if (0 != CModuleMgr::Destroy_Instance())
-		AfxMessageBox(L"Failed To Destroy CModuleMgr");
-	if (0 != CGraphic_Device::Destroy_Instance())
-		AfxMessageBox(L"Failed To Destroy CGraphic_Device");
 
 }
 
@@ -230,7 +226,11 @@ HRESULT CToolView::Ready_PrototypeModule()
 	if (FAILED(pModuleMgr->Add_Module(L"VIBuffer", SCENE_STATIC, CVIBuffer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(pModuleMgr->Add_Module(L"Texture_Tile", SCENE_STATIC, CTexture::Create(m_pGraphic_Device, L"Resources/Textures/Terrain/%d.png", 40))))
+	if (FAILED(pModuleMgr->Add_Module(L"Texture_Tile", SCENE_STATIC, CTexture::Create(m_pGraphic_Device, L"Resources/Textures/Terrain/%d.png", 39))))
+		return E_FAIL;
+
+
+	if (FAILED(pModuleMgr->Add_Module(L"Texture_Tile_Homework", SCENE_STATIC, CTexture::Create(m_pGraphic_Device, L"Resources/Textures/Tile_Homework/Tile%d.png", 35))))
 		return E_FAIL;
 
 
@@ -246,6 +246,9 @@ HRESULT CToolView::Ready_PrototypeGameObject()
 	if (FAILED(pObjMgr->Add_Prototype(L"Tile", SCENE_STATIC, CTerrain::Create(m_pGraphic_Device, TERRAIN(true), L"Texture_Tile", SCENE_STATIC))))
 		return E_FAIL;
 
+	if (FAILED(pObjMgr->Add_Prototype(L"Tile_Homework", SCENE_STATIC, CTerrain::Create(m_pGraphic_Device, TERRAIN(true), L"Texture_Tile_Homework", SCENE_STATIC))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -257,17 +260,18 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 
-	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
-	if (nullptr == pMainFrame)
-		return;
-
-	CControlView* pControlView = static_cast<CControlView*>(pMainFrame->Get_Client(0, 0));
-	if (nullptr == pControlView)
-		return;
-
-	CGameObject* pObject = pObjMgr->Picking_Tile(point, MyGame::g_iTileX);
+	CGameObject* pObject = pObjMgr->Picking_Tile(point);
 	if (nullptr == pObject)
 		return;
+
+	int textureIndex = g_TextureIndex;
+
+	CTerrain* pTerrain = dynamic_cast<CTerrain*> (pObject);
+	if (nullptr == pTerrain)
+		return;
+	pTerrain->Set_Texture(g_TextureIndex);
+
+	Invalidate(FALSE);
 
 	g_pSelected = pObject;
 

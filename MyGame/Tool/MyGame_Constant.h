@@ -8,8 +8,8 @@ const unsigned int		g_iWinCX = 512;
 const unsigned int		g_iWinCY = 720;
 
 
-#define TILECX 25
-#define TILECY 25
+#define TILECX 100
+#define TILECY 100
 
 #define OBJ_NOEVENT 0
 #define OBJ_CLICKED 1
@@ -19,5 +19,6 @@ enum TIER	{ TIER_COMMON, TIER_RARE, TIER_LAGEND, TIER_END};
 
 extern int g_iTileX;
 extern CGameObject* g_pSelected;
+extern int g_TextureIndex;
 
 END
