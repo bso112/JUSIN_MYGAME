@@ -3,6 +3,9 @@
 BEGIN(MyGame)
 class CItem;
 class CHero;
+
+#define INVENX 4
+#define INVENY 6
 class CInventory final : public CBase
 {
 	DECLARE_SINGLETON(CInventory)
@@ -11,10 +14,12 @@ protected:
 	virtual ~CInventory() = default;
 
 private:
-	vector<CItem*>	m_vecItem;
-	CHero*			m_pHero;
+	typedef vector<CItem*> slot;
+	slot	m_vecItem[INVENX][INVENY];
+	CHero*	m_pHero;
 public:
 	HRESULT	Put_Item(CItem* _pItem);
+	HRESULT	Remove_Item(CItem* _pItem);
 	CItem*	Get_Item(size_t _iIndex);
 	HRESULT	Use_item(size_t _iIndex, const _tchar* _pAction);
 

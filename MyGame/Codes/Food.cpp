@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Food.h"
+#include "Hero.h"
 USING(MyGame)
 
 
@@ -114,6 +115,7 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 	if (0 == lstrcmp(_pAction, AC_EAT))
 	{
 		//¸Ô±â
+		_pHero->Heal(m_tDesc.fHealAmount);
 
 	}
 

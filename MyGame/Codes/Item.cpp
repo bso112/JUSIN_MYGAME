@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Item.h"
+#include "Inventory.h"
 
 
 USING(MyGame)
@@ -21,12 +22,18 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 	if (0 == lstrcmp(_pAction, AC_DROP))
 	{
 		//아이템 버리기
+		
 	}
 	else if (0 == lstrcmp(_pAction, AC_THROW))
 	{
 		//아이템 던지기
 	}
 	return S_OK;
+}
+
+void CItem::RemoveFormInventory()
+{
+	CInventory::Get_Instance()->
 }
 
 void CItem::Free()

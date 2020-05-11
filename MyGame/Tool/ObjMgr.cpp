@@ -217,10 +217,10 @@ CGameObject * CObjMgr::Picking_Tile(POINT _pt)
 		Vector3 vPos = pTransform->Get_Position();
 
 		//마름모 네 꼭지점 구하기
-		Vector2 vTopPt = Vector2(vPos.x, vPos.y - (TILECY >> 1));
-		Vector2 vBottomPt = Vector2(vPos.x, vPos.y + (TILECY >> 1));
-		Vector2 vRightPt = Vector2(vPos.x + (TILECX >> 1), vPos.y);
-		Vector2 vLeftPt = Vector2(vPos.x - (TILECX >> 1), vPos.y);
+		Vector2 vTopPt = Vector2	(vPos.x					, vPos.y - (TILECY >> 1));
+		Vector2 vBottomPt = Vector2	(vPos.x					, vPos.y + (TILECY >> 1));
+		Vector2 vRightPt = Vector2	(vPos.x + (TILECX >> 1)	, vPos.y);
+		Vector2 vLeftPt = Vector2	(vPos.x - (TILECX >> 1)	, vPos.y);
 
 		Vector2 vPt[4] = { vTopPt, vRightPt, vBottomPt, vLeftPt };
 		//마름모 네 변 구하기 (시계방향)
@@ -236,12 +236,12 @@ CGameObject * CObjMgr::Picking_Tile(POINT _pt)
 			//법선벡터 구하기
 			Vector2 vNomalVec = Vector2(-vLine[i].y, vLine[i].x);
 			//방향벡터의 시작점에서 바라본 마우스포인터 위치벡터 구하기
-			Vector2 vPos = Vector2(Vector2(_pt.x, _pt.y) - vPt[i]);
+			Vector2 vPos = Vector2(_pt.x, _pt.y) - vPt[i];
 			//사이각 구하기
 			float cosTheata = D3DXVec4Dot(&vPos.Nomalize(), &vNomalVec.Nomalize());
 
-			//costTheata가 음수면 오른쪽에 있다고 판단
-			if (cosTheata < 0)
+			//costTheata가 양수면 오른쪽에 있다고 판단(y축이 반대라서 양수로 판단해야함)
+			if (cosTheata > 0)
 				++cnt;
 		}
 

@@ -49,6 +49,13 @@ void CCharacter::TakeDamage(float _fDamage)
 
 }
 
+void CCharacter::Heal(_int _healAmount)
+{
+	m_tStat.m_fHP += _healAmount;
+	if (m_tStat.m_fHP >= m_tStat.m_fMaxHp->GetValue())
+		m_tStat.m_fHP = m_tStat.m_fMaxHp->GetValue();
+}
+
 
 bool CCharacter::IsAlive()
 {

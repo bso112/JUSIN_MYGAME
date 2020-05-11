@@ -28,6 +28,9 @@ public:
 public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
+
+public:
+	void RemoveFormInventory();
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

@@ -23,6 +23,22 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 	return S_OK;
 }
 
+HRESULT CInventory::Remove_Item(CItem * _pItem)
+{
+	auto& iter = m_vecItem.begin();
+	while (iter == m_vecItem.end())
+	{
+		if (*iter == _pItem)
+		{
+			m_vecItem.erase(iter);
+			break;
+		}
+		++iter;
+	}
+
+	return S_OK;
+}
+
 CItem * CInventory::Get_Item(size_t _iIndex)
 {
 	if (_iIndex >= m_vecItem.size())
