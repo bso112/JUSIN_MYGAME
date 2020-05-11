@@ -214,6 +214,12 @@
     <Filter Include="04.GameObject\GameObject\Character\Monster\02.Crab">
       <UniqueIdentifier>{e9cb1e4a-f097-4938-85ca-2ab1de415a21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10.Inventory">
+      <UniqueIdentifier>{c2360551-d0e6-437a-804d-3f0b927730b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Food">
+      <UniqueIdentifier>{6638e61c-8413-4fa8-9a99-4fe37d403e1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -308,9 +314,6 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Scroll.h">
       <Filter>04.GameObject\GameObject\Item\Scroll</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame_Struct.h">
-      <Filter>98.Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\VIBuffer.h">
       <Filter>06.Utility\02.Module\Module\VIBuffer</Filter>
@@ -410,6 +413,15 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Renderer.h">
       <Filter>06.Utility\00.Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Inventory.h">
+      <Filter>10.Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Food.h">
+      <Filter>04.GameObject\GameObject\Item\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MyGame_Struct.h">
+      <Filter>98.Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -583,6 +595,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Renderer.cpp">
       <Filter>06.Utility\00.Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Inventory.cpp">
+      <Filter>10.Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Food.cpp">
+      <Filter>04.GameObject\GameObject\Item\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

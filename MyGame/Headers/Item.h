@@ -1,12 +1,11 @@
 #pragma once
 #include "GameObject.h"
 
-#define ACT_DROP	L"DROP"
-#define ACT_THROW	L"THROW"
-#define ACT_USE		L"USE"
-
-
+#include "Transform.h"
+#include "VIBuffer.h"
+#include "Texture.h"
 BEGIN(MyGame)
+class CHero;
 class CItem abstract : public CGameObject
 {
 protected:
@@ -15,13 +14,22 @@ protected:
 	virtual ~CItem() = default;
 
 protected:
-	vector<const _tchar*> m_vecActions;
+	vector<const _tchar*>	m_vecActions;
+	CVIBuffer*				m_pVIBuffer = nullptr;
+	CTransform*				m_pTransform = nullptr;
+	CTexture*				m_pTexture = nullptr;
+
+
 
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 
 public:
-	const vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
+	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
+	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
+public:
+	// CBase을(를) 통해 상속됨
+	virtual void Free() override;
 };
 END

@@ -93,6 +93,7 @@ HRESULT CStage::Initalize_Prototypes()
 	if (FAILED(m_pObjMgr->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	//씬에 맞는 아이템, 몬스터를 스폰한다.
 	if (FAILED(CSpawner::Ready_Prototypes(m_pGraphic_Device, SCENE_STAGE)))
 		return E_FAIL;
 

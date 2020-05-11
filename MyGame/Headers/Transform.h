@@ -116,7 +116,7 @@ public:
 
 
 public:
-	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt = 1);
+	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
 	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
 private:

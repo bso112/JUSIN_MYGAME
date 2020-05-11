@@ -126,7 +126,18 @@ typedef struct tagVector4 : public D3DXVECTOR4
 
 
 
+typedef struct tagBaseDesc
+{
+	Vector3 vPos;
+	Vector3 vSize;
+	tagBaseDesc() {};
+	tagBaseDesc(Vector3 _vPos, Vector3 _vSize)
+	{
+		vPos = _vPos;
+		vSize = _vSize;
+	}
 
+}BASEDESC;
 
 typedef	struct tagVertex_Texture
 {

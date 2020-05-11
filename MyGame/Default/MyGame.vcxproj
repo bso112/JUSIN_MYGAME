@@ -191,7 +191,10 @@
   <ItemGroup>
     <ClInclude Include="..\Headers\AIState.h" />
     <ClInclude Include="..\Headers\Crab.h" />
+    <ClInclude Include="..\Headers\Food.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
+    <ClInclude Include="..\Headers\Inventory.h" />
+    <ClInclude Include="..\Headers\MyGame_Struct.h" />
     <ClInclude Include="..\Headers\PlayerState.h" />
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
@@ -249,7 +252,6 @@
     <ClInclude Include="..\Headers\Transform.h" />
     <ClInclude Include="..\Headers\VIBuffer.h" />
     <ClInclude Include="..\Headers\Warrior.h" />
-    <ClInclude Include="MyGame_Struct.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -258,7 +260,9 @@
   <ItemGroup>
     <ClCompile Include="..\Codes\AIState.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />
+    <ClCompile Include="..\Codes\Food.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
+    <ClCompile Include="..\Codes\Inventory.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />

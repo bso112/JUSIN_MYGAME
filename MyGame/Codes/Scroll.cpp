@@ -5,6 +5,6 @@ USING(MyGame)
 HRESULT CScroll::Initialize()
 {
 	CItem::Initialize();
-	m_vecActions.push_back(ACT_USE);
+	m_vecActions.push_back(AC_READ);
 	return S_OK;
 }

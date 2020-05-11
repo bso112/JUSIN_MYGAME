@@ -5,15 +5,13 @@
 
 USING(MyGame)
 
-CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted,_double _timeDelta)
+CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	if (_isAlerted)
 	{
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 		if (nullptr == pTransform)
 			return STATE_END;
-
-		//타깃을 향해 간다.
 
 		CCharacter* pFocus = m_pActor->Get_Focus();
 		if (nullptr == pFocus)
@@ -23,7 +21,11 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted,_double _
 		if (nullptr == pTargetTransform)
 			return STATE_END;
 
+
+		//타깃을 향해 간다.
 		pTransform->Go_Target(pTargetTransform, 1.f);
+
+
 
 		return STATE_HUNTING;
 	}
@@ -31,7 +33,7 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted,_double _
 	return STATE_END;
 }
 
-CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted,_double _timeDelta)
+CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	return STATE_IDLE;
 }
@@ -51,7 +53,7 @@ CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _dou
 	return STATE_END;
 }
 
-CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
+CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 
 	CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
@@ -60,7 +62,7 @@ CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted,  _double _t
 
 	pAnimator->Play(L"Sleep");
 
-	
+
 	return STATE_END;
 }
 
@@ -85,17 +87,20 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 	return STATE_END;
 }
 
-CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta)
+CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
 	if (nullptr == m_pActor)
 		return STATE_END;
 
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return STATE_END;
+
+	//트랜스폼에게 다시 이동한 타일 수를 세라고 함.
+	pTransform->NextTurn();
+
 	if (_canAttack)
 	{
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-		if (nullptr == pTransform)
-			return STATE_END;
-
 		CCharacter* pFocus = m_pActor->Get_Focus();
 		if (nullptr == pFocus)
 			return STATE_END;
@@ -123,10 +128,6 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted,  _double _ti
 		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
 		if (nullptr == pTargetTransform)
 			return STATE_END;
-
-
-		//타깃을 향해 간다.
-		pTransform->Go_Target(pTargetTransform, 1.f);
 
 		//점프 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
@@ -158,70 +159,12 @@ void CAIWandering::Free()
 
 CAIState::STATE CAIHunting_Jump::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-	if (nullptr == pTransform)
-		return STATE_END;
-
-	//루트를 모두 이동했으면 턴을 끝낸다.
-	if (!pTransform->Is_Moving())
-	{
-		return STATE_IDLE;
-	}
-	//이동력만큼 이동했으면 턴을 끝낸다.
-	if (pTransform->Is_TurnEnd())
-	{
-		return STATE_HUNTING;
-	}
-
-	return STATE_END;
+	return CAIHunting::LateUpdate(_canAttack, _isAlerted, _timeDelta);
 }
 
 CAIState::STATE CAIHunting_Jump::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	if (nullptr == m_pActor)
-		return STATE_END;
-
-	//공격할 수 있으면
-	if (_canAttack)
-	{
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-		if (nullptr == pTransform)
-			return STATE_END;
-
-		CCharacter* pFocus = m_pActor->Get_Focus();
-		if (nullptr == pFocus)
-			return STATE_END;
-
-		//공격
-		pFocus->TakeDamage(m_pActor->Get_Stat().m_fAtt->GetValue());
-
-		//공격 모션
-		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
-		if (nullptr == pAnimator)
-			return STATE_END;
-		pAnimator->Play(L"attack");
-		//턴을 끝낸다.
-		return STATE_HUNTING;
-	}
-	//상대를 인식했으면
-	else if (_isAlerted)
-	{
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-		if (nullptr == pTransform)
-			return STATE_END;
-
-		//행동력만큼 움직인다.
-		pTransform->NextTurn();
-
-		//점프 모션
-		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
-		if (nullptr == pAnimator)
-			return STATE_END;
-		pAnimator->Play(L"jump");
-	}
-
-	
-	return STATE_END;
+	return CAIHunting::Act(_canAttack, _isAlerted, _timeDelta);
 }
 
 void CAIHunting_Jump::Free()

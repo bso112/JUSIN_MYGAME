@@ -247,7 +247,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		m_iCntForTurn = 0;
 		m_Route.swap(vector<CTerrain*>());
 		m_pTarget = nullptr;
-		m_bTurnEnd = false;
+		m_bTurnEnd = true;
 		return TURN_END;
 	}
 

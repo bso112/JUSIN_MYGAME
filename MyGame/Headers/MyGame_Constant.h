@@ -19,5 +19,13 @@ enum TIER	{ TIER_COMMON, TIER_RARE, TIER_LAGEND, TIER_END};
 #define TURN_NOEVENT	98
 #define TURN_END		99
 
+#define AC_DROP			L"DROP"
+#define AC_THROW		L"THROW"
+#define AC_EAT			L"EAT"
+#define AC_EQUIP		L"EQUIP"
+#define AC_UNEQUIP		L"UNEQUIP"
+#define AC_READ			L"READ"
+
+
 
 END
