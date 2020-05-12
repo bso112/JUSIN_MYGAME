@@ -122,10 +122,21 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	if (FALSE == m_Splitter.CreateStatic(this, 1, 2))
 		AfxMessageBox(L"Fail to split MainFrame");
 
-	if (FALSE == m_Splitter.CreateView(0, 0, RUNTIME_CLASS(CToolView), CSize(400, 600), pContext))
+	/*
+	ToolView(오브젝트를 띄우는 뷰)의 사이즈는
+	백버퍼의 사이즈와 동일해야한다. 
+
+	ToolView의 	왼쪽위를 백버퍼 좌표상으로 (0,0),
+			오른쪽 아래를 (g_iWinCX, g_iWinCY)로 치기때문이다.
+
+	만약 백버퍼사이즈보다 ToolView 사이즈가 작으면 좌표가 찌그려져서
+	띄우는 그림도 찌그러지고, 마우스 좌표도 백버퍼의 좌표랑 일치하지 않아서
+	마우스 클릭 좌표가 의도한대로 나오지 않을것이다.
+	*/
+	if (FALSE == m_Splitter.CreateView(0, 0, RUNTIME_CLASS(CToolView), CSize(g_iWinCX, g_iWinCY), pContext))
 		AfxMessageBox(L"Fail to create view");
 
-	if (FALSE == m_Splitter.CreateView(0, 1, RUNTIME_CLASS(CControlView), CSize(400, 600), pContext))
+	if (FALSE == m_Splitter.CreateView(0, 1, RUNTIME_CLASS(CControlView), CSize(g_iFormViewCX, g_iFormViewCY), pContext))
 		AfxMessageBox(L"Fail to create view");
 
 

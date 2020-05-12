@@ -4,12 +4,16 @@ BEGIN(MyGame)
 
 class CGameObject;
 
-const unsigned int		g_iWinCX = 512;
-const unsigned int		g_iWinCY = 720;
+//백버퍼 사이즈
+const unsigned int		g_iWinCX = 800;
+const unsigned int		g_iWinCY = 600;
 
 
-#define TILECX 100
-#define TILECY 100
+const unsigned int		g_iFormViewCX = 300;
+const unsigned int		g_iFormViewCY = 600;
+
+#define TILECX 130
+#define TILECY 68
 
 #define OBJ_NOEVENT 0
 #define OBJ_CLICKED 1

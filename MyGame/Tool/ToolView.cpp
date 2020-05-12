@@ -194,7 +194,7 @@ HRESULT CToolView::Ready_WindowSize()
 	int iFrameWidth = (mainFrameRc.right - mainFrameRc.left) - (toolViewRC.right + sideViewRC.right);
 	int iFrameHeight = (mainFrameRc.bottom - mainFrameRc.top) - (toolViewRC.bottom);
 
-	pMainFrame->SetWindowPos(nullptr, 0, 0, 400 + 400 + iFrameWidth, 600 + iFrameHeight, SWP_NOMOVE);
+	pMainFrame->SetWindowPos(nullptr, 0, 0, 800 + g_iFormViewCX + iFrameWidth, g_iFormViewCY + iFrameHeight, SWP_NOMOVE);
 
 
 	return S_OK;
