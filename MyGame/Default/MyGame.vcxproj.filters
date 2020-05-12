@@ -223,6 +223,9 @@
     <Filter Include="10.Inventory\Slot">
       <UniqueIdentifier>{3c7fe11a-f0c1-48a5-9340-3c4cee7e85a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10.Inventory\ItemInfoPanel">
+      <UniqueIdentifier>{c9e485f3-f023-4abc-b50b-cdd17d4b5f78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -426,7 +429,12 @@
     <ClInclude Include="..\Headers\MyGame_Struct.h">
       <Filter>98.Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\ItemSlot.h" />
+    <ClInclude Include="..\Headers\ItemSlot.h">
+      <Filter>10.Inventory\Slot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\ItemInfoPanel.h">
+      <Filter>10.Inventory\ItemInfoPanel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -606,7 +614,12 @@
     <ClCompile Include="..\Codes\Food.cpp">
       <Filter>04.GameObject\GameObject\Item\Food</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\ItemSlot.cpp" />
+    <ClCompile Include="..\Codes\ItemSlot.cpp">
+      <Filter>10.Inventory\Slot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ItemInfoPanel.cpp">
+      <Filter>10.Inventory\ItemInfoPanel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">

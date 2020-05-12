@@ -1,30 +1,50 @@
 #pragma once
-#include "Base.h"
+#include "GameObject.h"
 BEGIN(MyGame)
 class CItem;
 class CHero;
-
+class CTransform;
+class CTexture;
+class VIBuffer;
+class CItemSlot;
+class CItemInfoPanel;
 #define INVENX 4
 #define INVENY 6
-class CInventory final : public CBase
+#define INVENCX 500
+#define INVENCY 600
+#define INVEN_MARGIN_H 50
+#define INVEN_MARGIN_V 50 
+#define SLOTCX 60
+#define SLOTCY 60
+
+class CInventory final : public CGameObject
 {
-	DECLARE_SINGLETON(CInventory)
-protected:
-	explicit CInventory();
+private:
+	explicit CInventory(PDIRECT3DDEVICE9 _pGraphic_Device);
+	explicit CInventory(CInventory& _rhs);
 	virtual ~CInventory() = default;
 
 private:
-	typedef vector<CItem*> slot;
-	slot	m_vecItem[INVENX][INVENY];
+	CTransform*			m_pTransform = nullptr;
+	CVIBuffer*			m_pVIBuffer = nullptr;
+	CTexture*			m_pTexture = nullptr;
+	CItemInfoPanel*		m_pInfoPanel = nullptr;
+	
+private:
+	vector<CItemSlot*>	m_vecSlot;
 	CHero*	m_pHero;
 public:
+	HRESULT	Initialize_Prototype();
+	HRESULT	Initialize(void* _pArg);
+	_int	Update(_double _timeDelta);
+	HRESULT Remove_Item(size_t _iIndex);
 	HRESULT	Put_Item(CItem* _pItem);
-	HRESULT	Remove_Item(CItem* _pItem);
-	CItem*	Get_Item(size_t _iIndex);
 	HRESULT	Use_item(size_t _iIndex, const _tchar* _pAction);
 
 
-	// CBase을(를) 통해 상속됨
+public:
+	static CInventory*	Create(PDIRECT3DDEVICE9 _pGraphic_Device);
+	virtual CGameObject * Clone(void * _param = nullptr) override;
 	virtual void Free() override;
 
 };

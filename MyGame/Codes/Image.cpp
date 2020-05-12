@@ -78,11 +78,12 @@ HRESULT CImage::Render()
 	if (FAILED(m_pShader->Begin_Pass(0)))
 		return E_FAIL;
 
-
-
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_RECT(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+
+	OnRender();
 
 	if (FAILED(m_pShader->End_Pass()))
 		return E_FAIL;
@@ -93,6 +94,11 @@ HRESULT CImage::Render()
 
 
 
+	return S_OK;
+}
+
+HRESULT CImage::OnRender()
+{
 	return S_OK;
 }
 

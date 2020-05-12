@@ -73,7 +73,6 @@ HRESULT CMenu::Initialize()
 	m_vecMenuBtn.push_back(pBtn);
 
 
-	pBtn->Set_InstanceID(1);
 
 
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f), L"Ranking", SCENE_MENU));

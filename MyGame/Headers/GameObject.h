@@ -75,6 +75,7 @@ public:
 	HRESULT		Set_Module(const _tchar* _pModulePrototypeTag, SCENEID _eSceneID, CModule** _ppModule, const _tchar* _pModuleTag = nullptr, void* _pArg = nullptr);
 	CModule*	Get_Module(const _tchar* _eModuleTag);
 	_uint		Get_InstanceID() { return m_iInstanceID; }
+	HRESULT		Add_Module(const _tchar* _pModuleTag, CModule* _pModule);
 	
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;

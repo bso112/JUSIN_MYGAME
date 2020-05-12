@@ -4,35 +4,31 @@ BEGIN(MyGame)
 class CItem;
 class CTransform;
 class CVIBuffer;
-//이거 버튼이잖아?
-class CItemSlot : public CMyButton
+
+class CItemSlot final: public CMyButton
 {
-public:
-	explicit CItemSlot();
+private:
+	explicit CItemSlot(PDIRECT3DDEVICE9 _pGraphic_Device);
+	explicit CItemSlot(CItemSlot& _rhs);
 	virtual ~CItemSlot() = default;
 
 
 private:
 	CItem*	m_pItem = nullptr;
-	CTransform*	m_pTransform = nullptr;
-	CVIBuffer*	m_pVIBuffer = nullptr;
 	_uint	m_iItemCnt = 0;
-
-public:
-	//마우스클릭을 받는다.
-	_int	Update();
 	
 public:
-	HRESULT	Remove_Item(CItem* _pItem);
 	HRESULT	Add_Item(CItem* _pItem);
-
-private:
-	//팝업창을 띄운다. (버튼에 아이템 사용함수를 연결한다)
-	void	OnClick();
-
+	HRESULT	Remove_Item(CItem* _pItem);
 
 public:
-	static CItemSlot* Create();
+	_bool	IsEmpty(){ return m_pItem == nullptr; }
+	_uint	Get_ItemCnt() { return m_iItemCnt; }
+	CItem*	Get_Item() { return m_pItem; }
+	
+
+public:
+	static CItemSlot*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	virtual void Free() override;
 };
 END

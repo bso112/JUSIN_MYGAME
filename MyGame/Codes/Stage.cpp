@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Spawner.h"
 #include "TurnMgr.h"
+#include "MyButton.h"
 
 USING(MyGame)
 
@@ -91,6 +92,9 @@ HRESULT CStage::Initalize_Prototypes()
 
 	//이부분 캐릭터 선택 반영하게 변경
 	if (FAILED(m_pObjMgr->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pObjMgr->Add_Prototype(L"RedButton", SCENE_STAGE, CMyButton::Create(m_pGraphic_Device, Vector4(), Vector4(), L"RedButton", SCENE_STAGE))))
 		return E_FAIL;
 
 	//씬에 맞는 아이템, 몬스터를 스폰한다.

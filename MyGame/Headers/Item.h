@@ -19,6 +19,9 @@ protected:
 	CTransform*				m_pTransform = nullptr;
 	CTexture*				m_pTexture = nullptr;
 
+protected:
+	const _tchar*			m_pDescription;
+
 
 
 public:
@@ -27,6 +30,7 @@ public:
 
 public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
+	virtual const _tchar* Get_Description() { return m_pDescription; }
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
 
 public:

@@ -12,11 +12,12 @@ USING(MyGame)
 CMyButton::CMyButton(CMyButton & _rhs)
 	: CGameObject(_rhs)
 {
-
-
+	m_pTexture = (CTexture*)_rhs.m_pTexture->Clone();
+	Add_Module(L"Texture", m_pTexture);
+	Safe_AddRef(m_pTexture);
 }
 
-HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
+HRESULT CMyButton::Initialize_Prototype(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
@@ -27,6 +28,28 @@ HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTa
 
 	m_pTransform->Set_Position(_vPos);
 	m_pTransform->Set_Size(_vSize);
+
+	return S_OK;
+}
+
+HRESULT CMyButton::Initialize(void * _pArg)
+{
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
+
+	if (nullptr != _pArg)
+	{
+		BASEDESC* desc = static_cast<BASEDESC*>(_pArg);
+		if (nullptr == desc)
+		{
+			MSG_BOX("void*를 BASEDESC*로 변환할 수 없습니다.");
+			return E_FAIL;
+		}
+		m_pTransform->Set_Position(desc->vPos);
+		m_pTransform->Set_Size(desc->vSize);
+	}
+
 
 	return S_OK;
 }
@@ -134,7 +157,7 @@ HRESULT CMyButton::Set_RenderState(RENDER_STATE _eRenderState)
 CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	CMyButton* pInstance = new CMyButton(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_vPos, _vSize, _pTextureTag, _eTextureSceneID)))
+	if (FAILED(pInstance->Initialize_Prototype(_vPos, _vSize, _pTextureTag, _eTextureSceneID)))
 	{
 		MSG_BOX("Fail to create CMyButton");
 		Safe_Release(pInstance);
@@ -146,7 +169,14 @@ CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, 
 
 CGameObject * CMyButton::Clone(void * _arg)
 {
-	return nullptr;
+	CMyButton* pInstance = new CMyButton(*this);
+	if (FAILED(pInstance->Initialize(_arg)))
+	{
+		MSG_BOX("Fail to clone CMyButton");
+		Safe_Release(pInstance);
+
+	}
+	return pInstance;
 }
 
 void CMyButton::Free()
