@@ -179,10 +179,17 @@ HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopD
 	return S_OK;
 }
 
-HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
+HRESULT CTransform::Add_Force(Vector3 _vDir, _float _fForce, _double _timeDelta)
 {
 	m_vPosition += _vDir * _fForce * float(_timeDelta);
 	return S_OK;
+}
+
+HRESULT CTransform::Add_Force(Vector2 _vForce)
+{
+	m_vPosition.x += _vForce.x;
+	m_vPosition.y += _vForce.y;
+	return E_NOTIMPL;
 }
 
 

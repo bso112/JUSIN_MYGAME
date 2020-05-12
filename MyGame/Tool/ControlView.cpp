@@ -86,11 +86,15 @@ HRESULT CControlView::Initialize_Tile()
 				return E_FAIL;
 
 
-			((CTransform*)pModule)->Set_Position(Vector3((i % 2) * (TILECX * 0.5f) + j * TILECX, i * (TILECY * 0.5f), 0.f));
+			((CTerrain*)pTile)->Set_InitialPos(Vector3((i % 2) * (TILECX * 0.5f) + j * TILECX, i * (TILECY * 0.5f), 0.f));
 			((CTransform*)pModule)->Set_Size(Vector3(TILECX, TILECY, 1.f));
 		
 		}
 	}
+
+	CMainFrame* pMainFrame= (CMainFrame*)AfxGetMainWnd();
+
+	pMainFrame->Set_ScrollSize(0, 0, CSize(TILECX * m_iTileNumX, TILECY * m_iTileNumY * 0.5f));
 
 
 	return S_OK;

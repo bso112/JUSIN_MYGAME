@@ -53,15 +53,26 @@ HRESULT CTerrain::Initialize()
 
 _int CTerrain::LateUpate(_double _timeDelta)
 {
+
+	m_pTransform->Set_Position(Vector3(m_vBasePos.x - m_iScrollX, m_vBasePos.y - m_iScrollY));
+	m_pTransform->Late_Update();
+
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
 		return -1;
 	return 0;
 }
 
+void CTerrain::Set_InitialPos(Vector3 _vPos)
+{
+	if (nullptr == m_pTransform)
+		return;
+
+	m_vBasePos = _vPos;
+	m_pTransform->Set_Position(_vPos);
+}
+
 HRESULT CTerrain::Render()
 {
-	m_pTransform->Late_Update();
-
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 

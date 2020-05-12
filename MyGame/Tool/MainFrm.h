@@ -28,6 +28,7 @@ public:
 public:
 	BOOL	Get_ClientRect(int _iRow, int _iCol, RECT& _outRC);
 	CWnd*	Get_Client(int _iRow, int _iCol);
+	void	Set_ScrollSize(int _iRow, int _iCol, CSize _size);
 	void	Invaildate(int _iRow, int _iCol);
 private:
 	CSplitterWnd	m_Splitter;

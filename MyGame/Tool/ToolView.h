@@ -10,7 +10,7 @@
 BEGIN(MyGame)
 class CRenderer;
 END
-class CToolView : public CView
+class CToolView : public CScrollView
 {
 protected: // serialization에서만 만들어집니다.
 	CToolView();
@@ -59,7 +59,13 @@ private:
 	HRESULT	Ready_PrototypeGameObject();
 
 public:
+	void	Set_ScrollSize(CSize _size);
+
+public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // ToolView.cpp의 디버그 버전

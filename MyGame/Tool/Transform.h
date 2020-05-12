@@ -107,7 +107,8 @@ public:
 	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed);
 
 public:
-	HRESULT Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta);
+	HRESULT Add_Force(Vector3 _vDir, _float _fForce, _double _timeDelta);
+	HRESULT	Add_Force(Vector2 _vForce);
 
 
 public:

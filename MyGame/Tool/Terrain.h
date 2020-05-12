@@ -68,6 +68,7 @@ protected:
 	CTransform*		m_pTransform = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CVIBuffer*		m_pVIBuffer = nullptr;
+	Vector3			m_vBasePos = {};
 
 protected:
 	STATE			m_eState = STATE_NORMAL;
@@ -82,6 +83,9 @@ protected:
 	_tchar			m_PrototypeTag[MAX_PATH];
 	// _uint로 하면 음수가 되는순간 4500어쩌구 하는 큰값이 들어가서 최대 텍스쳐 사이즈 -1 이됨.
 	_int			m_iCurFrame = 0;
+
+	_int			m_iScrollX = 0;
+	_int			m_iScrollY = 0;
 
 	//디버그용
 private:
@@ -103,6 +107,12 @@ public:
 	//원래부터 movable이고, _pTransform 이외의 누군가 서있지 않으면 갈 수 있다.
 	bool		IsMovable(CTransform* _pTransform);
 	void		Set_Texture(_int index) { m_iCurFrame = index; }
+
+public:
+	void		Set_InitialPos(Vector3 _vPos);
+	void		Set_ScrollX(_int _iScrollX) { m_iScrollX = _iScrollX; }
+	void		Set_ScrollY(_int _iScrollY) { m_iScrollY = _iScrollY; }
+
 
 
 public:

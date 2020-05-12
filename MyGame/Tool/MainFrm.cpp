@@ -64,6 +64,23 @@ CWnd* CMainFrame::Get_Client(int _iRow, int _iCol)
 	return m_Splitter.GetPane(_iRow, _iCol);
 }
 
+void CMainFrame::Set_ScrollSize(int _iRow, int _iCol, CSize _size)
+{
+	CWnd* pWnd = m_Splitter.GetPane(_iRow, _iCol);
+
+	if (nullptr == pWnd)
+		return;
+
+	CToolView* pToolView = dynamic_cast<CToolView*>(pWnd);
+	if (nullptr == pToolView)
+	{
+		AfxMessageBox(L"CWnd를 ToolView로 변환할 수 없습니다.");
+		return;
+	}
+
+	pToolView->Set_ScrollSize(_size);
+}
+
 void CMainFrame::Invaildate(int _iRow, int _iCol)
 {
 	CWnd* pWnd = m_Splitter.GetPane(_iRow, _iCol);

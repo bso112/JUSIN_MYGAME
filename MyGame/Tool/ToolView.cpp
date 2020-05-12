@@ -22,6 +22,7 @@
 #include "Renderer.h"
 #include "KeyMgr.h"
 #include "ControlView.h"
+#include "Layer.h"
 
 
 USING(MyGame)
@@ -42,6 +43,9 @@ BEGIN_MESSAGE_MAP(CToolView, CView)
 	ON_WM_DESTROY()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_VSCROLL()
+	ON_WM_HSCROLL()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CToolView 생성/소멸
@@ -80,7 +84,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 
-	if (nullptr == m_pGraphic_Device	||
+	if (nullptr == m_pGraphic_Device ||
 		nullptr == m_pRenderer)
 		return;
 
@@ -90,7 +94,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	m_pGraphic_Device->BeginScene();
 
 	m_pRenderer->Render();
-	
+
 	m_pGraphic_Device->EndScene();
 	m_pGraphic_Device->Present(nullptr, nullptr, 0, nullptr);
 
@@ -146,6 +150,7 @@ void CToolView::OnInitialUpdate()
 	CView::OnInitialUpdate();
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	SetScrollSizes(MM_TEXT, CSize(0, 0));
 
 	if (FAILED(Ready_WindowSize()))
 		return;
@@ -253,6 +258,11 @@ HRESULT CToolView::Ready_PrototypeGameObject()
 	return S_OK;
 }
 
+void CToolView::Set_ScrollSize(CSize _size)
+{
+	SetScrollSizes(MM_TEXT, _size);
+}
+
 
 
 
@@ -276,4 +286,53 @@ void CToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	g_pSelected = pObject;
 
 	CView::OnLButtonDown(nFlags, point);
+}
+
+
+void CToolView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr)
+		return;
+	CLayer* pLayer = pObjMgr->Find_Layer(L"Tile_Homework", SCENE_STATIC);
+	if (nullptr == pLayer)
+		return;
+	for (auto& obj : pLayer->Get_List())
+	{
+		if (nullptr != obj)
+		{
+			dynamic_cast<CTerrain*>(obj)->Set_ScrollY(GetScrollPos(1));
+		}
+	}
+	CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+void CToolView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr)
+		return;
+	CLayer* pLayer = pObjMgr->Find_Layer(L"Tile_Homework", SCENE_STATIC);
+	if (nullptr == pLayer)
+		return;
+	for (auto& obj : pLayer->Get_List())
+	{
+		if (nullptr != obj)
+		{
+			dynamic_cast<CTerrain*>(obj)->Set_ScrollX(GetScrollPos(0));
+		}
+	}
+
+	CScrollView::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+BOOL CToolView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	return FALSE;
 }
