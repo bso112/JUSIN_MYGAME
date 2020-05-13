@@ -194,6 +194,7 @@
     <ClInclude Include="..\Headers\Food.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
     <ClInclude Include="..\Headers\Inventory.h" />
+    <ClInclude Include="..\Headers\InventoryUIMgr.h" />
     <ClInclude Include="..\headers\ItemInfoPanel.h" />
     <ClInclude Include="..\Headers\ItemSlot.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\Codes\Food.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
     <ClCompile Include="..\Codes\Inventory.cpp" />
+    <ClCompile Include="..\Codes\InventoryUIMgr.cpp" />
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp" />
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />

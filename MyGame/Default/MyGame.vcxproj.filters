@@ -435,6 +435,7 @@
     <ClInclude Include="..\headers\ItemInfoPanel.h">
       <Filter>10.Inventory\ItemInfoPanel</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\InventoryUIMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -620,6 +621,7 @@
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp">
       <Filter>10.Inventory\ItemInfoPanel</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\InventoryUIMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">

@@ -59,8 +59,6 @@ HRESULT CInventory::Initialize(void * _pArg)
 		}
 	}
 
-	m_pInfoPanel = CItemInfoPanel::Create(m_pGraphic_Device, m_pTransform->Get_Position());
-	
 
 	return S_OK;
 }
@@ -69,7 +67,7 @@ _int CInventory::Update(_double _timeDelta)
 {
 	for (auto& slot : m_vecSlot)
 	{
-		slot->Update();
+		slot->Update(_timeDelta);
 	}
 	return _int();
 }
@@ -110,6 +108,15 @@ HRESULT CInventory::Use_item(size_t _iIndex, const _tchar* _pAction)
 	m_vecSlot[_iIndex]->Get_Item()->Use(m_pHero, _pAction);
 	
 return S_OK;
+}
+
+HRESULT CInventory::Add_SlotListenr(function<void(CItemInfoPanel&)> _func)
+{
+	for (auto& slot : m_vecSlot)
+	{
+		slot->Add_Listener()
+	}
+	return S_OK;
 }
 
 void CInventory::Free()

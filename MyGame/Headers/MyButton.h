@@ -19,7 +19,7 @@ protected:
 	virtual ~CMyButton() = default;
 
 
-private:
+protected:
 	CVIBuffer*		m_pVIBuffer = nullptr;
 	CTransform*		m_pTransform = nullptr;
 	CTexture*		m_pTexture = nullptr;
@@ -41,7 +41,7 @@ public:
 	virtual HRESULT	Render();
 
 public:
-	HRESULT	Add_Listener (function<void()> _listener);
+	virtual HRESULT	Add_Listener (function<void()> _listener);
 	void	Set_Text(const _tchar* pText) { m_pText = pText; }
 	HRESULT	Set_RenderState(RENDER_STATE _eRenderState);
 	

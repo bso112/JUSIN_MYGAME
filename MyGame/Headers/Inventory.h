@@ -28,7 +28,6 @@ private:
 	CTransform*			m_pTransform = nullptr;
 	CVIBuffer*			m_pVIBuffer = nullptr;
 	CTexture*			m_pTexture = nullptr;
-	CItemInfoPanel*		m_pInfoPanel = nullptr;
 	
 private:
 	vector<CItemSlot*>	m_vecSlot;
@@ -40,6 +39,9 @@ public:
 	HRESULT Remove_Item(size_t _iIndex);
 	HRESULT	Put_Item(CItem* _pItem);
 	HRESULT	Use_item(size_t _iIndex, const _tchar* _pAction);
+
+public:
+	HRESULT	Add_SlotListenr(function<void(CItemInfoPanel&)> _func);
 
 
 public:

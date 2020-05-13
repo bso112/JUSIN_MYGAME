@@ -4,6 +4,7 @@ BEGIN(MyGame)
 class CItem;
 class CTransform;
 class CVIBuffer;
+class CItemInfoPanel;
 
 class CItemSlot final: public CMyButton
 {
@@ -14,17 +15,19 @@ private:
 
 
 private:
-	CItem*	m_pItem = nullptr;
-	_uint	m_iItemCnt = 0;
+	function<void(CItemInfoPanel&, CItem*)> m_pSlotListener = nullptr;
+	list<CItem*>	m_listItem;
 	
 public:
 	HRESULT	Add_Item(CItem* _pItem);
-	HRESULT	Remove_Item(CItem* _pItem);
+	virtual HRESULT	Add_Listener(function<void(CItemInfoPanel&, CItem*)> _listener);
+	HRESULT	Remove_Item();
+	virtual _int	Update(_double _timeDelta)	override;
 
 public:
-	_bool	IsEmpty(){ return m_pItem == nullptr; }
-	_uint	Get_ItemCnt() { return m_iItemCnt; }
-	CItem*	Get_Item() { return m_pItem; }
+	_bool	IsEmpty(){ return m_listItem.empty(); }
+	_uint	Get_ItemCnt() { return m_listItem.size(); }
+	CItem*	Get_Item() { return m_listItem.back(); }
 	
 
 public:
