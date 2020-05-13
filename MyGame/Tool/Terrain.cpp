@@ -106,11 +106,14 @@ HRESULT CTerrain::Load_Data(SAVE_DATA& _eSaveData)
 		return E_FAIL;
 
 	m_pTransform->Set_Position(_eSaveData.m_vPosition);
+	m_vBasePos = _eSaveData.m_vPosition;
 	m_pTransform->Set_Rotation(_eSaveData.m_vRotation);
 	m_pTransform->Set_Size(_eSaveData.m_vSize);
 	memcpy(m_PrototypeTag, _eSaveData.m_PrototypeTag, sizeof(m_PrototypeTag));
 	m_iCurFrame = _eSaveData.m_iCurFrame;
 	m_eState = _eSaveData.m_eState;
+
+	m_pTransform->Late_Update();
 
 	OnLoadData();
 	return S_OK;

@@ -15,6 +15,9 @@
 #include "Transform.h"
 #include "Graphic_Device.h"
 #include "Texture.h"
+#include "ObjMgr.h"
+#include "Layer.h"
+#include "Terrain.h"
 
 // CControlView
 
@@ -45,7 +48,7 @@ void CControlView::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT1, m_iTileNumX);
 	DDX_Text(pDX, IDC_EDIT2, m_iTileNumY);
 	DDX_Control(pDX, IDC_COMBO1, m_Combo);
-	DDX_Control(pDX, IDCLOSE, m_Picture);	
+	DDX_Control(pDX, IDCLOSE, m_Picture);
 	CFormView::DoDataExchange(pDX);
 }
 
@@ -87,18 +90,112 @@ HRESULT CControlView::Initialize_Tile()
 
 
 			((CTerrain*)pTile)->Set_InitialPos(Vector3((i % 2) * (TILECX * 0.5f) + j * TILECX, i * (TILECY * 0.5f), 0.f));
+			((CTransform*)pModule)->Set_Position(Vector3((i % 2) * (TILECX * 0.5f) + j * TILECX, i * (TILECY * 0.5f), 0.f));
 			((CTransform*)pModule)->Set_Size(Vector3(TILECX, TILECY, 1.f));
-		
+
+			((CTransform*)pModule)->Late_Update();
 		}
 	}
 
-	CMainFrame* pMainFrame= (CMainFrame*)AfxGetMainWnd();
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
 	pMainFrame->Set_ScrollSize(0, 0, CSize(TILECX * m_iTileNumX, TILECY * m_iTileNumY * 0.5f));
 
 
 	return S_OK;
 
+}
+
+HRESULT CControlView::Save_Tile()
+{
+	
+	//파일 탐색기를 연다. 
+	CFileDialog		FileDialog(FALSE, L"dat", nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"MyType Files(*.dat)|*.dat|cpp Files(*.cpp)|*.cpp||");
+
+	CObjMgr*	pObject_Manager = CObjMgr::Get_Instance();
+	if (nullptr == pObject_Manager)
+		return E_FAIL;
+
+	Safe_AddRef(pObject_Manager);
+
+	CLayer*	pTileLayer = pObject_Manager->Find_Layer(L"Tile_Homework", SCENE_STATIC);
+	if (nullptr == pTileLayer)
+		return E_FAIL;
+
+	list<CGameObject*> pTileList = pTileLayer->Get_List();
+
+	//만약 OK버튼을 눌렀으면
+	// (Modal은 팝업창을 끄기 전까지 다른 창을 활성화 시킬 수 없는 방식)
+	if (FileDialog.DoModal() == IDOK)
+	{
+		HANDLE		hFile = 0;
+		_ulong		dwByte = 0;
+
+		hFile = CreateFile(FileDialog.GetPathName(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+		if (0 == hFile)
+			return E_FAIL;
+
+		for (auto& pGameObject : pTileList)
+		{
+			CTerrain* pTile = (CTerrain*)pGameObject;
+			CTerrain::SAVE_DATA	TileDesc = pTile->Get_SaveData();
+
+			WriteFile(hFile, &TileDesc, sizeof(CTerrain::SAVE_DATA), &dwByte, nullptr);
+		}
+
+		CloseHandle(hFile);
+	}
+
+	Safe_Release(pObject_Manager);
+	return S_OK;
+}
+
+HRESULT CControlView::Load_Tile()
+{
+	//파일 탐색기를 연다. 
+	CFileDialog		FileDialog(TRUE, L"dat", nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"MyType Files(*.dat)|*.dat|cpp Files(*.cpp)|*.cpp||");
+
+
+	//만약 OK버튼을 눌렀으면
+	// (Modal은 팝업창을 끄기 전까지 다른 창을 활성화 시킬 수 없는 방식)
+	if (FileDialog.DoModal() == IDOK)
+	{
+		HANDLE		hFile = 0;
+		_ulong		dwByte = 0;
+
+
+		hFile = CreateFile(FileDialog.GetPathName(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+		if (0 == hFile)
+			return E_FAIL;
+
+
+		CTerrain::SAVE_DATA	tSaveData;
+
+		while (true)
+		{
+			ReadFile(hFile, &tSaveData, sizeof(CTerrain::SAVE_DATA), &dwByte, nullptr);
+			if (dwByte == 0)
+				break;
+
+			
+			CTerrain* pTerrain = (CTerrain*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"Tile_Homework", SCENE_STATIC, L"Terrain", SCENE_STATIC);
+			pTerrain->Load_Data(tSaveData);
+			
+		}
+
+		CloseHandle(hFile);
+	}
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	if (nullptr == pMainFrame)
+		return E_FAIL;
+	//화면을 다시그린다.(메시지 발생시키기)
+	pMainFrame->Invaildate(0, 0);
+
+
+
+	return S_OK;
 }
 
 void CControlView::CreateTile()
@@ -128,6 +225,8 @@ BEGIN_MESSAGE_MAP(CControlView, CFormView)
 	ON_WM_LBUTTONDOWN()
 	ON_CBN_SELCHANGE(IDC_COMBO1, &CControlView::OnCbnSelchangeCombo1)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_BUTTON3, &CControlView::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON2, &CControlView::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -185,10 +284,10 @@ void CControlView::OnInitialUpdate()
 	m_pTexture = (CTexture*)CModuleMgr::Get_Instance()->Get_Module(L"Texture_Tile_Homework", SCENE_STATIC);
 	if (nullptr == m_pTexture)
 		return;
-	
+
 	m_pTransform->Set_Size(Vector3(g_iWinCX, g_iWinCY, 1.f));
 	m_pTransform->Set_Position(Vector2(g_iWinCX >> 1, g_iWinCY >> 1));
-	
+
 
 }
 
@@ -255,4 +354,20 @@ void CControlView::OnDraw(CDC* /*pDC*/)
 
 	pGraphicDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
+}
+
+
+void CControlView::OnBnClickedButton3()
+{
+
+	Load_Tile();
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void CControlView::OnBnClickedButton2()
+{
+	Save_Tile();
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

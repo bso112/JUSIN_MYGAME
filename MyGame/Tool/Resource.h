@@ -25,8 +25,10 @@
 #define IDC_COMBO1                      1010
 #define IDC_9BTN                        1011
 #define IDC_5BTN                        1012
+#define IDC_BUTTON2                     1012
 #define IDC_4BTN                        1013
 #define IDC_BUTTON_8                    1013
+#define IDC_BUTTON3                     1013
 #define IDC_6BTN                        1014
 #define IDC_BUTTON_7                    1014
 #define IDC_2BTN                        1015
@@ -57,7 +59,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1012
+#define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           314
 #endif
 #endif

@@ -53,6 +53,10 @@ public:
 	afx_msg	void CreateTile();
 private:
 	HRESULT Initialize_Tile();
+	HRESULT	Save_Tile();
+	HRESULT	Load_Tile();
+
+private:
 	CComboBox m_Combo;
 	CStatic m_Picture;
 
@@ -61,6 +65,8 @@ public:
 	afx_msg void OnCbnSelchangeCombo1();
 	afx_msg void OnDestroy();
 	virtual void OnDraw(CDC* /*pDC*/);
+	afx_msg void OnBnClickedButton3();
+	afx_msg void OnBnClickedButton2();
 };
 
 
