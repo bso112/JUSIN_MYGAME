@@ -21,6 +21,7 @@ protected:
 
 protected:
 	bool	m_bDead = false;
+	bool	m_bActive = true;
 
 private:
 	//충돌했나
@@ -76,7 +77,7 @@ public:
 	CModule*	Get_Module(const _tchar* _eModuleTag);
 	_uint		Get_InstanceID() { return m_iInstanceID; }
 	HRESULT		Add_Module(const _tchar* _pModuleTag, CModule* _pModule);
-	
+	void		Set_Active(_bool _bActive) {m_bActive = _bActive;}
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;
 

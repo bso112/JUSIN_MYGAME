@@ -72,6 +72,7 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* _pArg);
 	virtual _int	Update(_double _timeDelta);
+	//state martix를 업데이트한다.
 	virtual _int	Late_Update();
 
 public:

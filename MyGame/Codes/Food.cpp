@@ -57,10 +57,10 @@ HRESULT CFood::Render()
 		nullptr == m_pVIBuffer ||
 		nullptr == m_pTransform)
 		return E_FAIL;
-	
+
 	ALPHABLEND;
 
-	if (FAILED(m_pTexture->Set_Texture(m_tDesc.iTextureID  -1)))
+	if (FAILED(m_pTexture->Set_Texture(m_tDesc.iTextureID - 1)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
@@ -109,17 +109,16 @@ vector<const _tchar*>* CFood::Get_Actions()
 
 HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 {
-	if (FAILED(CItem::Use(_pHero, _pAction)))
-		return E_FAIL;
 
 	if (0 == lstrcmp(_pAction, AC_EAT))
 	{
 		//¸Ô±â
 		_pHero->Heal(m_tDesc.fHealAmount);
-
+		m_bUsed = true;
+		m_bDead = true;
 	}
 
-	return S_OK;
+	return CItem::Use(_pHero, _pAction);
 }
 
 void CFood::Free()

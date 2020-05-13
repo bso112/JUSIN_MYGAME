@@ -12,7 +12,7 @@ USING(MyGame)
 CImage::CImage(CImage & _rhs)
 	:CGameObject(_rhs)
 {
-
+	m_bActive = true;
 }
 
 
@@ -42,12 +42,18 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 
 _int CImage::Update(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
 	m_pTransform->Late_Update();
 	return 0;
 }
 
 _int CImage::LateUpate(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
 	if (nullptr == m_pRenderer)
 		return -1;
 
@@ -60,6 +66,9 @@ _int CImage::LateUpate(_double _timeDelta)
 
 HRESULT CImage::Render()
 {
+	if (!m_bActive)
+		return 0;
+
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pTextrue ||
 		nullptr == m_pTransform)

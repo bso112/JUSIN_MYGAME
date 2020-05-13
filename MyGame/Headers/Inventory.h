@@ -1,11 +1,13 @@
 #pragma once
 #include "GameObject.h"
+
+
 BEGIN(MyGame)
 class CItem;
 class CHero;
 class CTransform;
 class CTexture;
-class VIBuffer;
+class CVIBuffer;
 class CItemSlot;
 class CItemInfoPanel;
 #define INVENX 4
@@ -35,13 +37,16 @@ private:
 public:
 	HRESULT	Initialize_Prototype();
 	HRESULT	Initialize(void* _pArg);
-	_int	Update(_double _timeDelta);
+	_int	Update(_double _timeDelta) override;
+	virtual _int	LateUpate(_double _timeDelta) override;
+	virtual HRESULT	Render() override;
 	HRESULT Remove_Item(size_t _iIndex);
 	HRESULT	Put_Item(CItem* _pItem);
-	HRESULT	Use_item(size_t _iIndex, const _tchar* _pAction);
 
 public:
-	HRESULT	Add_SlotListenr(function<void(CItemInfoPanel&)> _func);
+	HRESULT	Set_SlotListener(function<void(CItemInfoPanel&, CItem*)> _func, CItemInfoPanel* _pInfoPanel);
+	HRESULT	Add_SlotListener(function<void()> _func);
+
 
 
 public:

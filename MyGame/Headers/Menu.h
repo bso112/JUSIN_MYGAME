@@ -3,11 +3,11 @@
 
 BEGIN(MyGame)
 
-#define ARC1X 3
+#define ARC1X 7
 #define ARC1Y 5
 #define ARC1CX 200
 #define ARC1CY 200
-#define ARC2X 7
+#define ARC2X 14
 #define ARC2Y 10
 #define ARC2CX 100
 #define ARC2CY 100

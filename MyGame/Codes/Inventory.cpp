@@ -11,7 +11,7 @@ USING(MyGame)
 CInventory::CInventory(PDIRECT3DDEVICE9 _pGraphic_Device)
 	:CGameObject(_pGraphic_Device)
 {
-
+	m_bActive = true;
 }
 
 CInventory::CInventory(CInventory & _rhs)
@@ -25,7 +25,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 		return E_FAIL;
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(Set_Module(L"Texture_Inven", SCENE_STAGE, (CModule**)&m_pTexture)))
+	if (FAILED(Set_Module(L"inventory", SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
 
 
@@ -53,8 +53,11 @@ HRESULT CInventory::Initialize(void * _pArg)
 	{
 		for (int j = 0; j < INVENX; ++j)
 		{
-			Vector2 vPos = Vector2(INVEN_MARGIN_H + (SLOTCX>>1) + SLOTCX * j, INVEN_MARGIN_V + (SLOTCY >>1) + SLOTCY * i);
-			m_vecSlot.push_back(CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(SLOTCX, SLOTCY), L"Texture_Inven", SCENE_STAGE));
+			Vector2 vPos = Vector2((float)INVEN_MARGIN_H + (SLOTCX>>1) + SLOTCX * j, (float)INVEN_MARGIN_V + (SLOTCY >>1) + SLOTCY * i);
+			CItemSlot* pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(SLOTCX, SLOTCY), L"inventory", SCENE_STAGE);
+			if (nullptr == pSlot)
+				return E_FAIL;
+			m_vecSlot.push_back(pSlot);
 
 		}
 	}
@@ -65,11 +68,34 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 _int CInventory::Update(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
+	m_pTransform->Update(_timeDelta);
+
 	for (auto& slot : m_vecSlot)
 	{
 		slot->Update(_timeDelta);
 	}
-	return _int();
+	return 0;
+}
+
+_int CInventory::LateUpate(_double _timeDelta)
+{
+	return m_pTransform->Late_Update();
+}
+
+HRESULT CInventory::Render()
+{
+	if (nullptr == m_pTexture ||
+		nullptr == m_pVIBuffer ||
+		nullptr == m_pTransform )
+		return E_FAIL;
+
+	m_pTexture->Set_Texture(0);
+	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
+	m_pVIBuffer->Render();
+	return S_OK;
 }
 
 HRESULT CInventory::Initialize_Prototype()
@@ -100,27 +126,36 @@ HRESULT CInventory::Remove_Item(size_t _iIndex)
 }
 
 
-HRESULT CInventory::Use_item(size_t _iIndex, const _tchar* _pAction)
-{
-	if (_iIndex >= m_vecSlot.size())
-		return E_FAIL;
 
-	m_vecSlot[_iIndex]->Get_Item()->Use(m_pHero, _pAction);
-	
-return S_OK;
-}
-
-HRESULT CInventory::Add_SlotListenr(function<void(CItemInfoPanel&)> _func)
+HRESULT CInventory::Set_SlotListener(function<void(CItemInfoPanel&, CItem*)> _func, CItemInfoPanel* _pInfoPanel)
 {
 	for (auto& slot : m_vecSlot)
 	{
-		slot->Add_Listener()
+		slot->Set_Listener(_func, _pInfoPanel);
+	}
+	return S_OK;
+}
+
+HRESULT CInventory::Add_SlotListener(function<void()> _func)
+{
+	for (auto& slot : m_vecSlot)
+	{
+		slot->Add_Listener(_func);
 	}
 	return S_OK;
 }
 
 void CInventory::Free()
 {
+	Safe_Release(m_pTexture);
+	Safe_Release(m_pTransform);
+	Safe_Release(m_pVIBuffer);
+
+	for (auto& slot : m_vecSlot)
+	{
+		Safe_Release(slot);
+	}
+	CGameObject::Free();
 }
 
 CInventory * CInventory::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -135,7 +170,7 @@ CInventory * CInventory::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject * CInventory::Clone(void * _param = nullptr)
+CGameObject * CInventory::Clone(void * _param)
 {
 	CInventory* pInstance = new CInventory(*this);
 	if (FAILED(pInstance->Initialize(_param)))

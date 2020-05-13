@@ -19,21 +19,22 @@ HRESULT CItem::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 {
+	if (nullptr == _pHero)
+		return E_FAIL;
+	
 	if (0 == lstrcmp(_pAction, AC_DROP))
 	{
+		m_bUsed = true;
 		//아이템 버리기
-		
+		//트랜스폼을 플레이어쪽으로 이동
 	}
 	else if (0 == lstrcmp(_pAction, AC_THROW))
 	{
+		m_bUsed = true;
 		//아이템 던지기
+		//목적지로 트랜스폼 이동
 	}
 	return S_OK;
-}
-
-void CItem::RemoveFormInventory()
-{
-	CInventory::Get_Instance()->
 }
 
 void CItem::Free()

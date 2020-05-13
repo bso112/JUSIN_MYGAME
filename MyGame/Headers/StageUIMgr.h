@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 class CObjMgr;
 class CHero;
+class CInventoryUIMgr;
 class CStageUIMgr : public CBase
 {
 	DECLARE_SINGLETON(CStageUIMgr)
@@ -12,11 +13,10 @@ private:
 	virtual ~CStageUIMgr() = default;
 
 private:
-	CObjMgr*			m_pObjMgr;
+	CObjMgr*			m_pObjMgr			= nullptr;
+	CInventoryUIMgr*	m_pInventoryUIMgr	= nullptr;
 public:
-	HRESULT	Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHero) ;
-	HRESULT Update();
-	HRESULT Render();
+	HRESULT	Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHero);
 
 private:
 	HRESULT Initialize_Prototype(LPDIRECT3DDEVICE9 pGraphic_Device, CHero* _pHero);

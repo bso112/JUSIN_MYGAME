@@ -226,6 +226,9 @@
     <Filter Include="10.Inventory\ItemInfoPanel">
       <UniqueIdentifier>{c9e485f3-f023-4abc-b50b-cdd17d4b5f78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10.Inventory\UIMgr">
+      <UniqueIdentifier>{ffc80686-cfa6-4189-bc5d-33376b0566b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -435,7 +438,9 @@
     <ClInclude Include="..\headers\ItemInfoPanel.h">
       <Filter>10.Inventory\ItemInfoPanel</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\InventoryUIMgr.h" />
+    <ClInclude Include="..\Headers\InventoryUIMgr.h">
+      <Filter>10.Inventory\UIMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -621,7 +626,9 @@
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp">
       <Filter>10.Inventory\ItemInfoPanel</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\InventoryUIMgr.cpp" />
+    <ClCompile Include="..\Codes\InventoryUIMgr.cpp">
+      <Filter>10.Inventory\UIMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">

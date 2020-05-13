@@ -8,6 +8,7 @@ class CVIBuffer;
 class CTransform;
 class CTexture;
 class CShader;
+
 class CMyButton : public CGameObject
 {
 
@@ -29,19 +30,23 @@ protected:
 	RENDER_STATE	m_eRenderState = STATE_ENABLE;
 
 
-private:
+protected:
 	vector<function<void()>> m_vecOnListener;
 
 
 public:
-	virtual HRESULT Initialize_Prototype(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
-	virtual HRESULT	Initialize(void* _pArg);
+	virtual HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	virtual _int	Update(_double _timeDelta)	override;
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
 
 public:
-	virtual HRESULT	Add_Listener (function<void()> _listener);
+	virtual HRESULT	Add_Listener(function<void()> _listener)
+	{
+		m_vecOnListener.push_back(_listener);
+		return S_OK;
+	}
+
 	void	Set_Text(const _tchar* pText) { m_pText = pText; }
 	HRESULT	Set_RenderState(RENDER_STATE _eRenderState);
 	

@@ -18,6 +18,8 @@ protected:
 	CVIBuffer*				m_pVIBuffer = nullptr;
 	CTransform*				m_pTransform = nullptr;
 	CTexture*				m_pTexture = nullptr;
+	//사용되었는가?
+	_bool					m_bUsed = false;
 
 protected:
 	const _tchar*			m_pDescription;
@@ -32,9 +34,8 @@ public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
 	virtual const _tchar* Get_Description() { return m_pDescription; }
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
+	_bool	IsUsed() { return m_bUsed; }
 
-public:
-	void RemoveFormInventory();
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

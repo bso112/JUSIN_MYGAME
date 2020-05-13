@@ -6,7 +6,7 @@ class CMyButton;
 class CImage;
 class CItemInfoPanel final : public CImage
 {
-public:
+private:
 	explicit CItemInfoPanel(PDIRECT3DDEVICE9 _pGraphic_Device) : CImage(_pGraphic_Device) {}
 	explicit CItemInfoPanel(CItemInfoPanel& _rhs) : CImage(_rhs) {};
 	virtual ~CItemInfoPanel() = default;
@@ -15,14 +15,13 @@ public:
 public:
 	virtual HRESULT Initialize(Vector3 _vPos);
 private:
-	CItem*				m_pItem = nullptr;
 	vector<CMyButton*>	m_vecBtn;
 	CImage*				m_pDescription = nullptr;
-public:
-
 	
 public:
-	HRESULT Set_Item(CItem* _pItem);
+	void Set_Item(CItem* _pItem);
+	HRESULT	Add_ButtonListener(function<void()> _func);
+	
 public:
 	static CItemInfoPanel* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector3 _vPos);
 	// CGameObject을(를) 통해 상속됨

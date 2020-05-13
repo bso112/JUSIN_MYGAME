@@ -41,7 +41,6 @@ HRESULT CStage::Initialize()
 
 _int CStage::Update(_double _timeDelta)
 {
-	m_pStageUIMgr->Update();
 	m_pWorld->Update();
 	m_pTurnMgr->Update_Simultaneously();
 	CScene::Update(_timeDelta);
@@ -53,7 +52,6 @@ HRESULT CStage::Render()
 {
 	m_pWorld->Render();
 	CScene::Render();
-	m_pStageUIMgr->Render();
 
 	return S_OK;
 }

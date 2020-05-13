@@ -19,7 +19,8 @@ CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
 
 
 CGameObject::CGameObject(CGameObject & _rhs)
-	:m_pGraphic_Device(_rhs.m_pGraphic_Device), m_pRenderer(CRenderer::Get_Instance())
+	:m_pGraphic_Device(_rhs.m_pGraphic_Device), m_pRenderer(CRenderer::Get_Instance()),
+	m_bActive(_rhs.m_bActive)
 {
 	Safe_AddRef(m_pRenderer);
 	Safe_AddRef(m_pGraphic_Device);

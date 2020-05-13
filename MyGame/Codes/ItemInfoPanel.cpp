@@ -9,20 +9,22 @@ USING(MyGame)
 
 HRESULT CItemInfoPanel::Initialize(Vector3 _vPos)
 {
-	CImage::Initialize(L"Texture_chrom", _vPos, Vector2(600.f, 400.f), SCENE_STAGE);
+	CImage::Initialize(L"inventory", _vPos, Vector2(600.f, 400.f), SCENE_STAGE);
 
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-	
-	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"RedButton", SCENE_STAGE, L"UI", SCENE_STAGE, &BASEDESC(Vector3(), Vector2())));
-	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"RedButton", SCENE_STAGE, L"UI", SCENE_STAGE, &BASEDESC(Vector3(), Vector2())));
-	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"RedButton", SCENE_STAGE, L"UI", SCENE_STAGE, &BASEDESC(Vector3(), Vector2())));
+
+	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CMyButton::Create(m_pGraphic_Device, Vector3(0.f, 0.f, 0.f), Vector2(10.f, 10.f), L"RedButton", SCENE_STAGE)));
+	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CMyButton::Create(m_pGraphic_Device, Vector3(0.f, 0.f, 0.f), Vector2(10.f, 10.f), L"RedButton", SCENE_STAGE)));
+	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CMyButton::Create(m_pGraphic_Device, Vector3(0.f, 0.f, 0.f), Vector2(10.f, 10.f), L"RedButton", SCENE_STAGE)));
 
 	m_pDescription = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(), Vector2(), L"empty", SCENE_STATIC));
 
 	for (auto& btn : m_vecBtn)
 	{
 		Safe_AddRef(btn);
+		btn->Add_Listener([&] { this->Set_Active(false);});
 	}
+
 	Safe_AddRef(m_pDescription);
 
 	return S_OK;
@@ -31,19 +33,24 @@ HRESULT CItemInfoPanel::Initialize(Vector3 _vPos)
 
 
 
-HRESULT CItemInfoPanel::Set_Item(CItem * _pItem)
+void CItemInfoPanel::Set_Item(CItem * _pItem)
 {
-	m_pItem = _pItem;
+
+	////판넬을 켠다.
+	//Set_Active(true);
+
+	//아이템의 액션을 가져온다.
 	vector<const _tchar*>* actions = _pItem->Get_Actions();
 
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr)
-		return E_FAIL;
+		return;
 
 	CHero* pHero = dynamic_cast<CHero*>(pObjMgr->Get_Player(SCENE_STAGE));
 	if (nullptr == pHero)
-		return E_FAIL;
+		return;
 
+	//각 버튼에 아이템이 할 수 있는 액션을 연결한다.
 	for (size_t i = 0; i < actions->size(); ++i)
 	{
 		if (i >= m_vecBtn.size())
@@ -55,6 +62,14 @@ HRESULT CItemInfoPanel::Set_Item(CItem * _pItem)
 
 	}
 
+}
+
+HRESULT CItemInfoPanel::Add_ButtonListener(function<void()> _func)
+{
+	for (auto& btn : m_vecBtn)
+	{
+		btn->Add_Listener(_func);
+	}
 	return S_OK;
 }
 
@@ -72,7 +87,7 @@ CItemInfoPanel * CItemInfoPanel::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vecto
 	return pInstance;
 }
 
-CGameObject * CItemInfoPanel::Clone(void * _param = nullptr)
+CGameObject * CItemInfoPanel::Clone(void * _param)
 {
 	return nullptr;
 }
