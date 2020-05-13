@@ -28,19 +28,11 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	int iBtnCX = 60;
 	int iBtnCY = 70;
 	CMyButton* pBtn = nullptr;
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4(float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"waitBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4(float(iBtnCX >> 1) + iBtnCX * 1, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"searchBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4(float(iBtnCX >> 1) + iBtnCX * 2, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"checkBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4(g_iWinCX - float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 
 	//인벤토리버튼
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"inventoryBtn", SCENE_STAGE);
-	////누르면 인벤토리 켜기
-	//pBtn->Add_Listener([&] {m_pInventoryUIMgr->Active_Inventory();});
+	//누르면 인벤토리 켜기
+	pBtn->Add_Listener([&] {m_pInventoryUIMgr->Active_Inventory();});
 	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1) + iBtnCX * 1, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"searchBtn", SCENE_STAGE);
@@ -84,12 +76,12 @@ HRESULT CStageUIMgr::Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHer
 		return E_FAIL;
 	}
 
-	//m_pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
-	//if (nullptr == m_pInventoryUIMgr)
-	//	return E_FAIL;
-	//
-	//m_pInventoryUIMgr->Initialize(_pGraphic_Device);
-	//Safe_AddRef(m_pInventoryUIMgr);
+	m_pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
+	if (nullptr == m_pInventoryUIMgr)
+		return E_FAIL;
+	
+	m_pInventoryUIMgr->Initialize(_pGraphic_Device);
+	Safe_AddRef(m_pInventoryUIMgr);
 
 	Safe_Release(_pGraphic_Device);
 	return S_OK;

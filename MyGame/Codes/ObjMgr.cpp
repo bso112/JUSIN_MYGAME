@@ -126,11 +126,11 @@ exception:
 	return nullptr;
 }
 
-HRESULT CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
+CGameObject* CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
 {
 	if (SCENE_END <= _eLayerSceneID	||
 		nullptr	== _pObj)
-		return E_FAIL;
+		return nullptr;
 
 	//레이어를 찾아 넣는다. 레이어가 없으면 새로 만든다.
 	CLayer* layer = Find_Layer(_eLayerID, _eLayerSceneID);
@@ -138,10 +138,10 @@ HRESULT CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID
 	{
 		layer = CLayer::Create();
 		if (nullptr == layer)
-			return E_FAIL;
+			return nullptr;
 
 		if (FAILED(layer->Add_GameObject(_pObj)))
-			return E_FAIL;
+			return nullptr;
 
 		m_mapLayer[_eLayerSceneID].emplace(_eLayerID, layer);
 
@@ -149,10 +149,10 @@ HRESULT CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID
 	else
 	{
 		if (FAILED(layer->Add_GameObject(_pObj)))
-			return E_FAIL;
+			return nullptr;
 	}
 
-	return S_OK;
+	return _pObj;
 
 }
 

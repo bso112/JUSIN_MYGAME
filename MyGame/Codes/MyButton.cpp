@@ -6,6 +6,7 @@
 #include "KeyMgr.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "SceneMgr.h"
 
 USING(MyGame)
 
@@ -44,9 +45,16 @@ _int CMyButton::Update(_double _timeDelta)
 	m_pTransform->Late_Update();
 
 	m_tRect = m_pTransform->Get_RECT();
-	
 
-	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON))
+	bool keyState = false;
+	if (CSceneMgr::Get_Instance()->Get_CurrScene() == SCENEID::SCENE_MENU)
+	{
+		keyState = CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
+	}
+	else
+		keyState = CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
+
+	if (keyState)
 	{
 		POINT cursorPos;
 		GetCursorPos(&cursorPos);
@@ -61,9 +69,10 @@ _int CMyButton::Update(_double _timeDelta)
 
 			return OBJ_CLICKED;
 		}
-
-		
 	}
+
+
+
 
 	return OBJ_NOEVENT;
 }
@@ -103,7 +112,7 @@ HRESULT CMyButton::Render()
 		return E_FAIL;
 	if (FAILED(m_pShader->Begin_Pass(m_eRenderState)))
 		return E_FAIL;
-	   
+
 
 
 	if (FAILED(m_pVIBuffer->Render()))
@@ -128,11 +137,11 @@ HRESULT CMyButton::Render()
 
 HRESULT CMyButton::Set_RenderState(RENDER_STATE _eRenderState)
 {
-	if (STATE_END <= _eRenderState) 
-		return E_FAIL; 
+	if (STATE_END <= _eRenderState)
+		return E_FAIL;
 
-	m_eRenderState = _eRenderState; 
-	
+	m_eRenderState = _eRenderState;
+
 	return S_OK;
 }
 

@@ -32,7 +32,7 @@ public:
 	//프로토타입을 복사해 객체를 생성한다. 생성한 객체는 레이어맵에 넣는다. 만약 해당 레이어가 없으면 새로 만든다.
 	CGameObject*	Add_GO_To_Layer(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID, const _tchar* _eLayerID, SCENEID _eLayerSceneID, void* _pArg = nullptr);
 	//오브젝트를 레이어에 등록한다.
-	HRESULT			Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject* _pObj);
+	CGameObject*	Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject* _pObj);
 	CGameObject*	Find_Prototype(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID);
 	CLayer*			Find_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID);
 	CGameObject*	Get_Player(SCENEID _eLayerSceneID);

@@ -12,12 +12,12 @@ class CItemSlot;
 class CItemInfoPanel;
 #define INVENX 4
 #define INVENY 6
-#define INVENCX 500
-#define INVENCY 600
+#define INVENCX 700
+#define INVENCY 500
 #define INVEN_MARGIN_H 50
 #define INVEN_MARGIN_V 50 
-#define SLOTCX 60
-#define SLOTCY 60
+#define SLOTCX 150
+#define SLOTCY 150
 
 class CInventory final : public CGameObject
 {

@@ -11,6 +11,7 @@ HRESULT CItemInfoPanel::Initialize(Vector3 _vPos)
 {
 	CImage::Initialize(L"inventory", _vPos, Vector2(600.f, 400.f), SCENE_STAGE);
 
+	m_bActive = false;
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 
 	m_vecBtn.push_back((CMyButton*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CMyButton::Create(m_pGraphic_Device, Vector3(0.f, 0.f, 0.f), Vector2(10.f, 10.f), L"RedButton", SCENE_STAGE)));

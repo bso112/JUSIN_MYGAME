@@ -16,10 +16,10 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 	m_pItemInfoPanel = CItemInfoPanel::Create(_pGraphicDevice, Vector3(g_iWinCX >> 1, g_iWinCY >> 1));
 	
 	//void(MyGame::CItemInfoPanel::*)(MyGame::CItem* _pItem)
-	//function<void(CItemInfoPanel&, CItem*)> tmp = &CItemInfoPanel::Set_Item;
+	function<void(CItemInfoPanel&, CItem*)> tmp = &CItemInfoPanel::Set_Item;
 
 	//슬롯을 클릭하면 InfoPanel에 아이템 정보를 연결한다.
-	//m_pInventory->Set_SlotListener(&m_pItemInfoPanel->Set_Item, m_pItemInfoPanel);
+	m_pInventory->Set_SlotListener(&m_pItemInfoPanel->Set_Item, m_pItemInfoPanel);
 	//슬롯을 클릭하면 InfoPanel을 켠다.
 	m_pInventory->Add_SlotListener([&] {m_pItemInfoPanel->Set_Active(true);});
 	//아이템 정보 판넬의 버튼을 클릭하면 인벤토리를 닫는다. (아이템 판넬도 닫힌다)
@@ -45,7 +45,8 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 void CInventoryUIMgr::Active_Inventory()
 {
 	static _bool bActive = false;
-	m_pInventory->Set_Active(!bActive);
+	bActive = !bActive;
+	m_pInventory->Set_Active(bActive);
 }
 
 void CInventoryUIMgr::Free()

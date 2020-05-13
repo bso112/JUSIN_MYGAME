@@ -15,6 +15,8 @@ CItemSlot::CItemSlot(CItemSlot & _rhs)
 {
 }
 
+
+
 HRESULT CItemSlot::Add_Item(CItem * _pItem)
 {
 	if (nullptr == _pItem)
@@ -41,6 +43,11 @@ HRESULT CItemSlot::Remove_Item()
 	return S_OK;
 }
 
+HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID)
+{
+	return CMyButton::Initialize(_vPos, _vSize, _pTextureTag, _eTextureSceneID);
+}
+
 _int CItemSlot::Update(_double _timeDelta)
 {
 	if (nullptr == m_pGraphic_Device ||
@@ -53,7 +60,7 @@ _int CItemSlot::Update(_double _timeDelta)
 	m_tRect = m_pTransform->Get_RECT();
 
 
-	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON))
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
 		POINT cursorPos;
 		GetCursorPos(&cursorPos);
@@ -82,6 +89,16 @@ _int CItemSlot::Update(_double _timeDelta)
 	}
 
 	return 0;
+}
+
+_int CItemSlot::LateUpate(_double _timeDelta)
+{
+	return CMyButton::LateUpate(_timeDelta);
+}
+
+HRESULT CItemSlot::Render()
+{
+	return CMyButton::Render();
 }
 
 CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
