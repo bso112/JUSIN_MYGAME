@@ -15,9 +15,7 @@ private:
 
 
 private:
-	function<void(CItemInfoPanel&, CItem*)> m_pSlotListener = nullptr;
-	//아이템의 정보를 보여줄 판넬
-	CItemInfoPanel* m_pInfoPanel = nullptr;
+	function<void(CItem*)> m_pSlotListener = nullptr;
 	list<CItem*>	m_listItem;
 	
 public:
@@ -28,7 +26,7 @@ public:
 
 public:
 	HRESULT	Add_Item(CItem* _pItem);
-	virtual HRESULT	Set_Listener(function<void(CItemInfoPanel&, CItem*)> _listener, CItemInfoPanel* _pPanel);
+	virtual HRESULT	Set_Listener(function<void(CItem*)> _listener);
 	HRESULT	Remove_Item();
 
 public:

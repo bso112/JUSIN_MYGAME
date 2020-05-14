@@ -25,11 +25,9 @@ HRESULT CItemSlot::Add_Item(CItem * _pItem)
 	return S_OK;
 }
 
-HRESULT CItemSlot::Set_Listener(function<void(CItemInfoPanel&, CItem*)> _listener, CItemInfoPanel* _pPanel)
+HRESULT CItemSlot::Set_Listener(function<void(CItem*)> _listener)
 {
 	m_pSlotListener = _listener;
-	m_pInfoPanel = _pPanel;
-	Safe_AddRef(m_pInfoPanel);
 	return S_OK;
 }
 
@@ -45,14 +43,22 @@ HRESULT CItemSlot::Remove_Item()
 
 HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID)
 {
-	return CMyButton::Initialize(_vPos, _vSize, _pTextureTag, _eTextureSceneID);
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
+
+
+	if (FAILED(Set_Module(L"slot", SCENE_STAGE, (CModule**)&m_pTexture)))
+		return E_FAIL;
+
+	m_pTransform->Set_Position(_vPos);
+	m_pTransform->Set_Size(_vSize);
+	return S_OK;
 }
 
 _int CItemSlot::Update(_double _timeDelta)
 {
-	if (nullptr == m_pGraphic_Device ||
-		nullptr == m_pInfoPanel		||
-		m_listItem.empty())
+	if (nullptr == m_pGraphic_Device)
 		return -1;
 
 	m_pTransform->Late_Update();
@@ -75,7 +81,7 @@ _int CItemSlot::Update(_double _timeDelta)
 			}
 
 			//아이템의 정보를 창에 띄워준다.
-			m_pSlotListener(*m_pInfoPanel, m_listItem.back());
+			m_pSlotListener(m_listItem.back());
 
 			return OBJ_CLICKED;
 		}
@@ -83,7 +89,7 @@ _int CItemSlot::Update(_double _timeDelta)
 
 
 	//사용한 아이템을 체크해서 리스트에서 없앤다.
-	if (m_listItem.back()->IsUsed())
+	if (!m_listItem.empty() && m_listItem.back()->IsUsed())
 	{
 		Remove_Item();
 	}
@@ -93,12 +99,37 @@ _int CItemSlot::Update(_double _timeDelta)
 
 _int CItemSlot::LateUpate(_double _timeDelta)
 {
-	return CMyButton::LateUpate(_timeDelta);
+
+	if (nullptr == m_pRenderer)
+		return -1;
+
+	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
+		return -1;
+
+	return S_OK;
 }
 
 HRESULT CItemSlot::Render()
 {
-	return CMyButton::Render();
+	if (nullptr == m_pVIBuffer ||
+		nullptr == m_pTransform)
+		return E_FAIL;
+
+
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+		return E_FAIL;
+
+	ALPHABLEND;
+
+	if (FAILED(m_pTexture->Set_Texture(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	ALPHABLEND_END;
+
+	return S_OK;
 }
 
 CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
@@ -117,7 +148,6 @@ CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, 
 
 void CItemSlot::Free()
 {
-	Safe_Release(m_pInfoPanel);
 	for (auto& pItem : m_listItem)
 	{
 		Safe_Release(pItem);

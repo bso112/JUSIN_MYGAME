@@ -100,10 +100,11 @@ HRESULT CMyButton::Render()
 		nullptr == m_pTransform)
 		return E_FAIL;
 
-	ALPHABLEND;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
+
+	ALPHABLEND;
 
 	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
 		return E_FAIL;

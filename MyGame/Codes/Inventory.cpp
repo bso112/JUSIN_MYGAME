@@ -36,14 +36,26 @@ HRESULT CInventory::Initialize(void * _pArg)
 		MSG_BOX("플레이어를 찾지 못하였습니다.");
 
 
-	Vector3 vPos = m_pTransform->Get_Position();
+	RECT invenRc = m_pTransform->Get_RECT();
+	_float	margin_slot = 3.f;
 
-	for (int i = 0; i < INVENY; ++i)
+	//모든 슬롯이 들어갈 RECT의 X크기, Y크기
+	_float slotRcX = (INVENCX - (INVEN_MARGIN_H << 1));
+	_float slotRcY = (INVENCY - (INVEN_MARGIN_V << 1));
+
+	//슬롯 하나의 크기
+	_float slotCX = (slotRcX - (margin_slot * SLOTX - 1)) / SLOTX;
+	_float slotCY = (slotRcY - (margin_slot * SLOTY - 1)) / SLOTY;
+
+	for (int i = 0; i < SLOTY; ++i)
 	{
-		for (int j = 0; j < INVENX; ++j)
+		for (int j = 0; j < SLOTX; ++j)
 		{
-			Vector2 vPos = Vector2((float)INVEN_MARGIN_H + (SLOTCX>>1) + SLOTCX * j, (float)INVEN_MARGIN_V + (SLOTCY >>1) + SLOTCY * i);
-			CItemSlot* pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(SLOTCX, SLOTCY), L"slot", SCENE_STAGE);
+			Vector2 vPos = Vector2(
+				invenRc.left	+	(float)INVEN_MARGIN_H + (slotCX*0.5f) + (slotCX + margin_slot) * j ,
+				invenRc.top		+	(float)INVEN_MARGIN_V + (slotCY*0.5f) + (slotCY + margin_slot) * i);
+
+			CItemSlot* pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"slot", SCENE_STAGE);
 			if (nullptr == pSlot)
 				return E_FAIL;
 			m_vecSlot.push_back(pSlot);
@@ -74,13 +86,14 @@ _int CInventory::LateUpate(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
+	m_pTransform->Late_Update();
+	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI);
+
 	for (auto& slot : m_vecSlot)
 	{
 		slot->LateUpate(_timeDelta);
 	}
 
-	m_pTransform->Late_Update();
-	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI);
 	return 0;
 }
 
@@ -100,12 +113,6 @@ HRESULT CInventory::Render()
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
 	
-	for (auto& slot : m_vecSlot)
-	{
-		slot->Render();
-	}
-
-	
 	ALPHABLEND_END;
 	return S_OK;
 
@@ -114,7 +121,7 @@ HRESULT CInventory::Render()
 
 HRESULT CInventory::Initialize_Prototype()
 {
-	m_vecSlot.reserve(INVENX * INVENY);
+	m_vecSlot.reserve(SLOTX * SLOTY);
 
 	return S_OK;
 }
@@ -141,11 +148,11 @@ HRESULT CInventory::Remove_Item(size_t _iIndex)
 
 
 
-HRESULT CInventory::Set_SlotListener(function<void(CItemInfoPanel&, CItem*)> _func, CItemInfoPanel* _pInfoPanel)
+HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 {
 	for (auto& slot : m_vecSlot)
 	{
-		slot->Set_Listener(_func, _pInfoPanel);
+		slot->Set_Listener(_func);
 	}
 	return S_OK;
 }

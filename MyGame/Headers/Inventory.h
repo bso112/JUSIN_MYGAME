@@ -10,14 +10,12 @@ class CTexture;
 class CVIBuffer;
 class CItemSlot;
 class CItemInfoPanel;
-#define INVENX 4
-#define INVENY 6
-#define INVENCX 700
-#define INVENCY 500
-#define INVEN_MARGIN_H 50
-#define INVEN_MARGIN_V 50 
-#define SLOTCX 150
-#define SLOTCY 150
+#define INVENCX 730 // 670
+#define INVENCY 500 // 380
+#define INVEN_MARGIN_H 30
+#define INVEN_MARGIN_V 70
+#define SLOTX 6
+#define SLOTY 4
 
 class CInventory final : public CGameObject
 {
@@ -44,7 +42,7 @@ public:
 	HRESULT	Put_Item(CItem* _pItem);
 
 public:
-	HRESULT	Set_SlotListener(function<void(CItemInfoPanel&, CItem*)> _func, CItemInfoPanel* _pInfoPanel);
+	HRESULT	Set_SlotListener(function<void(CItem*)> _func);
 	HRESULT	Add_SlotListener(function<void()> _func);
 
 
