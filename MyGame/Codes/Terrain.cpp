@@ -17,7 +17,6 @@ CTerrain::CTerrain(PDIRECT3DDEVICE9 _pGraphic_Device)
 CTerrain::CTerrain(CTerrain & _rhs)
 	: CGameObject(_rhs),
 	m_pTexture(_rhs.m_pTexture),
-	m_pVIBuffer(_rhs.m_pVIBuffer),
 	m_iCurFrame(_rhs.m_iCurFrame),
 	m_eState(_rhs.m_eState),
 	m_tInfo(_rhs.m_tInfo)
@@ -36,6 +35,7 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(L"Shader", SCENEID::SCENE_STATIC, (CModule**)&m_pShader);
 	m_tInfo = _tData;
 	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
 	return S_OK;
@@ -44,6 +44,7 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 HRESULT CTerrain::Initialize()
 {
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Shader", SCENEID::SCENE_STATIC, (CModule**)&m_pShader);
 
 	m_pTransform->Set_Size(Vector4(TILECX, TILECY));

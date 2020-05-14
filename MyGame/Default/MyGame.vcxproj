@@ -201,6 +201,7 @@
     <ClInclude Include="..\Headers\PlayerState.h" />
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
+    <ClInclude Include="..\Headers\Stair.h" />
     <ClInclude Include="..\Headers\State.h" />
     <ClInclude Include="..\Headers\Animation.h" />
     <ClInclude Include="..\Headers\Animator.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Codes\PlayerState.cpp" />
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
+    <ClCompile Include="..\Codes\Stair.cpp" />
     <ClCompile Include="..\Codes\State.cpp" />
     <ClCompile Include="..\Codes\Animation.cpp" />
     <ClCompile Include="..\Codes\Animator.cpp" />

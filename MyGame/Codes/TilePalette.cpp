@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\TilePalette.h"
 #include "Terrain.h"
+#include "Stair.h"
 #include "Door.h"
 #include "Transform.h"
 #include "TextureLoader.h"
@@ -59,9 +60,9 @@ HRESULT CTilePalette::Initalize()
 	pObjMgr->Add_Prototype(L"lv_One_prison", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
 	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_sign", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_sign", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(true), L"lv_One_stair_down", SCENE_EDITOR);
+	pTerrain = CStair::Create(m_pGraphic_Device, TERRAIN(true), L"lv_One_stair_down", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_stair_down", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(true), L"lv_One_stair_up", SCENE_EDITOR);
+	pTerrain = CStair::Create(m_pGraphic_Device, TERRAIN(true), L"lv_One_stair_up", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_stair_up", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
 	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_statue_rock", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_statue_rock", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);

@@ -10,8 +10,8 @@ class CTexture;
 class CVIBuffer;
 class CItemSlot;
 class CItemInfoPanel;
-#define INVENCX 730 // 670
-#define INVENCY 500 // 380
+#define INVENCX 730 
+#define INVENCY 500 
 #define INVEN_MARGIN_H 30
 #define INVEN_MARGIN_V 70
 #define SLOTX 6

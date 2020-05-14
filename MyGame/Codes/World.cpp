@@ -916,6 +916,18 @@ HRESULT CWorld::Load_World(const _tchar* _filePath, SCENEID _eSceneID)
 	return S_OK;
 }
 
+HRESULT CWorld::Next_Level()
+{
+	MSG_BOX("다음층으로 갑니다.");
+	return S_OK;
+}
+
+HRESULT CWorld::Prv_Level()
+{
+	MSG_BOX("이전층으로 갑니다.");
+	return S_OK;
+}
+
 HRESULT CWorld::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID)
 {
 

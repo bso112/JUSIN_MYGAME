@@ -229,6 +229,9 @@
     <Filter Include="06.Utility\02.Module\Module\Shader\Files">
       <UniqueIdentifier>{47a01f56-8ce5-48ee-86bd-55f0a8d03c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.World\Terrain\03. Stair">
+      <UniqueIdentifier>{e4a6c1da-9663-443b-87db-e37e732cde73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -441,6 +444,9 @@
     <ClInclude Include="..\Headers\InventoryUIMgr.h">
       <Filter>10.Inventory\UIMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Stair.h">
+      <Filter>00.World\Terrain\03. Stair</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -628,6 +634,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\InventoryUIMgr.cpp">
       <Filter>10.Inventory\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Stair.cpp">
+      <Filter>00.World\Terrain\03. Stair</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
