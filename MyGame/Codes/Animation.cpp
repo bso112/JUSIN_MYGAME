@@ -30,14 +30,14 @@ CAnimation* CAnimation::Render()
 	}
 
 	//애니메이션이 끝났을때
-	if (m_iCurrFrame == m_pTexture->Get_TextureSize())
+	if (m_iCurrFrame == (int)m_pTexture->Get_TextureSize())
 	{
 		//루프
 		if (m_bLoop)
 			m_iCurrFrame = 0;
 		else
 		{
-			m_iCurrFrame = m_pTexture->Get_TextureSize() - 1;
+			m_iCurrFrame = (int)m_pTexture->Get_TextureSize() - 1;
 			return m_pNextAnim;
 		}
 	}

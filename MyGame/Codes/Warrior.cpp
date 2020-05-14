@@ -78,7 +78,7 @@ HRESULT CWarrior::Initialize(void * _param)
 
 
 
-	m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
+	//m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
 	m_pTransform->Set_Size(Vector3(20.f, 25.f));
 #pragma endregion
 

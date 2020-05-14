@@ -2,10 +2,11 @@
 #include "Scene.h"
 
 BEGIN(MyGame)
-class CWorld;
+class CLevelMgr;
 class CStageUIMgr;
 class CHero;
 class CTurnMgr;
+
 class CStage final : public CScene
 {
 private:
@@ -19,7 +20,7 @@ public:
 
 
 private:
-	CWorld*			m_pWorld;
+	CLevelMgr*		m_pLevelMgr;
 	CStageUIMgr*	m_pStageUIMgr;
 	CHero*			m_pHero;
 	CTurnMgr*		m_pTurnMgr;

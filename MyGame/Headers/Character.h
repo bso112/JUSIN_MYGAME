@@ -60,7 +60,7 @@ protected:
 
 public:
 	virtual void TakeDamage(float _fDamage);
-	void Heal(_int _healAmount);
+	void Heal(_float _healAmount);
 	void SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
 	bool IsAlive();
 	bool IsImmune(IMMUNE _eImmune);

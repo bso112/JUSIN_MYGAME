@@ -197,6 +197,7 @@
     <ClInclude Include="..\Headers\InventoryUIMgr.h" />
     <ClInclude Include="..\headers\ItemInfoPanel.h" />
     <ClInclude Include="..\Headers\ItemSlot.h" />
+    <ClInclude Include="..\Headers\LevelMgr.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
     <ClInclude Include="..\Headers\PlayerState.h" />
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
@@ -250,7 +251,7 @@
     <ClInclude Include="..\Headers\TextureLoader.h" />
     <ClInclude Include="..\Headers\TilePalette.h" />
     <ClInclude Include="..\Headers\TurnMgr.h" />
-    <ClInclude Include="..\Headers\World.h" />
+    <ClInclude Include="..\Headers\Level.h" />
     <ClInclude Include="..\Headers\Timer.h" />
     <ClInclude Include="..\Headers\TimerMgr.h" />
     <ClInclude Include="..\Headers\Transform.h" />
@@ -270,6 +271,7 @@
     <ClCompile Include="..\Codes\InventoryUIMgr.cpp" />
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp" />
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
+    <ClCompile Include="..\Codes\LevelMgr.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
@@ -317,7 +319,7 @@
     <ClCompile Include="..\Codes\TextureLoader.cpp" />
     <ClCompile Include="..\Codes\TilePalette.cpp" />
     <ClCompile Include="..\Codes\TurnMgr.cpp" />
-    <ClCompile Include="..\Codes\World.cpp" />
+    <ClCompile Include="..\Codes\Level.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />
     <ClCompile Include="..\Codes\TimerMgr.cpp" />
     <ClCompile Include="..\Codes\Transform.cpp" />

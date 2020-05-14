@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "..\Headers\Transform.h"
 #include "Terrain.h"
-#include "World.h"
 #include "TurnMgr.h"
+#include "LevelMgr.h"
 USING(MyGame)
 
 _int CTransform::m_iTurnCnt = 0;
@@ -224,7 +224,9 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance)
 	m_pTarget = _pTarget;
 	m_StopDistance = _StopDistance;
 	//루트 설정
-	CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
+	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+	RETURN_FAIL_IF_NULL(pLevel);
+	pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
 	return S_OK;
 }
@@ -270,11 +272,19 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 			//루트 삭제
 			m_Route.swap(vector<CTerrain*>());
 
+			CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+			RETURN_FAIL_IF_NULL(pLevel);
 			//타겟이 있으면 타겟을 따라가고, 아니면 목표위치로 간다.
 			if (m_pTarget != nullptr)
-				CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
+			{
+
+				pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
+			}
 			else
-				CWorld::Get_Instance()->Get_Route(m_vPosition, m_vDst, m_Route, this);
+			{
+
+				pLevel->Get_Route(m_vPosition, m_vDst, m_Route, this);
+			}
 
 			//루트 인덱스 초기화
 			m_iCurrRouteIndex = 0;
@@ -296,7 +306,9 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		{
 			//타깃의 위치는 변하기 때문에 루트를 매번 갱신해줘야한다.(한칸 갈때마다)
 			m_Route.swap(vector<CTerrain*>());
-			CWorld::Get_Instance()->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
+			CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+			RETURN_FAIL_IF_NULL(pLevel);
+			pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
 			//갱신시에는 루트 인덱스도 초기화
 			m_iCurrRouteIndex = 0;

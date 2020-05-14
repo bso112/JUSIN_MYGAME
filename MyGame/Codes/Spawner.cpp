@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Spawner.h"
-#include "World.h"
+#include "LevelMgr.h"
 #include "ObjMgr.h"
 #include "Rat.h"
 #include "Gnoll.h"
@@ -51,7 +51,7 @@ HRESULT CSpawner::Spawn(SCENEID _eScene)
 	if (nullptr == pObjMgr)
 		return E_FAIL;
 
-	CWorld* pWorld = CWorld::Get_Instance();
+	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
 	if (nullptr == pWorld)
 		return E_FAIL;
 	
@@ -63,11 +63,11 @@ HRESULT CSpawner::Spawn(SCENEID _eScene)
 		Vector3 ranPos = pWorld->Get_RandomPos();
 		pObjMgr->Add_GO_To_Layer(L"Rat", _eScene, L"Monster", _eScene, &ranPos);
 		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Gnoll", _eScene, L"Monster", _eScene, &ranPos);
-		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Crab", _eScene, L"Monster", _eScene, &ranPos);
-		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Cheese", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f,20.f)), 10.f, 1));
+		//pObjMgr->Add_GO_To_Layer(L"Gnoll", _eScene, L"Monster", _eScene, &ranPos);
+		//ranPos = pWorld->Get_RandomPos();
+		//pObjMgr->Add_GO_To_Layer(L"Crab", _eScene, L"Monster", _eScene, &ranPos);
+		//ranPos = pWorld->Get_RandomPos();
+		//pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Cheese", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f,20.f)), 10.f, 1));
 
 		break;
 

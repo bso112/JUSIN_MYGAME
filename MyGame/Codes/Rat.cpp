@@ -2,7 +2,7 @@
 #include "..\Headers\Rat.h"
 #include "TextureLoader.h"
 #include "Texture.h"
-#include "World.h"
+#include "LevelMgr.h"
 #include "Hero.h"
 #include "Clock.h"
 #include "AIStateCon.h"

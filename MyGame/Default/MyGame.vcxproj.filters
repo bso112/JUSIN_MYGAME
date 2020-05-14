@@ -88,18 +88,6 @@
     <Filter Include="03.Scene\Scene\Editor">
       <UniqueIdentifier>{d66d9b45-a664-474c-90f1-a64c2f155604}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.World">
-      <UniqueIdentifier>{171b93cc-5c59-442f-8189-f87a6612526f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.World\World">
-      <UniqueIdentifier>{8a14b0b6-db60-495d-81d3-f05a3ec22882}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.World\Terrain">
-      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\Scene\Editor\TilePalette">
-      <UniqueIdentifier>{1158c2bf-760e-4435-87c1-2f84f3fea2be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Utility\02.Module\Module\Texture\TextureLoader">
       <UniqueIdentifier>{7d2e3f4f-117f-4ba0-bacf-10a95b0aa923}</UniqueIdentifier>
     </Filter>
@@ -132,15 +120,6 @@
     </Filter>
     <Filter Include="06.Utility\04.Statics">
       <UniqueIdentifier>{368436af-b95b-4c11-aad2-ff4d3a099850}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.World\Terrain\00. Door">
-      <UniqueIdentifier>{830bbbdf-6175-40ff-84e0-3752d3b4ea46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.World\Terrain\01. Trap">
-      <UniqueIdentifier>{80263a35-8191-4fc3-855c-080926310a26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.World\Terrain\02. Statue">
-      <UniqueIdentifier>{1222098e-a73a-41ce-8172-d1f6bee20de3}</UniqueIdentifier>
     </Filter>
     <Filter Include="06.Utility\05.CollisionMgr">
       <UniqueIdentifier>{f767d9f7-4b0c-4bcb-afe8-3f457f66c6f1}</UniqueIdentifier>
@@ -229,8 +208,29 @@
     <Filter Include="06.Utility\02.Module\Module\Shader\Files">
       <UniqueIdentifier>{47a01f56-8ce5-48ee-86bd-55f0a8d03c8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.World\Terrain\03. Stair">
+    <Filter Include="00.LevelMgr">
+      <UniqueIdentifier>{171b93cc-5c59-442f-8189-f87a6612526f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\Level">
+      <UniqueIdentifier>{8a14b0b6-db60-495d-81d3-f05a3ec22882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\Terrain">
+      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\Terrain\00. Door">
+      <UniqueIdentifier>{830bbbdf-6175-40ff-84e0-3752d3b4ea46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\Terrain\01. Trap">
+      <UniqueIdentifier>{80263a35-8191-4fc3-855c-080926310a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\Terrain\02. Statue">
+      <UniqueIdentifier>{1222098e-a73a-41ce-8172-d1f6bee20de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\Terrain\03. Stair">
       <UniqueIdentifier>{e4a6c1da-9663-443b-87db-e37e732cde73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.LevelMgr\TilePalette">
+      <UniqueIdentifier>{1158c2bf-760e-4435-87c1-2f84f3fea2be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -346,10 +346,7 @@
       <Filter>06.Utility\02.Module\Module\Transform</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Terrain.h">
-      <Filter>00.World\Terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Headers\World.h">
-      <Filter>00.World\World</Filter>
+      <Filter>00.LevelMgr\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Editor.h">
       <Filter>03.Scene\Scene\Editor</Filter>
@@ -358,7 +355,7 @@
       <Filter>06.Utility\02.Module\Module\Texture</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\TilePalette.h">
-      <Filter>03.Scene\Scene\Editor\TilePalette</Filter>
+      <Filter>00.LevelMgr\TilePalette</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\TextureLoader.h">
       <Filter>06.Utility\02.Module\Module\Texture\TextureLoader</Filter>
@@ -382,7 +379,7 @@
       <Filter>06.Utility\03.KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Door.h">
-      <Filter>00.World\Terrain\00. Door</Filter>
+      <Filter>00.LevelMgr\Terrain\00. Door</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\CollisionMgr.h">
       <Filter>06.Utility\05.CollisionMgr</Filter>
@@ -445,7 +442,13 @@
       <Filter>10.Inventory\UIMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Stair.h">
-      <Filter>00.World\Terrain\03. Stair</Filter>
+      <Filter>00.LevelMgr\Terrain\03. Stair</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Level.h">
+      <Filter>00.LevelMgr\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\LevelMgr.h">
+      <Filter>00.LevelMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -539,11 +542,8 @@
     <ClCompile Include="..\Codes\Transform.cpp">
       <Filter>06.Utility\02.Module\Module\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\World.cpp">
-      <Filter>00.World\World</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Terrain.cpp">
-      <Filter>00.World\Terrain</Filter>
+      <Filter>00.LevelMgr\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Editor.cpp">
       <Filter>03.Scene\Scene\Editor</Filter>
@@ -552,7 +552,7 @@
       <Filter>06.Utility\02.Module\Module\Texture</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\TilePalette.cpp">
-      <Filter>03.Scene\Scene\Editor\TilePalette</Filter>
+      <Filter>00.LevelMgr\TilePalette</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\TextureLoader.cpp">
       <Filter>06.Utility\02.Module\Module\Texture\TextureLoader</Filter>
@@ -576,7 +576,7 @@
       <Filter>06.Utility\03.KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Door.cpp">
-      <Filter>00.World\Terrain\00. Door</Filter>
+      <Filter>00.LevelMgr\Terrain\00. Door</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\CollisionMgr.cpp">
       <Filter>06.Utility\05.CollisionMgr</Filter>
@@ -636,7 +636,13 @@
       <Filter>10.Inventory\UIMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Stair.cpp">
-      <Filter>00.World\Terrain\03. Stair</Filter>
+      <Filter>00.LevelMgr\Terrain\03. Stair</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Level.cpp">
+      <Filter>00.LevelMgr\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\LevelMgr.cpp">
+      <Filter>00.LevelMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

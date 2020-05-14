@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Editor.h"
 #include "TilePalette.h"
-#include "World.h"
+#include "Level.h"
 #include "Terrain.h"
 #include "KeyMgr.h"
 #include "Transform.h"
@@ -10,7 +10,7 @@
 USING(MyGame)
 
 CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
-	:CScene(_pGraphic_Device), m_pWorld(CWorld::Get_Instance()),
+	:CScene(_pGraphic_Device),
 	m_pPalette(CTilePalette::Create(_pGraphic_Device))
 {
 	Safe_AddRef(m_pWorld);
@@ -21,7 +21,9 @@ HRESULT CEditor::Initialize()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
-	m_pWorld->Initialize(m_pGraphic_Device, SCENE_EDITOR);
+	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, nullptr);
+	RETURN_FAIL_IF_NULL(m_pWorld);
+	m_pWorld->Initialize(SCENE_EDITOR);
 
 	return S_OK;
 }
@@ -96,7 +98,7 @@ HRESULT CEditor::Render()
 		nullptr == m_pPalette)
 		return E_FAIL;
 
-	m_pWorld->Render();
+	m_pWorld->Render_ForEditor();
 	m_pPalette->Render();
 
 	if(nullptr != m_pCurrTerrain)
@@ -128,8 +130,6 @@ void CEditor::Free()
 
 	Safe_Release(m_pWorld);
 
-	if (0 != m_pWorld->Destroy_Instance())
-		MSG_BOX("Fail to release m_pWorld");
 
 	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기
 	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_EDITOR)))

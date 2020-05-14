@@ -2,7 +2,7 @@
 #include "..\Headers\ObjMgr.h"
 #include "Layer.h"
 #include "GameObject.h"
-#include "World.h"
+#include "LevelMgr.h"
 #include "CollisionMgr.h"
 
 USING(MyGame)
@@ -47,7 +47,7 @@ _int CObjMgr::Update(_double _timeDelta)
 
 #pragma region Collision
 
-	CWorld* pWorld = CWorld::Get_Instance();
+	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
 	if (nullptr == pWorld)
 		return -1;
 

@@ -8,7 +8,8 @@
 
 #define MSG_BOX(MESSAGE) MessageBox(0, TEXT(MESSAGE), TEXT("System Error"), MB_OK)
 
-
+#define RETURN_FAIL_IF_NULL(INSTANCE) if(nullptr == INSTANCE) {return E_FAIL; }
+#define RETURN_IF_NULL(INSTANCE) if(nullptr == INSTANCE) {return;}
 
 #define DECLARE_SINGLETON(CLASSNAME)										\
 	public: static CLASSNAME* Get_Instance();								\

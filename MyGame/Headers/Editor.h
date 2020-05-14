@@ -3,7 +3,7 @@
 
 BEGIN(MyGame)
 class CTilePalette;
-class CWorld;
+class CLevel;
 class CTerrain;
 class CEditor final: public CScene
 {
@@ -19,7 +19,7 @@ public:
 
 private:
 	CTilePalette*	m_pPalette = nullptr;
-	CWorld*			m_pWorld = nullptr;
+	CLevel*			m_pWorld = nullptr;
 	//Editor 씬에만 있는 임시타일이다.
 	CTerrain*		m_pCurrTerrain = nullptr;
 

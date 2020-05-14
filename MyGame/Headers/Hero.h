@@ -23,6 +23,7 @@ protected:
 
 protected:
 	virtual	HRESULT KeyCheck(_double _timeDelta);
+	HRESULT	Set_InitialPos();
 	
 
 public:

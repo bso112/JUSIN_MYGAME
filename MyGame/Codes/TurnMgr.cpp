@@ -23,8 +23,19 @@ CTurnMgr::CTurnMgr(CTurnMgr & _rhs)
 HRESULT CTurnMgr::Initialize()
 {
 	m_eCurrScene = CSceneMgr::Get_Instance()->Get_CurrScene();
-	m_pActorLayers[0] = CObjMgr::Get_Instance()->Find_Layer(L"Player", SCENE_STAGE);
-	m_pActorLayers[1] = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
+
+	CLayer* pLayer = CObjMgr::Get_Instance()->Find_Layer(L"Player", SCENE_STAGE);
+	if (nullptr == pLayer)
+		MSG_BOX("플레이어 레이어가 없습니다.");
+
+	m_pActorLayers[0] = pLayer;
+
+	pLayer = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
+	if (nullptr == pLayer)
+		MSG_BOX("몬스터 레이어가 없습니다.");
+
+	m_pActorLayers[1] = pLayer;
+
 	MoveTurn_sequentially(1);
 	return S_OK;
 }
@@ -102,6 +113,8 @@ _int CTurnMgr::Update_Simultaneously()
 	//모든 오브젝트의 Update를 부른다.
 	for (auto& layer : m_pActorLayers)
 	{
+		if (nullptr == layer)
+			MSG_BOX("레이어가 null입니다");
 		for (auto& GO : layer->Get_List())
 		{
 			++iGOCnt;
@@ -119,6 +132,9 @@ _int CTurnMgr::Update_Simultaneously()
 		//모든 오브젝트의 Start를 다시 부름
 		for (auto& layer : m_pActorLayers)
 		{
+			if (nullptr == layer)
+				MSG_BOX("레이어가 null입니다");
+
 			for (auto& GO : layer->Get_List())
 			{
 				((CCharacter*)GO)->StartAct();

@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "..\Headers\Hero.h"
 #include "KeyMgr.h"
-#include "World.h"
+#include "LevelMgr.h"
 #include "Transform.h"
 #include "TurnMgr.h"
 #include "Terrain.h"
+#include "ObjMgr.h"
+#include "Layer.h"
 USING(MyGame)
 
 
@@ -35,7 +37,9 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 		ScreenToClient(g_hWnd, &pt);
 
 		vector<CTerrain*> route;
-		CWorld::Get_Instance()->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, m_pTransform);
+		CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+		RETURN_FAIL_IF_NULL(pLevel);
+		pLevel->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, m_pTransform);
 
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
@@ -47,6 +51,21 @@ HRESULT CHero::KeyCheck(_double _timeDelta)
 	}
 
 	return S_OK;
+}
+
+HRESULT CHero::Set_InitialPos()
+{
+	if (m_pTransform == nullptr)
+		return E_FAIL;
+
+	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
+
+	if (nullptr == pWorld)
+		return E_FAIL;
+
+	return S_OK;
+
+	
 }
 
 HRESULT CHero::PlayAnimation(const _tchar * _pTag)

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Stage.h"
-#include "World.h"
+#include "LevelMgr.h"
 #include "Warrior.h"
 #include "TextureLoader.h"
 #include "StageUIMgr.h"
@@ -9,15 +9,16 @@
 #include "TurnMgr.h"
 #include "MyButton.h"
 
+
 USING(MyGame)
 
 CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 	: CScene(_pGraphic_Device),
-	m_pWorld(CWorld::Get_Instance()),
+	m_pLevelMgr(CLevelMgr::Get_Instance()),
 	m_pStageUIMgr(CStageUIMgr::Get_Instance()),
 	m_pTurnMgr(CTurnMgr::Get_Instance())
 {
-	Safe_AddRef(m_pWorld);
+	Safe_AddRef(m_pLevelMgr);
 	Safe_AddRef(m_pStageUIMgr);
 };
 
@@ -41,7 +42,6 @@ HRESULT CStage::Initialize()
 
 _int CStage::Update(_double _timeDelta)
 {
-	m_pWorld->Update();
 	m_pTurnMgr->Update_Simultaneously();
 	CScene::Update(_timeDelta);
 
@@ -50,7 +50,6 @@ _int CStage::Update(_double _timeDelta)
 
 HRESULT CStage::Render()
 {
-	m_pWorld->Render();
 	CScene::Render();
 
 	return S_OK;
@@ -60,7 +59,7 @@ HRESULT CStage::Render()
 
 HRESULT CStage::Initalize_World()
 {
-	m_pWorld->Initialize(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level1.dat");
+	m_pLevelMgr->Initialize(m_pGraphic_Device);
 
 	return S_OK;
 }
@@ -132,10 +131,10 @@ CStage * CStage::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 void CStage::Free()
 {
 
-	Safe_Release(m_pWorld);
+	Safe_Release(m_pLevelMgr);
 	Safe_Release(m_pStageUIMgr);
 	
-	if (0 != m_pWorld->Destroy_Instance())
+	if (0 != m_pLevelMgr->Destroy_Instance())
 		MSG_BOX("Fail to release TileMgr");
 
 	if (0 != m_pStageUIMgr->Destroy_Instance())

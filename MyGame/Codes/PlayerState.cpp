@@ -4,7 +4,7 @@
 #include "Character.h"
 #include "Hero.h"
 #include "KeyMgr.h"
-#include "World.h"
+#include "LevelMgr.h"
 #include "TurnMgr.h"
 
 USING(MyGame)

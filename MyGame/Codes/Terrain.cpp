@@ -26,7 +26,7 @@ CTerrain::CTerrain(CTerrain & _rhs)
 	Safe_AddRef(m_pVIBuffer);
 }
 
-HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag, _tchar * _pFilePath)
+HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag, const _tchar* _pLayerTag, _tchar * _pFilePath)
 {
 	memcpy(m_PrototypeTag, _pPrototypeTag, sizeof(_tchar) * lstrlen(_pPrototypeTag));
 
@@ -37,6 +37,14 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Shader", SCENEID::SCENE_STATIC, (CModule**)&m_pShader);
 	m_tInfo = _tData;
+
+	ZeroMemory(&m_LayerTag, sizeof(m_LayerTag));
+	if (nullptr != _pLayerTag)
+	{
+		memcpy(m_LayerTag, _pLayerTag, sizeof(_tchar) * lstrlen(_pLayerTag));
+	}
+
+
 	m_pTransform->Set_Size(Vector4(TILECX, TILECY));
 	return S_OK;
 }
@@ -51,6 +59,18 @@ HRESULT CTerrain::Initialize()
 	m_pTransform->Set_ColliderSize(Vector3(5.f, 5.f));
 	return S_OK;
 }
+
+_int CTerrain::LateUpate(_double _timeDelta)
+{
+	m_pTransform->Late_Update();
+
+	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PRIOR)))
+		return -1;
+
+	return 0;
+}
+
+
 
 HRESULT CTerrain::Render()
 {
@@ -96,6 +116,9 @@ CTerrain::SAVE_DATA CTerrain::Get_SaveData()
 	tSaveData.m_iCurFrame = m_iCurFrame;
 	ZeroMemory(&tSaveData.m_PrototypeTag, sizeof(tSaveData.m_PrototypeTag));
 	memcpy(tSaveData.m_PrototypeTag, m_PrototypeTag, sizeof(_tchar) * lstrlen(m_PrototypeTag));
+
+	ZeroMemory(&tSaveData.m_LayerTag, sizeof(tSaveData.m_LayerTag));
+	memcpy(tSaveData.m_LayerTag, m_LayerTag, sizeof(_tchar) * lstrlen(m_LayerTag));
 
 	return tSaveData;
 }
@@ -216,10 +239,10 @@ HRESULT CTerrain::OnLoadData()
 
 
 
-CTerrain * CTerrain::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath)
+CTerrain * CTerrain::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pLayerTag, _tchar* _pFilePath)
 {
 	CTerrain* pInstance = new CTerrain(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _eTextureScene, _pTextureTag, _pFilePath)))
+	if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _eTextureScene, _pTextureTag, _pLayerTag, _pFilePath)))
 	{
 		MSG_BOX("Fail to create CTerrain");
 		Safe_Release(pInstance);

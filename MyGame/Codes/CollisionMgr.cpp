@@ -104,8 +104,8 @@ bool CCollisionMgr::GameObjectInTile(list<CGameObject*> _listObj, list<CGameObje
 				return false;
 
 			POINT pt;
-			pt.x = pObjTransform->Get_Position().x;
-			pt.y = pObjTransform->Get_Position().y;
+			pt.x = (LONG)pObjTransform->Get_Position().x;
+			pt.y = (LONG)pObjTransform->Get_Position().y;
 
 			if (PtInRect(&pTileTransform->Get_RECT(), pt))
 			{
