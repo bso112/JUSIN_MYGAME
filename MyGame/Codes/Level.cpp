@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "ObjMgr.h"
 #include "Door.h"
+#include "Stair.h"
 #include "CollisionMgr.h"
 #include "Stair.h"
 
@@ -812,6 +813,11 @@ Vector3 CLevel::Get_RandomPos()
 	return Vector3((float)ranX * TILECX, (float)ranY * TILECY, 0.f, 1.f);
 }
 
+Vector3 CLevel::Get_PlayerSpawnPos()
+{
+	return m_vPlayerSpawnPos;
+}
+
 
 
 
@@ -886,12 +892,26 @@ HRESULT CLevel::Load_World(const _tchar* _filePath, SCENEID _eSceneID)
 			프로토타입 태그를 통해 올바른 클래스로 변환한다.
 			예를들어 CDoor의 프로토타입에서 복사된 CGameObject가 CTerrain으로 변환되어 Load_Data를 통해 데이터가 셋팅된다.
 			*/
-			m_pTerrains[y][x] = dynamic_cast<CTerrain*>(CObjMgr::Get_Instance()->Add_GO_To_Layer(tSaveData.m_PrototypeTag, m_eSceneID,  tSaveData.m_LayerTag, _eSceneID));
+			m_pTerrains[y][x] = dynamic_cast<CTerrain*>(CObjMgr::Get_Instance()->Add_GO_To_Layer(tSaveData.m_PrototypeTag, m_eSceneID, tSaveData.m_LayerTag, _eSceneID));
 			if (nullptr == m_pTerrains[y][x])
 				return E_FAIL;
 			Safe_AddRef(m_pTerrains[y][x]);
 
 			m_pTerrains[y][x]->Load_Data(tSaveData);
+
+			if (lstrcmp(tSaveData.m_LayerTag, L"stair"))
+			{
+				CStair* pStair = dynamic_cast<CStair*>(m_pTerrains[y][x]);
+				RETURN_FAIL_IF_NULL(pStair);
+				if (CStair::TYPE_UP == pStair->Get_Type())
+				{
+					CTransform* pTransform = (CTransform*)pStair->Get_Module(L"Transform");
+					RETURN_FAIL_IF_NULL(pTransform);
+					m_vPlayerSpawnPos = pTransform->Get_Position();
+
+				}
+			}
+
 
 		}
 		else

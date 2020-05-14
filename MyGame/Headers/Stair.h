@@ -20,6 +20,9 @@ public:
 	virtual	HRESULT	OnMoveFrame() override;
 	virtual HRESULT	OnLoadData() override;
 
+public:
+	TYPE	Get_Type() { return m_eType; }
+
 protected:
 	virtual void OnCollisionEnterTerrain(CGameObject* _pOther);
 

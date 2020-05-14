@@ -58,10 +58,14 @@ HRESULT CHero::Set_InitialPos()
 	if (m_pTransform == nullptr)
 		return E_FAIL;
 
-	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
+	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
 
-	if (nullptr == pWorld)
+	if (nullptr == pLevel)
 		return E_FAIL;
+
+	m_pTransform->Set_Position(pLevel->Get_PlayerSpawnPos());
+
+	
 
 	return S_OK;
 

@@ -77,8 +77,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator[CLOTH_LEATHER], L"Animator_Leather");
 
 
-
-	//m_pTransform->Set_Position(Vector3((_float)(g_iWinCX >> 1), (_float)(g_iWinCY >> 1)));
+	Set_InitialPos();
 	m_pTransform->Set_Size(Vector3(20.f, 25.f));
 #pragma endregion
 
