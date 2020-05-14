@@ -89,12 +89,12 @@ HRESULT CMenu::Initialize()
 	});
 
 
-	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 510.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 510.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty", SCENE_MENU);
 	pBtn->Set_Text(L"Editor");
 	m_vecMenuBtn.push_back(pBtn);
 
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f, 0.f, 1.f), Vector2(100.f, 100.f), L"About", SCENE_MENU));
-	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
+	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + padding + 50.f, 510.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty", SCENE_MENU);
 	pBtn->Set_Text(L"Exit");
 	m_vecMenuBtn.push_back(pBtn);
 

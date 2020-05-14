@@ -1,7 +1,7 @@
 #pragma once
 #include "Base.h"
+#include "Inventory.h"
 BEGIN(MyGame)
-class CInventory;
 class CItemInfoPanel;
 class CInventoryUIMgr : public CBase
 {
@@ -15,6 +15,9 @@ private:
 	CItemInfoPanel*	m_pItemInfoPanel = nullptr;
 public:
 	HRESULT	Initialize(PDIRECT3DDEVICE9 _pGraphicDevice);
+
+public:
+	CInventory*		GetInventory() { return m_pInventory; }
 
 public:
 	void	Active_Inventory();

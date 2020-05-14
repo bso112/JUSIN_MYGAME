@@ -22,18 +22,16 @@ private:
 	CTerrain* m_pTerrains[WORLDY][WORLDX];
 
 private:
-	//프로로타입들
-	CTerrain*	m_Water;
-	CTerrain*	m_Wall;
-	CTerrain*	m_Grass;
-	
+
+	//로드 파일경로
+	const _tchar* m_pLoadfilePath = L"../Bin/Data/level1.dat";
 private:
 	//어느 씬의 월드인가
 	SCENEID		m_eSceneID = SCENE_END;
 	PDIRECT3DDEVICE9 m_pGraphic_Device = nullptr;
 	Vector3		m_vPlayerSpawnPos;
 public:
-	HRESULT	Initialize(SCENEID _eSceneID, _tchar* _pFilePath = nullptr);
+	HRESULT	Initialize(SCENEID _eSceneID, _tchar* _pLoadFilePath = nullptr);
 	HRESULT Render_ForEditor();
 	
 
@@ -53,7 +51,7 @@ public:
 public:
 	HRESULT	Save_World(const _tchar* _filePath);
 	//지형의 프로토타입이 있다고 가정하고 로드한다.
-	HRESULT	Load_World(const _tchar* _filePath, SCENEID _eSceneID);
+	HRESULT	Load_World( SCENEID _eSceneID);
 
 public:
 	HRESULT	Next_Level();

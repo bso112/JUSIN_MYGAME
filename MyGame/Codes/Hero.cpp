@@ -27,7 +27,7 @@ CHero::CHero(CHero & _hero)
 
 HRESULT CHero::KeyCheck(_double _timeDelta)
 {
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		if (nullptr == m_pTransform)
 			return E_FAIL;

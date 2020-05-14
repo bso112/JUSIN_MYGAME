@@ -130,6 +130,9 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 	if (nullptr == _pItem)
 		return E_FAIL;
 
+	if (m_vecSlot.empty())
+		return E_FAIL;
+
 	for (auto& pSlot : m_vecSlot)
 	{
 		if (pSlot->IsEmpty())

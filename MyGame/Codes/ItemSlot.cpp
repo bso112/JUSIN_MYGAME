@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "KeyMgr.h"
 #include "ItemInfoPanel.h"
+#include "Food.h"
 USING(MyGame)
 
 CItemSlot::CItemSlot(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -19,9 +20,14 @@ CItemSlot::CItemSlot(CItemSlot & _rhs)
 
 HRESULT CItemSlot::Add_Item(CItem * _pItem)
 {
-	if (nullptr == _pItem)
+	if (nullptr == _pItem ||
+		m_pTransform == nullptr)
 		return E_FAIL;
-	m_listItem.push_back(_pItem);
+
+	_pItem->Set_Dead();
+	CItem* clone = (CItem*)_pItem->Clone(&CFood::STATEDESC(BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size()), 10.f, 1));
+	m_listItem.push_back(clone);
+
 	return S_OK;
 }
 
@@ -66,7 +72,7 @@ _int CItemSlot::Update(_double _timeDelta)
 	m_tRect = m_pTransform->Get_RECT();
 
 
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	if (GetKeyState(VK_LBUTTON) & 0x80000000)
 	{
 		POINT cursorPos;
 		GetCursorPos(&cursorPos);
@@ -80,8 +86,12 @@ _int CItemSlot::Update(_double _timeDelta)
 				listener();
 			}
 
-			//아이템의 정보를 창에 띄워준다.
-			m_pSlotListener(m_listItem.back());
+			if (!m_listItem.empty())
+			{
+				//아이템의 정보를 창에 띄워준다.
+				m_pSlotListener(m_listItem.back());
+
+			}
 
 			return OBJ_CLICKED;
 		}
@@ -102,6 +112,9 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 
 	if (nullptr == m_pRenderer)
 		return -1;
+
+	if (!m_listItem.empty())
+		m_listItem.front()->LateUpate(_timeDelta);
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
 		return -1;
@@ -126,6 +139,9 @@ HRESULT CItemSlot::Render()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+
+	if (m_listItem.size() > 0)
+		m_listItem.front()->Render();
 
 	ALPHABLEND_END;
 

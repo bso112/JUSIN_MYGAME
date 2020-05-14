@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Food.h"
 #include "Hero.h"
+#include "InventoryUIMgr.h"
 USING(MyGame)
 
 
@@ -34,11 +35,12 @@ HRESULT CFood::Initialize(void * _param)
 
 _int CFood::Update(_double _timeDelta)
 {
-	if (nullptr == m_pTransform)
+	if (nullptr == m_pTransform	||
+		m_bDead)
 		return -1;
 
 	m_pTransform->Update(_timeDelta);
-	return _int();
+	return 0;
 }
 
 _int CFood::LateUpate(_double _timeDelta)
@@ -119,6 +121,18 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 	}
 
 	return CItem::Use(_pHero, _pAction);
+}
+
+void CFood::OnCollisionEnter(CGameObject * _pOther)
+{
+	if (nullptr != dynamic_cast<CHero*>(_pOther))
+	{
+		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
+		RETURN_IF_NULL(pInventoryUIMgr);
+		CInventory* pInven = pInventoryUIMgr->GetInventory();
+		RETURN_IF_NULL(pInven);
+		pInven->Put_Item(this);
+	}
 }
 
 void CFood::Free()

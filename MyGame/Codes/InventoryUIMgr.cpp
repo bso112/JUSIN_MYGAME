@@ -13,8 +13,20 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 {
 
 	m_pInventory = CInventory::Create(_pGraphicDevice);
-	m_pItemInfoPanel = CItemInfoPanel::Create(_pGraphicDevice, Vector3(g_iWinCX >> 1, g_iWinCY >> 1));
+	m_pItemInfoPanel = CItemInfoPanel::Create(_pGraphicDevice);
 	
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr)
+		return E_FAIL;
+
+	//원형생성
+	pObjMgr->Add_Prototype(L"Inventory", SCENE_STAGE, m_pInventory);
+
+	//복사본생성
+	m_pInventory = dynamic_cast<CInventory*>(pObjMgr->Add_GO_To_Layer(L"Inventory", SCENE_STAGE, L"UI", SCENE_STAGE));
+	RETURN_FAIL_IF_NULL(m_pInventory);
+	Safe_AddRef(m_pInventory);
+
 	//CItemInfoPanel::Set_Item의 첫번째인자로 m_pItemInfoPanel를 바인딩한다.
 	function<void(CItem*)> setItemFunc = std::bind(&CItemInfoPanel::Set_Item, m_pItemInfoPanel, std::placeholders::_1);
 
@@ -26,15 +38,7 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 	m_pItemInfoPanel->Add_ButtonListener([&] { m_pInventory->Set_Active(false);});
 
 	
-	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-	if (nullptr == pObjMgr)
-		return E_FAIL;
-	pObjMgr->Add_Prototype(L"Inventory", SCENE_STAGE, m_pInventory);
-	pObjMgr->Add_Prototype(L"ItemInfoPanel", SCENE_STAGE, m_pItemInfoPanel);
 
-	m_pInventory = dynamic_cast<CInventory*>(pObjMgr->Add_GO_To_Layer(L"Inventory", SCENE_STAGE, L"UI", SCENE_STAGE));
-	Safe_AddRef(m_pInventory);
-	pObjMgr->Add_GO_To_Layer(L"ItemInfoPanel", SCENE_STAGE, L"UI", SCENE_STAGE);
 
 
 	
@@ -52,4 +56,5 @@ void CInventoryUIMgr::Active_Inventory()
 void CInventoryUIMgr::Free()
 {
 	Safe_Release(m_pInventory);
+
 }

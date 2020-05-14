@@ -16,7 +16,7 @@ class CGameObject;
 class CTilePalette final : public CBase
 {
 private:
-	explicit CTilePalette(PDIRECT3DDEVICE9 _pGraphicDevice) :m_iCurrPage(0) { m_pGraphic_Device = _pGraphicDevice;  }
+	explicit CTilePalette(PDIRECT3DDEVICE9 _pGraphicDevice) :m_iCurrPage(0) { Safe_AddRef(m_pGraphic_Device); m_pGraphic_Device = _pGraphicDevice; }
 	virtual ~CTilePalette() = default;
 
 private:

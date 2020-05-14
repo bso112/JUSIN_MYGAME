@@ -13,7 +13,7 @@ CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
 	:CScene(_pGraphic_Device),
 	m_pPalette(CTilePalette::Create(_pGraphic_Device))
 {
-	Safe_AddRef(m_pWorld);
+
 }
 
 HRESULT CEditor::Initialize()
@@ -21,9 +21,9 @@ HRESULT CEditor::Initialize()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
-	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, nullptr);
+	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level1.dat");
 	RETURN_FAIL_IF_NULL(m_pWorld);
-	m_pWorld->Initialize(SCENE_EDITOR);
+
 
 	return S_OK;
 }
@@ -85,7 +85,7 @@ _int CEditor::Update(_double _timeDelta)
 	//로드
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
 	{
-		m_pWorld->Load_World(L"../Bin/Data/level1.dat", SCENE_EDITOR);
+		m_pWorld->Load_World(SCENE_EDITOR);
 	}
 
 	return 0;
@@ -128,7 +128,8 @@ void CEditor::Free()
 	if (0 != Safe_Release(m_pPalette))
 		MSG_BOX("Fail to release Palette");
 
-	Safe_Release(m_pWorld);
+	if (0 != Safe_Release(m_pWorld))
+		MSG_BOX("Fail to release m_pWorld");
 
 
 	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기

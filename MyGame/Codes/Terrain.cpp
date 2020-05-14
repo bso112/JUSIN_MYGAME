@@ -14,6 +14,7 @@ CTerrain::CTerrain(PDIRECT3DDEVICE9 _pGraphic_Device)
 	ZeroMemory(m_PrototypeTag, sizeof(m_PrototypeTag));
 }
 
+//Terrain의 SaveData에 새로 추가한 항목이 있다면 반드시 클론에서 넘겨줘야한다.
 CTerrain::CTerrain(CTerrain & _rhs)
 	: CGameObject(_rhs),
 	m_pTexture(_rhs.m_pTexture),
@@ -22,6 +23,7 @@ CTerrain::CTerrain(CTerrain & _rhs)
 	m_tInfo(_rhs.m_tInfo)
 {
 	memcpy(m_PrototypeTag, _rhs.m_PrototypeTag, sizeof(m_PrototypeTag));
+	memcpy(m_LayerTag, _rhs.m_LayerTag, sizeof(m_LayerTag));
 	Safe_AddRef(m_pTexture);
 	Safe_AddRef(m_pVIBuffer);
 }
@@ -86,8 +88,8 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
 
-	int pass = (!m_tInfo.m_bMovable || m_bMarked) ? 2 : 0;
-	if (FAILED(m_pShader->Begin_Pass(pass)))
+
+	if (FAILED(m_pShader->Begin_Pass(0)))
 		return E_FAIL;
 
 
@@ -114,6 +116,7 @@ CTerrain::SAVE_DATA CTerrain::Get_SaveData()
 	tSaveData.m_vRotation = m_pTransform->Get_Rotation();
 	tSaveData.m_vSize = m_pTransform->Get_Size();
 	tSaveData.m_iCurFrame = m_iCurFrame;
+	
 	ZeroMemory(&tSaveData.m_PrototypeTag, sizeof(tSaveData.m_PrototypeTag));
 	memcpy(tSaveData.m_PrototypeTag, m_PrototypeTag, sizeof(_tchar) * lstrlen(m_PrototypeTag));
 

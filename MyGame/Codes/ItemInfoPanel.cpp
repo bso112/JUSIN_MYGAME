@@ -7,9 +7,15 @@
 USING(MyGame)
 
 
-HRESULT CItemInfoPanel::Initialize(Vector3 _vPos)
+HRESULT CItemInfoPanel::Initialize_Prototype()
 {
-	CImage::Initialize(L"inventory", _vPos, Vector2(600.f, 400.f), SCENE_STAGE);
+	return S_OK;
+}
+
+HRESULT CItemInfoPanel::Initialize(void * _param)
+{
+
+	CImage::Initialize(L"inventory", Vector3(g_iWinCX >> 1, g_iWinCY >> 1), Vector2(600.f, 400.f), SCENE_STAGE);
 
 	m_bActive = false;
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
@@ -76,10 +82,10 @@ HRESULT CItemInfoPanel::Add_ButtonListener(function<void()> _func)
 
 
 
-CItemInfoPanel * CItemInfoPanel::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector3 _vPos)
+CItemInfoPanel * CItemInfoPanel::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	CItemInfoPanel* pInstance = new CItemInfoPanel(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_vPos)))
+	if (FAILED(pInstance->Initialize(nullptr)))
 	{
 		MSG_BOX("Fail to create CMyButton");
 		Safe_Release(pInstance);
@@ -90,7 +96,14 @@ CItemInfoPanel * CItemInfoPanel::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vecto
 
 CGameObject * CItemInfoPanel::Clone(void * _param)
 {
-	return nullptr;
+	CItemInfoPanel* pInstance = new CItemInfoPanel(*this);
+	if (FAILED(pInstance->Initialize(_param)))
+	{
+		MSG_BOX("Fail to create CMyButton");
+		Safe_Release(pInstance);
+
+	}
+	return pInstance;
 }
 
 void CItemInfoPanel::Free()

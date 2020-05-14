@@ -61,8 +61,16 @@ _int CObjMgr::Update(_double _timeDelta)
 
 	pWorld->Collision_Terrain(pPlayer);
 	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
+
+	CLayer* pPlayerLayer = Find_Layer(L"Player", SCENE_STAGE);
+	if (nullptr == pPlayerLayer) return -1;
+	CLayer* pFoodLayer = Find_Layer(L"Food", SCENE_STAGE);
+	if (nullptr == pFoodLayer) return -1;
 	
+
 	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
+	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pFoodLayer->Get_List());
+
 
 
 

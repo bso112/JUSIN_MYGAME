@@ -12,13 +12,17 @@ HRESULT CLayer::Initialize()
 
 _int CLayer::Update(_double _timeDelta)
 {
-	for (auto& obj : m_listGO)
+	//이거 리스트가 비어도 괜찮은 건가?
+	auto& iter = m_listGO.begin();
+	while (iter != m_listGO.end())
 	{
-		if (nullptr != obj)
+		if (0x80000000 & (*iter)->Update(_timeDelta))
 		{
-			if(0x80000000 & obj->Update(_timeDelta))
-				return -1;
+			Safe_Release(*iter);
+			iter = m_listGO.erase(iter);
 		}
+		else
+			++iter;
 	}
 
 	return 0;
@@ -26,14 +30,18 @@ _int CLayer::Update(_double _timeDelta)
 
 _int CLayer::Late_Update(_double _timeDelta)
 {
-	for (auto& obj : m_listGO)
+	auto& iter = m_listGO.begin();
+	while (iter != m_listGO.end())
 	{
-		if (nullptr != obj)
+		if (0x80000000 & (*iter)->LateUpate(_timeDelta))
 		{
-			if (0x80000000 & obj->LateUpate(_timeDelta))
-				return -1;
+			Safe_Release(*iter);
+			iter = m_listGO.erase(iter);
 		}
+		else
+			++iter;
 	}
+
 
 	return 0;
 }

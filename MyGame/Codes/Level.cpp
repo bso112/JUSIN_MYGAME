@@ -12,23 +12,23 @@ USING(MyGame)
 
 
 CLevel::CLevel(PDIRECT3DDEVICE9 _pGraphic_Device)
+	:m_pGraphic_Device(_pGraphic_Device)
 {
+	Safe_AddRef(m_pGraphic_Device);
 	ZeroMemory(&m_pTerrains, sizeof(m_pTerrains));
 }
 
 HRESULT CLevel::Initialize(SCENEID _eSceneID, _tchar* _pFilePath)
 {
+	if (nullptr == m_pGraphic_Device)
+		return E_FAIL;
 
 	m_eSceneID = _eSceneID;
-	if (_pFilePath != nullptr)
-	{
-		//지형 프로토타입을 만든다.
+	//지형 프로토타입을 만든다.
+	if(_eSceneID != SCENE_EDITOR)
 		Initalize_Prototypes(m_pGraphic_Device, _eSceneID);
-		//월드 정보 파일을 읽어 지형을 배치한다.
-		Load_World(_pFilePath, _eSceneID);
-	}
-
-
+	
+	m_pLoadfilePath = _pFilePath;
 	return S_OK;
 
 }
@@ -854,16 +854,16 @@ HRESULT CLevel::Save_World(const _tchar* _filePath)
 	return S_OK;
 }
 
-HRESULT CLevel::Load_World(const _tchar* _filePath, SCENEID _eSceneID)
+HRESULT CLevel::Load_World(SCENEID _eSceneID)
 {
-	HANDLE hFile = CreateFile(_filePath, GENERIC_READ
+	HANDLE hFile = CreateFile(m_pLoadfilePath, GENERIC_READ
 		, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (INVALID_HANDLE_VALUE == hFile)
 		return E_FAIL;
 
-	//현재 타일을 모두 지운다.
-	Free();
+	////현재 타일을 모두 지운다.
+	//Free();
 
 	DWORD				dwByte = 0;
 	int					prefix = 0;
@@ -899,7 +899,7 @@ HRESULT CLevel::Load_World(const _tchar* _filePath, SCENEID _eSceneID)
 
 			m_pTerrains[y][x]->Load_Data(tSaveData);
 
-			if (lstrcmp(tSaveData.m_LayerTag, L"stair"))
+			if (0 == lstrcmp(tSaveData.m_LayerTag, L"stair"))
 			{
 				CStair* pStair = dynamic_cast<CStair*>(m_pTerrains[y][x]);
 				RETURN_FAIL_IF_NULL(pStair);
@@ -987,7 +987,7 @@ HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 	pObjMgr->Add_Prototype(L"lv_One_prison", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_sign", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_sign", _eSceneID, pTerrain);
-	pTerrain = CStair::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_stair", _eSceneID);
+	pTerrain = CStair::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_stair", _eSceneID, L"stair");
 	pObjMgr->Add_Prototype(L"lv_One_stair", _eSceneID, pTerrain);
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_statue_rock", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_statue_rock", _eSceneID, pTerrain);
@@ -1127,6 +1127,8 @@ void CLevel::Free()
 		for (auto& tile : tileArr)
 			Safe_Release(tile);
 	}
+	Safe_Release(m_pGraphic_Device);
+
 
 }
 

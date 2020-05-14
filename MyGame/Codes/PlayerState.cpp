@@ -71,6 +71,12 @@ CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _double
 	if (nullptr == pTransform)
 		return STATE_END;
 
+	CHero* pHero = dynamic_cast<CHero*>(m_pActor);
+	if (nullptr == pHero)
+		return STATE_END;
+	else
+		pHero->PlayAnimation(L"walk");
+
 	//턴을 초기화해서 다음턴에 Act가 불리게함.
 	pTransform->NextTurn();
 

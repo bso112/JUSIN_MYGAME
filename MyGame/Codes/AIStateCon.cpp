@@ -43,6 +43,7 @@ _int CAIStateCon::Update(_bool _canAttack, _bool _isAlerted)
 	if (CAIState::STATE_END != eNextState)
 	{
 		m_pCurrState = m_pStateArr[eNextState];
+		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 		//≈œ¡æ∑·
 		return TURN_END;
 	}

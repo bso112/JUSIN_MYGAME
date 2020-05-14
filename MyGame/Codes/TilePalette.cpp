@@ -60,7 +60,7 @@ HRESULT CTilePalette::Initalize()
 	pObjMgr->Add_Prototype(L"lv_One_prison", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
 	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_sign", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_sign", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
-	pTerrain = CStair::Create(m_pGraphic_Device, TERRAIN(true), L"lv_One_stair", SCENE_EDITOR);
+	pTerrain = CStair::Create(m_pGraphic_Device, TERRAIN(true), L"lv_One_stair", SCENE_EDITOR, L"stair");
 	pObjMgr->Add_Prototype(L"lv_One_stair", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
 	pTerrain = CTerrain::Create(m_pGraphic_Device, TERRAIN(false), L"lv_One_statue_rock", SCENE_EDITOR);
 	pObjMgr->Add_Prototype(L"lv_One_statue_rock", SCENE_EDITOR, pTerrain); m_vecTile.push_back(pTerrain); Safe_AddRef(pTerrain);
@@ -89,6 +89,7 @@ HRESULT CTilePalette::Initalize()
 #pragma endregion
 	
 
+	//타일팔레트 위치 구하기
 	//페이지 수 구하기
 	float ratio = (float)m_vecTile.size() / (PALETTEX * PALETTEY);
 	//소수점자리가 있다면
@@ -171,8 +172,11 @@ CTilePalette * CTilePalette::Create(PDIRECT3DDEVICE9 _pGraphicDevice)
 
 void CTilePalette::Free()
 {
+	
 	for (auto& tile : m_vecTile)
 	{
 		Safe_Release(tile);
 	}
+	Safe_Release(m_pGraphic_Device);
 }
+

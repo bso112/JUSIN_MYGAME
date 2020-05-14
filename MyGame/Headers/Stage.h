@@ -22,12 +22,10 @@ public:
 private:
 	CLevelMgr*		m_pLevelMgr;
 	CStageUIMgr*	m_pStageUIMgr;
-	CHero*			m_pHero;
 	CTurnMgr*		m_pTurnMgr;
 
 
 private:
-	HRESULT	Initalize_World();
 	HRESULT Initalize_Prototypes();
 	HRESULT	Initalize_Layers();
 

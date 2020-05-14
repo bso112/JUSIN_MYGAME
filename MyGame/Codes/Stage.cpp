@@ -20,6 +20,8 @@ CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	Safe_AddRef(m_pLevelMgr);
 	Safe_AddRef(m_pStageUIMgr);
+	Safe_AddRef(m_pTurnMgr);
+
 };
 
 HRESULT CStage::Initialize()
@@ -57,16 +59,6 @@ HRESULT CStage::Render()
 
 
 
-HRESULT CStage::Initalize_World()
-{
-	m_pLevelMgr->Initialize(m_pGraphic_Device);
-
-	return S_OK;
-}
-
-
-
-
 HRESULT CStage::Initalize_Prototypes()
 {
 	if (nullptr == m_pObjMgr)
@@ -82,7 +74,7 @@ HRESULT CStage::Initalize_Prototypes()
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/icon/");
 	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
 
-	if (FAILED(Initalize_World()))
+	if (FAILED(m_pLevelMgr->Initialize(m_pGraphic_Device)))
 		return E_FAIL;
 
 	Safe_Release(pLoader);
@@ -133,15 +125,18 @@ void CStage::Free()
 
 	Safe_Release(m_pLevelMgr);
 	Safe_Release(m_pStageUIMgr);
-	
-	if (0 != m_pLevelMgr->Destroy_Instance())
-		MSG_BOX("Fail to release TileMgr");
+	Safe_Release(m_pTurnMgr);
 
-	if (0 != m_pStageUIMgr->Destroy_Instance())
+
+	if (0 != CStageUIMgr::Destroy_Instance())
 		MSG_BOX("Fail to release m_pStageUIMgr");
 
+	if(0 != CLevelMgr::Destroy_Instance())
+		MSG_BOX("Fail to release CLevelMgr");
 
-	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기
+	if (0 != CTurnMgr::Destroy_Instance())
+		MSG_BOX("Fail to release CTurnMgr");
+
 	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))
 		MSG_BOX("Fail to Clear GameObject Prototypes");
 

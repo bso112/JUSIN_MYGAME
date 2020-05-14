@@ -13,7 +13,8 @@ private:
 
 
 public:
-	virtual HRESULT Initialize(Vector3 _vPos);
+	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize(void * _param);
 private:
 	vector<CMyButton*>	m_vecBtn;
 	CImage*				m_pDescription = nullptr;
@@ -23,7 +24,7 @@ public:
 	HRESULT	Add_ButtonListener(function<void()> _func);
 	
 public:
-	static CItemInfoPanel* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector3 _vPos);
+	static CItemInfoPanel* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	// CGameObject을(를) 통해 상속됨
 	virtual CGameObject * Clone(void * _param = nullptr) override;
 	virtual void Free() override;

@@ -86,10 +86,10 @@ void CStair::OnCollisionEnterTerrain(CGameObject * _pOther)
 	}
 }
 
-CStair * CStair::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar * _pTextureTag, SCENEID _eTextureScene, _tchar * _pFilePath)
+CStair * CStair::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar * _pTextureTag, SCENEID _eTextureScene, const _tchar* _pLayerTag, _tchar * _pFilePath)
 {
 	CStair* pInstance = new CStair(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _eTextureScene, _pTextureTag, _pFilePath)))
+	if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _eTextureScene, _pTextureTag, _pLayerTag, _pFilePath)))
 	{
 		MSG_BOX("Fail to create CStair");
 		Safe_Release(pInstance);

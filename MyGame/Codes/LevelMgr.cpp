@@ -7,8 +7,11 @@ IMPLEMENT_SINGLETON(CLevelMgr)
 
 HRESULT CLevelMgr::Initialize(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
+
 	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level1.dat");
-	return S_OK;
+	RETURN_FAIL_IF_NULL(m_aLevel[0]);
+	
+	return m_aLevel[0]->Load_World(SCENE_STAGE);
 }
 
 CLevel*	CLevelMgr::Get_CurrLevel()

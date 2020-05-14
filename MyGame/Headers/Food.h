@@ -40,6 +40,9 @@ public:
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction) override;
 
 public:
+	virtual void OnCollisionEnter(CGameObject* _pOther);
+
+public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
 };

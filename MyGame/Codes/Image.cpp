@@ -92,6 +92,7 @@ HRESULT CImage::Render()
 
 	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_RECT(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 
+	//하위클래스의 렌더
 	OnRender();
 
 	if (FAILED(m_pShader->End_Pass()))
@@ -113,8 +114,9 @@ HRESULT CImage::OnRender()
 
 CGameObject* CImage::Clone(void* _param)
 {
+	CImage* pInstance = new CImage(*this);
 
-	return nullptr;
+	return pInstance;
 }
 
 CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
