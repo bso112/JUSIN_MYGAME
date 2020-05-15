@@ -25,9 +25,9 @@ HRESULT CLevel::Initialize(SCENEID _eSceneID, _tchar* _pFilePath)
 
 	m_eSceneID = _eSceneID;
 	//지형 프로토타입을 만든다.
-	if(_eSceneID != SCENE_EDITOR)
+	if (_eSceneID != SCENE_EDITOR)
 		Initalize_Prototypes(m_pGraphic_Device, _eSceneID);
-	
+
 	m_pLoadfilePath = _pFilePath;
 	return S_OK;
 
@@ -796,6 +796,17 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 	//뽑아낸건 경로의 반대이기 때문에 제대로 해줌
 	reverse(_out.begin(), _out.end());
 	return S_OK;
+}
+
+CTerrain * CLevel::Pick_Tile(POINT & _pt)
+{
+	_uint x = _pt.x / TILECX;
+	_uint y = _pt.y / TILECY;
+
+	if (x >= WORLDX || y >= WORLDY || x < 0 || y < 0)
+		return nullptr;
+
+	return m_pTerrains[y][x];
 }
 
 Vector3 CLevel::Get_RandomPos()

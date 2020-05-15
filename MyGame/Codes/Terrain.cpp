@@ -108,6 +108,11 @@ HRESULT CTerrain::Render()
 	return S_OK;
 }
 
+_int CTerrain::Interact(CGameObject* _pOther)
+{
+	return _int();
+}
+
 
 CTerrain::SAVE_DATA CTerrain::Get_SaveData()
 {

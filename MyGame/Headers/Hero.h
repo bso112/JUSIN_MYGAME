@@ -15,6 +15,11 @@ protected:
 protected:
 	Vector3		m_vDst = {};
 
+
+public:
+	HRESULT	PlayAnimation(const _tchar* _pTag);
+	_bool	Has_Key(TIER _tier);
+
 protected:
 	explicit CHero(PDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CHero(CHero& _hero);
@@ -24,11 +29,6 @@ protected:
 	virtual HRESULT	OnKeyDown(_int KeyCode) override;
 	HRESULT	Set_InitialPos();
 	
-
-public:
-	HRESULT	PlayAnimation(const _tchar* _pTag);
-	_bool	Has_Key(TIER _tier);
-
 public:
 	virtual void Free() override;
 

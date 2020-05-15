@@ -29,3 +29,11 @@ void CLevelMgr::Free()
 		Safe_Release(m_aLevel[i]);
 	}
 }
+
+CTerrain * CLevelMgr::PickTile(POINT & pt)
+{
+	CLevel* pLevel = Get_CurrLevel();
+	if (nullptr == pLevel)
+		return nullptr;
+	return pLevel->Pick_Tile(pt);
+}

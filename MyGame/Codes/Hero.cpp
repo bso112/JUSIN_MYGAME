@@ -47,6 +47,12 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 		//플레이어가 움직일 턴 이동
 		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
+
+		//타일피킹
+		CTerrain* pTerrain = pLevel->Pick_Tile(pt);
+		//인터렉트한다.
+		pTerrain->Interact(this);
+		
 	}
 
 	return S_OK;

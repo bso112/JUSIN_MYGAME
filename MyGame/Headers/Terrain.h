@@ -101,6 +101,7 @@ public:
 	virtual	HRESULT	Initialize();
 	virtual _int	LateUpate(_double _timeDelta) override;
 	virtual HRESULT	Render();
+	virtual	_int	Interact(CGameObject* _pOther);
 
 public:
 	SAVE_DATA	Get_SaveData();

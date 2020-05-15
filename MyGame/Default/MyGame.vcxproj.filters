@@ -214,23 +214,23 @@
     <Filter Include="00.LevelMgr\Level">
       <UniqueIdentifier>{8a14b0b6-db60-495d-81d3-f05a3ec22882}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.LevelMgr\Terrain">
-      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.LevelMgr\Terrain\00. Door">
-      <UniqueIdentifier>{830bbbdf-6175-40ff-84e0-3752d3b4ea46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.LevelMgr\Terrain\01. Trap">
-      <UniqueIdentifier>{80263a35-8191-4fc3-855c-080926310a26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.LevelMgr\Terrain\02. Statue">
-      <UniqueIdentifier>{1222098e-a73a-41ce-8172-d1f6bee20de3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.LevelMgr\Terrain\03. Stair">
-      <UniqueIdentifier>{e4a6c1da-9663-443b-87db-e37e732cde73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.LevelMgr\TilePalette">
       <UniqueIdentifier>{1158c2bf-760e-4435-87c1-2f84f3fea2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Terrain">
+      <UniqueIdentifier>{ccbebdb8-86b3-4204-a40b-b55d3696121e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Terrain\00. Door">
+      <UniqueIdentifier>{830bbbdf-6175-40ff-84e0-3752d3b4ea46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Terrain\01. Trap">
+      <UniqueIdentifier>{80263a35-8191-4fc3-855c-080926310a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Terrain\02. Statue">
+      <UniqueIdentifier>{1222098e-a73a-41ce-8172-d1f6bee20de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Terrain\03. Stair">
+      <UniqueIdentifier>{e4a6c1da-9663-443b-87db-e37e732cde73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -346,7 +346,7 @@
       <Filter>06.Utility\02.Module\Module\Transform</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Terrain.h">
-      <Filter>00.LevelMgr\Terrain</Filter>
+      <Filter>04.GameObject\GameObject\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Editor.h">
       <Filter>03.Scene\Scene\Editor</Filter>
@@ -379,7 +379,7 @@
       <Filter>06.Utility\03.KeyMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Door.h">
-      <Filter>00.LevelMgr\Terrain\00. Door</Filter>
+      <Filter>04.GameObject\GameObject\Terrain\00. Door</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\CollisionMgr.h">
       <Filter>06.Utility\05.CollisionMgr</Filter>
@@ -442,7 +442,7 @@
       <Filter>10.Inventory\UIMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Stair.h">
-      <Filter>00.LevelMgr\Terrain\03. Stair</Filter>
+      <Filter>04.GameObject\GameObject\Terrain\03. Stair</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Level.h">
       <Filter>00.LevelMgr\Level</Filter>
@@ -543,7 +543,7 @@
       <Filter>06.Utility\02.Module\Module\Transform</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Terrain.cpp">
-      <Filter>00.LevelMgr\Terrain</Filter>
+      <Filter>04.GameObject\GameObject\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Editor.cpp">
       <Filter>03.Scene\Scene\Editor</Filter>
@@ -576,7 +576,7 @@
       <Filter>06.Utility\03.KeyMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Door.cpp">
-      <Filter>00.LevelMgr\Terrain\00. Door</Filter>
+      <Filter>04.GameObject\GameObject\Terrain\00. Door</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\CollisionMgr.cpp">
       <Filter>06.Utility\05.CollisionMgr</Filter>
@@ -636,7 +636,7 @@
       <Filter>10.Inventory\UIMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Stair.cpp">
-      <Filter>00.LevelMgr\Terrain\03. Stair</Filter>
+      <Filter>04.GameObject\GameObject\Terrain\03. Stair</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Level.cpp">
       <Filter>00.LevelMgr\Level</Filter>

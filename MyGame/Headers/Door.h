@@ -13,6 +13,7 @@ private:
 	bool	m_bLocked = false;
 
 public:
+	virtual	_int	Interact(CGameObject* _pOther) override;
 	virtual void OnCollisionEnterTerrain(CGameObject* _pOther) override;
 
 protected:

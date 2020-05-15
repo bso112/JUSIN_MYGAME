@@ -15,11 +15,23 @@ CDoor::CDoor(CDoor & _rhs)
 }
 
 
-void CDoor::OnCollisionEnterTerrain(CGameObject * _pOther)
+_int CDoor::Interact(CGameObject* _pOther)
 {
+	if (nullptr == m_pTransform)
+		return -1;
+
 	CHero* pHero = dynamic_cast<CHero*>(_pOther);
 	if (nullptr == pHero)
-		return;
+		return -1;
+
+	CTransform* pTransform = dynamic_cast<CTransform*>(pHero->Get_Module(L"Transform"));
+	if (nullptr == pTransform)
+		return -1;
+
+	if ((pTransform->Get_Position() - m_pTransform->Get_Position()).magnitude() > 40)
+		return -1;
+
+	pHero->PlayAnimation(L"use");
 
 	if (m_bLocked)
 	{
@@ -29,6 +41,12 @@ void CDoor::OnCollisionEnterTerrain(CGameObject * _pOther)
 		}
 
 	}
+	return 0;
+}
+
+void CDoor::OnCollisionEnterTerrain(CGameObject * _pOther)
+{
+
 }
 
 HRESULT CDoor::OnMoveFrame()
