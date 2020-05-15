@@ -232,6 +232,9 @@
     <Filter Include="04.GameObject\GameObject\Terrain\03. Stair">
       <UniqueIdentifier>{e4a6c1da-9663-443b-87db-e37e732cde73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Camera">
+      <UniqueIdentifier>{9d8e5335-c8cb-465d-99bb-127a18d0818d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -450,6 +453,9 @@
     <ClInclude Include="..\Headers\LevelMgr.h">
       <Filter>00.LevelMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Camera.h">
+      <Filter>04.GameObject\GameObject\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -643,6 +649,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\LevelMgr.cpp">
       <Filter>00.LevelMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Camera.cpp">
+      <Filter>04.GameObject\GameObject\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

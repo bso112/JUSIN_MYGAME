@@ -88,8 +88,9 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
 
-
-	if (FAILED(m_pShader->Begin_Pass(0)))
+	int pass = 0; 
+	if (m_bMarked || !m_tInfo.m_bMovable) pass = 2;
+	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
 
 

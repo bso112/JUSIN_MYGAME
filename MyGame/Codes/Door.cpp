@@ -31,13 +31,14 @@ _int CDoor::Interact(CGameObject* _pOther)
 	if ((pTransform->Get_Position() - m_pTransform->Get_Position()).magnitude() > 40)
 		return -1;
 
-	pHero->PlayAnimation(L"use");
+	
 
 	if (m_bLocked)
 	{
 		if (pHero->Has_Key(TIER_RARE))
 		{
 			UnLock();
+			pHero->PlayAnimation(L"use");
 		}
 
 	}

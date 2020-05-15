@@ -94,7 +94,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		{
 			TimerAcc = 0.0;
 
-			if (0 > pMainApp->Update(pTimer_Manager->Compute_TimeDelta(L"Timer_100")))
+			//Å¸ÀÓµ¨Å¸ Á¦ÇÑ
+			_double timeDelta = pTimer_Manager->Compute_TimeDelta(L"Timer_100");
+			if (timeDelta > 0.1)
+				timeDelta = 0.1;
+			if (0 > pMainApp->Update(timeDelta))
 				break;
 			pMainApp->Render();
 		}

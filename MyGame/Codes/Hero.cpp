@@ -42,7 +42,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
-
+		//최소 1턴
+		if (iTurnCnt == 0) iTurnCnt = 1; 
 		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
 
 		//플레이어가 움직일 턴 이동
@@ -51,7 +52,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		//타일피킹
 		CTerrain* pTerrain = pLevel->Pick_Tile(pt);
 		//인터렉트한다.
-		pTerrain->Interact(this);
+		if(nullptr != pTerrain)
+			pTerrain->Interact(this);
 		
 	}
 

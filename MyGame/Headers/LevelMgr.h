@@ -16,7 +16,7 @@ private:
 
 public:
 	CLevel*	Get_CurrLevel();
-
+	
 public:
 	HRESULT Initialize(PDIRECT3DDEVICE9 _pGraphic_Device);
 	CTerrain*	PickTile(POINT& pt);

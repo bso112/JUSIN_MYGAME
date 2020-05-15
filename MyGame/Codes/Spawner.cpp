@@ -61,12 +61,12 @@ HRESULT CSpawner::Spawn(SCENEID _eScene)
 	case MyGame::SCENE_STAGE:
 	{
 		Vector3 ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Rat", _eScene, L"Monster", _eScene, &ranPos);
+		CGameObject* rat = pObjMgr->Add_GO_To_Layer(L"Rat", _eScene, L"Monster", _eScene, &ranPos);
 		ranPos = pWorld->Get_RandomPos();
 		//pObjMgr->Add_GO_To_Layer(L"Gnoll", _eScene, L"Monster", _eScene, &ranPos);
 		//ranPos = pWorld->Get_RandomPos();
 		//pObjMgr->Add_GO_To_Layer(L"Crab", _eScene, L"Monster", _eScene, &ranPos);
-		ranPos = pWorld->Get_RandomPos();
+		//ranPos = pWorld->Get_RandomPos();
 		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f,20.f)), 10.f, 1));
 		ranPos = pWorld->Get_RandomPos();
 		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f, 1));

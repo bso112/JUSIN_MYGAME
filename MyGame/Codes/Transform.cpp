@@ -249,7 +249,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		m_iCntForTurn = 0;
 		m_Route.swap(vector<CTerrain*>());
 		m_pTarget = nullptr;
-		m_bTurnEnd = true;
+		// isTurnEnd는 false여야 한다. true면 계속 턴이 넘어가서 몬스터가 GO_Route계속부름.
 		return TURN_END;
 	}
 

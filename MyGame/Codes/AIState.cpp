@@ -22,9 +22,6 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double 
 			return STATE_END;
 
 
-		//타깃을 향해 간다.
-		pTransform->Go_Target(pTargetTransform, 1.f);
-
 
 
 		return STATE_HUNTING;
@@ -76,8 +73,9 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 	if (nullptr == pTransform)
 		return STATE_END;
 
-	if (!pTransform->Is_Moving())
+	if (!_isAlerted)
 		return STATE_IDLE;
+
 	//이동력만큼 이동했으면 턴을 끝낸다.
 	if (pTransform->Is_TurnEnd())
 	{
@@ -134,6 +132,9 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 		if (nullptr == pAnimator)
 			return STATE_END;
 		pAnimator->Play(L"walk");
+
+		//타깃을 향해 간다.
+		pTransform->Go_Target(pTargetTransform, 1.f);
 	}
 	return STATE_END;
 }
