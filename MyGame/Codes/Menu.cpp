@@ -6,6 +6,7 @@
 #include "TextureLoader.h"
 #include "SceneMgr.h"
 #include "Statics.h"
+#include "KeyMgr.h"
 
 
 USING(MyGame)
@@ -327,8 +328,7 @@ void CMenu::Free()
 	{
 		for (int j = 0; j < ARC1X; ++j)
 		{
-			if (0 != Safe_Release(m_pImgArc1[i][j]))
-				MSG_BOX("Fail to Release Arc1");
+			Safe_Release(m_pImgArc1[i][j]);
 		}
 	}
 
@@ -336,15 +336,14 @@ void CMenu::Free()
 	{
 		for (int j = 0; j < ARC2X; ++j)
 		{
-			if (0 != Safe_Release(m_pImgArc2[i][j]))
-				MSG_BOX("Fail to Release Arc2");
+			Safe_Release(m_pImgArc2[i][j]);
+
 		}
 	}
 
 	for (auto& btn : m_vecCharSelectBtn)
 	{
-		if (0 != Safe_Release(btn))
-			MSG_BOX("Fail to release Btn");
+		Safe_Release(btn);
 
 	}
 	m_vecCharSelectBtn.clear();
@@ -353,8 +352,7 @@ void CMenu::Free()
 	{
 		for (auto& obj : canvas)
 		{
-			if (0 != Safe_Release(obj))
-				MSG_BOX("Fail to release canvas");
+			Safe_Release(obj);
 		}
 		canvas.clear();
 	}
@@ -369,6 +367,9 @@ void CMenu::Free()
 
 	//게임 오브젝트 인스턴스 지우기
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
+		MSG_BOX("Fail to Clear Module Prototypes");
+
+	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_MENU)))
 		MSG_BOX("Fail to Clear Module Prototypes");
 
 

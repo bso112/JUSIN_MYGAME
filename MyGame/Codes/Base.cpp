@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Base.h"
 
+
 USING(MyGame)
 CBase::CBase()
 {
@@ -27,4 +28,20 @@ unsigned long CBase::AddRef()
 {
 	
 	return ++m_RefCnt;
+}
+
+
+HRESULT CBase::OnKeyDown(_int KeyCode)
+{
+	return S_OK;
+}
+
+HRESULT CBase::OnKeyPressing(_int KeyCode)
+{
+	return S_OK;
+}
+
+HRESULT CBase::OnKeyUp(_int KeyCode)
+{
+	return S_OK;
 }

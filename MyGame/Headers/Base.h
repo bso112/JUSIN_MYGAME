@@ -14,6 +14,11 @@ public:
 	unsigned long Release();
 	unsigned long AddRef();
 	virtual void Free() = 0;
+
+public:
+	virtual HRESULT	OnKeyDown(_int KeyCode);
+	virtual HRESULT OnKeyPressing(_int KeyCode);
+	virtual HRESULT	OnKeyUp(_int KeyCode);
 };
 
 END

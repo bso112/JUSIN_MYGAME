@@ -12,6 +12,7 @@
 #include "Animator.h"
 #include "AIStateCon.h"
 #include "PlayerStateCon.h"
+#include "KeyMgr.h"
 
 USING(MyGame)
 
@@ -59,6 +60,13 @@ _int CMainApp::Update(_double _timeDelta)
 		return -1;
 
 	
+	CKeyMgr* pKeyMgr = CKeyMgr::Get_Instance();
+	if (nullptr == pKeyMgr)
+		return -1;
+
+	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
+	CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
+	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Update();
 
 	return 0;
@@ -198,6 +206,7 @@ CMainApp * CMainApp::Create()
 
 void CMainApp::Free()
 {
+	
 	Safe_Release(g_pFont);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pSceneMgr);

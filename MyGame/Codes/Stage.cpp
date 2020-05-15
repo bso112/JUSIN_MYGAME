@@ -8,6 +8,7 @@
 #include "Spawner.h"
 #include "TurnMgr.h"
 #include "MyButton.h"
+#include "KeyMgr.h"
 
 
 USING(MyGame)
@@ -148,6 +149,8 @@ void CStage::Free()
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		MSG_BOX("Fail to Clear Module Prototypes");
 
+	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_STAGE)))
+		MSG_BOX("Fail to Clear Module Prototypes");
 
 	CScene::Free();
 }

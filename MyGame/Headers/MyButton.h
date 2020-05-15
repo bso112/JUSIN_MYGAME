@@ -28,7 +28,7 @@ protected:
 	RECT			m_tRect = {};
 	const _tchar*	m_pText = L"";
 	RENDER_STATE	m_eRenderState = STATE_ENABLE;
-
+	SCENEID			m_eSceneID = SCENE_END;
 
 protected:
 	vector<function<void()>> m_vecOnListener;
@@ -50,6 +50,9 @@ public:
 	void	Set_Text(const _tchar* pText) { m_pText = pText; }
 	HRESULT	Set_RenderState(RENDER_STATE _eRenderState);
 	
+protected:
+	virtual HRESULT	OnKeyDown(_int KeyCode) override;
+
 public:
 	static CMyButton*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 public:

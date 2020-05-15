@@ -5,7 +5,6 @@
 BEGIN(MyGame)
 
 class CModule;
-
 class CGameObject abstract : public CBase
 {
 protected:

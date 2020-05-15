@@ -4,6 +4,7 @@
 #include "KeyMgr.h"
 #include "ItemInfoPanel.h"
 #include "Food.h"
+#include "SceneMgr.h"
 USING(MyGame)
 
 CItemSlot::CItemSlot(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -49,6 +50,10 @@ HRESULT CItemSlot::Remove_Item()
 
 HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID)
 {
+	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
+	//키매니저에 옵저버로 등록한다.
+	CKeyMgr::Get_Instance()->RegisterObserver(m_eSceneID, this);
+
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
@@ -64,43 +69,6 @@ HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureT
 
 _int CItemSlot::Update(_double _timeDelta)
 {
-	if (nullptr == m_pGraphic_Device)
-		return -1;
-
-	m_pTransform->Late_Update();
-
-	m_tRect = m_pTransform->Get_RECT();
-
-
-	if (GetKeyState(VK_LBUTTON) & 0x80000000)
-	{
-		POINT cursorPos;
-		GetCursorPos(&cursorPos);
-		ScreenToClient(g_hWnd, &cursorPos);
-
-		if (PtInRect(&m_tRect, cursorPos))
-		{
-			//버튼에 연결된 리스너를 호출한다.
-			for (auto& listener : m_vecOnListener)
-			{
-				//callable이면
-				if (listener)
-					listener();
-			}
-
-			if (!m_listItem.empty())
-			{
-				//callable이면 아이템의 정보를 창에 띄워준다.
-				if (m_pSlotListener)
-					m_pSlotListener(m_listItem.back());
-
-			}
-
-			return OBJ_CLICKED;
-		}
-	}
-
-
 	//사용한 아이템을 체크해서 리스트에서 없앤다.
 	if (!m_listItem.empty() && m_listItem.back()->IsUsed())
 	{
@@ -116,6 +84,9 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 	if (nullptr == m_pRenderer)
 		return -1;
 
+	m_pTransform->Late_Update();
+	
+	
 	if (!m_listItem.empty())
 		m_listItem.front()->LateUpate(_timeDelta);
 
@@ -151,6 +122,40 @@ HRESULT CItemSlot::Render()
 	return S_OK;
 }
 
+HRESULT CItemSlot::OnKeyDown(_int KeyCode)
+{
+	if (KeyCode == VK_LBUTTON)
+	{
+		m_tRect = m_pTransform->Get_RECT();
+
+		POINT cursorPos;
+		GetCursorPos(&cursorPos);
+		ScreenToClient(g_hWnd, &cursorPos);
+
+		if (PtInRect(&m_tRect, cursorPos))
+		{
+			//버튼에 연결된 리스너를 호출한다.
+			for (auto& listener : m_vecOnListener)
+			{
+				//callable이면
+				if (listener)
+					listener();
+			}
+
+			if (!m_listItem.empty())
+			{
+				//callable이면 아이템의 정보를 창에 띄워준다.
+				if (m_pSlotListener)
+					m_pSlotListener(m_listItem.back());
+
+			}
+
+			return OBJ_CLICKED;
+		}
+	}
+	return S_OK;
+}
+
 CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	CItemSlot* pInstance = new CItemSlot(_pGraphic_Device);
@@ -167,6 +172,9 @@ CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, 
 
 void CItemSlot::Free()
 {
+	if (FAILED(CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this)))
+		MSG_BOX("Fail to Unregister slot");
+
 	for (auto& pItem : m_listItem)
 	{
 		Safe_Release(pItem);

@@ -101,9 +101,9 @@ HRESULT CEditor::Render()
 	m_pWorld->Render_ForEditor();
 	m_pPalette->Render();
 
-	if(nullptr != m_pCurrTerrain)
+	if (nullptr != m_pCurrTerrain)
 		m_pCurrTerrain->Render();
-	
+
 	return S_OK;
 }
 
@@ -122,14 +122,11 @@ CEditor * CEditor::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 void CEditor::Free()
 {
 
-	if (0 != Safe_Release(m_pCurrTerrain))
-		MSG_BOX("Fail to release m_pCurrTerrain");
+	Safe_Release(m_pCurrTerrain);
 
-	if (0 != Safe_Release(m_pPalette))
-		MSG_BOX("Fail to release Palette");
+	Safe_Release(m_pPalette);
 
-	if (0 != Safe_Release(m_pWorld))
-		MSG_BOX("Fail to release m_pWorld");
+	Safe_Release(m_pWorld);
 
 
 	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기
@@ -144,6 +141,9 @@ void CEditor::Free()
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		MSG_BOX("Fail to Clear Module Prototypes");
 
+	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_EDITOR)))
+		MSG_BOX("Fail to Clear Module Prototypes");
+	
 
 	CScene::Free();
 

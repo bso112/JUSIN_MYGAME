@@ -19,6 +19,13 @@ public:
 	bool Key_Up(int _Key);
 	void Key_Update();
 
+public:
+	HRESULT RegisterObserver(SCENEID _eSceneID, CBase* _pObserver);
+	HRESULT UnRegisterObserver(SCENEID _eSceneID, CBase* _pObserver);
+	HRESULT	ClearObservers(SCENEID _eSceneID);
+private:
+	list<CBase*> m_listObservers[SCENE_END];
+
 private:
 	bool				m_bKeyState[VK_MAX];
 

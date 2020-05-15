@@ -9,7 +9,6 @@ protected:
 	enum CLOTH	{ CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END};
 
 protected:
-	CKeyMgr*	m_pKeyMgr = nullptr;
 	CLOTH		m_eCurrCloth = CLOTH_BASIC;
 	CAnimator*	m_pAnimator[CLOTH_END];
 

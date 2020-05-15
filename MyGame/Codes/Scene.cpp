@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "ObjMgr.h"
 #include "Image.h"
+#include "KeyMgr.h"
 
 USING(MyGame)
 CScene::CScene(PDIRECT3DDEVICE9 _pGraphic_Device)

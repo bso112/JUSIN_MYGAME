@@ -33,6 +33,9 @@ public:
 	_bool	IsEmpty(){ return m_listItem.empty(); }
 	size_t	Get_ItemCnt() { return m_listItem.size(); }
 	CItem*	Get_Item() { return m_listItem.back(); }
+
+protected:
+	virtual HRESULT	OnKeyDown(_int KeyCode) override;
 	
 
 public:
