@@ -90,6 +90,7 @@ HRESULT CRenderer::Render_YSort()
 
 HRESULT CRenderer::Render_UI()
 {
+	m_listGO[RENDER_UI].sort([](CGameObject* a, CGameObject* b)->bool { return a->Get_Depth() < b->Get_Depth(); });
 	for (auto& GO : m_listGO[RENDER_UI])
 	{
 		if (nullptr != GO)

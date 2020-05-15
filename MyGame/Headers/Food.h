@@ -36,7 +36,6 @@ public:
 	static CFood*	Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath = nullptr);
 	virtual CGameObject * Clone(void * _param = nullptr) override;
 public:
-	virtual vector<const _tchar*>* Get_Actions() override;
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction) override;
 
 public:

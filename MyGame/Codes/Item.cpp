@@ -17,6 +17,8 @@ HRESULT CItem::Initialize_Prototype(_tchar * _pFilePath)
 	return S_OK;
 }
 
+
+
 HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 {
 	if (nullptr == _pHero)

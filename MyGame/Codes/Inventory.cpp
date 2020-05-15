@@ -20,6 +20,9 @@ CInventory::CInventory(CInventory & _rhs)
 
 HRESULT CInventory::Initialize(void * _pArg)
 {
+
+	m_iDepth = 0;
+
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
 		return E_FAIL;
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
@@ -88,7 +91,8 @@ _int CInventory::LateUpate(_double _timeDelta)
 
 	m_pTransform->Late_Update();
 	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI);
-
+	
+	//슬롯들을 렌더그룹에 등록한다.
 	for (auto& slot : m_vecSlot)
 	{
 		slot->LateUpate(_timeDelta);

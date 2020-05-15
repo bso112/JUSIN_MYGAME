@@ -22,6 +22,8 @@ protected:
 protected:
 	bool	m_bDead = false;
 	bool	m_bActive = true;
+	//렌더 깊이 (작을수록 더 먼저그려진다)
+	_int	m_iDepth = 0;
 
 private:
 	//충돌했나
@@ -71,13 +73,18 @@ public:
 	virtual void OnCollisionStay(CGameObject* _pOther);
 	virtual void OnCollisionExit(CGameObject* _pOther);
 
+protected:
+	virtual	void OnSetActive(_bool _bActive);
+
 
 public:
 	HRESULT		Set_Module(const _tchar* _pModulePrototypeTag, SCENEID _eSceneID, CModule** _ppModule, const _tchar* _pModuleTag = nullptr, void* _pArg = nullptr);
 	CModule*	Get_Module(const _tchar* _eModuleTag);
 	_uint		Get_InstanceID() { return m_iInstanceID; }
 	HRESULT		Add_Module(const _tchar* _pModuleTag, CModule* _pModule);
-	void		Set_Active(_bool _bActive) {m_bActive = _bActive;}
+	void		Set_Active(_bool _bActive) { m_bActive = _bActive; OnSetActive(_bActive); }
+	void		Set_Depth(_int _iDepth) { m_iDepth = _iDepth; }
+	_int		Get_Depth() { return m_iDepth; }
 public:
 	virtual CGameObject* Clone(void * _param = nullptr) = 0;
 

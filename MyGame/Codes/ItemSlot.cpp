@@ -83,13 +83,16 @@ _int CItemSlot::Update(_double _timeDelta)
 			//버튼에 연결된 리스너를 호출한다.
 			for (auto& listener : m_vecOnListener)
 			{
-				listener();
+				//callable이면
+				if (listener)
+					listener();
 			}
 
 			if (!m_listItem.empty())
 			{
-				//아이템의 정보를 창에 띄워준다.
-				m_pSlotListener(m_listItem.back());
+				//callable이면 아이템의 정보를 창에 띄워준다.
+				if (m_pSlotListener)
+					m_pSlotListener(m_listItem.back());
 
 			}
 

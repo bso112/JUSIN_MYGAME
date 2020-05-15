@@ -20,6 +20,10 @@ HRESULT CFood::Initialize_Prototype(_tchar* _pFilePath)
 
 HRESULT CFood::Initialize(void * _param)
 {
+	//할 수 있는 행동을 정한다.
+	CItem::Initialize();
+	m_vecActions.push_back(AC_EAT);
+
 	if (nullptr != _param)
 		memcpy(&m_tDesc, _param, sizeof(STATEDESC));
 
@@ -102,12 +106,6 @@ CGameObject * CFood::Clone(void * _param)
 	return pInstance;
 }
 
-vector<const _tchar*>* CFood::Get_Actions()
-{
-	vector<const _tchar*>* actions = CItem::Get_Actions();
-	actions->push_back(AC_EAT);
-	return actions;
-}
 
 HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 {

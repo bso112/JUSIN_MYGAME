@@ -45,7 +45,7 @@ _int CGameObject::Update(_double _timeDelta)
 
 _int CGameObject::LateUpate(_double _timeDelta)
 {
-	return _int();
+	return 0;
 }
 
 HRESULT CGameObject::Render()
@@ -62,6 +62,10 @@ void CGameObject::OnCollisionStay(CGameObject * _pOther)
 }
 
 void CGameObject::OnCollisionExit(CGameObject * _pOther)
+{
+}
+
+void CGameObject::OnSetActive(_bool _bActive)
 {
 }
 

@@ -11,11 +11,15 @@ class CShader;
 class CImage : public CGameObject
 {
 protected:
-	explicit CImage(PDIRECT3DDEVICE9 _pGraphic_Device) : CGameObject(_pGraphic_Device) {}
+	explicit CImage(PDIRECT3DDEVICE9 _pGraphic_Device) : CGameObject(_pGraphic_Device) 
+	{
+		int aa = 0;
+		int b = 0;
+	}
 	explicit CImage(CImage& _rhs);
 	virtual ~CImage() = default;
 
-private:
+protected:
 	CVIBuffer*	m_pVIBuffer = nullptr;
 	CTexture*	m_pTextrue = nullptr;
 	CTransform*	m_pTransform = nullptr;

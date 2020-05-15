@@ -52,7 +52,7 @@ _int CMyButton::Update(_double _timeDelta)
 		keyState = CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
 	}
 	else
-		keyState = CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
+		keyState = CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
 
 	if (keyState)
 	{
@@ -64,7 +64,8 @@ _int CMyButton::Update(_double _timeDelta)
 		{
 			for (auto& listener : m_vecOnListener)
 			{
-				listener();
+				if(listener)
+					listener();
 			}
 
 			return OBJ_CLICKED;
