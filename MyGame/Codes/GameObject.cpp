@@ -70,6 +70,8 @@ void CGameObject::OnSetActive(_bool _bActive)
 }
 
 
+
+
 HRESULT CGameObject::Set_Module(const _tchar* _pPrototypeModuleTag, SCENEID _eSceneID, CModule** _ppOut, const _tchar* _pModuleTag, void* _pArg)
 {
 	//따로 모듈이름 지정안하면 프로토타입 태그와 같은 태그로 모듈을 저장한다.

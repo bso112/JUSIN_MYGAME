@@ -28,7 +28,6 @@ protected:
 	RECT			m_tRect = {};
 	const _tchar*	m_pText = L"";
 	RENDER_STATE	m_eRenderState = STATE_ENABLE;
-	SCENEID			m_eSceneID = SCENE_END;
 
 protected:
 	vector<function<void()>> m_vecOnListener;

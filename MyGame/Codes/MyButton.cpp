@@ -125,6 +125,9 @@ HRESULT CMyButton::Set_RenderState(RENDER_STATE _eRenderState)
 
 HRESULT CMyButton::OnKeyDown(_int KeyCode)
 {
+	if (!m_bActive)
+		return 0;
+
 	if (KeyCode == VK_LBUTTON)
 	{
 		POINT cursorPos;

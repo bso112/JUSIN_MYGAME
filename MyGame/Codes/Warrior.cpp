@@ -7,6 +7,8 @@
 #include "Shader.h"
 #include "Animator.h"
 #include "PlayerStateCon.h"
+#include "KeyMgr.h"
+#include "SceneMgr.h"
 USING(MyGame)
 
 
@@ -55,7 +57,10 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CWarrior::Initialize(void * _param)
 {
-
+	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
+	if (m_eSceneID >= SCENE_END)
+		return E_FAIL;
+	CKeyMgr::Get_Instance()->RegisterObserver(m_eSceneID, this);
 #pragma region ½ºÅÝÁØºñ
 
 	//½ºÅÝ¼ÂÆÃ
@@ -192,16 +197,9 @@ HRESULT CWarrior::Initialize(void * _param)
 	return S_OK;
 }
 
-HRESULT CWarrior::KeyCheck(_double _timeDelta)
-{
-	CHero::KeyCheck(_timeDelta);
-
-	return S_OK;
-}
 
 _int CWarrior::Update(_double _timeDelta)
 {
-	KeyCheck(_timeDelta);
 	m_pTransform->Update(_timeDelta);
 	return 0;
 }
@@ -272,6 +270,9 @@ void CWarrior::OnTakeDamage()
 
 void CWarrior::Free()
 {
+	if (m_eSceneID >= SCENE_END)
+		return;
+	CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this);
 
 	for (int i = 0; i < CLOTH_END; ++i)
 		Safe_Release(m_pAnimator[i]);

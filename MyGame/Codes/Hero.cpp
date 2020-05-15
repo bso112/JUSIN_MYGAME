@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "..\Headers\Hero.h"
-#include "KeyMgr.h"
 #include "LevelMgr.h"
 #include "Transform.h"
 #include "TurnMgr.h"
 #include "Terrain.h"
 #include "ObjMgr.h"
 #include "Layer.h"
+
 USING(MyGame)
 
 
@@ -23,30 +23,31 @@ CHero::CHero(CHero & _hero)
 
 }
 
-HRESULT CHero::KeyCheck(_double _timeDelta)
+
+HRESULT CHero::OnKeyDown(_int KeyCode)
 {
-	//if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	//{
-	//	if (nullptr == m_pTransform)
-	//		return E_FAIL;
+	if (KeyCode == VK_LBUTTON)
+	{
+		if (nullptr == m_pTransform)
+			return E_FAIL;
 
-	//	POINT pt;
-	//	GetCursorPos(&pt);
-	//	ScreenToClient(g_hWnd, &pt);
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
 
-	//	vector<CTerrain*> route;
-	//	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
-	//	RETURN_FAIL_IF_NULL(pLevel);
-	//	pLevel->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, m_pTransform);
+		vector<CTerrain*> route;
+		CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+		RETURN_FAIL_IF_NULL(pLevel);
+		pLevel->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, m_pTransform);
 
-	//	//해당 루트를 따라가기 위해 필요한 턴수를 계산
-	//	_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
+		//해당 루트를 따라가기 위해 필요한 턴수를 계산
+		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
 
-	//	m_pTransform->Go_Route(route, 1.f, iTurnCnt);
+		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
 
-	//	//플레이어가 움직일 턴 이동
-	//	CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
-	//}
+		//플레이어가 움직일 턴 이동
+		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
+	}
 
 	return S_OK;
 }

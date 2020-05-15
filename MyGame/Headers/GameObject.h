@@ -30,6 +30,9 @@ private:
 	//충돌한 오브젝트 셋
 	set<CGameObject*> m_setCollided;
 
+protected:
+	SCENEID		m_eSceneID = SCENE_END;
+
 private:
 	static _uint	m_iMaxInstanceID;
 	_uint	m_iInstanceID = 0;

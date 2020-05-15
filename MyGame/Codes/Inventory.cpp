@@ -67,6 +67,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 	}
 
 
+
 	return S_OK;
 }
 
@@ -171,6 +172,14 @@ HRESULT CInventory::Add_SlotListener(function<void()> _func)
 		slot->Add_Listener(_func);
 	}
 	return S_OK;
+}
+
+void CInventory::OnSetActive(_bool _bActive)
+{
+	for (auto& slot : m_vecSlot)
+	{
+		slot->Set_Active(_bActive);
+	}
 }
 
 void CInventory::Free()

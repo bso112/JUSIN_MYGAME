@@ -45,6 +45,9 @@ public:
 	HRESULT	Set_SlotListener(function<void(CItem*)> _func);
 	HRESULT	Add_SlotListener(function<void()> _func);
 
+protected:
+	virtual	void OnSetActive(_bool _bActive) override;
+
 
 
 public:

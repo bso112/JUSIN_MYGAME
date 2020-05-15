@@ -69,6 +69,9 @@ HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureT
 
 _int CItemSlot::Update(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
 	//사용한 아이템을 체크해서 리스트에서 없앤다.
 	if (!m_listItem.empty() && m_listItem.back()->IsUsed())
 	{
@@ -80,7 +83,8 @@ _int CItemSlot::Update(_double _timeDelta)
 
 _int CItemSlot::LateUpate(_double _timeDelta)
 {
-
+	if (!m_bActive)
+		return 0;
 	if (nullptr == m_pRenderer)
 		return -1;
 
@@ -98,6 +102,9 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 
 HRESULT CItemSlot::Render()
 {
+	if (!m_bActive)
+		return 0;
+
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pTransform)
 		return E_FAIL;
@@ -124,6 +131,9 @@ HRESULT CItemSlot::Render()
 
 HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 {
+	if (!m_bActive)
+		return 0;
+
 	if (KeyCode == VK_LBUTTON)
 	{
 		m_tRect = m_pTransform->Get_RECT();
@@ -134,22 +144,21 @@ HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 
 		if (PtInRect(&m_tRect, cursorPos))
 		{
-			//버튼에 연결된 리스너를 호출한다.
-			for (auto& listener : m_vecOnListener)
-			{
-				//callable이면
-				if (listener)
-					listener();
-			}
-
 			if (!m_listItem.empty())
 			{
+				//버튼에 연결된 리스너를 호출한다.
+				for (auto& listener : m_vecOnListener)
+				{
+					//callable이면
+					if (listener)
+						listener();
+				}
+
+
 				//callable이면 아이템의 정보를 창에 띄워준다.
 				if (m_pSlotListener)
 					m_pSlotListener(m_listItem.back());
-
 			}
-
 			return OBJ_CLICKED;
 		}
 	}

@@ -21,7 +21,7 @@ protected:
 	virtual ~CHero() = default;
 
 protected:
-	virtual	HRESULT KeyCheck(_double _timeDelta);
+	virtual HRESULT	OnKeyDown(_int KeyCode) override;
 	HRESULT	Set_InitialPos();
 	
 
