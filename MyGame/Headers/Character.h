@@ -36,12 +36,15 @@ protected:
 	//포커스하고 있는 대상
 	CCharacter*	m_pFocus = nullptr;
 	CStateCon*	m_pStateCon = nullptr;
+	bool		m_bTurnEnd = false;
 
 
 public:
 	_int		StartAct();
 	_int		UpdateAct();
 	CCharacter*	Get_Focus() { return m_pFocus; }
+	_bool		IsTurnEnd(){ return m_bTurnEnd; }
+	void		SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
 
 protected:
 	_int	m_iCurFrame = 0;

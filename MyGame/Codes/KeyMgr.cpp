@@ -87,7 +87,6 @@ HRESULT CKeyMgr::RegisterObserver(SCENEID _eSceneID, CBase * _pObserver)
 		return E_FAIL;
 	
 	m_listObservers[_eSceneID].push_back(_pObserver);
-	Safe_AddRef(_pObserver);
 	
 	return S_OK;
 }
@@ -102,7 +101,6 @@ HRESULT CKeyMgr::UnRegisterObserver(SCENEID _eSceneID, CBase * _pObserver)
 	{
 		if (*iter == _pObserver)
 		{
-			Safe_Release(*iter);
 			m_listObservers[_eSceneID].erase(iter);
 			return S_OK;
 		}
@@ -125,10 +123,6 @@ void CKeyMgr::Free()
 {
 	for (auto& arr : m_listObservers)
 	{
-		for (auto& observer : arr)
-		{
-			Safe_Release(observer);
-		}
 
 		arr.clear();
 	}

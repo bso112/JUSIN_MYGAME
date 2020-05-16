@@ -54,7 +54,7 @@ private:
 	_bool				m_bStop = true;
 	//콜라이더 사이즈
 	Vector3				m_vColliderSize;
-	//이동력만큼 모두 움직였나?
+	//이동력만큼 이동했나?
 	_bool				m_bTurnEnd = false;
 
 private:

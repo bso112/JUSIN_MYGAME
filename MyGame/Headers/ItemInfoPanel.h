@@ -15,10 +15,7 @@ class CImage;
 class CItemInfoPanel final : public CImage
 {
 private:
-	explicit CItemInfoPanel(PDIRECT3DDEVICE9 _pGraphic_Device) : CImage(_pGraphic_Device) 
-	{
-		int a = 3;
-	}
+	explicit CItemInfoPanel(PDIRECT3DDEVICE9 _pGraphic_Device) : CImage(_pGraphic_Device) {}
 	explicit CItemInfoPanel(CItemInfoPanel& _rhs) : CImage(_rhs) {};
 	virtual ~CItemInfoPanel() = default;
 

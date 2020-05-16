@@ -8,11 +8,10 @@ USING(MyGame)
 
 
 
-
+//VIBUffer 복사하는 코드 지움
 CCharacter::CCharacter(CCharacter & _character)
 	:CGameObject(_character),
 	m_tStat(_character.m_tStat),
-	m_pVIBuffer(_character.m_pVIBuffer),
 	m_vecImmune(_character.m_vecImmune)
 {
 }

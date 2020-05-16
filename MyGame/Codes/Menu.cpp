@@ -68,7 +68,14 @@ HRESULT CMenu::Initialize()
 	float padding = 30;
 	float text_pitch1 = 70;
 	m_vecMenuBtn.push_back(CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f, 0.f, 1.f), Vector2(100.f, 100.f), L"character_select", SCENE_MENU));
-	m_vecMenuBtn[0]->Add_Listener([=] { m_iCurrCanvas = 1;});
+	m_vecMenuBtn[0]->Add_Listener([=]
+	{	m_iCurrCanvas = 1;
+	for (auto& GO : m_vecCanvas[0])
+	{
+		GO->Set_Active(false);
+	}
+	}
+	);
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - padding - 50.f, 350.f + text_pitch1, 0.f, 1.f), Vector2(100.f, 100.f), L"empty_bound", SCENE_MENU);
 	pBtn->Set_Text(L"Play");
 	m_vecMenuBtn.push_back(pBtn);
@@ -257,6 +264,8 @@ _int CMenu::Update(_double _timeDelta)
 				if (FAILED(CStatics::Set_SelectedHero((CStatics::SELECTED_HERO)i)))
 					MSG_BOX("Fail to select hero");
 			}
+
+
 		}
 
 	}
@@ -369,9 +378,9 @@ void CMenu::Free()
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		MSG_BOX("Fail to Clear Module Prototypes");
 
+
 	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_MENU)))
 		MSG_BOX("Fail to Clear Module Prototypes");
-
 
 	CScene::Free();
 }

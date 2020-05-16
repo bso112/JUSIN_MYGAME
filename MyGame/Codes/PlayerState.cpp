@@ -13,22 +13,13 @@ USING(MyGame)
 
 CPlayerState::STATE CPlayerIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	if (m_pActor == nullptr)
-		return STATE_END;
-
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-	if (nullptr == pTransform)
-		return STATE_END;
-
-	if (pTransform->Is_Moving())
-		return STATE_WALK;
-
-
 	return STATE_END;
 }
 
 CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
+	//상태를 체크하고, 움직이는 중이면 WALK로 상태를 바꿈.
+
 	if (m_pActor == nullptr)
 		return STATE_END;
 
@@ -37,6 +28,16 @@ CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted, _double
 		return STATE_END;
 	else
 		pHero->PlayAnimation(L"idle");
+
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return STATE_END;
+
+	if (pTransform->Is_Moving())
+		return STATE_WALK;
+
+	//바로 턴 종료
+	m_pActor->SetTurnState(true);
 
 	return STATE_END;
 }
@@ -51,16 +52,14 @@ CPlayerState::STATE CPlayerWalk::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 	if (nullptr == pTransform)
 		return STATE_END;
 
-	//루트를 모두 이동했으면 턴을 끝낸다.
-	if (!pTransform->Is_Moving())
-	{
-		return STATE_IDLE;
-	}
-	//이동력만큼 이동했으면 턴을 끝낸다.
+	//이동력만큼 움직였으면
 	if (pTransform->Is_TurnEnd())
 	{
-		return STATE_WALK;
+		//턴종료
+		m_pActor->SetTurnState(true);
+		pTransform->NextTurn();
 	}
+
 
 	return STATE_END;
 }
@@ -77,9 +76,7 @@ CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _double
 	else
 		pHero->PlayAnimation(L"walk");
 
-	//턴을 초기화해서 다음턴에 Act가 불리게함.
 	pTransform->NextTurn();
-
 
 	return STATE_END;
 }

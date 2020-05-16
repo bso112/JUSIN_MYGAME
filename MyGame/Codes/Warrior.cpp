@@ -74,7 +74,7 @@ HRESULT CWarrior::Initialize(void * _param)
 
 #pragma region 모듈준비
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, nullptr, &CTransform::STATEDESC(100.f, 100.f, 2));
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, nullptr, &CTransform::STATEDESC(100.f, 100.f, 1));
 	Set_Module(L"PlayerStateCon", SCENE_STATIC, (CModule**)&m_pStateCon);
 
 	Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator[CLOTH_NAKED], L"Animator_Naked");

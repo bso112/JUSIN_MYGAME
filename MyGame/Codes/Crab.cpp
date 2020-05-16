@@ -54,7 +54,7 @@ HRESULT CCrab::Initialize(void * _param)
 	pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting(this));
 	pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
 	pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
-	pStateCon->Set_Default_State(CAIState::STATE_SLEEP);
+	pStateCon->Set_Default_State(CAIState::STATE_IDLE);
 
 #pragma endregion
 
@@ -68,26 +68,26 @@ HRESULT CCrab::Initialize(void * _param)
 	m_pAnimator->Add_Animation(L"attack", pAttackAnim);
 
 	Set_Module(L"crab_sleep", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pIdleAnim = CAnimation::Create(pTexture, 1.0, true);
-	m_pAnimator->Add_Animation(L"sleep", pIdleAnim);
+	CAnimation* pSleepAnim = CAnimation::Create(pTexture, 1.0, true);
+	m_pAnimator->Add_Animation(L"sleep", pSleepAnim);
 
 	Set_Module(L"crab_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pSleepAnim = CAnimation::Create(pTexture, 1.0, true);
-	m_pAnimator->Add_Animation(L"idle", pSleepAnim);
+	CAnimation* pIdleAnim = CAnimation::Create(pTexture, 1.0, true);
+	m_pAnimator->Add_Animation(L"idle", pIdleAnim);
 
 	Set_Module(L"crab_dead", SCENE_STAGE, (CModule**)&pTexture);
 	CAnimation* pDeadAnim = CAnimation::Create(pTexture, 0.2, false);
 	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
 
 	Set_Module(L"crab_walk", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pJumpAnim = CAnimation::Create(pTexture, 0.1, true);
-	m_pAnimator->Add_Animation(L"walk", pJumpAnim);
+	CAnimation* pWalkAnim = CAnimation::Create(pTexture, 0.1, true);
+	m_pAnimator->Add_Animation(L"walk", pWalkAnim);
 
 	//애니메이션의 관계설정
 	pAttackAnim->Set_NextAnim(pIdleAnim);
 
 	//기본 애니메이션 설정
-	m_pAnimator->Play(L"sleep");
+	m_pAnimator->Play(L"idle");
 
 #pragma endregion
 

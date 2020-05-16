@@ -21,17 +21,16 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double 
 		if (nullptr == pTargetTransform)
 			return STATE_END;
 
-
-
-
 		return STATE_HUNTING;
 	}
 
-	return STATE_END;
+	m_pActor->SetTurnState(true);
+	return STATE_IDLE;
 }
 
 CAIState::STATE CAIIdle::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
+	m_pActor->SetTurnState(true);
 	return STATE_IDLE;
 }
 
@@ -69,24 +68,7 @@ void CAISleeping::Free()
 
 CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-	if (nullptr == pTransform)
-		return STATE_END;
 
-	if (!_isAlerted)
-		return STATE_IDLE;
-
-	//이동력만큼 이동했으면 턴을 끝낸다.
-	if (pTransform->Is_TurnEnd())
-	{
-		return STATE_HUNTING;
-	}
-
-	return STATE_END;
-}
-
-CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
-{
 	if (nullptr == m_pActor)
 		return STATE_END;
 
@@ -94,9 +76,35 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 	if (nullptr == pTransform)
 		return STATE_END;
 
-	//트랜스폼에게 다시 이동한 타일 수를 세라고 함.
-	pTransform->NextTurn();
+	//만약 이동력만큼 다 움직였으면
+	if (pTransform->Is_TurnEnd())
+	{
+		//턴종료
+		m_pActor->SetTurnState(true);
+		//트랜스폼도 턴종료
+		pTransform->NextTurn();
+	}
 
+	return STATE_END;
+}
+
+CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
+{
+
+	if (nullptr == m_pActor)
+		return STATE_END;
+
+	
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return STATE_END;
+
+	//만약 인식범위에 플레이어가 없으면 IDLE로 돌아감.
+	if (!_isAlerted)
+		return STATE_IDLE;
+
+
+	//공격할 수 있으면
 	if (_canAttack)
 	{
 		CCharacter* pFocus = m_pActor->Get_Focus();
@@ -112,7 +120,10 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 			return STATE_END;
 
 		pAnimator->Play(L"attack");
+		//공격하고 나면 턴종료
+		m_pActor->SetTurnState(true);
 	}
+	//인식했으면
 	else if (_isAlerted)
 	{
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
@@ -136,6 +147,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 		//타깃을 향해 간다.
 		pTransform->Go_Target(pTargetTransform, 1.f);
 	}
+
 	return STATE_END;
 }
 

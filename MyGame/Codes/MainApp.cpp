@@ -219,6 +219,9 @@ void CMainApp::Free()
 	if (0 != CSceneMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CScneeMgr");
 
+	if (0 != CKeyMgr::Destroy_Instance())
+		MSG_BOX("Fail to Release KeyMgr");
+
 	if (0 != CObjMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CObjMgr");
 
@@ -236,6 +239,7 @@ void CMainApp::Free()
 
 	if (0 != CGraphic_Device::Destroy_Instance())
 		MSG_BOX("Fail to Relese CGraphic_Device");
+
 
 
 

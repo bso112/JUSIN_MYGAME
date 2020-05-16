@@ -29,11 +29,9 @@ _int CAIStateCon::Start(_bool _canAttack, _bool _isAlerted)
 	{
 		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
-		//한번 행동
-		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	}
 
-	return TURN_NOEVENT;
+	return 0;
 }
 
 _int CAIStateCon::Update(_bool _canAttack, _bool _isAlerted)
@@ -43,12 +41,9 @@ _int CAIStateCon::Update(_bool _canAttack, _bool _isAlerted)
 	if (CAIState::STATE_END != eNextState)
 	{
 		m_pCurrState = m_pStateArr[eNextState];
-		m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
-		//턴종료
-		return TURN_END;
 	}
 
-	return TURN_NOEVENT;
+	return 0;
 }
 
 HRESULT CAIStateCon::Set_State(CAIState::STATE _eState, CAIState * _pAIState)

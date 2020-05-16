@@ -27,6 +27,8 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 	RETURN_FAIL_IF_NULL(m_pInventory);
 	Safe_AddRef(m_pInventory);
 	m_pItemInfoPanel = dynamic_cast<CItemInfoPanel*>(pObjMgr->Add_GO_To_Layer(L"Inventory", SCENE_STAGE, m_pItemInfoPanel));
+	RETURN_FAIL_IF_NULL(m_pItemInfoPanel);
+	Safe_AddRef(m_pItemInfoPanel);
 
 	//CItemInfoPanel::Set_Item의 첫번째인자로 m_pItemInfoPanel를 바인딩한다.
 	function<void(CItem*)> setItemFunc = std::bind(&CItemInfoPanel::Set_Item, m_pItemInfoPanel, std::placeholders::_1);
@@ -56,6 +58,7 @@ void CInventoryUIMgr::Active_Inventory()
 
 void CInventoryUIMgr::Free()
 {
+	Safe_Release(m_pItemInfoPanel);
 	Safe_Release(m_pInventory);
 
 }

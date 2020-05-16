@@ -51,7 +51,7 @@ _int CMyButton::Update(_double _timeDelta)
 
 	m_tRect = m_pTransform->Get_RECT();
 
-	return OBJ_NOEVENT;
+	return m_bClicked ? OBJ_CLICKED : 0;
 }
 
 _int CMyButton::LateUpate(_double _timeDelta)
@@ -126,7 +126,10 @@ HRESULT CMyButton::Set_RenderState(RENDER_STATE _eRenderState)
 HRESULT CMyButton::OnKeyDown(_int KeyCode)
 {
 	if (!m_bActive)
+	{
+		m_bClicked = false;
 		return 0;
+	}
 
 	if (KeyCode == VK_LBUTTON)
 	{
@@ -141,10 +144,12 @@ HRESULT CMyButton::OnKeyDown(_int KeyCode)
 				if (listener)
 					listener();
 			}
-
+			m_bClicked = true;
 			return OBJ_CLICKED;
 		}
 	}
+
+	m_bClicked = false;
 	return S_OK;
 }
 
@@ -168,11 +173,7 @@ CGameObject * CMyButton::Clone(void * _arg)
 
 void CMyButton::Free()
 {
-	//키매니저에서 자신을 해지한다. 슬롯에서 부른다음에 또 불려서 메시지박스 뜸.
-	/*if (FAILED(CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this)))
-		MSG_BOX("Fail to UnRegister Button");*/
 
-	//지금이야 KeyMgr에서 레퍼런스 카운트 안세서 상관없는데, 만약하면 Release 두번불릴것임.
 	CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this);
 
 	Safe_Release(m_pShader);

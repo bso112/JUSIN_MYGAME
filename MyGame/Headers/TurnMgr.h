@@ -4,6 +4,10 @@
 BEGIN(MyGame)
 class CLayer;
 class CCharacter;
+/*
+턴을 종료한다는 개념과 State를 변경한다는 개념을 분리했다.
+애초에 그걸 셋트로 생각하는게 잘못이었음.
+*/
 class CTurnMgr : public CBase
 {
 	DECLARE_SINGLETON(CTurnMgr)
@@ -19,8 +23,6 @@ private:
 	_int	m_iCurrTurn = 0;
 	_int	m_iMaxTurn = 0;
 
-private:
-	_int	m_iTurnToSpend = 0;
 
 private:
 	CLayer*	m_pActorLayers[2];
@@ -40,8 +42,8 @@ public:
 	HRESULT	MoveTurn_Simultaneously(_int _iTurnCnt);
 
 
-public:
-	_int	Get_TurnCnt() { return m_iTurnToSpend; }
+
+
 	
 
 private:

@@ -96,15 +96,15 @@ _int CTurnMgr::Update_sequentially()
 
 _int CTurnMgr::Update_Simultaneously()
 {
-	if (m_iCurrTurn >= m_iMaxTurn)
-	{
-		m_iLayerIndex = 0;
-		m_iObjIndex = 0;
-		m_pCurrActor = nullptr;
-		return TURN_END;
-	}
 
-	_bool bTurnEnd = false;
+	/*
+	1. 전부 움직인다.
+	2. 움직임이 끝난 사람은 모든 사람의 움직임이 끝날때까지 대기한다.
+	3. 모든 사람이 움직임이 끝나면 한턴이 끝났다.
+	4. 만약 움직일 턴이 한개면 다음턴이 올때까지 대기하고 두개 이상이면 1으로 간다.
+
+	*/
+
 	//끝난 오브젝트의 수
 	_uint iEndGOCnt = 0;
 	//검사한 오브젝트의 수
@@ -117,39 +117,58 @@ _int CTurnMgr::Update_Simultaneously()
 			MSG_BOX("레이어가 null입니다");
 		for (auto& GO : layer->Get_List())
 		{
+			//행동한 액터의 수 세기
 			++iGOCnt;
-			_int msg = ((CCharacter*)GO)->UpdateAct();
-			if (TURN_END == msg)
-			{
+			((CCharacter*)GO)->UpdateAct();
+			//턴이 끝났으면 턴이 끝난 액터의 수 세기
+			if (((CCharacter*)GO)->IsTurnEnd())
 				++iEndGOCnt;
-			}
 		}
 	}
-
 	//모든 오브젝트의 턴이 끝났으면
 	if (iGOCnt == iEndGOCnt)
 	{
-		//모든 오브젝트의 Start를 다시 부름
-		for (auto& layer : m_pActorLayers)
+		//턴이 모두 끝났는지 검사
+		if (m_iCurrTurn >= m_iMaxTurn)
 		{
-			if (nullptr == layer)
-				MSG_BOX("레이어가 null입니다");
-
-			for (auto& GO : layer->Get_List())
-			{
-				((CCharacter*)GO)->StartAct();
-			}
+			m_iCurrTurn = 1;
+			m_iMaxTurn = 1;
+			m_iLayerIndex = 0;
+			m_iObjIndex = 0;
+			m_pCurrActor = nullptr;
+			//턴이 끝났으면 아무것도 안함.
+			return TURN_END;
 		}
-		++m_iCurrTurn;
+		//아니면 턴을 올리고 모든 턴이 소모될때까지 다시 시작
+		else
+		{
+			++m_iCurrTurn;
+
+			for (auto& layer : m_pActorLayers)
+			{
+				if (nullptr == layer)
+					MSG_BOX("레이어가 null입니다");
+
+				for (auto& GO : layer->Get_List())
+				{
+					//턴을 시작함
+					((CCharacter*)GO)->SetTurnState(false);
+					((CCharacter*)GO)->StartAct();
+				}
+			}
+
+		}
 	}
+
 
 	return S_OK;
 }
 
 HRESULT CTurnMgr::MoveTurn_sequentially(_int _iTurnCnt)
 {
-	m_iMaxTurn += _iTurnCnt;
-	m_iTurnToSpend = _iTurnCnt;
+	//소모할 턴을 셋팅함
+	m_iMaxTurn = _iTurnCnt;
+	m_iCurrTurn = 0;
 
 	if (FAILED(Get_NextActor(&m_pCurrActor)))
 		return E_FAIL;
@@ -165,8 +184,9 @@ HRESULT CTurnMgr::MoveTurn_sequentially(_int _iTurnCnt)
 
 HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
 {
-	m_iMaxTurn += _iTurnCnt;
-	m_iTurnToSpend = _iTurnCnt;
+	//소모할 턴을 셋팅함
+	m_iMaxTurn = _iTurnCnt;
+	m_iCurrTurn = 1;
 
 	//모든 오브젝트의 Start를 부름
 	for (auto& layer : m_pActorLayers)
@@ -178,6 +198,8 @@ HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
 	}
 	return S_OK;
 }
+
+
 
 _int CTurnMgr::Get_NextActor(CCharacter** _pOutCharacter)
 {
