@@ -5,7 +5,6 @@
 #include "Transform.h"
 #include "Renderer.h"
 #include "Shader.h"
-
 USING(MyGame)
 
 
@@ -22,6 +21,8 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
+
+	m_pTextureTag = _pTextureTag;
 
 	if (FAILED(Set_Module(_pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue)))
 		return E_FAIL;
@@ -81,7 +82,7 @@ HRESULT CImage::Render()
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 
-	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
+	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))
 		return E_FAIL;
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
@@ -118,6 +119,16 @@ CGameObject* CImage::Clone(void* _param)
 	CImage* pInstance = new CImage(*this);
 
 	return pInstance;
+}
+
+void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID)
+{
+	if (nullptr == pTextureTag)
+		return;
+
+	//¸¯³¯µí?
+	Set_Module(pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue);
+	m_iTextureID = _iTextureID;
 }
 
 CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)

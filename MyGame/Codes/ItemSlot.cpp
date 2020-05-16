@@ -26,7 +26,7 @@ HRESULT CItemSlot::Add_Item(CItem * _pItem)
 		return E_FAIL;
 
 	_pItem->Set_Dead();
-	CItem* clone = (CItem*)_pItem->Clone(&CFood::STATEDESC(BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size()), 10.f, 1));
+	CItem* clone = (CItem*)_pItem->Clone(&CFood::STATEDESC(BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size()), 10.f));
 	m_listItem.push_back(clone);
 
 	return S_OK;

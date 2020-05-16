@@ -28,6 +28,9 @@ public:
 private:
 	vector<CMyButton*>	m_vecBtn;
 	CImage*				m_pDescription = nullptr;
+	CImage*				m_pItemNameText = nullptr;
+	CImage*				m_pItemIcon = nullptr;
+
 	
 public:
 	void Set_Item(CItem* _pItem);

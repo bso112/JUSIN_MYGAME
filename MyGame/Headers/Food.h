@@ -10,13 +10,11 @@ public:
 	{
 		BASEDESC tBaseDesc;
 		_float	fHealAmount;
-		_int	iTextureID;
 		tagSTATEDESC() {};
-		tagSTATEDESC(BASEDESC _tBaseDesc, _float	_fHealAmount, _int	_iTextureID)
+		tagSTATEDESC(BASEDESC _tBaseDesc, _float	_fHealAmount)
 		{
 			tBaseDesc = _tBaseDesc;
 			fHealAmount = _fHealAmount;
-			iTextureID = _iTextureID;
 		}
 	}STATEDESC;
 protected:

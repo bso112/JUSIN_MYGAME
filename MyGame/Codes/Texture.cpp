@@ -48,9 +48,9 @@ HRESULT CTexture::Set_Texture(_uint _iIndex)
 	return S_OK;
 }
 
-HRESULT CTexture::Set_TextureOnShader(CShader * _pShader, D3DXHANDLE hParameter, _uint _iIndex)
+HRESULT CTexture::Set_TextureOnShader(CShader * _pShader, D3DXHANDLE hParameter, _uint _iTextureIndex)
 {
-	if (m_vecTexture.size() <= _iIndex ||
+	if (m_vecTexture.size() <= _iTextureIndex ||
 		nullptr == m_pGraphic_Device ||
 		nullptr == _pShader)
 	{
@@ -58,7 +58,7 @@ HRESULT CTexture::Set_TextureOnShader(CShader * _pShader, D3DXHANDLE hParameter,
 		return E_FAIL;
 	}
 
-	return _pShader->Set_Texture(hParameter, m_vecTexture[_iIndex]);
+	return _pShader->Set_Texture(hParameter, m_vecTexture[_iTextureIndex]);
 }
 
 

@@ -30,6 +30,7 @@ HRESULT CFood::Initialize(void * _param)
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Texture_Food", SCENE_STAGE, (CModule**)&m_pTexture);
+	m_pTextureTag = L"Texture_Food";
 
 	m_pTransform->Set_Position(m_tDesc.tBaseDesc.vPos);
 	m_pTransform->Set_Size(m_tDesc.tBaseDesc.vSize);
@@ -66,7 +67,7 @@ HRESULT CFood::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pTexture->Set_Texture(m_tDesc.iTextureID - 1)))
+	if (FAILED(m_pTexture->Set_Texture(m_iTextureID - 1)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))

@@ -68,17 +68,17 @@ HRESULT CSpawner::Spawn(SCENEID _eScene)
 		//ranPos = pWorld->Get_RandomPos();
 		//pObjMgr->Add_GO_To_Layer(L"Crab", _eScene, L"Monster", _eScene, &ranPos);
 		//ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f,20.f)), 10.f, 1));
+		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f,20.f)), 10.f));
 		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f, 1));
+		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f));
 		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f, 1));
+		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f));
 		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f, 1));
+		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f));
 		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f, 1));
+		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f));
 		ranPos = pWorld->Get_RandomPos();
-		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f, 1));
+		pObjMgr->Add_GO_To_Layer(L"Food", _eScene, L"Food", _eScene, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f));
 
 		break;
 

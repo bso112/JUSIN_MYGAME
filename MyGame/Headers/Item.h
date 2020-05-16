@@ -23,6 +23,9 @@ protected:
 
 protected:
 	const _tchar*			m_pDescription = nullptr;
+	_int					m_iTextureID = 0;
+	const _tchar*			m_pTextureTag = nullptr;
+	const _tchar*			m_pItemName = nullptr;
 
 
 
@@ -34,6 +37,9 @@ public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
 	virtual const _tchar* Get_Description() { return m_pDescription; }
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
+	_int	Get_TextureID() { return m_iTextureID; }
+	const _tchar*	Get_TextureTag() { return m_pTextureTag; }
+	const _tchar*	Get_Name(){ return m_pItemName; }
 	_bool	IsUsed() { return m_bUsed; }
 
 public:

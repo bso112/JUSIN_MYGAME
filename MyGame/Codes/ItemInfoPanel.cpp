@@ -41,10 +41,21 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 
 	}
 
+	//아이콘
+	m_pItemIcon = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f), vPanelPos.y - (PANLEY * 0.5f)), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
+	m_pItemIcon->Set_Active(false);
+	m_pItemIcon->Set_Depth(m_iDepth + 1);
+	Safe_AddRef(m_pItemIcon);
+	//아이템이름 텍스트
+	m_pItemNameText = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 100, vPanelPos.y - (PANLEY * 0.5f)), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
+	m_pItemNameText->Set_Active(false);
+	m_pItemNameText->Set_Depth(m_iDepth + 1);
+	Safe_AddRef(m_pItemNameText);
 	//설명을 적어놓은 이미지클래스
 	m_pDescription = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x, vPanelPos.y), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
 	m_pDescription->Set_Active(false);
 	m_pDescription->Set_Depth(m_iDepth + 1);
+	Safe_AddRef(m_pDescription);
 	//버튼을 설정한다.
 	for (auto& btn : m_vecBtn)
 	{
@@ -54,7 +65,6 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 		btn->Add_Listener([&] { this->Set_Active(false);});
 	}
 
-	Safe_AddRef(m_pDescription);
 
 	return S_OK;
 }
@@ -75,6 +85,8 @@ void CItemInfoPanel::OnSetActive(bool _bActive)
 		btn->Set_Active(_bActive);
 	}
 	m_pDescription->Set_Active(_bActive);
+	m_pItemIcon->Set_Active(_bActive);
+	m_pItemNameText->Set_Active(_bActive);
 }
 
 
@@ -94,15 +106,27 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 	if (nullptr == pHero)
 		return;
 
+	//이름
+	if (nullptr != _pItem->Get_Name())
+		m_pItemNameText->Set_Text(_pItem->Get_Name());
+
+	//아이콘
+	const _tchar* textureTag = _pItem->Get_TextureTag();
+	_int textureID = _pItem->Get_TextureID();
+	if (nullptr != textureTag)
+		m_pItemIcon->Replace_Texture(textureTag, textureID, SCENE_STAGE);
+
+	//설명
+	if (nullptr != _pItem->Get_Description())
+		m_pDescription->Set_Text(_pItem->Get_Description());
+
 	//각 버튼에 아이템이 할 수 있는 액션을 연결한다.
 	for (size_t i = 0; i < actions->size(); ++i)
 	{
 		if (i >= m_vecBtn.size())
 			break;
 
-		if(nullptr != _pItem->Get_Description())
-			m_pDescription->Set_Text(_pItem->Get_Description());
-		
+		//버튼
 		m_vecBtn[i]->Set_Text((*actions)[i]);
 		//[&]으로하면 지역변수인 actions가 캡쳐되버려서 이상한 곳을 가리키게됨. actions를 리스너에 담아두고 나중에 부르는거니까.
 		m_vecBtn[i]->Add_Listener([=] { _pItem->Use(pHero, (*actions)[i]); });
@@ -148,8 +172,9 @@ CGameObject * CItemInfoPanel::Clone(void * _param)
 
 void CItemInfoPanel::Free()
 {
-
-	//Safe_Release(m_pDescription);
+	Safe_Release(m_pItemIcon);
+	Safe_Release(m_pItemNameText);
+	Safe_Release(m_pDescription);
 	for (auto& btn : m_vecBtn)
 	{
 		Safe_Release(btn);
