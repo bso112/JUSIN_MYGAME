@@ -7,6 +7,7 @@
 #include "ObjMgr.h"
 #include "Layer.h"
 #include "StageUIMgr.h"
+#include "Monster.h"
 USING(MyGame)
 
 
@@ -35,6 +36,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
+#pragma region 예외처리
+
 		vector<RECT> UIRect = CStageUIMgr::Get_Instance()->GetUIRect();
 		for (auto& rc : UIRect)
 		{
@@ -44,28 +47,43 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 				return E_FAIL;
 			}
 		}
+#pragma endregion
 
+		CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
+
+#pragma region 이동
 
 		vector<CTerrain*> route;
-		CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+		CLevel* pLevel = pLevelMgr->Get_CurrLevel();
 		RETURN_FAIL_IF_NULL(pLevel);
 		pLevel->Get_Route(m_pTransform->Get_Position(), Vector2((float)pt.x, (float)pt.y), route, m_pTransform);
 
 		//해당 루트를 따라가기 위해 필요한 턴수를 계산
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
 		//최소 1턴
-		if (iTurnCnt == 0) iTurnCnt = 1; 
+		if (iTurnCnt == 0) iTurnCnt = 1;
 		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
-
-		//플레이어가 움직일 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
+#pragma endregion
 
 		//타일피킹
 		CTerrain* pTerrain = pLevel->Pick_Tile(pt);
 		//인터렉트한다.
-		if(nullptr != pTerrain)
+		if (nullptr != pTerrain)
 			pTerrain->Interact(this);
-		
+
+		//그외 오브젝트 피킹
+		CGameObject* pObj = pLevelMgr->PickObject(pt);
+		if (nullptr != pObj)
+		{
+			//인터렉트한다.
+			Interact(pObj);
+			pObj->Interact(this);
+		}
+
+
+		//플레이어가 움직일 턴 이동
+		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
+
 	}
 
 	return S_OK;
@@ -83,11 +101,21 @@ HRESULT CHero::Set_InitialPos()
 
 	m_pTransform->Set_Position(pLevel->Get_PlayerSpawnPos());
 
-	
+
 
 	return S_OK;
 
-	
+
+}
+
+_int CHero::Interact(CGameObject * _pOther)
+{
+	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther);
+	if (nullptr == pMonster)
+		return -1;
+
+	pMonster->TakeDamage(m_tStat.m_fAtt->GetValue());
+	return 0;
 }
 
 HRESULT CHero::PlayAnimation(const _tchar * _pTag)

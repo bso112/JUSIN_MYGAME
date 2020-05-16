@@ -8,6 +8,7 @@ BEGIN(MyGame)
 class CStat;
 class CClock_Single;
 class CStateCon;
+class CShader;
 class CCharacter abstract : public CGameObject
 {
 protected:
@@ -33,8 +34,14 @@ protected:
 protected:
 	CTransform*	m_pTransform = nullptr;
 	CVIBuffer*	m_pVIBuffer = nullptr;
+	CShader*	m_pShader = nullptr;
+	//쉐이더에서 쓸 pass
+	_uint		m_iPass = 0;
+
+
 	//포커스하고 있는 대상
 	CCharacter*	m_pFocus = nullptr;
+	//상태머신
 	CStateCon*	m_pStateCon = nullptr;
 	bool		m_bTurnEnd = false;
 
@@ -79,11 +86,8 @@ public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 protected:
-	virtual void Process() = 0;
-	virtual void Update_State() = 0;
-	virtual void OnDead() = 0;
-	virtual void OnTakeDamage() = 0;
-	virtual void Scene_Change() = 0;
+	virtual void OnDead();
+	virtual void OnTakeDamage();
 
 
 public:

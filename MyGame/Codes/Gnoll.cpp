@@ -6,6 +6,7 @@
 #include "Hero.h"
 #include "Clock.h"
 #include "AIStateCon.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -44,6 +45,8 @@ HRESULT CGnoll::Initialize(void * _param)
 	if (FAILED(Set_Module(L"AIStateCon", SCENE_STATIC, (CModule**)&m_pStateCon)))
 		return E_FAIL;
 	if (FAILED(Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator)))
+		return E_FAIL;
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
 		return E_FAIL;
 
 #pragma endregion
@@ -102,52 +105,7 @@ HRESULT CGnoll::Initialize(void * _param)
 	return S_OK;
 }
 
-_int CGnoll::Update(_double _timeDelta)
-{
-	m_pTransform->Update(_timeDelta);
-	return 0;
-}
 
-_int CGnoll::LateUpate(_double _timeDelta)
-{
-	m_pTransform->Late_Update();
-	if (nullptr == m_pRenderer)
-		return -1;
-
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
-		return -1;
-
-	return 0;
-
-}
-
-
-
-
-
-HRESULT CGnoll::Render()
-{
-	if (nullptr == m_pVIBuffer ||
-		nullptr == m_pAnimator ||
-		nullptr == m_pTransform)
-		return E_FAIL;
-
-
-	ALPHABLEND;
-
-	if (FAILED(m_pAnimator->Render()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
-
-	ALPHABLEND_END;
-
-	return S_OK;
-}
 
 CGnoll * CGnoll::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
@@ -173,28 +131,9 @@ CGameObject * CGnoll::Clone(void * _param)
 	return pInstance;
 }
 
-void CGnoll::Process()
-{
-}
-
-void CGnoll::Update_State()
-{
-}
-
-void CGnoll::OnDead()
-{
-}
-
-void CGnoll::OnTakeDamage()
-{
-}
-
-void CGnoll::Scene_Change()
-{
-}
 
 void CGnoll::Free()
 {
-	Safe_Release(m_pAnimator);
+
 	CMonster::Free();
 }

@@ -3,6 +3,7 @@
 BEGIN(MyGame)
 class CTexture;
 class CClock_Trigger;
+class CShader;
 class CAnimation final : public CBase
 {
 private:
@@ -24,7 +25,7 @@ private:
 	
 public:
 	//다음에 실행할 애니메이션의 포인터를 반환한다.
-	CAnimation*	Render();
+	CAnimation*	Render(CShader* _pShader);
 	//애니메이션을 실행한다.
 	HRESULT		Play();
 

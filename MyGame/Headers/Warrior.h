@@ -2,8 +2,8 @@
 #include "Hero.h"
 
 BEGIN(MyGame)
-class CShader;
-class CPlayerStateCon;
+
+
 class CWarrior final : public CHero
 {
 private:
@@ -11,8 +11,6 @@ private:
 	explicit CWarrior(CWarrior& _hero);
 	virtual ~CWarrior() = default;
 
-private:
-	CShader*			m_pShader = nullptr;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
 	virtual HRESULT Initialize(void * _param = nullptr) override;
@@ -26,12 +24,7 @@ public:
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
-private:
-	virtual void Scene_Change() override;
-	virtual void Process() override;
-	virtual void Update_State() override;
-	virtual void OnDead() override;
-	virtual void OnTakeDamage() override;
+
 
 public:
 	static CWarrior* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath = nullptr);

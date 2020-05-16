@@ -2,24 +2,29 @@
 #include "Base.h"
 #include "Level.h"
 BEGIN(MyGame)
-#define DEPTH 3
+
+//레벨(층수)가 넘어가도 이전층의 정보는 저장되어야한다. 다시 돌아올 수 있기 때문에.
+class CSpawner;
 class CLevelMgr final: public CBase
 {
 	DECLARE_SINGLETON(CLevelMgr)
 private:
-	explicit CLevelMgr() { ZeroMemory(m_aLevel, sizeof(m_aLevel)); }
+	explicit CLevelMgr();
 	virtual ~CLevelMgr() = default;
 
 private:
-	CLevel* m_aLevel[DEPTH];
-	_uint	m_iCurrLevel = 0;
+	CLevel*		m_aLevel[DEPTH];
+	CSpawner*	m_pSpawner = nullptr;
+	_uint		m_iCurrLevel = 0;
 
 public:
 	CLevel*	Get_CurrLevel();
 	
 public:
-	HRESULT Initialize(PDIRECT3DDEVICE9 _pGraphic_Device);
-	CTerrain*	PickTile(POINT& pt);
+	HRESULT Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device);
+	HRESULT	Initialize();
+	CTerrain*		PickTile(POINT& pt);
+	CGameObject*	PickObject(POINT& pt);
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

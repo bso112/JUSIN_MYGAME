@@ -76,6 +76,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, nullptr, &CTransform::STATEDESC(100.f, 100.f, 1));
 	Set_Module(L"PlayerStateCon", SCENE_STATIC, (CModule**)&m_pStateCon);
+	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
 
 	Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator[CLOTH_NAKED], L"Animator_Naked");
 	Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator[CLOTH_BASIC], L"Animator_Basic");
@@ -200,12 +201,17 @@ HRESULT CWarrior::Initialize(void * _param)
 
 _int CWarrior::Update(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
 	m_pTransform->Update(_timeDelta);
 	return 0;
 }
 
 _int CWarrior::LateUpate(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
 	m_pTransform->Late_Update();
 
 	if (nullptr == m_pRenderer)
@@ -223,20 +229,45 @@ HRESULT CWarrior::Render()
 		nullptr == m_pAnimator ||
 		nullptr == m_pTransform)
 		return E_FAIL;
-
-
-	ALPHABLEND;
-
-	if (FAILED(m_pAnimator[m_eCurrCloth]->Render()))
-		return E_FAIL;
+	
+	if (!m_bActive)
+		return S_OK;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 
+	ALPHABLEND;
+
+	if (FAILED(m_pAnimator[m_eCurrCloth]->Render(m_pShader)))
+		return E_FAIL;
+
+
+	if (FAILED(m_pShader->Begin()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Begin_Pass(m_iPass)))
+		return E_FAIL;
+	
+	//반짝거리는 거였으면 원상복귀
+	if (m_iPass == 3)
+		m_iPass = 0;
+
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+
+	if (FAILED(m_pShader->End_Pass()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->End()))
+		return E_FAIL;
+
+
 	ALPHABLEND_END;
+
+
+
+
 
 	return S_OK;
 }
@@ -244,39 +275,20 @@ HRESULT CWarrior::Render()
 
 void CWarrior::OnCollisionEnter(CGameObject * _pOther)
 {
-
+	if (!m_bActive)
+		return;
 }
 
-void CWarrior::Scene_Change()
-{
-}
-
-void CWarrior::Process()
-{
-}
-
-void CWarrior::Update_State()
-{
-}
-
-void CWarrior::OnDead()
-{
-}
-
-void CWarrior::OnTakeDamage()
-{
-
-}
 
 void CWarrior::Free()
 {
 	if (m_eSceneID >= SCENE_END)
 		return;
+
 	CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this);
 
 	for (int i = 0; i < CLOTH_END; ++i)
 		Safe_Release(m_pAnimator[i]);
-	Safe_Release(m_pShader);
 
 	CHero::Free();
 }

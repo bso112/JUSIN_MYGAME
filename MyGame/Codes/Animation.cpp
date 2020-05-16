@@ -2,6 +2,7 @@
 #include "..\Headers\Animation.h"
 #include "Texture.h"
 #include "Clock.h"
+#include "Shader.h"
 
 USING(MyGame)
 CAnimation::CAnimation()
@@ -16,13 +17,14 @@ CAnimation::CAnimation(CAnimation & _rhs)
 }
 
 
-CAnimation* CAnimation::Render()
+CAnimation* CAnimation::Render(CShader* _pShader)
 {
 	if (nullptr == m_pClock)
 		return nullptr;
 
 
-	m_pTexture->Set_Texture(m_iCurrFrame);
+	m_pTexture->Set_TextureOnShader(_pShader, "g_BaseTexture",m_iCurrFrame);
+
 
 	if (m_pClock->isThreashHoldReached(m_dFrameTime))
 	{

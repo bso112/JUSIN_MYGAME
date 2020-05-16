@@ -44,6 +44,9 @@ _int CFood::Update(_double _timeDelta)
 		m_bDead)
 		return -1;
 
+	if (!m_bActive)
+		return 0;
+
 	m_pTransform->Update(_timeDelta);
 	return 0;
 }
@@ -53,6 +56,9 @@ _int CFood::LateUpate(_double _timeDelta)
 	if (nullptr == m_pTransform)
 		return -1;
 
+	if (!m_bActive)
+		return 0;
+
 	m_pTransform->Late_Update();
 	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT);
 	return 0;
@@ -60,10 +66,14 @@ _int CFood::LateUpate(_double _timeDelta)
 
 HRESULT CFood::Render()
 {
+
 	if (nullptr == m_pTexture ||
 		nullptr == m_pVIBuffer ||
 		nullptr == m_pTransform)
 		return E_FAIL;
+
+	if (!m_bActive)
+		return 0;
 
 	ALPHABLEND;
 
@@ -110,6 +120,8 @@ CGameObject * CFood::Clone(void * _param)
 
 HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 {
+	if (!m_bActive)
+		return 0;
 
 	if (0 == lstrcmp(_pAction, AC_EAT))
 	{
@@ -124,6 +136,9 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 
 void CFood::OnCollisionEnter(CGameObject * _pOther)
 {
+	if (!m_bActive)
+		return;
+
 	if (nullptr != dynamic_cast<CHero*>(_pOther))
 	{
 		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();

@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include "GameObject.h"
 #include "LevelMgr.h"
+#include "Transform.h"
 #include "CollisionMgr.h"
 
 USING(MyGame)
@@ -215,6 +216,8 @@ HRESULT CObjMgr::Clear_Scene(SCENEID _eSceneID)
 
 	return S_OK;
 }
+
+
 
 void CObjMgr::Free()
 {

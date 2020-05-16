@@ -53,6 +53,11 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+_int CGameObject::Interact(CGameObject * _pOther)
+{
+	return _int();
+}
+
 void CGameObject::OnCollisionEnter(CGameObject * _pOther)
 {
 }

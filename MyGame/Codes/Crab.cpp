@@ -6,6 +6,7 @@
 #include "Hero.h"
 #include "Clock.h"
 #include "AIStateCon.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -44,6 +45,8 @@ HRESULT CCrab::Initialize(void * _param)
 	if (FAILED(Set_Module(L"AIStateCon", SCENE_STATIC, (CModule**)&m_pStateCon)))
 		return E_FAIL;
 	if (FAILED(Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator)))
+		return E_FAIL;
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
 		return E_FAIL;
 
 #pragma endregion
@@ -106,52 +109,6 @@ HRESULT CCrab::Initialize(void * _param)
 	return S_OK;
 }
 
-_int CCrab::Update(_double _timeDelta)
-{
-	m_pTransform->Update(_timeDelta);
-	return 0;
-}
-
-_int CCrab::LateUpate(_double _timeDelta)
-{
-	m_pTransform->Late_Update();
-	if (nullptr == m_pRenderer)
-		return -1;
-
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
-		return -1;
-
-	return 0;
-
-}
-
-
-
-
-HRESULT CCrab::Render()
-{
-	if (nullptr == m_pVIBuffer ||
-		nullptr == m_pAnimator ||
-		nullptr == m_pTransform)
-		return E_FAIL;
-
-
-	ALPHABLEND;
-
-	if (FAILED(m_pAnimator->Render()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
-
-	ALPHABLEND_END;
-
-	return S_OK;
-}
-
 CCrab * CCrab::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	CCrab* pInstance = new CCrab(_pGraphic_Device);
@@ -176,29 +133,9 @@ CGameObject * CCrab::Clone(void * _param)
 	return pInstance;
 }
 
-void CCrab::Process()
-{
-}
-
-void CCrab::Update_State()
-{
-}
-
-void CCrab::OnDead()
-{
-}
-
-void CCrab::OnTakeDamage()
-{
-}
-
-void CCrab::Scene_Change()
-{
-}
 
 void CCrab::Free()
 {
-	Safe_Release(m_pStateCon);
-	Safe_Release(m_pAnimator);
+
 	CMonster::Free();
 }

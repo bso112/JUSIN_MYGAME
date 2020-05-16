@@ -2,6 +2,7 @@
 #include "..\Headers\Character.h"
 #include "Stat.h"
 #include "Clock.h"
+#include "Shader.h"
 #include "StateCon.h"
 
 USING(MyGame)
@@ -118,11 +119,22 @@ void CCharacter::OnCollisionEnter(CGameObject * _pOther)
 
 
 
+void CCharacter::OnDead()
+{
+}
+
+void CCharacter::OnTakeDamage()
+{
+	//¹ÝÂ¦°Å¸²
+	m_iPass = 3;
+}
+
 void CCharacter::Free()
 {
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pStateCon);
+	Safe_Release(m_pShader);
 
 	CGameObject::Free();
 }

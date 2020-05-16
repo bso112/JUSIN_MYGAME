@@ -15,7 +15,9 @@ protected:
 protected:
 	Vector3		m_vDst = {};
 
-
+public:
+	virtual	_int	Interact(CGameObject* _pOther);
+	
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
 	_bool	Has_Key(TIER _tier);
@@ -27,6 +29,7 @@ protected:
 
 protected:
 	virtual HRESULT	OnKeyDown(_int KeyCode) override;
+	//히어로가 위치할 처음 위치를 구한다.
 	HRESULT	Set_InitialPos();
 	
 public:

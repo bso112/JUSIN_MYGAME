@@ -6,7 +6,7 @@
 #include "Hero.h"
 #include "Clock.h"
 #include "AIStateCon.h"
-
+#include "Shader.h"
 USING(MyGame)
 
 CRat::CRat(CRat & _rhs)
@@ -45,6 +45,9 @@ HRESULT CRat::Initialize(void * _param)
 		return E_FAIL;
 	if (FAILED(Set_Module(L"Animator", SCENE_STATIC, (CModule**)&m_pAnimator)))
 		return E_FAIL;
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
+		return E_FAIL;
+
 
 #pragma endregion
 
@@ -102,53 +105,6 @@ HRESULT CRat::Initialize(void * _param)
 	return S_OK;
 }
 
-_int CRat::Update(_double _timeDelta)
-{
-	m_pTransform->Update(_timeDelta);
-	return 0;
-}
-
-_int CRat::LateUpate(_double _timeDelta)
-{
-	m_pTransform->Late_Update();
-	
-	if (nullptr == m_pRenderer)
-		return E_FAIL;
-
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
-		return E_FAIL;
-
-	if (nullptr == m_pFocus)
-		return E_FAIL;
-
-	return 0;
-
-}
-
-
-HRESULT CRat::Render()
-{
-	if (nullptr == m_pVIBuffer ||
-		nullptr == m_pAnimator ||
-		nullptr == m_pTransform)
-		return E_FAIL;
-
-
-	ALPHABLEND;
-
-	if (FAILED(m_pAnimator->Render()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
-
-	ALPHABLEND_END;
-
-	return S_OK;
-}
 
 CRat * CRat::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
@@ -174,28 +130,10 @@ CGameObject * CRat::Clone(void * _param)
 	return pInstance;
 }
 
-void CRat::Process()
-{
-}
 
-void CRat::Update_State()
-{
-}
-
-void CRat::OnDead()
-{
-}
-
-void CRat::OnTakeDamage()
-{
-}
-
-void CRat::Scene_Change()
-{
-}
 
 void CRat::Free()
 {
-	Safe_Release(m_pAnimator);
+
 	CMonster::Free();
 }

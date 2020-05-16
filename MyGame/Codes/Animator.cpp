@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Animator.h"
+#include "Shader.h"
 
 USING(MyGame)
 
@@ -30,13 +31,13 @@ HRESULT CAnimator::Add_Animation(const _tchar* _pTag, CAnimation * _pAnimation)
 	return S_OK;
 }
 
-_int CAnimator::Render()
+_int CAnimator::Render(CShader* _pShader)
 {
 	if (nullptr == m_pCurrAnim)
 		return -1;
 
 	//현재 애니메이션이 끝나면 다음에 설정된 애니메이션으로 넘어간다.
-	CAnimation* next = m_pCurrAnim->Render();
+	CAnimation* next = m_pCurrAnim->Render(_pShader);
 	if (nullptr != next)
 	{
 		next->Play();

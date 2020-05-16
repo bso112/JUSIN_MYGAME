@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "..\Headers\Stage.h"
 #include "LevelMgr.h"
-#include "Warrior.h"
 #include "TextureLoader.h"
 #include "StageUIMgr.h"
 #include "Transform.h"
-#include "Spawner.h"
 #include "TurnMgr.h"
 #include "MyButton.h"
 #include "KeyMgr.h"
@@ -75,20 +73,10 @@ HRESULT CStage::Initalize_Prototypes()
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/icon/");
 	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
 
-	if (FAILED(m_pLevelMgr->Initialize(m_pGraphic_Device)))
-		return E_FAIL;
-
 	Safe_Release(pLoader);
 
-	//이부분 캐릭터 선택 반영하게 변경
-	if (FAILED(m_pObjMgr->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
-	if (FAILED(m_pObjMgr->Add_Prototype(L"RedButton", SCENE_STAGE, CMyButton::Create(m_pGraphic_Device, Vector4(), Vector4(), L"RedButton", SCENE_STAGE))))
-		return E_FAIL;
-
-	//씬에 맞는 아이템, 몬스터를 스폰한다.
-	if (FAILED(CSpawner::Ready_Prototypes(m_pGraphic_Device, SCENE_STAGE)))
+	if (FAILED(m_pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;
@@ -99,10 +87,8 @@ HRESULT CStage::Initalize_Layers()
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
-	if (nullptr == m_pObjMgr->Add_GO_To_Layer(L"Player", SCENE_STAGE, L"Player", SCENE_STAGE))
-		return E_FAIL;
 
-	if (FAILED(CSpawner::Spawn(SCENE_STAGE)))
+	if (FAILED(m_pLevelMgr->Initialize()))
 		return E_FAIL;
 
 

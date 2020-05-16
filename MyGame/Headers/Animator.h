@@ -4,7 +4,7 @@
 #include "Animation.h"
 
 BEGIN(MyGame)
-
+class CShader;
 class CAnimator : public CModule
 {
 private:
@@ -21,7 +21,7 @@ public:
 
 public:
 	HRESULT	Add_Animation(const _tchar* _pTag, CAnimation* _pAnimation);
-	_int	Render();
+	_int	Render(CShader* _pShader);
 	HRESULT	Play(const _tchar* _pTag);
 public:
 	static CAnimator* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

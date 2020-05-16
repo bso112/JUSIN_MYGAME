@@ -44,6 +44,9 @@ public:
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
 
+public:
+	virtual	_int	Interact(CGameObject* _pOther);
+
 
 public:
 	map<const _tchar*, CModule*>* Get_Modules() { return &m_mapModule; }
