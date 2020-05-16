@@ -50,6 +50,8 @@ HRESULT CItemSlot::Remove_Item()
 
 HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID)
 {
+	m_bActive = false;
+
 	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	//키매니저에 옵저버로 등록한다.
 	CKeyMgr::Get_Instance()->RegisterObserver(m_eSceneID, this);

@@ -17,8 +17,9 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 	//렌더 깊이
 	m_iDepth = 1;
 
+	Vector3 vPanelPos = Vector3(g_iWinCX >> 1, g_iWinCY >> 1);
 	//부모의 이니셜라이즈 부름
-	CImage::Initialize(L"inventory", Vector3(g_iWinCX >> 1, g_iWinCY >> 1), Vector2(PANELX, PANLEY), SCENE_STAGE);
+	CImage::Initialize(L"inventory", vPanelPos, Vector2(PANELX, PANLEY), SCENE_STAGE);
 
 	if (nullptr == m_pTransform)
 		return E_FAIL;
@@ -40,10 +41,10 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 
 	}
 
-
-
-	//m_pDescription = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(), Vector2(), L"empty", SCENE_STATIC));
-
+	//설명을 적어놓은 이미지클래스
+	m_pDescription = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x, vPanelPos.y), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
+	m_pDescription->Set_Active(false);
+	m_pDescription->Set_Depth(m_iDepth + 1);
 	//버튼을 설정한다.
 	for (auto& btn : m_vecBtn)
 	{
@@ -53,7 +54,7 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 		btn->Add_Listener([&] { this->Set_Active(false);});
 	}
 
-	//Safe_AddRef(m_pDescription);
+	Safe_AddRef(m_pDescription);
 
 	return S_OK;
 }
@@ -73,6 +74,7 @@ void CItemInfoPanel::OnSetActive(bool _bActive)
 	{
 		btn->Set_Active(_bActive);
 	}
+	m_pDescription->Set_Active(_bActive);
 }
 
 
@@ -98,7 +100,9 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 		if (i >= m_vecBtn.size())
 			break;
 
-		//m_pDescription->Set_Text(_pItem->Get_Description());
+		if(nullptr != _pItem->Get_Description())
+			m_pDescription->Set_Text(_pItem->Get_Description());
+		
 		m_vecBtn[i]->Set_Text((*actions)[i]);
 		//[&]으로하면 지역변수인 actions가 캡쳐되버려서 이상한 곳을 가리키게됨. actions를 리스너에 담아두고 나중에 부르는거니까.
 		m_vecBtn[i]->Add_Listener([=] { _pItem->Use(pHero, (*actions)[i]); });

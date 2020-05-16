@@ -10,7 +10,7 @@ class CItem abstract : public CGameObject
 {
 protected:
 	explicit CItem(PDIRECT3DDEVICE9 _pGrahic_Device) : CGameObject(_pGrahic_Device){};
-	explicit CItem(CItem& _rhs) : CGameObject(_rhs) {};
+	explicit CItem(CItem& _rhs);
 	virtual ~CItem() = default;
 
 protected:
@@ -22,7 +22,7 @@ protected:
 	_bool					m_bUsed = false;
 
 protected:
-	const _tchar*			m_pDescription;
+	const _tchar*			m_pDescription = nullptr;
 
 
 

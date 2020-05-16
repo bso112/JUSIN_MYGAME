@@ -6,6 +6,7 @@
 #include "Gnoll.h"
 #include "Crab.h"
 #include "Food.h"
+#include "Cheese.h"
 #include "Texture.h"
 #include "ModuleMgr.h"
 
@@ -34,7 +35,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _e
 
 	if(FAILED(pModuleMgr->Add_Module(L"Texture_Food", _eScene, CTexture::Create(_pGraphic_Device, L"../Bin/Resources/Textures/Item/Food/%d.png", 1))))
 		return E_FAIL;
-	pObjMgr->Add_Prototype(L"Food", _eScene, CFood::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Food", _eScene, CCheese::Create(_pGraphic_Device));
 
 
 	Safe_Release(pObjMgr);

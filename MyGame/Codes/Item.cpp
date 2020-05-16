@@ -4,6 +4,11 @@
 
 
 USING(MyGame)
+CItem::CItem(CItem & _rhs)
+	: CGameObject(_rhs),
+	m_pDescription(_rhs.m_pDescription)
+{
+};
 HRESULT CItem::Initialize(void * _param)
 {
 	m_vecActions.push_back(AC_DROP);

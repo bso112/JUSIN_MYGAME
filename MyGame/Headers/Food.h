@@ -24,7 +24,7 @@ protected:
 	explicit CFood(CFood& _rhs);
 	virtual ~CFood() = default;
 
-private:
+protected:
 	STATEDESC	m_tDesc;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);

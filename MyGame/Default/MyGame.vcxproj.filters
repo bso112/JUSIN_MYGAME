@@ -235,6 +235,9 @@
     <Filter Include="04.GameObject\GameObject\Button\Slot">
       <UniqueIdentifier>{3c7fe11a-f0c1-48a5-9340-3c4cee7e85a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Food\cheese">
+      <UniqueIdentifier>{59a942d6-956b-4ade-9d1a-a70765aec092}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -456,6 +459,9 @@
     <ClInclude Include="..\Headers\Camera.h">
       <Filter>04.GameObject\GameObject\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Cheese.h">
+      <Filter>04.GameObject\GameObject\Item\Food\cheese</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -652,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Camera.cpp">
       <Filter>04.GameObject\GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Cheese.cpp">
+      <Filter>04.GameObject\GameObject\Item\Food\cheese</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

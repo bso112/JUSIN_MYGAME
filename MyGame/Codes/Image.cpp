@@ -45,7 +45,6 @@ _int CImage::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Late_Update();
 	return 0;
 }
 
@@ -56,6 +55,8 @@ _int CImage::LateUpate(_double _timeDelta)
 
 	if (nullptr == m_pRenderer)
 		return -1;
+
+	m_pTransform->Late_Update();
 
 	//여러번 호출되지 않음
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
