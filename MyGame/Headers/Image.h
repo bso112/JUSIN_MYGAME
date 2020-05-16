@@ -24,9 +24,9 @@ protected:
 	CTexture*	m_pTextrue = nullptr;
 	CTransform*	m_pTransform = nullptr;
 	CShader*	m_pShader = nullptr;
-	const _tchar*	m_pText = L"";
 	const _tchar*	m_pTextureTag = L"";
 	_int			m_iTextureID = 1;
+	MYFONT			m_tFont;
 
 public:
 	virtual HRESULT Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID);
@@ -38,9 +38,8 @@ protected:
 	virtual HRESULT	OnRender();
 
 public:
-	void	Set_Text(const _tchar* pText) { m_pText = pText; }
+	void	Set_Font(MYFONT _tFont) { m_tFont = _tFont; }
 	void	Replace_Texture(const _tchar* pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID);
-
 public:
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	virtual	CGameObject* Clone(void* _param = nullptr)override;

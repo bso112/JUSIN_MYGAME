@@ -3,18 +3,18 @@
 
 typedef struct tagVector4 : public D3DXVECTOR4
 {
-	tagVector4() 
+	tagVector4()
 	{
 		ZeroMemory(this, sizeof(tagVector4));
 	}
 
-	tagVector4(D3DXVECTOR4& _DXVECTOR4) 
-	{ 
+	tagVector4(D3DXVECTOR4& _DXVECTOR4)
+	{
 		x = _DXVECTOR4.x;
 		y = _DXVECTOR4.y;
 		z = _DXVECTOR4.z;
 		w = _DXVECTOR4.w;
-	
+
 	}
 
 
@@ -146,14 +146,20 @@ typedef	struct tagVertex_Texture
 	D3DXVECTOR4	vWinPos;
 }VTXTEX;
 
-
-
+typedef struct tagFont
+{
+	RECT m_tRC = {};
+	Vector2 m_vSize = Vector2();
+	DWORD	m_dwFormat = DT_CENTER | DT_VCENTER;
+	D3DXCOLOR	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	const _tchar* m_pText = L"";
+}MYFONT;
 
 typedef struct tagTerrain
 {
 	//타일이 참조해야할 텍스처이름
 	wchar_t*	m_pFilePath = nullptr;
-	
+
 	bool		m_bMovable = false;
 	bool		m_bWater = false;
 	int			m_iMoveCost = 0;

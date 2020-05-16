@@ -42,17 +42,17 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 	}
 
 	//아이콘
-	m_pItemIcon = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f), vPanelPos.y - (PANLEY * 0.5f)), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
+	m_pItemIcon = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 50.f, vPanelPos.y - (PANLEY * 0.5f) + 50.f), Vector2(50.f, 50.f), L"empty", SCENE_STATIC));
 	m_pItemIcon->Set_Active(false);
 	m_pItemIcon->Set_Depth(m_iDepth + 1);
 	Safe_AddRef(m_pItemIcon);
 	//아이템이름 텍스트
-	m_pItemNameText = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 100, vPanelPos.y - (PANLEY * 0.5f)), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
+	m_pItemNameText = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 150.f, vPanelPos.y - (PANLEY * 0.5f) + 50.f), Vector2(100.f, 50.f), L"empty", SCENE_STATIC));
 	m_pItemNameText->Set_Active(false);
 	m_pItemNameText->Set_Depth(m_iDepth + 1);
 	Safe_AddRef(m_pItemNameText);
 	//설명을 적어놓은 이미지클래스
-	m_pDescription = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x, vPanelPos.y), Vector2(PANELX - 100.f, PANLEY - 50.f), L"empty", SCENE_STATIC));
+	m_pDescription = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x, vPanelPos.y), Vector2(PANELX - 100.f, PANLEY - 180.f), L"empty", SCENE_STATIC));
 	m_pDescription->Set_Active(false);
 	m_pDescription->Set_Depth(m_iDepth + 1);
 	Safe_AddRef(m_pDescription);
@@ -108,7 +108,14 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 
 	//이름
 	if (nullptr != _pItem->Get_Name())
-		m_pItemNameText->Set_Text(_pItem->Get_Name());
+	{
+		MYFONT font;
+		font.m_Color = D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f);
+		font.m_vSize = Vector2(50.f, 50.f);
+		font.m_dwFormat = DT_LEFT ;
+		font.m_pText = _pItem->Get_Name();
+		m_pItemNameText->Set_Font(font);
+	}
 
 	//아이콘
 	const _tchar* textureTag = _pItem->Get_TextureTag();
@@ -118,7 +125,12 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 
 	//설명
 	if (nullptr != _pItem->Get_Description())
-		m_pDescription->Set_Text(_pItem->Get_Description());
+	{
+		MYFONT font;
+		font.m_dwFormat = DT_LEFT;
+		font.m_pText = _pItem->Get_Description();
+		m_pDescription->Set_Font(font);
+	}
 
 	//각 버튼에 아이템이 할 수 있는 액션을 연결한다.
 	for (size_t i = 0; i < actions->size(); ++i)

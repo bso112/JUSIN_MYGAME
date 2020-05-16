@@ -92,8 +92,8 @@ HRESULT CImage::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	g_pFont->DrawText(NULL, m_pText, -1, &m_pTransform->Get_RECT(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-
+	m_tFont.m_tRC = m_pTransform->Get_RECT();
+	g_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
 	//하위클래스의 렌더
 	OnRender();
 
