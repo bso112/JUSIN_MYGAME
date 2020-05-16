@@ -6,7 +6,7 @@
 #include "Terrain.h"
 #include "ObjMgr.h"
 #include "Layer.h"
-
+#include "StageUIMgr.h"
 USING(MyGame)
 
 
@@ -34,6 +34,17 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
+
+		vector<RECT> UIRect = CStageUIMgr::Get_Instance()->GetUIRect();
+		for (auto& rc : UIRect)
+		{
+			//만약 마우스 포인트가 UI위에 있으면 무시
+			if (PtInRect(&rc, pt))
+			{
+				return E_FAIL;
+			}
+		}
+
 
 		vector<CTerrain*> route;
 		CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();

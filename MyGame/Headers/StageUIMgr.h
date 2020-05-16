@@ -17,7 +17,7 @@ private:
 	CInventoryUIMgr*	m_pInventoryUIMgr	= nullptr;
 public:
 	HRESULT	Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHero);
-
+	vector<RECT>	GetUIRect();
 private:
 	HRESULT Initialize_Prototype(LPDIRECT3DDEVICE9 pGraphic_Device, CHero* _pHero);
 

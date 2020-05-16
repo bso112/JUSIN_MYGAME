@@ -18,6 +18,7 @@ public:
 
 public:
 	CInventory*		GetInventory() { return m_pInventory; }
+	vector<RECT>	GetUIRect();
 
 public:
 	void	Active_Inventory();

@@ -87,6 +87,11 @@ HRESULT CStageUIMgr::Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHer
 	return S_OK;
 }
 
+vector<RECT> CStageUIMgr::GetUIRect()
+{
+	return m_pInventoryUIMgr->GetUIRect();
+}
+
 void CStageUIMgr::Free()
 {
 	Safe_Release(m_pObjMgr);

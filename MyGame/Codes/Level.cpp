@@ -7,6 +7,7 @@
 #include "Stair.h"
 #include "CollisionMgr.h"
 #include "Stair.h"
+#include "StageUIMgr.h"
 
 USING(MyGame)
 
@@ -800,6 +801,16 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 
 CTerrain * CLevel::Pick_Tile(POINT & _pt)
 {
+	vector<RECT> UIRect = CStageUIMgr::Get_Instance()->GetUIRect();
+	for (auto& rc : UIRect)
+	{
+		//만약 마우스 포인트가 UI위에 있으면 무시
+		if (PtInRect(&rc, _pt))
+		{
+			return nullptr;
+		}
+	}
+
 	_uint x = _pt.x / TILECX;
 	_uint y = _pt.y / TILECY;
 

@@ -60,6 +60,11 @@ CPlayerState::STATE CPlayerWalk::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 		pTransform->NextTurn();
 	}
 
+	//모든 루트를 움직였으면
+	if (!pTransform->Is_Moving())
+	{
+		return STATE_IDLE;
+	}
 
 	return STATE_END;
 }

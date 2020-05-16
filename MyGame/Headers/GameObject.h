@@ -85,6 +85,7 @@ public:
 	_uint		Get_InstanceID() { return m_iInstanceID; }
 	HRESULT		Add_Module(const _tchar* _pModuleTag, CModule* _pModule);
 	void		Set_Active(_bool _bActive) { m_bActive = _bActive; OnSetActive(_bActive); }
+	_bool		Get_Active() { return m_bActive; }
 	void		Set_Depth(_int _iDepth) { m_iDepth = _iDepth; }
 	_int		Get_Depth() { return m_iDepth; }
 public:

@@ -77,7 +77,7 @@ HRESULT CRat::Initialize(void * _param)
 
 	Set_Module(L"rat_jump", SCENE_STAGE, (CModule**)&pTexture);
 	CAnimation* pJumpAnim = CAnimation::Create(pTexture, 0.1, true);
-	m_pAnimator->Add_Animation(L"jump", pJumpAnim);
+	m_pAnimator->Add_Animation(L"walk", pJumpAnim);
 
 	//애니메이션의 관계설정
 	pAttackAnim->Set_NextAnim(pIdleAnim);
@@ -96,7 +96,7 @@ HRESULT CRat::Initialize(void * _param)
 
 
 	//멤버변수 셋팅
-	m_iRecogRange = 10;
+	m_iRecogRange = 5;
 	m_iAttackRange = 1;
 
 	return S_OK;

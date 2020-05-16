@@ -4,6 +4,7 @@
 #include "ItemSlot.h"
 #include "ItemInfoPanel.h"
 #include "ObjMgr.h"
+#include "Transform.h"
 
 
 USING(MyGame)
@@ -40,14 +41,40 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 
 	//아이템 정보 판넬의 버튼을 클릭하면 인벤토리를 닫는다. (아이템 판넬도 닫힌다)
 	m_pItemInfoPanel->Add_ButtonListener([&] { m_pInventory->Set_Active(false);});
-	
 
 
 
-	
+
+
 	return S_OK;
 }
 
+
+vector<RECT> CInventoryUIMgr::GetUIRect()
+{
+	vector<RECT> rc;
+	
+	//인벤토리가 활성화 상태면
+	if (m_pInventory->Get_Active())
+	{
+		//RECT를 구해 넘겨준다.
+		CTransform* pInvenTransform = (CTransform*)m_pInventory->Get_Module(L"Transform");
+		if (nullptr == pInvenTransform)
+			return rc;
+		rc.push_back(pInvenTransform->Get_RECT());
+
+	}
+	if (m_pItemInfoPanel->Get_Active())
+	{
+		CTransform* pItemInfoPanelTransform = (CTransform*)m_pItemInfoPanel->Get_Module(L"Transform");
+		if (nullptr == pItemInfoPanelTransform)
+			return rc;
+		rc.push_back(pItemInfoPanelTransform->Get_RECT());
+
+	}
+
+	return rc;
+}
 
 void CInventoryUIMgr::Active_Inventory()
 {
