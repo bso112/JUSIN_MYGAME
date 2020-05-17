@@ -9,6 +9,7 @@
 #include "Cheese.h"
 #include "Texture.h"
 #include "ModuleMgr.h"
+#include "StageUIMgr.h"
 
 USING(MyGame)
 
@@ -102,6 +103,16 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 	if (DEPTH <= _iLevel)
 		return nullptr;
 
+	vector<RECT> UIRect = CStageUIMgr::Get_Instance()->GetUIRect();
+	for (auto& rc : UIRect)
+	{
+		//만약 마우스 포인트가 UI위에 있으면 무시
+		if (PtInRect(&rc, _pt))
+		{
+			return nullptr;
+		}
+	}
+
 	auto& iter = m_listGO[_iLevel].begin();
 	while (iter != m_listGO[_iLevel].end())
 	{
@@ -117,7 +128,7 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
 			if (nullptr != pTransform)
 			{
-				if (PtInRect(&pTransform->Get_RECT(), _pt))
+				if (PtInRect(&pTransform->Get_Collider(), _pt))
 					return *iter;
 			}
 			

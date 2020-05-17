@@ -3,6 +3,8 @@
 
 BEGIN(MyGame)
 class CTerrain;
+class CTexture;
+class CVIBuffer;
 class CTransform final : public CModule
 {
 public:
@@ -40,6 +42,10 @@ private:
 	Vector3		m_vSize;
 	Vector3		m_vRotation;
 
+	//콜라이더 렌더를 위함
+	CTexture*	m_pTexture = nullptr;
+	CVIBuffer*	m_pVIBuffer = nullptr;
+
 private:
 	//목표 트랜스폼
 	CTransform*			m_pTarget = nullptr;
@@ -74,6 +80,7 @@ public:
 	virtual _int	Update(_double _timeDelta);
 	//state martix를 업데이트한다.
 	virtual _int	Late_Update();
+	virtual HRESULT	Render_Collider();
 
 public:
 	HRESULT	Set_Position(Vector3 _vPosition);

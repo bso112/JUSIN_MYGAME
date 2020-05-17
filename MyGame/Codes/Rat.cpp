@@ -28,11 +28,11 @@ HRESULT CRat::Initialize(void * _param)
 
 	//스텟셋팅
 	m_tStat.m_fExp = 10.f;
-	m_tStat.m_fMaxHp = CStat::Create(16.f);
+	m_tStat.m_fMaxHp = CStat::Create(1000.f);
+	m_tStat.m_fHP = 1000.f;
 	m_tStat.m_fAtt = CStat::Create(5.f);
 	m_tStat.m_iGold = 5;
 	m_tStat.m_fArmor = CStat::Create(2.f);
-	m_tStat.m_fHP = 16.f;
 #pragma endregion
 
 #pragma region 모듈셋팅
@@ -96,6 +96,7 @@ HRESULT CRat::Initialize(void * _param)
 		m_pTransform->Set_Position(*((Vector3*)_param));
 
 	m_pTransform->Set_Size(Vector2(20.f, 20.f));
+	m_pTransform->Set_ColliderSize(Vector2(50.f, 50.f));
 
 
 	//멤버변수 셋팅

@@ -84,6 +84,9 @@ HRESULT CMonster::Render()
 
 	ALPHABLEND_END;
 
+	//콜라이더 렌더
+	m_pTransform->Render_Collider();
+
 
 	return S_OK;
 }

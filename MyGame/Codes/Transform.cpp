@@ -3,6 +3,8 @@
 #include "Terrain.h"
 #include "TurnMgr.h"
 #include "LevelMgr.h"
+#include "Texture.h"
+#include "ModuleMgr.h"
 USING(MyGame)
 
 _int CTransform::m_iTurnCnt = 0;
@@ -32,9 +34,18 @@ HRESULT CTransform::Initialize(void * _pArg)
 	m_vPosition = Vector3(0.f, 0.f, 0.f, 1.f);
 	m_vDir = Vector3();
 
-	m_vColliderSize = Vector3((float)TILECX - 5, (float)TILECY - 5, 1.f);
-
+	m_vColliderSize = Vector3(1.f, 1.f, 1.f);
 	D3DXMatrixIdentity(&m_StateMatrix);
+
+	
+	//콜라이더를 위한 VIBuffer
+	m_pVIBuffer = dynamic_cast<CVIBuffer*>(CModuleMgr::Get_Instance()->Get_Module(L"VIBuffer", SCENE_STATIC));
+	if (nullptr == m_pVIBuffer)
+		return E_FAIL;
+	//콜라이더를 위한 텍스쳐
+	m_pTexture = dynamic_cast<CTexture*>(CModuleMgr::Get_Instance()->Get_Module(L"empty_bound", SCENE_STATIC));
+	if (nullptr == m_pTexture)
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -57,6 +68,30 @@ _int CTransform::Late_Update()
 
 	m_StateMatrix = scalingMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix;
 	return 0;
+}
+
+HRESULT CTransform::Render_Collider()
+{
+	if (nullptr == m_pTexture ||
+		nullptr == m_pVIBuffer)
+		return E_FAIL;
+
+	ALPHATEST;
+	m_pTexture->Set_Texture(0);
+
+	//사이즈를 잠깐 늘려서 렌더
+	Vector3 originSize = m_vSize;
+	m_vSize = m_vColliderSize;
+	Late_Update();
+	m_pVIBuffer->Set_Transform(m_StateMatrix);
+	m_vSize = originSize;
+	Late_Update();
+
+	m_pVIBuffer->Render();
+
+	ALPHATEST_END;
+	return S_OK;
+
 }
 
 HRESULT CTransform::Set_Position(Vector3 _vPosition)
@@ -353,6 +388,8 @@ CModule* CTransform::Clone(void * _pArg)
 
 void CTransform::Free()
 {
+	Safe_Release(m_pVIBuffer);
+	Safe_Release(m_pTexture);
 	CModule::Free();
 
 }
