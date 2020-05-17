@@ -19,7 +19,7 @@ _int CMonster::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Update(_timeDelta);
+	m_pTransform->Update_Route(_timeDelta);
 
 	return 0;
 }
@@ -29,7 +29,7 @@ _int CMonster::LateUpate(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 
 	if (nullptr == m_pRenderer)
 		return E_FAIL;

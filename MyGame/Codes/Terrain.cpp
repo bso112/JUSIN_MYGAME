@@ -64,7 +64,7 @@ HRESULT CTerrain::Initialize()
 
 _int CTerrain::LateUpate(_double _timeDelta)
 {
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PRIOR)))
 		return -1;
@@ -76,7 +76,7 @@ _int CTerrain::LateUpate(_double _timeDelta)
 
 HRESULT CTerrain::Render()
 {
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;

@@ -19,7 +19,7 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 
 	Vector3 vPanelPos = Vector3(g_iWinCX >> 1, g_iWinCY >> 1);
 	//부모의 이니셜라이즈 부름
-	CImage::Initialize(L"inventory", vPanelPos, Vector2(PANELX, PANLEY), SCENE_STAGE);
+	CImage::Initialize_Prototype(L"inventory", vPanelPos, Vector2(PANELX, PANLEY), SCENE_STAGE);
 
 	if (nullptr == m_pTransform)
 		return E_FAIL;

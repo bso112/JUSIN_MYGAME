@@ -47,7 +47,7 @@ _int CFood::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Update(_timeDelta);
+	m_pTransform->Update_Route(_timeDelta);
 	return 0;
 }
 
@@ -59,7 +59,7 @@ _int CFood::LateUpate(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT);
 	return 0;
 }

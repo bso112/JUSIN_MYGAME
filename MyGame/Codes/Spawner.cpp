@@ -10,6 +10,7 @@
 #include "Texture.h"
 #include "ModuleMgr.h"
 #include "StageUIMgr.h"
+#include "Image.h"
 
 USING(MyGame)
 
@@ -49,6 +50,8 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 
 	}
 
+	//이펙트 프로토타입
+	pObjMgr->Add_Prototype(L"Image_Blood", SCENE_STAGE, CImage::Create(_pGraphic_Device, Vector3(), Vector3(), L"Blood", SCENE_STAGE));
 
 	Safe_Release(pObjMgr);
 	Safe_Release(pModuleMgr);

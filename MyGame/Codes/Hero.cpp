@@ -8,6 +8,9 @@
 #include "Layer.h"
 #include "StageUIMgr.h"
 #include "Monster.h"
+#include "ParticleSystem.h"
+#include "ObjMgr.h"
+#include "TimerMgr.h"
 USING(MyGame)
 
 
@@ -31,6 +34,23 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 	{
 		if (nullptr == m_pTransform)
 			return E_FAIL;
+
+		Vector3 vPos = m_pTransform->Get_Position();
+		CParticleSystem::STATEDESC desc;
+		desc.m_tBaseDesc.vPos = vPos;
+		desc.m_tBaseDesc.vSize = Vector2(100.f, 100.f);
+		desc.m_pTextureTag = L"Blood";
+		desc.m_eTextureSceneID = SCENE_STAGE;
+		desc.m_dDuration = 3.f;
+		desc.m_dLifeTime = 3.f;
+		desc.m_fSpeed = 10.f;
+		desc.m_vParticleSize = Vector2(25.f, 25.f);
+		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+		CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STAGE, L"ParticleSystem", SCENE_STAGE, &desc));
+
+		pParticleSystem->Play(CTimerMgr::Get_Instance()->Get_TimeDelta(), 10);
+
+
 
 		POINT pt;
 		GetCursorPos(&pt);

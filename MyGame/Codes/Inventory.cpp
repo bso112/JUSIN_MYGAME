@@ -76,7 +76,7 @@ _int CInventory::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Update(_timeDelta);
+	m_pTransform->Update_Route(_timeDelta);
 
 	for (auto& slot : m_vecSlot)
 	{
@@ -90,7 +90,7 @@ _int CInventory::LateUpate(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI);
 	
 	//슬롯들을 렌더그룹에 등록한다.

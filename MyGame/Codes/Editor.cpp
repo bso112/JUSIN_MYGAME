@@ -43,7 +43,7 @@ _int CEditor::Update(_double _timeDelta)
 	{
 		CTransform* pTransform = (CTransform*)m_pCurrTerrain->Get_Module(L"Transform");
 		pTransform->Set_Position(Vector3((float)pt.x, (float)pt.y, 0.f, 1.f));
-		pTransform->Late_Update();
+		pTransform->Update_Transform();
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))

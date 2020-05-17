@@ -30,6 +30,8 @@ HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	if (FAILED(CObjMgr::Get_Instance()->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(_pGraphic_Device))))
 		return E_FAIL;
 
+
+
 	return S_OK;
 }
 

@@ -7,7 +7,8 @@
 #include "TurnMgr.h"
 #include "MyButton.h"
 #include "KeyMgr.h"
-
+#include "ObjMgr.h"
+#include "ParticleSystem.h"
 
 USING(MyGame)
 
@@ -65,13 +66,17 @@ HRESULT CStage::Initalize_Prototypes()
 
 	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
 	if (nullptr == pLoader)
+
 		return E_FAIL;
 
 	Safe_AddRef(pLoader);
 
+	//텍스쳐생성
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
 	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/icon/");
 	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Effect/");
+
 
 	Safe_Release(pLoader);
 
@@ -79,6 +84,9 @@ HRESULT CStage::Initalize_Prototypes()
 	if (FAILED(m_pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
 		return E_FAIL;
 
+	//파티클 시스템
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	pObjMgr->Add_Prototype(L"ParticleSystem", SCENE_STAGE, CParticleSystem::Create(m_pGraphic_Device));
 	return S_OK;
 }
 

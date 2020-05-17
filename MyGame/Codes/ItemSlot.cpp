@@ -90,7 +90,7 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 	if (nullptr == m_pRenderer)
 		return -1;
 
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 	
 	
 	if (!m_listItem.empty())

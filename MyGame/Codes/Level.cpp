@@ -82,7 +82,7 @@ HRESULT CLevel::Set_Terrain(CTerrain * _pTerrain, POINT& _pt)
 	if (nullptr != pTransform)
 	{
 		pTransform->Set_Position(Vector2(fX, fY, 0.f, 1.f));
-		pTransform->Late_Update();
+		pTransform->Update_Transform();
 	}
 
 	//타일을 채운다.

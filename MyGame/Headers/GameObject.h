@@ -92,7 +92,7 @@ public:
 	void		Set_Depth(_int _iDepth) { m_iDepth = _iDepth; }
 	_int		Get_Depth() { return m_iDepth; }
 public:
-	virtual CGameObject* Clone(void * _param = nullptr) = 0;
+	virtual CGameObject* Clone(void * _pArg = nullptr) = 0;
 
 public:
 	// CBase을(를) 통해 상속됨

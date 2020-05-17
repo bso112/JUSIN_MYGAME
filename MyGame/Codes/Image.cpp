@@ -9,21 +9,23 @@ USING(MyGame)
 
 
 CImage::CImage(CImage & _rhs)
-	:CGameObject(_rhs)
+	:CGameObject(_rhs),
+	m_pTextureTag(_rhs.m_pTextureTag)
 {
 	m_bActive = true;
+	m_eSceneID = _rhs.m_eSceneID;
 }
 
 
 
-HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID)
+HRESULT CImage::Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID)
 {
 
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
 
 	m_pTextureTag = _pTextureTag;
-
+	m_eSceneID = _eTextureSceneID;
 	if (FAILED(Set_Module(_pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue)))
 		return E_FAIL;
 
@@ -41,10 +43,68 @@ HRESULT CImage::Initialize(_tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, 
 	return S_OK;
 }
 
+HRESULT CImage::Initialize_Prototype(void* _pArg)
+{
+
+	STATEDESC desc;
+	if (nullptr == _pArg)
+		return E_FAIL;
+
+	desc = *((STATEDESC*)_pArg);
+
+	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
+		return E_FAIL;
+
+	m_pTextureTag = desc.m_pTextureTag;
+	m_eSceneID = desc.m_eTextureSceneID;
+
+	if (FAILED(Set_Module(m_pTextureTag, m_eSceneID, (CModule**)&m_pTextrue)))
+		return E_FAIL;
+
+	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &CTransform::STATEDESC(desc.m_fSpeed, 100.f))))
+		return E_FAIL;
+
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
+		return E_FAIL;
+
+	m_pTransform->Set_Position(desc.m_tBaseDesc.vPos);
+	m_pTransform->Set_Size(Vector4(desc.m_tBaseDesc.vSize));
+	return S_OK;
+}
+
+
+HRESULT CImage::Initialize(void * _pArg)
+{
+	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
+		return E_FAIL;
+
+	if (FAILED(Set_Module(m_pTextureTag, m_eSceneID, (CModule**)&m_pTextrue)))
+		return E_FAIL;
+
+	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
+		return E_FAIL;
+
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
+		return E_FAIL;
+
+	if (nullptr != _pArg)
+	{
+		BASEDESC desc = *((BASEDESC*)_pArg);
+
+		m_pTransform->Set_Position(desc.vPos);
+		m_pTransform->Set_Size(desc.vSize);
+	}
+
+
+	return S_OK;
+}
+
 _int CImage::Update(_double _timeDelta)
 {
 	if (!m_bActive)
 		return 0;
+
+	m_pTransform->Update_Normal(_timeDelta);
 
 	return 0;
 }
@@ -57,7 +117,7 @@ _int CImage::LateUpate(_double _timeDelta)
 	if (nullptr == m_pRenderer)
 		return -1;
 
-	m_pTransform->Late_Update();
+	m_pTransform->Update_Transform();
 
 	//여러번 호출되지 않음
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
@@ -114,12 +174,6 @@ HRESULT CImage::OnRender()
 	return S_OK;
 }
 
-CGameObject* CImage::Clone(void* _param)
-{
-	CImage* pInstance = new CImage(*this);
-
-	return pInstance;
-}
 
 void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID)
 {
@@ -131,10 +185,10 @@ void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENE
 	m_iTextureID = _iTextureID;
 }
 
-CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
+CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {
 	CImage* pInstance = new CImage(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_pTextureTag, _vPos, _vSize, _eTextureSceneID)))
+	if (FAILED(pInstance->Initialize_Prototype(_pTextureTag, _vPos, _vSize, _eTextureSceneID)))
 	{
 		MSG_BOX("Fail to create CImage");
 		Safe_Release(pInstance);
@@ -143,6 +197,32 @@ CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector
 	return pInstance;
 }
 
+CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, void* _desc)
+{
+	CImage* pInstance = new CImage(_pGraphic_Device);
+	if (FAILED(pInstance->Initialize_Prototype(_desc)))
+	{
+		MSG_BOX("Fail to create CImage");
+		Safe_Release(pInstance);
+
+	}
+	return pInstance;
+}
+
+
+
+CGameObject* CImage::Clone(void* _param)
+{
+	CImage* pInstance = new CImage(*this);
+	if (FAILED(pInstance->Initialize(_param)))
+	{
+		MSG_BOX("Fail to create CImage");
+		Safe_Release(pInstance);
+
+	}
+
+	return pInstance;
+}
 
 void CImage::Free()
 {

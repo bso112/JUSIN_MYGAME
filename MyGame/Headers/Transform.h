@@ -37,15 +37,20 @@ private:
 private:
 	STATEDESC	m_tStateDesc;
 	_matrix		m_StateMatrix;
+	_matrix		m_ParentMatrix;
 
 	Vector3		m_vPosition;
 	Vector3		m_vSize;
 	Vector3		m_vRotation;
+	Vector3		m_vRevolveAngle;
+	//회전이 기준이될 x축방향
+	Vector3		m_vLook;
 
 	//콜라이더 렌더를 위함
 	CTexture*	m_pTexture = nullptr;
 	CVIBuffer*	m_pVIBuffer = nullptr;
 
+	//for Update_Route
 private:
 	//목표 트랜스폼
 	CTransform*			m_pTarget = nullptr;
@@ -62,10 +67,15 @@ private:
 	Vector3				m_vColliderSize;
 	//이동력만큼 이동했나?
 	_bool				m_bTurnEnd = false;
+	
+	//for Update_Noaml
+private:
+	//이동할 방향
+	Vector3				m_vDir_Normal;
 
 private:
 	static _int m_iTurnCnt;
-	
+
 
 private:
 	//현재 이동할 경로의 인덱스
@@ -75,12 +85,15 @@ private:
 	//총 몇개의 타일을 이동했는가
 	_int				m_iTotalMoveCnt = 0;
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* _pArg);
-	virtual _int	Update(_double _timeDelta);
+	 HRESULT Initialize_Prototype();
+	 HRESULT Initialize(void* _pArg);
+	 HRESULT Update_Route(_double _timeDelta);
+	 HRESULT Update_Normal(_double _timeDelta);
 	//state martix를 업데이트한다.
-	virtual _int	Late_Update();
-	virtual HRESULT	Render_Collider();
+	_int	Update_Transform();
+	HRESULT	Render_Collider();
+
+
 
 public:
 	HRESULT	Set_Position(Vector3 _vPosition);
@@ -112,6 +125,9 @@ public:
 
 
 public:
+	HRESULT LookAt(CTransform* pTargetTransform);
+	HRESULT	RevolveAround(CTransform* pTargetTransform);
+public:
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance);
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed);
 	HRESULT MoveToDir(Vector3 _vDir, _double _timeDelta);
@@ -127,9 +143,7 @@ public:
 	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
 	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
-private:
-	//현재 루트를 따라 이동한다.
-	HRESULT Update_Route(_double _timeDelta);
+
 
 
 public:

@@ -238,6 +238,9 @@
     <Filter Include="04.GameObject\GameObject\Item\Food\cheese">
       <UniqueIdentifier>{59a942d6-956b-4ade-9d1a-a70765aec092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\ParticleSystem">
+      <UniqueIdentifier>{c1ff562e-528c-473a-8759-f5e249f977ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -462,6 +465,9 @@
     <ClInclude Include="..\Headers\Cheese.h">
       <Filter>04.GameObject\GameObject\Item\Food\cheese</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\ParticleSystem.h">
+      <Filter>04.GameObject\GameObject\ParticleSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -661,6 +667,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Cheese.cpp">
       <Filter>04.GameObject\GameObject\Item\Food\cheese</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ParticleSystem.cpp">
+      <Filter>04.GameObject\GameObject\ParticleSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

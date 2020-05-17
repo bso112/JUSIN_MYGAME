@@ -33,9 +33,10 @@ HRESULT CTransform::Initialize(void * _pArg)
 	m_vRotation = Vector3(0.f, 0.f, 0.f);
 	m_vPosition = Vector3(0.f, 0.f, 0.f, 1.f);
 	m_vDir = Vector3();
-
+	m_vLook = Vector3(1.f, 0.f, 0.f);
 	m_vColliderSize = Vector3(1.f, 1.f, 1.f);
 	D3DXMatrixIdentity(&m_StateMatrix);
+	D3DXMatrixIdentity(&m_ParentMatrix);
 
 	
 	//콜라이더를 위한 VIBuffer
@@ -49,223 +50,6 @@ HRESULT CTransform::Initialize(void * _pArg)
 
 	return S_OK;
 }
-
-//목표지점으로 간다.
-_int CTransform::Update(_double _timeDelta)
-{
-	return Update_Route(_timeDelta);
-}
-
-_int CTransform::Late_Update()
-{
-	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix;
-
-	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
-	D3DXMatrixRotationX(&rotationXMatrix, m_vRotation.x);
-	D3DXMatrixRotationX(&rotationYMatrix, m_vRotation.y);
-	D3DXMatrixRotationX(&rotationZMatrix, m_vRotation.z);
-	D3DXMatrixTranslation(&translationMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
-	m_StateMatrix = scalingMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix;
-	return 0;
-}
-
-HRESULT CTransform::Render_Collider()
-{
-	if (nullptr == m_pTexture ||
-		nullptr == m_pVIBuffer)
-		return E_FAIL;
-
-	ALPHATEST;
-	m_pTexture->Set_Texture(0);
-
-	//사이즈를 잠깐 늘려서 렌더
-	Vector3 originSize = m_vSize;
-	m_vSize = m_vColliderSize;
-	Late_Update();
-	m_pVIBuffer->Set_Transform(m_StateMatrix);
-	m_vSize = originSize;
-	Late_Update();
-
-	m_pVIBuffer->Render();
-
-	ALPHATEST_END;
-	return S_OK;
-
-}
-
-HRESULT CTransform::Set_Position(Vector3 _vPosition)
-{
-	m_vPosition = _vPosition;
-	m_vPosition.w = 1;
-	return S_OK;
-}
-
-HRESULT CTransform::Set_Size(Vector3 _vSize)
-{
-	m_vSize = _vSize;
-	return S_OK;
-}
-
-HRESULT CTransform::Set_Rotation(Vector3 _vRotation)
-{
-	m_vRotation = _vRotation;
-	return S_OK;
-}
-
-
-RECT CTransform::Get_Collider()
-{
-	RECT rc = {};
-	float fX = m_vPosition.x;
-	float fY = m_vPosition.y;
-	int iCX = (int)m_vColliderSize.x;
-	int iCY = (int)m_vColliderSize.y;
-
-	rc.left = (LONG)fX - (iCX >> 1);
-	rc.right = (LONG)fX + (iCX >> 1);
-	rc.top = (LONG)fY - (iCY >> 1);
-	rc.bottom = (LONG)fY + (iCY >> 1);
-	return rc;
-}
-
-RECT CTransform::Get_RECT()
-{
-	RECT rc = {};
-	float fX = m_vPosition.x;
-	float fY = m_vPosition.y;
-	int iCX = (int)m_vSize.x;
-	int iCY = (int)m_vSize.y;
-
-	rc.left = (LONG)fX - (iCX >> 1);
-	rc.right = (LONG)fX + (iCX >> 1);
-	rc.top = (LONG)fY - (iCY >> 1);
-	rc.bottom = (LONG)fY + (iCY >> 1);
-	return rc;
-}
-
-
-void CTransform::FaceDir()
-{
-	float sizeX = abs(m_vSize.x);
-
-	if (m_vDir.x < 0)
-		m_vSize.x = -1 * sizeX;
-	else
-		m_vSize.x = sizeX;
-}
-
-HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)
-{
-
-	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
-
-	if (vDir.magnitude() >= m_StopDistance)
-	{
-		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
-	}
-	return S_OK;
-
-}
-
-HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed)
-{
-
-	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
-
-	if (vDir.magnitude() >= m_StopDistance)
-	{
-		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
-	}
-	return S_OK;
-}
-
-HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
-{
-
-	m_vPosition += _vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
-
-	return S_OK;
-}
-
-HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta, _double _Speed)
-{
-	m_vPosition += _vDir.nomalize() * float(_Speed * _timeDelta);
-	return S_OK;
-}
-
-HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance)
-{
-	Vector3 vDir = _vDst - m_vPosition;
-
-	if (vDir.magnitude() >= m_StopDistance)
-	{
-		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
-	}
-	return S_OK;
-}
-
-HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed)
-{
-
-	Vector3 vDir = _vDst - m_vPosition;
-
-	if (vDir.magnitude() >= m_StopDistance)
-	{
-		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
-	}
-	return S_OK;
-}
-
-HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
-{
-	m_vPosition += _vDir * _fForce * float(_timeDelta);
-	return S_OK;
-}
-
-
-
-HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _int _iTurnCnt)
-{
-
-	if (_route.empty())
-		return E_FAIL;
-
-	m_iTurnCnt = _iTurnCnt;
-	m_iCurrRouteIndex = 0;
-	m_Route.swap(vector<CTerrain*>());
-	m_bTurnEnd = false;
-	m_bStop = false;
-	m_Route = _route;
-	m_StopDistance = _StopDistance;
-	CTransform* pTransform = (CTransform*)m_Route.back()->Get_Module(L"Transform");
-	if (nullptr == pTransform)
-		return E_FAIL;
-	m_vDst = pTransform->Get_Position();
-
-
-	return S_OK;
-}
-
-HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance)
-{
-	if (nullptr == _pTarget)
-		return E_FAIL;
-
-	m_iCurrRouteIndex = 0;
-	m_Route.swap(vector<CTerrain*>());
-	m_bTurnEnd = false;
-	m_bStop = false;
-	m_pTarget = _pTarget;
-	m_StopDistance = _StopDistance;
-	//루트 설정
-	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
-	RETURN_FAIL_IF_NULL(pLevel);
-	pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
-
-	return S_OK;
-}
-
 
 HRESULT CTransform::Update_Route(_double _timeDelta)
 {
@@ -359,6 +143,256 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 	return S_OK;
 }
+
+HRESULT CTransform::Update_Normal(_double _timeDelta)
+{
+	m_vPosition += m_vDir_Normal * float(m_tStateDesc.speedPerSec * _timeDelta);
+	return S_OK;
+}
+
+_int CTransform::Update_Transform()
+{
+	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix,
+		revolveXMatrix, revolveYMatrix, revolveZMatrix;
+
+	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
+	D3DXMatrixRotationX(&rotationXMatrix, m_vRotation.x);
+	D3DXMatrixRotationX(&rotationYMatrix, m_vRotation.y);
+	D3DXMatrixRotationX(&rotationZMatrix, m_vRotation.z);
+	D3DXMatrixTranslation(&translationMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	D3DXMatrixRotationX(&revolveXMatrix, m_vRevolveAngle.x);
+	D3DXMatrixRotationX(&revolveYMatrix, m_vRevolveAngle.y);
+	D3DXMatrixRotationX(&revolveZMatrix, m_vRevolveAngle.z);
+
+	m_StateMatrix = scalingMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix
+		*revolveXMatrix * revolveYMatrix * revolveZMatrix * m_ParentMatrix;
+	return 0;
+}
+
+HRESULT CTransform::Render_Collider()
+{
+	if (nullptr == m_pTexture ||
+		nullptr == m_pVIBuffer)
+		return E_FAIL;
+
+	ALPHATEST;
+	m_pTexture->Set_Texture(0);
+
+	//사이즈를 잠깐 늘려서 렌더
+	Vector3 originSize = m_vSize;
+	m_vSize = m_vColliderSize;
+	Update_Transform();
+	m_pVIBuffer->Set_Transform(m_StateMatrix);
+	m_vSize = originSize;
+	Update_Transform();
+
+	m_pVIBuffer->Render();
+
+	ALPHATEST_END;
+	return S_OK;
+
+}
+
+HRESULT CTransform::Set_Position(Vector3 _vPosition)
+{
+	m_vPosition = _vPosition;
+	m_vPosition.w = 1;
+	return S_OK;
+}
+
+HRESULT CTransform::Set_Size(Vector3 _vSize)
+{
+	m_vSize = _vSize;
+	return S_OK;
+}
+
+HRESULT CTransform::Set_Rotation(Vector3 _vRotation)
+{
+	m_vRotation = _vRotation;
+	return S_OK;
+}
+
+
+
+RECT CTransform::Get_Collider()
+{
+	RECT rc = {};
+	float fX = m_vPosition.x;
+	float fY = m_vPosition.y;
+	int iCX = (int)m_vColliderSize.x;
+	int iCY = (int)m_vColliderSize.y;
+
+	rc.left = (LONG)fX - (iCX >> 1);
+	rc.right = (LONG)fX + (iCX >> 1);
+	rc.top = (LONG)fY - (iCY >> 1);
+	rc.bottom = (LONG)fY + (iCY >> 1);
+	return rc;
+}
+
+RECT CTransform::Get_RECT()
+{
+	RECT rc = {};
+	float fX = m_vPosition.x;
+	float fY = m_vPosition.y;
+	int iCX = (int)m_vSize.x;
+	int iCY = (int)m_vSize.y;
+
+	rc.left = (LONG)fX - (iCX >> 1);
+	rc.right = (LONG)fX + (iCX >> 1);
+	rc.top = (LONG)fY - (iCY >> 1);
+	rc.bottom = (LONG)fY + (iCY >> 1);
+	return rc;
+}
+
+
+void CTransform::FaceDir()
+{
+	float sizeX = abs(m_vSize.x);
+
+	//사이즈가 음수면 왼쪽, 양수면 오른쪽을 바라본다.
+	if (m_vDir.x < 0)
+		m_vSize.x = -1 * sizeX;
+	else
+		m_vSize.x = sizeX;
+}
+
+HRESULT CTransform::LookAt(CTransform * pTargetTransform)
+{
+	Vector3		vDirection = pTargetTransform->m_vPosition - m_vPosition;
+
+	_float		fCosTheta = D3DXVec4Dot(&m_vLook.Nomalize(), &vDirection.Nomalize());
+
+	if (pTargetTransform->m_vPosition.y >= m_vPosition.y)
+		m_vRotation.z = acosf(fCosTheta);
+	else
+		m_vRotation.z = D3DXToRadian(360.0f) - acosf(fCosTheta);
+
+	return S_OK;
+}
+
+HRESULT CTransform::RevolveAround(CTransform * pTargetTransform)
+{
+	//타깃을 바라본다.
+	LookAt(pTargetTransform);
+	//부모의 위치를 공전의 기준점으로 둔다.
+	memcpy(m_ParentMatrix.m[3], pTargetTransform->Get_Matrix().m[3], sizeof(_float4));
+	//타깃이 자전한 각만큼 공전
+	m_vRevolveAngle.z = pTargetTransform->Get_Rotation().z;
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)
+{
+
+	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+	}
+	return S_OK;
+
+}
+
+HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed)
+{
+
+	Vector3 vDir = _pTransform->Get_Position() - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
+{
+
+	m_vDir_Normal = _vDir;
+
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta, _double _Speed)
+{
+	m_vPosition += _vDir.nomalize() * float(_Speed * _timeDelta);
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance)
+{
+	Vector3 vDir = _vDst - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed)
+{
+
+	Vector3 vDir = _vDst - m_vPosition;
+
+	if (vDir.magnitude() >= m_StopDistance)
+	{
+		m_vPosition += vDir.nomalize() * float(_Speed * _timeDelta);
+	}
+	return S_OK;
+}
+
+HRESULT CTransform::Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta)
+{
+	m_vPosition += _vDir * _fForce * float(_timeDelta);
+	return S_OK;
+}
+
+
+
+HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _int _iTurnCnt)
+{
+
+	if (_route.empty())
+		return E_FAIL;
+
+	m_iTurnCnt = _iTurnCnt;
+	m_iCurrRouteIndex = 0;
+	m_Route.swap(vector<CTerrain*>());
+	m_bTurnEnd = false;
+	m_bStop = false;
+	m_Route = _route;
+	m_StopDistance = _StopDistance;
+	CTransform* pTransform = (CTransform*)m_Route.back()->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return E_FAIL;
+	m_vDst = pTransform->Get_Position();
+
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance)
+{
+	if (nullptr == _pTarget)
+		return E_FAIL;
+
+	m_iCurrRouteIndex = 0;
+	m_Route.swap(vector<CTerrain*>());
+	m_bTurnEnd = false;
+	m_bStop = false;
+	m_pTarget = _pTarget;
+	m_StopDistance = _StopDistance;
+	//루트 설정
+	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+	RETURN_FAIL_IF_NULL(pLevel);
+	pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
+
+	return S_OK;
+}
+
+
 
 
 CTransform * CTransform::Create(LPDIRECT3DDEVICE9 _pGraphic_Device)
