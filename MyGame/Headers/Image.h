@@ -13,10 +13,10 @@ class CImage : public CGameObject
 public:
 	typedef struct tagStateDESC
 	{
-		BASEDESC		m_tBaseDesc;
-		const _tchar*	m_pTextureTag;
-		SCENEID			m_eTextureSceneID;
-		_float			m_fSpeed;
+		BASEDESC		m_tBaseDesc = {};
+		const _tchar*	m_pTextureTag = L"";
+		SCENEID			m_eTextureSceneID = SCENE_END;
+		_float			m_fSpeed = 1.f;
 	}STATEDESC;
 protected:
 	explicit CImage(PDIRECT3DDEVICE9 _pGraphic_Device) : CGameObject(_pGraphic_Device) {};

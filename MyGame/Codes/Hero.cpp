@@ -67,6 +67,11 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
 #pragma endregion
 
+
+		//플레이어가 움직일 턴 이동
+		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
+
+		//턴 이동 후 인터렉트.
 		//타일피킹
 		CTerrain* pTerrain = pLevel->Pick_Tile(pt);
 		//인터렉트한다.
@@ -82,10 +87,6 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			////인터렉트 당한다.
 			//pObj->Interact(this);
 		}
-
-
-		//플레이어가 움직일 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
 
 	}
 

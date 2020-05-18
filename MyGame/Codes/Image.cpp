@@ -39,7 +39,6 @@ HRESULT CImage::Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, 
 	m_pTransform->Set_Size(Vector4(_vSize.x, _vSize.y));
 
 
-
 	return S_OK;
 }
 
@@ -108,6 +107,8 @@ _int CImage::Update(_double _timeDelta)
 		return 0;
 
 	m_pTransform->Update_Normal(_timeDelta);
+	//이걸 내가 여기 넣었었나봄.. 메뉴만들때. 따라서 여기 있어야됨.
+	m_pTransform->Update_Transform();
 
 	return 0;
 }

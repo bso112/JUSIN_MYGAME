@@ -50,7 +50,7 @@ HRESULT CMenu::Initialize()
 			m_pImgArc1[i][j] = CImage::Create(m_pGraphic_Device, Vector4((float)(ARC1CX >> 1) + ARC1CX * j, (float)(ARC1CY >> 1) + ARC1CY * i), Vector2(ARC1CX, ARC1CY), L"arcs1", SCENE_MENU);
 		}
 	}
-
+	
 	for (int i = 0; i < ARC2Y; ++i)
 	{
 		for (int j = 0; j < ARC2X; ++j)
@@ -197,9 +197,9 @@ _int CMenu::Update(_double _timeDelta)
 				pTransform->Set_Position(Vector3(vLastArcPos.x, vLastArcPos.y + ARC2CY));
 			}
 
-			pTransform->MoveToDir(Vector3(0, -1), _timeDelta, 30.f);
+			pTransform->MoveToDir(Vector3(0, -1), _timeDelta, 30.0);
 			m_pImgArc2[i][j]->Update(_timeDelta);
-
+			pTransform->Update_Transform();
 		}
 	}
 
@@ -235,6 +235,7 @@ _int CMenu::Update(_double _timeDelta)
 
 			pTransform->MoveToDir(Vector3(0, -1), _timeDelta, 100.f);
 			m_pImgArc1[i][j]->Update(_timeDelta);
+			pTransform->Update_Transform();
 		}
 	}
 

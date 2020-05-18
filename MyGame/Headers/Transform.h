@@ -10,10 +10,10 @@ class CTransform final : public CModule
 public:
 	typedef struct tagStateDesc
 	{
-		_double speedPerSec;
-		_double	radianPerSec;
+		_double speedPerSec = 1.0;
+		_double	radianPerSec = 1.0;
 		//한턴에 몇 타일 움직이는가
-		_uint	movePerTurn;
+		_uint	movePerTurn = 1;
 		tagStateDesc() {}
 		tagStateDesc
 		(
@@ -130,6 +130,7 @@ public:
 	void	Set_Parent(CTransform* pParent);
 public:
 	HRESULT MoveToDirAuto(Vector3 _vDir, _double _timeDelta);
+	HRESULT	MoveToDirAuto(Vector3 _vDir, _double _timeDelta, _double _Speed);
 
 public:
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance);

@@ -130,7 +130,10 @@ typedef struct tagBaseDesc
 {
 	Vector3 vPos;
 	Vector3 vSize;
-	tagBaseDesc() {};
+	tagBaseDesc() 
+	{
+		ZeroMemory(this, sizeof(tagBaseDesc));
+	};
 	tagBaseDesc(Vector3 _vPos, Vector3 _vSize)
 	{
 		vPos = _vPos;

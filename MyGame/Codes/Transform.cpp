@@ -12,6 +12,9 @@ _int CTransform::m_iTurnCnt = 0;
 CTransform::CTransform(LPDIRECT3DDEVICE9 _pGraphic_Device)
 	:CModule(_pGraphic_Device)
 {
+	m_tStateDesc.movePerTurn = 1;
+	m_tStateDesc.radianPerSec = 1;
+	m_tStateDesc.speedPerSec = 1;
 }
 
 CTransform::CTransform(CTransform & _module)
@@ -30,6 +33,7 @@ HRESULT CTransform::Initialize(void * _pArg)
 	if (nullptr != _pArg)
 		memcpy(&m_tStateDesc, _pArg, sizeof(STATEDESC));
 
+
 	m_vSize = Vector3(1.f, 1.f, 1.f);
 	m_vRotation = Vector3(0.f, 0.f, 0.f);
 	m_vPosition = Vector3(0.f, 0.f, 0.f, 1.f);
@@ -39,7 +43,7 @@ HRESULT CTransform::Initialize(void * _pArg)
 	D3DXMatrixIdentity(&m_StateMatrix);
 	D3DXMatrixIdentity(&m_ParentMatrix);
 
-	
+
 	//콜라이더를 위한 VIBuffer
 	m_pVIBuffer = dynamic_cast<CVIBuffer*>(CModuleMgr::Get_Instance()->Get_Module(L"VIBuffer", SCENE_STATIC));
 	if (nullptr == m_pVIBuffer)
@@ -61,7 +65,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	//모든 루트를 이동하면 멈춤
 	if ((_int)m_iCurrRouteIndex >= m_Route.size() ||
 		(m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt))
-	{	
+	{
 		//초기화
 		m_bStop = true;
 		m_iCurrRouteIndex = 0;
@@ -319,6 +323,15 @@ HRESULT CTransform::MoveToDirAuto(Vector3 _vDir, _double _timeDelta)
 {
 
 	m_vDir_Normal = _vDir;
+
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDirAuto(Vector3 _vDir, _double _timeDelta, _double _Speed)
+{
+
+	m_vDir_Normal = _vDir;
+	m_tStateDesc.speedPerSec = _Speed;
 
 	return S_OK;
 }

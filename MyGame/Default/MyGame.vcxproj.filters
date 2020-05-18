@@ -471,7 +471,9 @@
     <ClInclude Include="..\Headers\ParticleSystem.h">
       <Filter>04.GameObject\GameObject\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Pipline.h" />
+    <ClInclude Include="..\Headers\Pipline.h">
+      <Filter>06.Utility\08.Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -675,7 +677,9 @@
     <ClCompile Include="..\Codes\ParticleSystem.cpp">
       <Filter>04.GameObject\GameObject\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Pipline.cpp" />
+    <ClCompile Include="..\Codes\Pipline.cpp">
+      <Filter>06.Utility\08.Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">
