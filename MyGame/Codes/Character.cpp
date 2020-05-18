@@ -87,10 +87,13 @@ _int CCharacter::Interact(CGameObject * _pOther)
 	{
 		pCharacter->TakeDamage(m_tStat.m_fAtt->GetValue());
 
+		CTransform* pOtherTransform = (CTransform*)_pOther->Get_Module(L"Transform");
+		if (nullptr == pOtherTransform)return -1;
+
 		//피 파티클 생성
 		Vector3 vPos = m_pTransform->Get_Position();
 		CParticleSystem::STATEDESC desc;
-		desc.m_tBaseDesc.vPos = vPos;
+		desc.m_tBaseDesc.vPos = pOtherTransform->Get_Position();
 		desc.m_pTextureTag = L"Blood";
 		desc.m_eTextureSceneID = SCENE_STAGE;
 		desc.m_dDuration = 0.2f;
@@ -100,9 +103,8 @@ _int CCharacter::Interact(CGameObject * _pOther)
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 		CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STAGE, L"ParticleSystem", SCENE_STAGE, &desc));
 
-		CTransform* pTransform = (CTransform*)_pOther->Get_Module(L"Transform");
-		if (nullptr == pTransform)return -1;
-		Vector2 vDir =  pTransform->Get_Position() - m_pTransform->Get_Position();
+		
+		Vector2 vDir =  pOtherTransform->Get_Position() - m_pTransform->Get_Position();
 
 		//피가 튀긴다.
 		pParticleSystem->Spread(vDir, CTimerMgr::Get_Instance()->Get_TimeDelta(), 5);

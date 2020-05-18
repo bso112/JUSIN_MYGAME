@@ -113,9 +113,9 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 		middle = D3DXToDegree(D3DX_PI * 2 - acosf(cosTheta));
 
 	//퍼지는 각
-	_float spreadAngle = 30.f;
+	_float spreadAngle = 90.f;
 	//총 퍼지는 각을 _iParticleCnt -1로 나눈 값 = 파티클 사이의 갭
-	_float gap = _iParticleCnt > 1 ?  spreadAngle / (float)(_iParticleCnt -1) : 0;
+	_float gap = _iParticleCnt > 1 ?  spreadAngle / (float)(_iParticleCnt -1) : 1;
 	//시작하는 각
 	_float startAngle = middle - (spreadAngle / 2);
 
@@ -131,15 +131,22 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 		stateDesc.m_fSpeed = m_tDesc.m_fSpeed;
 		stateDesc.m_pTextureTag = m_tDesc.m_pTextureTag;
 		stateDesc.m_tBaseDesc.vPos = m_tDesc.m_tBaseDesc.vPos;
-		stateDesc.m_tBaseDesc.vSize = m_tDesc.m_vParticleSize;
+
+		//0으로 나누면 안되니까
+		m_tDesc.m_vParticleSize.x = m_tDesc.m_vParticleSize.x == 0 ? 1 : m_tDesc.m_vParticleSize.x;
+		m_tDesc.m_vParticleSize.y = m_tDesc.m_vParticleSize.y == 0 ? 1 : m_tDesc.m_vParticleSize.y;
+		//랜덤사이즈
+		stateDesc.m_tBaseDesc.vSize = Vector2(_float(rand() % (_int)m_tDesc.m_vParticleSize.x), _float(rand() % (_int)m_tDesc.m_vParticleSize.y));
 		CImage* pImage = CImage::Create(m_pGraphic_Device, &stateDesc);
 		m_listParticle.push_back((CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, pImage));
 		Safe_AddRef(pImage);
 
-		//랜덤요소 넣기
-		gap = (rand() % 10) + gap;
+		//혹시나 0이 될 수 있으니까
+		gap = gap == 0 ? 1 : gap;
+		//랜덤갭
+		_float currGap = _float(rand() % (_int)gap);
 		//각도를 통해 파티클이 이동해야할 방향을 구한후 이동
-		_float currAngle = startAngle + gap * (float)i;
+		_float currAngle = startAngle + currGap * (float)i;
 		Vector2 vDir = Vector2(cosf(D3DXToRadian(currAngle)), sinf(D3DXToRadian(currAngle)));
 		CTransform* pParicleTransform = (CTransform*)m_listParticle.back()->Get_Module(L"Transform");
 		if (nullptr == pParicleTransform)
