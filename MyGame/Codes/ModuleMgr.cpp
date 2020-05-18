@@ -18,7 +18,10 @@ HRESULT CModuleMgr::Add_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneID, 
 
 	CModule* pModule = Find_Module(szTag, _ePrototypeSceneID);
 	if (nullptr != pModule)
+	{
+		Safe_Delete_Array(szTag);
 		return E_FAIL;
+	}
 	
 	m_mapPrototypes[_ePrototypeSceneID].emplace(szTag, _pModule);
 
@@ -43,7 +46,10 @@ HRESULT CModuleMgr::Clear_Scene(SCENEID _eSceneID)
 		return E_FAIL;
 	
 	for (auto& pair : m_mapPrototypes[_eSceneID])
+	{
+		Safe_Delete_Array(pair.first);
 		Safe_Release(pair.second);
+	}
 
 	m_mapPrototypes[_eSceneID].clear();
 
@@ -66,9 +72,11 @@ CModule * CModuleMgr::Find_Module(const _tchar* _pTag, SCENEID _ePrototypeSceneI
 void CModuleMgr::Free()
 {
 	for (auto& map : m_mapPrototypes)
+	{
 		for (auto& pair : map)
 		{
 			Safe_Delete_Array(pair.first);
 			Safe_Release(pair.second);
 		}
+	}
 }

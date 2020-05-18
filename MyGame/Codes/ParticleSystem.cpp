@@ -145,8 +145,11 @@ CGameObject * CParticleSystem::Clone(void * _pArg)
 
 void CParticleSystem::Free()
 {
+	Safe_Release(m_pTransform);
 	for (auto& particle : m_listParticle)
 	{
 		Safe_Release(particle);
 	}
+	
+	CGameObject::Free();
 }

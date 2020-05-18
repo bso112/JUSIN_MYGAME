@@ -73,6 +73,7 @@ public:
 	}
 
 
+public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
 

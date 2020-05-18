@@ -21,11 +21,19 @@ protected:
 	{
 		float	m_fHP		= 0.f;
 		CStat*	m_fMaxHp	= nullptr;
+
 		CStat*	m_fArmor	= nullptr;
 		CStat*	m_fAtt		= nullptr;
 		int		m_iGold		= 0;
 		float	m_fExp		= 0.f;
 		float	m_fMaxExp	= 0.f;
+
+		void Free()
+		{
+			Safe_Release(m_fMaxHp);
+			Safe_Release(m_fArmor);
+			Safe_Release(m_fAtt);
+		}
 	}STATS;
 
 	//ÀúÇ×

@@ -153,6 +153,9 @@ bool CHero::Has_Key(TIER _tier)
 void CHero::Free()
 {
 
+	for (int i = 0; i < CLOTH_END; ++i)
+		Safe_Release(m_pAnimator[i]);
+
 	CCharacter::Free();
 }
 

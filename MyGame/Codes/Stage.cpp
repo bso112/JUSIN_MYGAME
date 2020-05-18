@@ -132,6 +132,7 @@ void CStage::Free()
 	if (0 != CTurnMgr::Destroy_Instance())
 		MSG_BOX("Fail to release CTurnMgr");
 
+	//
 	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))
 		MSG_BOX("Fail to Clear GameObject Prototypes");
 
@@ -141,7 +142,7 @@ void CStage::Free()
 
 	//게임 오브젝트 인스턴스 지우기
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
-		MSG_BOX("Fail to Clear Module Prototypes");
+		MSG_BOX("Fail to Clear Renderer");
 
 	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_STAGE)))
 		MSG_BOX("Fail to Clear Module Prototypes");

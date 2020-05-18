@@ -3,7 +3,7 @@
 #include "Stat.h"
 #include "Clock.h"
 #include "Shader.h"
-#include "StateCon.h"
+#include "StateCon.h"#
 
 USING(MyGame)
 
@@ -135,6 +135,7 @@ void CCharacter::Free()
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pStateCon);
 	Safe_Release(m_pShader);
+	m_tStat.Free();
 
 	CGameObject::Free();
 }

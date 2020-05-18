@@ -123,7 +123,6 @@ void CKeyMgr::Free()
 {
 	for (auto& arr : m_listObservers)
 	{
-
 		arr.clear();
 	}
 

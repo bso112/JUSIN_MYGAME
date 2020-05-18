@@ -287,8 +287,6 @@ void CWarrior::Free()
 
 	CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this);
 
-	for (int i = 0; i < CLOTH_END; ++i)
-		Safe_Release(m_pAnimator[i]);
 
 	CHero::Free();
 }
