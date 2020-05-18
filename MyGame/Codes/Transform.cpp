@@ -306,10 +306,17 @@ HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _
 	return S_OK;
 }
 
-HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
+HRESULT CTransform::MoveToDirAuto(Vector3 _vDir, _double _timeDelta)
 {
 
 	m_vDir_Normal = _vDir;
+
+	return S_OK;
+}
+
+HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
+{
+	m_vPosition += _vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 
 	return S_OK;
 }

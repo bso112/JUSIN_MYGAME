@@ -139,7 +139,7 @@ HRESULT CImage::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
 	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))

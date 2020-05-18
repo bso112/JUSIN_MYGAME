@@ -67,7 +67,7 @@ private:
 	Vector3				m_vColliderSize;
 	//이동력만큼 이동했나?
 	_bool				m_bTurnEnd = false;
-	
+
 	//for Update_Noaml
 private:
 	//이동할 방향
@@ -85,10 +85,10 @@ private:
 	//총 몇개의 타일을 이동했는가
 	_int				m_iTotalMoveCnt = 0;
 public:
-	 HRESULT Initialize_Prototype();
-	 HRESULT Initialize(void* _pArg);
-	 HRESULT Update_Route(_double _timeDelta);
-	 HRESULT Update_Normal(_double _timeDelta);
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* _pArg);
+	HRESULT Update_Route(_double _timeDelta);
+	HRESULT Update_Normal(_double _timeDelta);
 	//state martix를 업데이트한다.
 	_int	Update_Transform();
 	HRESULT	Render_Collider();
@@ -127,6 +127,9 @@ public:
 public:
 	HRESULT LookAt(CTransform* pTargetTransform);
 	HRESULT	RevolveAround(CTransform* pTargetTransform);
+public:
+	HRESULT MoveToDirAuto(Vector3 _vDir, _double _timeDelta);
+
 public:
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance);
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed);

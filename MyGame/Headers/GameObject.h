@@ -1,7 +1,7 @@
 #pragma once
 #include "Base.h"
 #include "Renderer.h"
-
+#include "Pipline.h"
 BEGIN(MyGame)
 
 class CModule;
@@ -17,6 +17,7 @@ protected:
 	CRenderer*				m_pRenderer = nullptr;
 	PDIRECT3DDEVICE9		m_pGraphic_Device = nullptr;
 	map<const _tchar*, CModule*>	m_mapModule;
+	CPipline*						m_pPipline = nullptr;
 
 protected:
 	bool	m_bDead = false;
@@ -39,7 +40,7 @@ private:
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
-	virtual HRESULT Initialize(void * _param = nullptr);
+	virtual HRESULT Initialize(void * _pArg = nullptr);
 	virtual _int	Update(_double _timeDelta);
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();

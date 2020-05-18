@@ -8,10 +8,12 @@ USING(MyGame)
 _uint CGameObject::m_iMaxInstanceID = 0;
 
 CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
-	:m_pGraphic_Device(_pGrahic_Device), m_pRenderer(CRenderer::Get_Instance())
+	:m_pGraphic_Device(_pGrahic_Device), m_pRenderer(CRenderer::Get_Instance()),
+	m_pPipline(CPipline::Get_Instance())
 {
 	Safe_AddRef(m_pRenderer);
 	Safe_AddRef(m_pGraphic_Device);
+	Safe_AddRef(m_pPipline);
 	m_iInstanceID = m_iMaxInstanceID + 1;
 	++m_iMaxInstanceID;
 };
@@ -20,10 +22,11 @@ CGameObject::CGameObject(PDIRECT3DDEVICE9 _pGrahic_Device)
 
 CGameObject::CGameObject(CGameObject & _rhs)
 	:m_pGraphic_Device(_rhs.m_pGraphic_Device), m_pRenderer(CRenderer::Get_Instance()),
-	m_bActive(_rhs.m_bActive)
+	m_bActive(_rhs.m_bActive), m_pPipline(CPipline::Get_Instance())
 {
 	Safe_AddRef(m_pRenderer);
 	Safe_AddRef(m_pGraphic_Device);
+	Safe_AddRef(m_pPipline);
 }
 
 
@@ -134,6 +137,7 @@ void CGameObject::Free()
 		Safe_Release(pair.second);
 	}
 
+	Safe_Release(m_pPipline);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pGraphic_Device);
 

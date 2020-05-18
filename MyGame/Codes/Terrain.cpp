@@ -78,7 +78,7 @@ HRESULT CTerrain::Render()
 {
 	m_pTransform->Update_Transform();
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
 

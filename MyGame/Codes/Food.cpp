@@ -80,7 +80,7 @@ HRESULT CFood::Render()
 	if (FAILED(m_pTexture->Set_Texture(m_iTextureID - 1)))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))

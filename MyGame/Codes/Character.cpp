@@ -3,7 +3,7 @@
 #include "Stat.h"
 #include "Clock.h"
 #include "Shader.h"
-#include "StateCon.h"#
+#include "StateCon.h"
 
 USING(MyGame)
 

@@ -8,6 +8,7 @@
 #include "MyButton.h"
 #include "KeyMgr.h"
 #include "ObjMgr.h"
+#include "Camera.h"
 #include "ParticleSystem.h"
 
 USING(MyGame)
@@ -26,13 +27,13 @@ CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 HRESULT CStage::Initialize()
 {
-	
+
 	if (FAILED(Initalize_Prototypes()))
 		return E_FAIL;
 
 	if (FAILED(Initalize_Layers()))
 		return E_FAIL;
-	
+
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
@@ -80,13 +81,16 @@ HRESULT CStage::Initalize_Prototypes()
 
 	Safe_Release(pLoader);
 
-
+	//레벨에 필요한 프로로타입 생성
 	if (FAILED(m_pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
 		return E_FAIL;
 
-	//파티클 시스템
-	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-	pObjMgr->Add_Prototype(L"ParticleSystem", SCENE_STAGE, CParticleSystem::Create(m_pGraphic_Device));
+	//파티클 시스템 프로토타입 생성
+	m_pObjMgr->Add_Prototype(L"ParticleSystem", SCENE_STAGE, CParticleSystem::Create(m_pGraphic_Device));
+
+	//카메라 프로로타입 생성
+	m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
+
 	return S_OK;
 }
 
@@ -95,9 +99,18 @@ HRESULT CStage::Initalize_Layers()
 	if (nullptr == m_pObjMgr)
 		return E_FAIL;
 
-
+	//레벨 생성
 	if (FAILED(m_pLevelMgr->Initialize()))
 		return E_FAIL;
+
+	//카메라 생성
+	CCamera* pMainCam = dynamic_cast<CCamera*>(m_pObjMgr->Add_GO_To_Layer(L"MainCamera", SCENE_STAGE, L"Camera", SCENE_STAGE, &BASEDESC(Vector3(float(g_iWinCX >> 1), float(g_iWinCY >> 1)), Vector3(1.f, 1.f, 1.f))));
+	RETURN_FAIL_IF_NULL(pMainCam);
+	CGameObject* pPlayer = m_pObjMgr->Get_Player(SCENE_STAGE);
+	RETURN_FAIL_IF_NULL(pPlayer);
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(pPlayer->Get_Module(L"Transform"));
+	RETURN_FAIL_IF_NULL(pPlayerTransform);
+	pMainCam->Set_Target(pPlayerTransform);
 
 
 	return S_OK;
@@ -126,7 +139,7 @@ void CStage::Free()
 	if (0 != CStageUIMgr::Destroy_Instance())
 		MSG_BOX("Fail to release m_pStageUIMgr");
 
-	if(0 != CLevelMgr::Destroy_Instance())
+	if (0 != CLevelMgr::Destroy_Instance())
 		MSG_BOX("Fail to release CLevelMgr");
 
 	if (0 != CTurnMgr::Destroy_Instance())

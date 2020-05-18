@@ -144,7 +144,6 @@ HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _
 
 HRESULT CTransform::MoveToDir(Vector3 _vDir, _double _timeDelta)
 {
-
 	m_vPosition += _vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 
 	return S_OK;

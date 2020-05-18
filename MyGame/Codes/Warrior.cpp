@@ -227,13 +227,14 @@ HRESULT CWarrior::Render()
 {
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pAnimator ||
-		nullptr == m_pTransform)
+		nullptr == m_pTransform	||
+		nullptr == m_pPipline)
 		return E_FAIL;
 	
 	if (!m_bActive)
 		return S_OK;
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
 	ALPHABLEND;

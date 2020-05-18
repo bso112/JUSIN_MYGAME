@@ -7,7 +7,7 @@
 #include "Renderer.h"
 
 BEGIN(MyGame)
-
+class CPipline;
 class CScene abstract: public CBase
 {
 protected:
@@ -18,7 +18,7 @@ protected:
 	PDIRECT3DDEVICE9	m_pGraphic_Device = nullptr;
 	CRenderer*			m_pRenderer = nullptr;
 	CObjMgr*			m_pObjMgr = nullptr;
-
+	CPipline*			m_pPipline = nullptr;
 public:
 	virtual HRESULT Initialize();
 	virtual _int	Update(_double _timeDelta);

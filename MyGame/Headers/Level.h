@@ -10,6 +10,7 @@ BEGIN(MyGame)
 class CTerrain;
 class CTransform;
 class CGameObject;
+class CPipline;
 //레벨 하나에 대한 정보를 담고 있는 클래스
 class CLevel final : public CBase
 {
@@ -19,8 +20,8 @@ private:
 
 private:
 	//객체가 아닌 포인터로 지형을 구성한다. (지형이 있는 인덱스만 채워진다. 나머지는 nullptr)
-	CTerrain* m_pTerrains[WORLDY][WORLDX];
-	
+	CTerrain*	m_pTerrains[WORLDY][WORLDX];
+	CPipline*	m_pPipline = nullptr;
 
 private:
 
@@ -40,8 +41,7 @@ public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
 	HRESULT	Get_TerrainPos(POINT _dst, Vector3& _out);
 	//A* 알고리즘을 적용해 경로를 반환한다.
-	HRESULT	Get_Route(Vector3 _src, POINT _dst, vector<Vector3>& _out, CTransform* _pMover);
-	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<Vector3>& _out, CTransform* _pMover);
+	//플레이어용
 	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, CTransform* _pMover);
 	//해당 마우스위치에 있는 타일을 알려준다.
 	CTerrain* Pick_Tile(POINT& _pt);

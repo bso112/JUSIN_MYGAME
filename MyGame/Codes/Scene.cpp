@@ -4,15 +4,17 @@
 #include "ObjMgr.h"
 #include "Image.h"
 #include "KeyMgr.h"
+#include "Pipline.h"
 
 USING(MyGame)
 CScene::CScene(PDIRECT3DDEVICE9 _pGraphic_Device)
 	:m_pGraphic_Device(_pGraphic_Device), m_pRenderer(CRenderer::Get_Instance()),
-	m_pObjMgr(CObjMgr::Get_Instance())
+	m_pObjMgr(CObjMgr::Get_Instance()), m_pPipline(CPipline::Get_Instance())
 {
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pRenderer);
 	Safe_AddRef(m_pObjMgr);
+	Safe_AddRef(m_pPipline);
 }
 
 HRESULT CScene::Initialize()
@@ -27,7 +29,7 @@ _int CScene::Update(_double _timeDelta)
 		return -1;
 
 	m_pObjMgr->Update(_timeDelta);
-
+	m_pPipline->UpdateViewMatrix();
 	return 0;
 }
 

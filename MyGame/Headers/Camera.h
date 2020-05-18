@@ -1,14 +1,36 @@
 #pragma once
 #include "GameObject.h"
 BEGIN(MyGame)
-class CCamera :
-	public CGameObject
+class CTransform;
+class CCamera final : public CGameObject
 {
-public:
-	CCamera();
-	virtual ~CCamera();
+private:
+	explicit CCamera(PDIRECT3DDEVICE9 _pGraphic_Device);
+	explicit CCamera(CCamera& _rhs);
+	virtual ~CCamera() = default;
 
-	//포지션 벡터, 회전, 스케일, 스테이트 행렬
-	//화면 중간상수
+
+private:
+	CTransform*	m_pTransform = nullptr;
+	//따라다닐 타겟
+	CTransform*	m_pTarget = nullptr;
+
+public:
+	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
+	virtual HRESULT Initialize(void * _pArg = nullptr);
+	virtual _int	Update(_double _timeDelta);
+	virtual _int	LateUpate(_double _timeDelta);
+
+public:
+	void	Set_Target(CTransform* _pTargetTransform) { m_pTarget = _pTargetTransform; }
+
+public:
+	static CCamera* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
+	virtual CGameObject* Clone(void * _pArg = nullptr);
+
+public:
+	// CBase을(를) 통해 상속됨
+	virtual void Free() override;
+
 };
 END

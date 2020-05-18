@@ -241,6 +241,9 @@
     <Filter Include="04.GameObject\GameObject\ParticleSystem">
       <UniqueIdentifier>{c1ff562e-528c-473a-8759-f5e249f977ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\08.Pipeline">
+      <UniqueIdentifier>{983ad3b6-288a-4948-ae34-4aa1a2c1b457}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -468,6 +471,7 @@
     <ClInclude Include="..\Headers\ParticleSystem.h">
       <Filter>04.GameObject\GameObject\ParticleSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Pipline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -671,6 +675,7 @@
     <ClCompile Include="..\Codes\ParticleSystem.cpp">
       <Filter>04.GameObject\GameObject\ParticleSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\Pipline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">

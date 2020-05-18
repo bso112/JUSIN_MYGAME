@@ -52,7 +52,7 @@ HRESULT CMonster::Render()
 	if (!m_bActive)
 		return 0;
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
 	ALPHABLEND;

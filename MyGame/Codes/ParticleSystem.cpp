@@ -111,7 +111,7 @@ void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
 		CTransform* pParicleTransform = (CTransform*)m_listParticle.back()->Get_Module(L"Transform");
 		if (nullptr == pParicleTransform)
 			return;
-		pParicleTransform->MoveToDir(vDir, _timeDelta);
+		pParicleTransform->MoveToDirAuto(vDir, _timeDelta);
 
 	}
 	
