@@ -11,6 +11,7 @@
 #include "ModuleMgr.h"
 #include "StageUIMgr.h"
 #include "Image.h"
+#include "Pipline.h"
 
 USING(MyGame)
 
@@ -75,10 +76,10 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
@@ -116,6 +117,14 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 		}
 	}
 
+	//마우스 좌표 변환
+	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
+	D3DXVec4Transform(&dst, &dst, &CPipline::Get_Instance()->Get_CameraMatrix());
+	POINT pt;
+	pt.x = dst.x;
+	pt.y = dst.y;
+
+
 	auto& iter = m_listGO[_iLevel].begin();
 	while (iter != m_listGO[_iLevel].end())
 	{
@@ -131,7 +140,7 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
 			if (nullptr != pTransform)
 			{
-				if (PtInRect(&pTransform->Get_Collider(), _pt))
+				if (PtInRect(&pTransform->Get_Collider(), pt))
 					return *iter;
 			}
 			

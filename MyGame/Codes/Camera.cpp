@@ -31,6 +31,7 @@ HRESULT CCamera::Initialize(void * _pArg)
 	{
 		BASEDESC* desc = (BASEDESC*)_pArg;
 		m_pTransform->Set_Position(Vector2(desc->vPos.x - (g_iWinCX >> 1), desc->vPos.y - (g_iWinCY >> 1)));
+
 		
 	}
 

@@ -41,8 +41,11 @@ public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
 	HRESULT	Get_TerrainPos(POINT _dst, Vector3& _out);
 	//A* 알고리즘을 적용해 경로를 반환한다.
-	//플레이어용
+	//몬스터용
 	HRESULT	Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, CTransform* _pMover);
+	//플레이어용
+	HRESULT	Get_Route(Vector3 _src, POINT& _dst, vector<CTerrain*>& _out, CTransform* _pMover);
+
 	//해당 마우스위치에 있는 타일을 알려준다.
 	CTerrain* Pick_Tile(POINT& _pt);
 

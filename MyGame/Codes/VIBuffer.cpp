@@ -53,9 +53,6 @@ HRESULT CVIBuffer::Set_Transform(_matrix _matrix)
 	//다른 스레드가 접근하지 못하도록 락을 걸고, 락이 걸린 공간에 접근할 수 있는 포인터를 인자로 넘겨줌
 	m_pVBuffer->Lock(0, 0, (void**)&pVertices, 0);
 
-	//카메라 행렬 곱하기
-	//UI는 따로처리
-	//타일피킹할때, 마우스좌표 구할때 카메라 역행렬 곱.
 
 	for (int i = 0; i < 4; ++i)
 	{

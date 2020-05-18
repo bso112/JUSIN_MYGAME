@@ -79,23 +79,21 @@ void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
 	*/
 
 	//부채꼴의 중간이 되는 각
-	_float middle = 90.f;
+	_float middle = 0.f;
 	//퍼지는 각
-	_float spreadAngle = 60.f;
-	_float gap = spreadAngle / (float)_iParticleCnt;
-	_float startAngle = middle + (gap * (float)_iParticleCnt / 2);
-	
-	_float currAngle;
+	_float spreadAngle = 30.f;
+	//총 퍼지는 각을 _iParticleCnt -1로 나눈 값 = 파티클 사이의 갭
+	_float gap = _iParticleCnt > 1 ?  spreadAngle / (float)(_iParticleCnt -1) : 0;
+	//시작하는 각
+	_float startAngle = middle - (spreadAngle / 2);
 
-	Vector3 vPos = m_pTransform->Get_Position();
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr)
 		return;
 
-	//파티클을 생성한다.
 	for (int i = 0; i < _iParticleCnt; ++i)
 	{
-		//속도도 넣어야하는데..
+		//파티클 생성
 		CImage::STATEDESC stateDesc;
 		stateDesc.m_eTextureSceneID = m_tDesc.m_eTextureSceneID;
 		stateDesc.m_fSpeed = m_tDesc.m_fSpeed;
@@ -105,8 +103,10 @@ void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
 		CImage* pImage = CImage::Create(m_pGraphic_Device, &stateDesc);
 		m_listParticle.push_back((CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, pImage));
 		Safe_AddRef(pImage);
+
 		//각도를 통해 파티클이 이동해야할 방향을 구한후 이동
-		currAngle = startAngle - gap;
+		_float currAngle = startAngle + gap * (float)i;
+		D3DXToRadian(currAngle);
 		Vector2 vDir = Vector2(cosf(currAngle), sinf(currAngle));
 		CTransform* pParicleTransform = (CTransform*)m_listParticle.back()->Get_Module(L"Transform");
 		if (nullptr == pParicleTransform)

@@ -5,6 +5,7 @@
 #include "LevelMgr.h"
 #include "Texture.h"
 #include "ModuleMgr.h"
+#include "Pipline.h"
 USING(MyGame)
 
 _int CTransform::m_iTurnCnt = 0;
@@ -78,7 +79,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 	m_vDir = pTransform->Get_Position() - m_vPosition;
 
-	if (m_vDir.magnitude() > 1.f)
+	if (m_vDir.magnitude() > 10.f)
 	{
 		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
 		if (m_Route[m_iCurrRouteIndex]->IsMovable(this))
@@ -182,7 +183,7 @@ HRESULT CTransform::Render_Collider()
 	Vector3 originSize = m_vSize;
 	m_vSize = m_vColliderSize;
 	Update_Transform();
-	m_pVIBuffer->Set_Transform(m_StateMatrix);
+	m_pVIBuffer->Set_Transform(m_StateMatrix * CPipline::Get_Instance()->Get_ViewMatrix());
 	m_vSize = originSize;
 	Update_Transform();
 
