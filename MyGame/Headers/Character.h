@@ -54,12 +54,6 @@ protected:
 	bool		m_bTurnEnd = false;
 
 
-public:
-	_int		StartAct();
-	_int		UpdateAct();
-	CCharacter*	Get_Focus() { return m_pFocus; }
-	_bool		IsTurnEnd(){ return m_bTurnEnd; }
-	void		SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
 
 protected:
 	_int	m_iCurFrame = 0;
@@ -77,11 +71,23 @@ protected:
 	_uint	m_iRecogRange = 0;
 
 public:
+	_int		StartAct();
+	_int		UpdateAct();
+	CCharacter*	Get_Focus() { return m_pFocus; }
+	_bool		IsTurnEnd(){ return m_bTurnEnd; }
+	void		SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
+
+public:
 	virtual void TakeDamage(float _fDamage);
 	void Heal(_float _healAmount);
 	void SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
 	bool IsAlive();
 	bool IsImmune(IMMUNE _eImmune);
+
+
+public:
+	virtual	_int	Interact(CGameObject* _pOther);
+	
 	
 public:
 	//어느 지형을 밟고있는지 인덱스를 리턴한다.

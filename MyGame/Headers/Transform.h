@@ -127,6 +127,7 @@ public:
 public:
 	HRESULT LookAt(CTransform* pTargetTransform);
 	HRESULT	RevolveAround(CTransform* pTargetTransform);
+	void	Set_Parent(CTransform* pParent);
 public:
 	HRESULT MoveToDirAuto(Vector3 _vDir, _double _timeDelta);
 

@@ -101,6 +101,9 @@ HRESULT CImage::Initialize(void * _pArg)
 
 _int CImage::Update(_double _timeDelta)
 {
+	if (m_bDead)
+		return -1;
+
 	if (!m_bActive)
 		return 0;
 
@@ -111,6 +114,10 @@ _int CImage::Update(_double _timeDelta)
 
 _int CImage::LateUpate(_double _timeDelta)
 {
+	if (m_bDead)
+		return -1;
+
+
 	if (!m_bActive)
 		return 0;
 
@@ -128,6 +135,8 @@ _int CImage::LateUpate(_double _timeDelta)
 
 HRESULT CImage::Render()
 {
+
+
 	if (!m_bActive)
 		return 0;
 

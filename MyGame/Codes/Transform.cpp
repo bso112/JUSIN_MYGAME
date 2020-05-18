@@ -282,6 +282,14 @@ HRESULT CTransform::RevolveAround(CTransform * pTargetTransform)
 	return S_OK;
 }
 
+void CTransform::Set_Parent(CTransform * pParent)
+{
+	//부모 매트릭스
+	memcpy(m_ParentMatrix, pParent->Get_Matrix(), sizeof(_matrix));
+	//타깃이 자전한 각만큼 공전
+	m_vRevolveAngle.z = pParent->Get_Rotation().z;
+}
+
 HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)
 {
 

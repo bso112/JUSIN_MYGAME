@@ -9,8 +9,6 @@
 #include "StageUIMgr.h"
 #include "Monster.h"
 #include "ParticleSystem.h"
-#include "ObjMgr.h"
-#include "TimerMgr.h"
 USING(MyGame)
 
 
@@ -34,23 +32,6 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 	{
 		if (nullptr == m_pTransform)
 			return E_FAIL;
-
-		//피 파티클 생성
-		//Vector3 vPos = m_pTransform->Get_Position();
-		//CParticleSystem::STATEDESC desc;
-		//desc.m_tBaseDesc.vPos = vPos;
-		//desc.m_tBaseDesc.vSize = Vector2(100.f, 100.f);
-		//desc.m_pTextureTag = L"Blood";
-		//desc.m_eTextureSceneID = SCENE_STAGE;
-		//desc.m_dDuration = 3.f;
-		//desc.m_dLifeTime = 3.f;
-		//desc.m_fSpeed = 500.f;
-		//desc.m_vParticleSize = Vector2(25.f, 25.f);
-		//CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-		//CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STAGE, L"ParticleSystem", SCENE_STAGE, &desc));
-
-		//pParticleSystem->Play(CTimerMgr::Get_Instance()->Get_TimeDelta(), 10);
-
 
 
 		POINT pt;
@@ -98,7 +79,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		{
 			//인터렉트한다.
 			Interact(pObj);
-			pObj->Interact(this);
+			////인터렉트 당한다.
+			//pObj->Interact(this);
 		}
 
 
@@ -129,15 +111,6 @@ HRESULT CHero::Set_InitialPos()
 
 }
 
-_int CHero::Interact(CGameObject * _pOther)
-{
-	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther);
-	if (nullptr == pMonster)
-		return -1;
-
-	pMonster->TakeDamage(m_tStat.m_fAtt->GetValue());
-	return 0;
-}
 
 HRESULT CHero::PlayAnimation(const _tchar * _pTag)
 {

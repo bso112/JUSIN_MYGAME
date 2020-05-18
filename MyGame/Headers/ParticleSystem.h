@@ -3,9 +3,9 @@
 BEGIN(MyGame)
 class CImage;
 class CTransform;
+class CClock_Delay;
 class CParticleSystem final: public CGameObject
 {
-
 public:
 	//라이프타임, 지속시간, 속도(힘)
 	typedef struct tagStateDesc
@@ -13,12 +13,16 @@ public:
 		//파티클시스템 위치
 		BASEDESC		m_tBaseDesc;
 		Vector2			m_vParticleSize = {};
+		//파티클의 라이프타임
 		_double			m_dLifeTime = 0.0;
+		//파티클 시스템의 지속시간
 		_double			m_dDuration = 0.0;
 		_float			m_fSpeed = 0.f;
 		const _tchar*	m_pTextureTag = L"";
 		SCENEID			m_eTextureSceneID = SCENE_END;
 	}STATEDESC;
+
+	
 private:
 	explicit CParticleSystem(PDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CParticleSystem(CParticleSystem& _rhs);
@@ -29,20 +33,20 @@ private:
 	tagStateDesc	m_tDesc;
 	list<CImage*>	m_listParticle;
 	bool			m_bLoop;
+	CClock_Delay*	m_pDeadClock = nullptr; 
 
 public:
-	_int		Update(_double _timeDelta);
-	_int		LateUpdate(_double _timeDelta);
+	_int		Update(_double _timeDelta) override;
+	_int		LateUpate(_double _timeDelta) override;
 	HRESULT		Render();
 
-public:
-	HRESULT		Play(_double _timeDelta, _uint _iParticleCnt);
+
 public:
 	HRESULT	Initialize_Prototype();
 	HRESULT	Initialize(void* _pArg);
 
-private:
-	void Spread(_double _timeDelta, _uint _iParticleCnt);
+public:
+	void Spread(Vector2 _dir, _double _timeDelta, _uint _iParticleCnt);
 	
 
 public:

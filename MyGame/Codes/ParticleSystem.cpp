@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Image.h"
 #include "ObjMgr.h"
+#include "Clock.h"
 USING(MyGame)
 
 CParticleSystem::CParticleSystem(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -14,11 +15,7 @@ CParticleSystem::CParticleSystem(CParticleSystem & _rhs)
 {
 }
 
-HRESULT CParticleSystem::Play(_double _timeDelta, _uint _iParticleCnt)
-{
-	Spread(_timeDelta, _iParticleCnt);
-	return S_OK;
-}
+
 
 HRESULT CParticleSystem::Initialize_Prototype()
 {
@@ -33,28 +30,49 @@ HRESULT CParticleSystem::Initialize(void * _pArg)
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 
 	m_pTransform->Set_Position(m_tDesc.m_tBaseDesc.vPos);
-	m_pTransform->Set_Size(m_tDesc.m_tBaseDesc.vSize);
+	m_pTransform->Set_Size(Vector2(1.f, 1.f));
 
-	
+	m_pDeadClock = CClock_Delay::Create();
+
 	return S_OK;
 }
 _int CParticleSystem::Update(_double _timeDelta)
 {
-	//파티클시스템 기준으로 파티클들을 이동, 공전시킨다.
-	for (auto& particle : m_listParticle)
-	{
-		if (nullptr == particle) return 0;
-		CTransform* pTransform = (CTransform*)particle->Get_Module(L"Transform");
-		if (nullptr == pTransform) return 0;
 
-		pTransform->RevolveAround(m_pTransform);
+	if (nullptr == m_pDeadClock)
+		return -1;
+	
+	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dDuration))
+	{
+		m_bDead = true;
+		for (auto& particle : m_listParticle)
+		{
+			particle->Set_Dead();
+		}
+		return -1;
 	}
+
+	//?????
+	//파티클시스템 기준으로 파티클들을 이동, 스케일링, 공전시킨다.
+	//for (auto& particle : m_listParticle)
+	//{
+	//	if (nullptr == particle) return 0;
+	//	CTransform* pTransform = (CTransform*)particle->Get_Module(L"Transform");
+	//	if (nullptr == pTransform) return 0;
+
+	//	pTransform->RevolveAround(m_pTransform);
+	//}
+
+	
 
 	return 0;
 }
 
-_int CParticleSystem::LateUpdate(_double _timeDelta)
+_int CParticleSystem::LateUpate(_double _timeDelta)
 {
+	if (m_bDead)
+		return -1;
+
 	m_pTransform->Update_Transform();
 	
 	return 0;
@@ -67,7 +85,7 @@ HRESULT CParticleSystem::Render()
 }
 
 
-void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
+void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticleCnt)
 {
 	/*
 	1.퍼져나갈 각도를 정한다.
@@ -78,8 +96,22 @@ void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
 	6.부모인 파티클 시스템을 원하는 방향으로 회전한다.
 	*/
 
-	//부채꼴의 중간이 되는 각
+
+	//부채꼴의 중간이 되는 각 구하기
+	
+	//x축
+	Vector2 vFix = Vector3(1.f, 0.f, 0.f); 
+	
+	_float cosTheta = D3DXVec4Dot(&vFix, &_vDir.Nomalize());
+	
+	//x축과 방향벡터의 사이각 == 부채꼴의 중간이 되는 각
 	_float middle = 0.f;
+
+	if (_vDir.y >= 0.f)
+		middle = D3DXToDegree(acosf(cosTheta));
+	else
+		middle = D3DXToDegree(D3DX_PI * 2 - acosf(cosTheta));
+
 	//퍼지는 각
 	_float spreadAngle = 30.f;
 	//총 퍼지는 각을 _iParticleCnt -1로 나눈 값 = 파티클 사이의 갭
@@ -91,7 +123,7 @@ void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
 	if (nullptr == pObjMgr)
 		return;
 
-	for (int i = 0; i < _iParticleCnt; ++i)
+	for (_uint i = 0; i < _iParticleCnt; ++i)
 	{
 		//파티클 생성
 		CImage::STATEDESC stateDesc;
@@ -104,10 +136,11 @@ void CParticleSystem::Spread(_double _timeDelta,  _uint _iParticleCnt)
 		m_listParticle.push_back((CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, pImage));
 		Safe_AddRef(pImage);
 
+		//랜덤요소 넣기
+		gap = (rand() % 10) + gap;
 		//각도를 통해 파티클이 이동해야할 방향을 구한후 이동
 		_float currAngle = startAngle + gap * (float)i;
-		D3DXToRadian(currAngle);
-		Vector2 vDir = Vector2(cosf(currAngle), sinf(currAngle));
+		Vector2 vDir = Vector2(cosf(D3DXToRadian(currAngle)), sinf(D3DXToRadian(currAngle)));
 		CTransform* pParicleTransform = (CTransform*)m_listParticle.back()->Get_Module(L"Transform");
 		if (nullptr == pParicleTransform)
 			return;
@@ -145,6 +178,7 @@ CGameObject * CParticleSystem::Clone(void * _pArg)
 
 void CParticleSystem::Free()
 {
+	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);
 	for (auto& particle : m_listParticle)
 	{

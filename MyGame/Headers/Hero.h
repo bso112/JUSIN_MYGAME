@@ -15,8 +15,7 @@ protected:
 protected:
 	Vector3		m_vDst = {};
 
-public:
-	virtual	_int	Interact(CGameObject* _pOther);
+
 	
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
