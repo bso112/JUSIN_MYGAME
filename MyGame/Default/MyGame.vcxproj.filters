@@ -247,6 +247,9 @@
     <Filter Include="04.GameObject\GameObject\Particle">
       <UniqueIdentifier>{19780881-73e6-4413-8130-5e1bd76396a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\09.TileLoader">
+      <UniqueIdentifier>{e06f5fbc-99ec-4115-8d8c-b521e7851fa5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -480,6 +483,12 @@
     <ClInclude Include="..\Headers\Particle.h">
       <Filter>04.GameObject\GameObject\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Trap.h">
+      <Filter>04.GameObject\GameObject\Terrain\01. Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TileLoader.h">
+      <Filter>06.Utility\09.TileLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -688,6 +697,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Particle.cpp">
       <Filter>04.GameObject\GameObject\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Trap.cpp">
+      <Filter>04.GameObject\GameObject\Terrain\01. Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TileLoader.cpp">
+      <Filter>06.Utility\09.TileLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

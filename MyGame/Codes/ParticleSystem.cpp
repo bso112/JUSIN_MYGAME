@@ -7,12 +7,20 @@
 USING(MyGame)
 
 CParticleSystem::CParticleSystem(PDIRECT3DDEVICE9 _pGraphic_Device)
-	:CGameObject(_pGraphic_Device)
+	:CGameObject(_pGraphic_Device),
+	m_pObjMgr(CObjMgr::Get_Instance())
 {
+	Safe_AddRef(m_pObjMgr);
+	ZeroMemory(&m_tDesc, sizeof(STATEDESC));
+
 }
 CParticleSystem::CParticleSystem(CParticleSystem & _rhs)
-	:CGameObject(_rhs)
+	: CGameObject(_rhs),
+	m_pObjMgr(CObjMgr::Get_Instance())
 {
+	Safe_AddRef(m_pObjMgr);
+	ZeroMemory(&m_tDesc, sizeof(STATEDESC));
+
 }
 
 
@@ -41,7 +49,7 @@ _int CParticleSystem::Update(_double _timeDelta)
 
 	if (nullptr == m_pDeadClock)
 		return -1;
-	
+
 	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dDuration))
 	{
 		m_bDead = true;
@@ -63,7 +71,7 @@ _int CParticleSystem::Update(_double _timeDelta)
 	//	pTransform->RevolveAround(m_pTransform);
 	//}
 
-	
+
 
 	return 0;
 }
@@ -74,7 +82,7 @@ _int CParticleSystem::LateUpate(_double _timeDelta)
 		return -1;
 
 	m_pTransform->Update_Transform();
-	
+
 	return 0;
 }
 
@@ -85,7 +93,7 @@ HRESULT CParticleSystem::Render()
 }
 
 
-void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticleCnt)
+void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticleCnt)
 {
 	/*
 	1.퍼져나갈 각도를 정한다.
@@ -98,12 +106,12 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 
 
 	//부채꼴의 중간이 되는 각 구하기
-	
+
 	//x축
-	Vector2 vFix = Vector3(1.f, 0.f, 0.f); 
-	
+	Vector2 vFix = Vector3(1.f, 0.f, 0.f);
+
 	_float cosTheta = D3DXVec4Dot(&vFix, &_vDir.Nomalize());
-	
+
 	//x축과 방향벡터의 사이각 == 부채꼴의 중간이 되는 각
 	_float middle = 0.f;
 
@@ -115,7 +123,7 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 	//퍼지는 각
 	_float spreadAngle = 90.f;
 	//총 퍼지는 각을 _iParticleCnt -1로 나눈 값 = 파티클 사이의 갭
-	_float gap = _iParticleCnt > 1 ?  spreadAngle / (float)(_iParticleCnt -1) : 1;
+	_float gap = _iParticleCnt > 1 ? spreadAngle / (float)(_iParticleCnt - 1) : 1;
 	//시작하는 각
 	_float startAngle = middle - (spreadAngle / 2);
 
@@ -137,16 +145,16 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 		m_tDesc.m_vParticleSize.y = m_tDesc.m_vParticleSize.y == 0 ? 1 : m_tDesc.m_vParticleSize.y;
 		//랜덤사이즈
 		stateDesc.m_tBaseDesc.vSize = Vector2(_float(rand() % (_int)m_tDesc.m_vParticleSize.x), _float(rand() % (_int)m_tDesc.m_vParticleSize.y));
-	
-		
+
+
 		//
-	
+
 		m_listParticle.push_back((CParticle*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, L"Particle", SCENE_STAGE, &stateDesc));
 		Safe_AddRef(m_listParticle.back());
 		//
-	
-		
-		
+
+
+
 
 		//혹시나 0이 될 수 있으니까
 		gap = gap == 0 ? 1 : gap;
@@ -161,7 +169,35 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 		pParicleTransform->MoveToDirAuto(vDir, _timeDelta);
 
 	}
-	
+
+}
+
+void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
+{
+
+	if (nullptr == m_pObjMgr)
+		return;
+
+	//해당 범위 내에서 랜덤한 위치에 스폰한다. 파티클은 lifetime이 지나면 죽는다. 
+	LONG SizeX = _rc.right - _rc.left;
+	LONG SizeY = _rc.bottom - _rc.top;
+	if (SizeX <= 0 || SizeY)
+		return;
+
+
+	for (_uint i = 0; i < _iParticleCnt; ++i)
+	{
+
+		_float randX = _rc.left + (rand() % SizeX);
+		_float randY = _rc.top + (rand() % SizeY);
+		CParticle::STATEDESC tParticleDesc = CreateParticleDesc();
+		tParticleDesc.m_tBaseDesc.vPos = Vector2(randX, randY);
+
+		m_pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, L"Particle", SCENE_STAGE, &tParticleDesc);
+	}
+
+
+
 }
 
 
@@ -190,14 +226,27 @@ CGameObject * CParticleSystem::Clone(void * _pArg)
 	return pInstance;
 }
 
+CParticle::STATEDESC CParticleSystem::CreateParticleDesc()
+{
+	CParticle::STATEDESC tParticleDesc;
+	tParticleDesc.m_eTextureSceneID = m_tDesc.m_eTextureSceneID;
+	tParticleDesc.m_fSpeed = m_tDesc.m_fSpeed;
+	tParticleDesc.m_pTextureTag = m_tDesc.m_pTextureTag;
+	tParticleDesc.m_tBaseDesc.vPos = m_tDesc.m_tBaseDesc.vPos;
+	tParticleDesc.m_tBaseDesc.vSize = m_tDesc.m_vParticleSize;
+	tParticleDesc.m_iTextureID = 1;
+	return tParticleDesc;
+}
+
 void CParticleSystem::Free()
 {
 	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);
+	Safe_Release(m_pObjMgr);
 	for (auto& particle : m_listParticle)
 	{
 		Safe_Release(particle);
 	}
-	
+
 	CGameObject::Free();
 }

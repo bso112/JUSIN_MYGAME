@@ -1,9 +1,10 @@
 #pragma once
 #include "GameObject.h"
+#include "Particle.h"
 BEGIN(MyGame)
-class CParticle;
 class CTransform;
 class CClock_Delay;
+class CObjMgr;
 class CParticleSystem final: public CGameObject
 {
 public:
@@ -20,6 +21,7 @@ public:
 		_float			m_fSpeed = 0.f;
 		const _tchar*	m_pTextureTag = L"";
 		SCENEID			m_eTextureSceneID = SCENE_END;
+		
 	}STATEDESC;
 
 	
@@ -29,11 +31,12 @@ private:
 	virtual ~CParticleSystem() = default;
 
 private:
-	CTransform*		m_pTransform = nullptr;
-	tagStateDesc	m_tDesc;
+	CTransform*			m_pTransform = nullptr;
+	tagStateDesc		m_tDesc;
 	list<CParticle*>	m_listParticle;
-	bool			m_bLoop;
-	CClock_Delay*	m_pDeadClock = nullptr; 
+	bool				m_bLoop;
+	CClock_Delay*		m_pDeadClock = nullptr; 
+	CObjMgr*			m_pObjMgr = nullptr;
 
 public:
 	_int		Update(_double _timeDelta) override;
@@ -46,12 +49,17 @@ public:
 	HRESULT	Initialize(void* _pArg);
 
 public:
+	//랜덤한 부채꼴모양으로 퍼짐
 	void Spread(Vector2 _dir, _double _timeDelta, _uint _iParticleCnt);
-	
+	//한 자리에서 피어오름 (불, 연기..). _rc는 피어오를 영역
+	void RollUp(RECT& _rc, _uint _iParticleCnt);
 
 public:
 	static CParticleSystem* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual CGameObject * Clone(void * _pArg = nullptr) override;
+
+private:
+	CParticle::STATEDESC CreateParticleDesc();
 
 public:
 	virtual void Free() override;

@@ -8,6 +8,7 @@
 #include "CollisionMgr.h"
 #include "StageUIMgr.h"
 #include "Pipline.h"
+#include "TileLoader.h"
 
 USING(MyGame)
 
@@ -747,78 +748,8 @@ HRESULT CLevel::Prv_Level()
 HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID)
 {
 
-#pragma region 타일생성
-
-	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-	if (nullptr == pObjMgr)
-		return E_FAIL;
-	Safe_AddRef(pObjMgr);
-
-	//팔레트에 쓸 타일(프로토타입)을 만든다.
-	CTerrain* pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_bookshelf", _eSceneID);
-	//오브젝트 매니저에 등록한다.
-	pObjMgr->Add_Prototype(L"lv_One_bookshelf", _eSceneID, pTerrain);
-	pTerrain = CDoor::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_door", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_door", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_burned", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_burned", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_grass", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_grass", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_A", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_A", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_B", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_B", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_C", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_C", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_D", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_D", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_E", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_E", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_F", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_F", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_G", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_G", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_H", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_H", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_floor_mask_I", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mask_I", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_mold", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_floor_mold", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_prison", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_prison", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_sign", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_sign", _eSceneID, pTerrain);
-	pTerrain = CStair::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_stair", _eSceneID, L"stair");
-	pObjMgr->Add_Prototype(L"lv_One_stair", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_statue_rock", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_statue_rock", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_statue_wood", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_statue_wood", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_delusion", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_delusion", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_fire", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_fire", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_orange", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_orange", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_paralyze", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_paralyze", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_poison", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_poison", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_pupple", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_pupple", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap_remain", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_trap_remain", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_wall", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_wall", _eSceneID, pTerrain);
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_wall_sewer", _eSceneID);
-	pObjMgr->Add_Prototype(L"lv_One_wall_sewer", _eSceneID, pTerrain);
-
-
-#pragma endregion
-
-	Safe_Release(pObjMgr);
+	//타일 생성
+	CTileLoader::CreateTilePrototype(_pGraphic_Device, SCENE_STAGE);
 
 	return S_OK;
 }

@@ -25,7 +25,7 @@ private:
 
 public:
 	static CDoor* Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr);
-	CDoor*	Clone(void* _pArg);
+	CDoor*	Clone(void* _pArg) override;
 	virtual void Free() override;
 };
 END

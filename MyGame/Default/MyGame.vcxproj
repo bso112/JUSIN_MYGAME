@@ -254,7 +254,9 @@
     <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\Terrain.h" />
     <ClInclude Include="..\Headers\TextureLoader.h" />
+    <ClInclude Include="..\Headers\TileLoader.h" />
     <ClInclude Include="..\Headers\TilePalette.h" />
+    <ClInclude Include="..\Headers\Trap.h" />
     <ClInclude Include="..\Headers\TurnMgr.h" />
     <ClInclude Include="..\Headers\Level.h" />
     <ClInclude Include="..\Headers\Timer.h" />
@@ -327,7 +329,9 @@
     <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\Terrain.cpp" />
     <ClCompile Include="..\Codes\TextureLoader.cpp" />
+    <ClCompile Include="..\Codes\TileLoader.cpp" />
     <ClCompile Include="..\Codes\TilePalette.cpp" />
+    <ClCompile Include="..\Codes\Trap.cpp" />
     <ClCompile Include="..\Codes\TurnMgr.cpp" />
     <ClCompile Include="..\Codes\Level.cpp" />
     <ClCompile Include="..\Codes\Timer.cpp" />
