@@ -73,7 +73,7 @@ HRESULT CRat::Initialize(void * _param)
 	CTexture* pTexture = nullptr;
 
 	Set_Module(L"rat_att", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pAttackAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pAttackAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator->Add_Animation(L"attack", pAttackAnim);
 
 	Set_Module(L"rat_idle", SCENE_STAGE, (CModule**)&pTexture);
@@ -102,7 +102,7 @@ HRESULT CRat::Initialize(void * _param)
 		m_pTransform->Set_Position(*((Vector3*)_param));
 
 	m_pTransform->Set_Size(Vector2(20.f, 20.f));
-	m_pTransform->Set_ColliderSize(Vector2(50.f, 50.f));
+	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
 
 
 	//멤버변수 셋팅

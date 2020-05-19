@@ -70,6 +70,8 @@ HRESULT CWarrior::Initialize(void * _param)
 	m_tStat.m_iGold = 0;
 	m_tStat.m_fArmor = CStat::Create(5.f);
 	m_tStat.m_fHP = 800.f;
+
+	m_iAttackRange = 1;
 #pragma endregion
 
 #pragma region 모듈준비
@@ -106,7 +108,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"idle", pNakedIdleAnim);
 
 	Set_Module(L"warrior_naked_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedAttackAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pNakedAttackAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"attack", pNakedAttackAnim);
 
 	Set_Module(L"warrior_naked_eat", SCENE_STAGE, (CModule**)&pTexture);
@@ -139,7 +141,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"walk", pClothWalkAnim);
 
 	Set_Module(L"warrior_cloth_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothAttackAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pClothAttackAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"attack", pClothAttackAnim);
 
 	Set_Module(L"warrior_cloth_eat", SCENE_STAGE, (CModule**)&pTexture);
@@ -166,7 +168,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"idle", pLeatherIdleAnim);
 
 	Set_Module(L"warrior_leather_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherAttackAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pLeatherAttackAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"attack", pLeatherAttackAnim);
 
 	Set_Module(L"warrior_leather_eat", SCENE_STAGE, (CModule**)&pTexture);
@@ -189,10 +191,11 @@ HRESULT CWarrior::Initialize(void * _param)
 	pLeatherEatAnim->Set_NextAnim(pLeatherIdleAnim);
 	pLeatherUseAnim->Set_NextAnim(pLeatherIdleAnim);
 
+	m_pAnimator[m_eCurrCloth]->Play(L"idle");
 
 #pragma endregion
 
-	m_pAnimator[m_eCurrCloth]->Play(L"idle");
+	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
 
 
 	return S_OK;
@@ -256,6 +259,10 @@ HRESULT CWarrior::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+#ifdef MYDEBUG
+	m_pTransform->Render_Collider();
+#endif // MYDEBUG
+
 
 	if (FAILED(m_pShader->End_Pass()))
 		return E_FAIL;
@@ -279,6 +286,7 @@ void CWarrior::OnCollisionEnter(CGameObject * _pOther)
 	if (!m_bActive)
 		return;
 }
+
 
 
 void CWarrior::Free()

@@ -118,7 +118,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 			m_iCurrRouteIndex = 0;
 		}
 
-		FaceDir();
+		FaceDir(m_vDir);
 	}
 	//타일에 도달했으면
 	else
@@ -256,12 +256,12 @@ RECT CTransform::Get_RECT()
 }
 
 
-void CTransform::FaceDir()
+void CTransform::FaceDir(Vector2 _vDir)
 {
 	float sizeX = abs(m_vSize.x);
 
 	//사이즈가 음수면 왼쪽, 양수면 오른쪽을 바라본다.
-	if (m_vDir.x < 0)
+	if (_vDir.x < 0)
 		m_vSize.x = -1 * sizeX;
 	else
 		m_vSize.x = sizeX;

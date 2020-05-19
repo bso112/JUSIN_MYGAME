@@ -74,6 +74,11 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+#ifdef MYDEBUG
+	//콜라이더 렌더
+	m_pTransform->Render_Collider();
+#endif // MYDEBUG
+
 
 	if (FAILED(m_pShader->End_Pass()))
 		return E_FAIL;
@@ -84,8 +89,6 @@ HRESULT CMonster::Render()
 
 	ALPHABLEND_END;
 
-	//콜라이더 렌더
-	m_pTransform->Render_Collider();
 
 
 	return S_OK;
@@ -97,7 +100,7 @@ _float CMonster::CalulateSpeed(_int movePerturn)
 		return -1.f;
 
 	CTransform*	pHeroTransform = (CTransform*)m_pFocus->Get_Module(L"Transform");
-	if (nullptr == pHeroTransform) 
+	if (nullptr == pHeroTransform)
 		return -1.f;
 
 	return pHeroTransform->Get_Desc().speedPerSec;
@@ -107,6 +110,15 @@ _float CMonster::CalulateSpeed(_int movePerturn)
 HRESULT CMonster::OnRender()
 {
 	return S_OK;
+}
+
+void CMonster::OnAttack(CGameObject * _pOther)
+{
+	if (nullptr == _pOther ||
+		nullptr == m_pAnimator)
+		return;
+
+	m_pAnimator->Play(L"attack");
 }
 
 void CMonster::Free()

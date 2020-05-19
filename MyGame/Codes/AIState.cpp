@@ -112,7 +112,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 			return STATE_END;
 
 		//공격
-		pFocus->TakeDamage(m_pActor->Get_Stat().m_fAtt->GetValue());
+		m_pActor->Interact(pFocus);
 
 		//공격 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");

@@ -88,8 +88,7 @@ public:
 
 public:
 	virtual	_int	Interact(CGameObject* _pOther);
-	
-	
+
 public:
 	//어느 지형을 밟고있는지 인덱스를 리턴한다.
 	HRESULT	Get_TerrainIndex(pair<_int, _int>& _out);
@@ -103,6 +102,7 @@ public:
 protected:
 	virtual void OnDead();
 	virtual void OnTakeDamage();
+	virtual	void OnAttack(CGameObject * _pOther);
 
 
 public:

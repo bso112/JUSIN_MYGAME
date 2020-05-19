@@ -29,12 +29,14 @@ HRESULT CTurnMgr::Initialize()
 		MSG_BOX("플레이어 레이어가 없습니다.");
 
 	m_pActorLayers[0] = pLayer;
+	Safe_AddRef(m_pActorLayers[0]);
 
 	pLayer = CObjMgr::Get_Instance()->Find_Layer(L"Monster", SCENE_STAGE);
 	if (nullptr == pLayer)
 		MSG_BOX("몬스터 레이어가 없습니다.");
 
 	m_pActorLayers[1] = pLayer;
+	Safe_AddRef(m_pActorLayers[1]);
 
 	MoveTurn_sequentially(1);
 	return S_OK;
@@ -135,7 +137,6 @@ _int CTurnMgr::Update_Simultaneously()
 			m_iMaxTurn = 1;
 			m_iLayerIndex = 0;
 			m_iObjIndex = 0;
-			m_pCurrActor = nullptr;
 			//턴이 끝났으면 아무것도 안함.
 			return TURN_END;
 		}
@@ -237,4 +238,8 @@ _int CTurnMgr::Get_NextActor(CCharacter** _pOutCharacter)
 
 void CTurnMgr::Free()
 {
+	for (auto& layer : m_pActorLayers)
+	{
+		Safe_Release(layer);
+	}
 }

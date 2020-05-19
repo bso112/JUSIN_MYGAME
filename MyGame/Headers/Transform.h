@@ -112,9 +112,9 @@ public:
 	Vector3		Get_Dir() { return m_vDir; }
 
 
-private:
+public:
 	//이동하는 방향을 바라본다.
-	void		FaceDir();
+	void		FaceDir(Vector2 _vDir);
 
 public:
 	//저절로 움직이고 있나?

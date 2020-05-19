@@ -85,29 +85,41 @@ _int CCharacter::Interact(CGameObject * _pOther)
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
 	if (nullptr != pCharacter)
 	{
-		pCharacter->TakeDamage(m_tStat.m_fAtt->GetValue());
-
 		CTransform* pOtherTransform = (CTransform*)_pOther->Get_Module(L"Transform");
 		if (nullptr == pOtherTransform)return -1;
 
-		//피 파티클 생성
-		Vector3 vPos = m_pTransform->Get_Position();
-		CParticleSystem::STATEDESC desc;
-		desc.m_tBaseDesc.vPos = pOtherTransform->Get_Position();
-		desc.m_pTextureTag = L"Blood";
-		desc.m_eTextureSceneID = SCENE_STAGE;
-		desc.m_dDuration = 0.2f;
-		desc.m_dLifeTime = 0.2f;
-		desc.m_fSpeed = 300.f;
-		desc.m_vParticleSize = Vector2(10.f, 10.f);
-		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-		CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &desc));
+		if (IsTargetInRange(pCharacter, m_iAttackRange))
+		{
+			pCharacter->TakeDamage(m_tStat.m_fAtt->GetValue());
+			OnAttack(_pOther);
 
-		
-		Vector2 vDir =  pOtherTransform->Get_Position() - m_pTransform->Get_Position();
+#pragma region 파티클 생성
 
-		//피가 튀긴다.
-		pParticleSystem->Spread(vDir, CTimerMgr::Get_Instance()->Get_TimeDelta(), 5);
+
+			//피 파티클 생성
+			Vector3 vPos = m_pTransform->Get_Position();
+			CParticleSystem::STATEDESC desc;
+			desc.m_tBaseDesc.vPos = pOtherTransform->Get_Position();
+			desc.m_pTextureTag = L"Blood";
+			desc.m_eTextureSceneID = SCENE_STAGE;
+			desc.m_dDuration = 0.2f;
+			desc.m_dLifeTime = 0.2f;
+			desc.m_fSpeed = 300.f;
+			desc.m_vParticleSize = Vector2(10.f, 10.f);
+			CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+			CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &desc));
+
+
+			Vector2 vDir = pOtherTransform->Get_Position() - m_pTransform->Get_Position();
+			m_pTransform->FaceDir(vDir);
+
+			//피가 튀긴다.
+			pParticleSystem->Spread(vDir, CTimerMgr::Get_Instance()->Get_TimeDelta(), 5);
+
+#pragma endregion
+		}
+
+
 	}
 	return 0;
 }
@@ -169,6 +181,10 @@ void CCharacter::OnTakeDamage()
 	m_iPass = 3;
 
 
+}
+
+void CCharacter::OnAttack(CGameObject * _pOther)
+{
 }
 
 void CCharacter::Free()

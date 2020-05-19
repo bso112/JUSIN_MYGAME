@@ -110,3 +110,8 @@ CGameObject * CStair::Clone(void * _param)
 	return pInstance;
 }
 
+void CStair::Free()
+{
+	CTerrain::Free();
+}
+

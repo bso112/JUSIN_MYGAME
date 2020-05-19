@@ -26,6 +26,7 @@ protected:
 
 protected:
 	virtual	HRESULT	OnRender();
+	virtual	void OnAttack(CGameObject * _pOther);
 
 
 public:

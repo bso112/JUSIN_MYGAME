@@ -6,7 +6,6 @@
 #include "Door.h"
 #include "Stair.h"
 #include "CollisionMgr.h"
-#include "Stair.h"
 #include "StageUIMgr.h"
 #include "Pipline.h"
 
@@ -593,8 +592,8 @@ CTerrain * CLevel::Pick_Tile(POINT & _pt)
 	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
 	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix());
 
-	_uint x = dst.x / TILECX;
-	_uint y = dst.y / TILECY;
+	_uint x = (_uint)dst.x / TILECX;
+	_uint y = (_uint)dst.y / TILECY;
 
 	if (x >= WORLDX || y >= WORLDY || x < 0 || y < 0)
 		return nullptr;

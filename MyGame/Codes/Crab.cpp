@@ -50,6 +50,14 @@ HRESULT CCrab::Initialize(void * _param)
 	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
 		return E_FAIL;
 
+	//위치 셋팅
+	if (nullptr != _param)
+		m_pTransform->Set_Position(*((Vector3*)_param));
+
+
+	m_pTransform->Set_Size(Vector2(25.f, 25.f));
+	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
+
 #pragma endregion
 
 #pragma region 상태셋팅
@@ -68,7 +76,7 @@ HRESULT CCrab::Initialize(void * _param)
 	CTexture* pTexture = nullptr;
 
 	Set_Module(L"crab_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pAttackAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pAttackAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator->Add_Animation(L"attack", pAttackAnim);
 
 	Set_Module(L"crab_sleep", SCENE_STAGE, (CModule**)&pTexture);
@@ -96,11 +104,7 @@ HRESULT CCrab::Initialize(void * _param)
 #pragma endregion
 
 
-	//위치 셋팅
-	if (nullptr != _param)
-		m_pTransform->Set_Position(*((Vector3*)_param));
 
-	m_pTransform->Set_Size(Vector2(20.f, 20.f));
 
 
 	//멤버변수 셋팅

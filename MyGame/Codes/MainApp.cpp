@@ -245,22 +245,30 @@ void CMainApp::Free()
 	if (0 != CModuleMgr::Destroy_Instance())
 		MSG_BOX("Fail to Relese CModuleMgr");
 
-	if (0 != CRenderer::Destroy_Instance())
-		MSG_BOX("Fail to Release CRenderer");
-
 	if (0 != CTimerMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CTimerMgr");
 
 	if (0 != CTextureLoader::Destroy_Instance())
 		MSG_BOX("Fail to Release CTextureLoader");
 
+	
+	while (0 != CRenderer::Destroy_Instance())
+		CRenderer::Destroy_Instance();
 
-	if (0 != CPipline::Destroy_Instance())
-		MSG_BOX("Fail to Release Pipline");
+	//if (0 != CRenderer::Destroy_Instance())
+	//	MSG_BOX("Fail to Release CRenderer");
 
+	while (0 != CPipline::Destroy_Instance())
+		CPipline::Destroy_Instance();
 
-	if (0 != CGraphic_Device::Destroy_Instance())
-		MSG_BOX("Fail to Relese CGraphic_Device");
+	//if (0 != CPipline::Destroy_Instance())
+	//	MSG_BOX("Fail to Relese CPipline");
+
+	while (0 != CGraphic_Device::Destroy_Instance())
+		CGraphic_Device::Destroy_Instance();
+
+	//if (0 != CGraphic_Device::Destroy_Instance())
+	//	MSG_BOX("Fail to Relese CGraphic_Device");
 
 
 

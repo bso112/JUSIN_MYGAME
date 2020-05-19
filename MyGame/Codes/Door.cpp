@@ -112,6 +112,11 @@ CDoor * CDoor::Clone(void * _param)
 	return pInstance;
 }
 
+void CDoor::Free()
+{
+	CTerrain::Free();
+}
+
 
 
 

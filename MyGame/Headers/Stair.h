@@ -29,6 +29,7 @@ protected:
 public:
 	static CStair*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pLayerTag, _tchar* _pFilePath = nullptr);
 	virtual CGameObject* Clone(void * _param = nullptr) override;
+	virtual void Free() override;
 
 };
 END

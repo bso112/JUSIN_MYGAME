@@ -93,6 +93,15 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 	return S_OK;
 }
 
+void CHero::OnAttack(CGameObject * _pOther)
+{
+	if (_pOther == nullptr ||
+		m_pAnimator[m_eCurrCloth] == nullptr)
+		return;
+
+	m_pAnimator[m_eCurrCloth]->Play(L"attack");
+}
+
 HRESULT CHero::Set_InitialPos()
 {
 	if (m_pTransform == nullptr)
