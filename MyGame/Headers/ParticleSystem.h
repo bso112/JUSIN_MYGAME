@@ -33,7 +33,7 @@ private:
 private:
 	CTransform*			m_pTransform = nullptr;
 	tagStateDesc		m_tDesc;
-	list<CParticle*>	m_listParticle;
+	list<CGameObject*>	m_listParticle;
 	bool				m_bLoop;
 	CClock_Delay*		m_pDeadClock = nullptr; 
 	CObjMgr*			m_pObjMgr = nullptr;

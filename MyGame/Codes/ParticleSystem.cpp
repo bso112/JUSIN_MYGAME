@@ -181,7 +181,7 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 	//해당 범위 내에서 랜덤한 위치에 스폰한다. 파티클은 lifetime이 지나면 죽는다. 
 	LONG SizeX = _rc.right - _rc.left;
 	LONG SizeY = _rc.bottom - _rc.top;
-	if (SizeX <= 0 || SizeY)
+	if (SizeX <= 0 || SizeY <= 0)
 		return;
 
 
@@ -192,8 +192,10 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 		_float randY = _rc.top + (rand() % SizeY);
 		CParticle::STATEDESC tParticleDesc = CreateParticleDesc();
 		tParticleDesc.m_tBaseDesc.vPos = Vector2(randX, randY);
+		tParticleDesc.m_fLifeTime = rand() % (_int)m_tDesc.m_dDuration;
 
-		m_pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, L"Particle", SCENE_STAGE, &tParticleDesc);
+		m_listParticle.push_back(m_pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, L"Particle", SCENE_STATIC, &tParticleDesc));
+		Safe_AddRef(m_listParticle.back());
 	}
 
 
@@ -234,6 +236,9 @@ CParticle::STATEDESC CParticleSystem::CreateParticleDesc()
 	tParticleDesc.m_pTextureTag = m_tDesc.m_pTextureTag;
 	tParticleDesc.m_tBaseDesc.vPos = m_tDesc.m_tBaseDesc.vPos;
 	tParticleDesc.m_tBaseDesc.vSize = m_tDesc.m_vParticleSize;
+	tParticleDesc.m_fLifeTime = m_tDesc.m_dLifeTime;
+
+	//트랩 타입에 따라 달라지게
 	tParticleDesc.m_iTextureID = 1;
 	return tParticleDesc;
 }

@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "Renderer.h"
 #include "Shader.h"
-
+#include "Clock.h"
 
 USING(MyGame)
 
@@ -15,6 +15,7 @@ CParticle::CParticle(CParticle & _rhs)
 {
 	m_bActive = true;
 	ZeroMemory(&m_tDesc, sizeof(STATEDESC));
+	m_pDeadClock = CClock_Delay::Create();
 }
 
 
@@ -56,6 +57,13 @@ HRESULT CParticle::Initialize(void * _pArg)
 
 _int CParticle::Update(_double _timeDelta)
 {
+	if (nullptr == m_pDeadClock)
+		return -1;
+
+	//라이프타임이 지나면 죽기
+	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_fLifeTime))
+		m_bDead = true;
+
 	if (m_bDead)
 		return -1;
 
@@ -116,8 +124,6 @@ HRESULT CParticle::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	m_tFont.m_tRC = m_pTransform->Get_RECT();
-	g_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
 	//하위클래스의 렌더
 	OnRender();
 
@@ -144,6 +150,7 @@ void CParticle::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SC
 	if (nullptr == pTextureTag)
 		return;
 
+	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTextrue);
 	m_tDesc.m_pTextureTag = pTextureTag;
 	m_tDesc.m_eTextureSceneID = _eTextureSceneID;
@@ -181,6 +188,7 @@ CGameObject* CParticle::Clone(void* _param)
 
 void CParticle::Free()
 {
+	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pTextrue);

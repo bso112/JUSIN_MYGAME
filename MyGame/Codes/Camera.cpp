@@ -49,8 +49,17 @@ _int CCamera::Update(_double _timeDelta)
 	m_pTransform->Set_Position(Vector3(vTargetPos.x - (g_iWinCX >> 1), vTargetPos.y - (g_iWinCY >> 1)));
 
 
+	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix,
+		revolveXMatrix, revolveYMatrix, revolveZMatrix;
+
+	D3DXMatrixTranslation(&translationMatrix, -1.f * vTargetPos.x, -1.f * vTargetPos.y, -1.f * vTargetPos.z);
+	D3DXMatrixScaling(&scalingMatrix, 1.f, 1.f, 1.f);
+
+
+	_matrix matrix = m_pTransform->Get_Matrix() * translationMatrix * scalingMatrix;
+
 	m_pTransform->Update_Transform();
-	m_pPipline->Set_CameraMatrix(m_pTransform->Get_Matrix());
+	m_pPipline->Set_CameraMatrix(matrix);
 	return 0;
 }
 

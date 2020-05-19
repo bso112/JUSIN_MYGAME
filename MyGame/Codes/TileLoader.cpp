@@ -63,7 +63,7 @@ HRESULT CTileLoader::CreateTilePrototype(PDIRECT3DDEVICE9 _pGraphic_Device, SCEN
 	pObjMgr->Add_Prototype(L"lv_One_statue_rock", _eSceneID, pTerrain); if(container)container->push_back(pTerrain); 
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_statue_wood", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_statue_wood", _eSceneID, pTerrain); if(container)container->push_back(pTerrain); 
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap", _eSceneID);
+	pTerrain = CTrap::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_trap", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_trap", _eSceneID, pTerrain); if(container)container->push_back(pTerrain); 
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_wall", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_wall", _eSceneID, pTerrain); if(container)container->push_back(pTerrain); 
