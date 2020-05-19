@@ -91,6 +91,19 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
+_float CMonster::CalulateSpeed(_int movePerturn)
+{
+	if (nullptr == m_pFocus)
+		return -1.f;
+
+	CTransform*	pHeroTransform = (CTransform*)m_pFocus->Get_Module(L"Transform");
+	if (nullptr == pHeroTransform) 
+		return -1.f;
+
+	return pHeroTransform->Get_Desc().speedPerSec;
+
+}
+
 HRESULT CMonster::OnRender()
 {
 	return S_OK;

@@ -23,6 +23,8 @@ public:
 	virtual _int	Update(_double _timeDelta)	override;
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
+	
+
 
 public:
 	HRESULT	Add_Item(CItem* _pItem);

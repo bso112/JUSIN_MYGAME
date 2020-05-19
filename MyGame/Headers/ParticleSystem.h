@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 BEGIN(MyGame)
-class CImage;
+class CParticle;
 class CTransform;
 class CClock_Delay;
 class CParticleSystem final: public CGameObject
@@ -31,7 +31,7 @@ private:
 private:
 	CTransform*		m_pTransform = nullptr;
 	tagStateDesc	m_tDesc;
-	list<CImage*>	m_listParticle;
+	list<CParticle*>	m_listParticle;
 	bool			m_bLoop;
 	CClock_Delay*	m_pDeadClock = nullptr; 
 

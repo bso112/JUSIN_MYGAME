@@ -27,11 +27,14 @@ protected:
 	const _tchar*			m_pTextureTag = nullptr;
 	const _tchar*			m_pItemName = nullptr;
 
-
-
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
+
+
+
+public:
+	HRESULT	Render_Preview();
 
 public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }

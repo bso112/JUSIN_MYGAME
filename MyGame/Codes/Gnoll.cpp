@@ -40,7 +40,8 @@ HRESULT CGnoll::Initialize(void * _param)
 	//모듈셋팅
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform,nullptr, &CTransform::STATEDESC(100.0, 100.0, 2))))
+	float movePerturn = 2;
+	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, nullptr, &CTransform::STATEDESC(CalulateSpeed(movePerturn), 100.0, movePerturn))))
 		return E_FAIL;
 	if (FAILED(Set_Module(L"AIStateCon", SCENE_STATIC, (CModule**)&m_pStateCon)))
 		return E_FAIL;

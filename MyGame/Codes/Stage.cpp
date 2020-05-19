@@ -85,8 +85,7 @@ HRESULT CStage::Initalize_Prototypes()
 	if (FAILED(m_pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
 		return E_FAIL;
 
-	//파티클 시스템 프로토타입 생성
-	m_pObjMgr->Add_Prototype(L"ParticleSystem", SCENE_STAGE, CParticleSystem::Create(m_pGraphic_Device));
+
 
 	//카메라 프로로타입 생성
 	m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));

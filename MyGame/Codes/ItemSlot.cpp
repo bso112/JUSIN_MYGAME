@@ -124,12 +124,16 @@ HRESULT CItemSlot::Render()
 		return E_FAIL;
 
 	if (m_listItem.size() > 0)
-		m_listItem.front()->Render();
+	{
+		if(FAILED(m_listItem.front()->Render_Preview()))
+			return E_FAIL;
+	}
 
 	ALPHABLEND_END;
 
 	return S_OK;
 }
+
 
 HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 {

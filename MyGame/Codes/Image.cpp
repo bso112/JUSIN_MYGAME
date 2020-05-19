@@ -149,7 +149,7 @@ HRESULT CImage::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
 		return E_FAIL;
 
 	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))
@@ -190,7 +190,7 @@ void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENE
 	if (nullptr == pTextureTag)
 		return;
 
-	//¸¯³¯µí?
+	Safe_Release(m_pTextrue);
 	Set_Module(pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue);
 	m_iTextureID = _iTextureID;
 }

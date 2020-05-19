@@ -51,3 +51,16 @@ void CItem::Free()
 	Safe_Release(m_pVIBuffer);
 	CGameObject::Free();
 }
+
+HRESULT CItem::Render_Preview()
+{
+	if (nullptr == m_pTexture ||
+		nullptr == m_pVIBuffer	||
+		nullptr == m_pTransform)
+		return E_FAIL;
+
+	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
+	m_pTexture->Set_Texture(0);
+	m_pVIBuffer->Render();
+	return S_OK;
+}

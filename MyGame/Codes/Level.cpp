@@ -356,9 +356,9 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 	_int dstX = (_int)dst.x / TILECX;
 	_int dstY = (_int)dst.y / TILECY;
 
-	if (dstX >= WORLDX || dstY >= WORLDY)
+	if (dstX >= WORLDX || dstY >= WORLDY || dstX < 0 || dstY < 0)
 		return E_FAIL;
-	if (srcX >= WORLDX || srcY >= WORLDY)
+	if (srcX >= WORLDX || srcY >= WORLDY || srcX < 0 || srcY < 0)
 		return E_FAIL;
 
 	if (nullptr == m_pTerrains[srcY][srcX] || nullptr == m_pTerrains[dstY][dstX])

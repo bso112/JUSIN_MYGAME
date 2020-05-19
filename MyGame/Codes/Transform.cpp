@@ -83,12 +83,16 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 	m_vDir = pTransform->Get_Position() - m_vPosition;
 
-	if (m_vDir.magnitude() > 10.f)
+	_float dist = m_vDir.magnitude();
+	_float fSpeed = m_tStateDesc.speedPerSec;
+
+
+	if (m_vDir.magnitude() > 2.f)
 	{
 		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
 		if (m_Route[m_iCurrRouteIndex]->IsMovable(this))
 		{
-			m_vPosition += m_vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+			m_vPosition += m_vDir.nomalize() * float(fSpeed * _timeDelta);
 		}
 		//갈 수 없으면 루트갱신
 		else
@@ -121,6 +125,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	{
 		//지나간 타일 수 세기
 		++m_iCntForTurn;
+		//턴에 상관없이 지금까지 이동한 타일 수
 		++m_iTotalMoveCnt;
 		//한 타일지나면 인덱스 더하기
 		++m_iCurrRouteIndex;
@@ -140,6 +145,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	}
 
 	//행동력만큼 이동했는지 체크
+	//m_iCntForTurn은 한턴에 이동한 타일 수를 의미함.
 	if ((m_iCntForTurn >= (_int)m_tStateDesc.movePerTurn))
 	{
 		m_bTurnEnd = true;

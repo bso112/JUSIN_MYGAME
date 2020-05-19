@@ -76,6 +76,7 @@ public:
 	CCharacter*	Get_Focus() { return m_pFocus; }
 	_bool		IsTurnEnd(){ return m_bTurnEnd; }
 	void		SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
+	
 
 public:
 	virtual void TakeDamage(float _fDamage);

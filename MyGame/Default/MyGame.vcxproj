@@ -201,6 +201,7 @@
     <ClInclude Include="..\Headers\ItemSlot.h" />
     <ClInclude Include="..\Headers\LevelMgr.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
+    <ClInclude Include="..\Headers\Particle.h" />
     <ClInclude Include="..\Headers\ParticleSystem.h" />
     <ClInclude Include="..\Headers\Pipline.h" />
     <ClInclude Include="..\Headers\PlayerState.h" />
@@ -278,6 +279,7 @@
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp" />
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
     <ClCompile Include="..\Codes\LevelMgr.cpp" />
+    <ClCompile Include="..\Codes\Particle.cpp" />
     <ClCompile Include="..\Codes\ParticleSystem.cpp" />
     <ClCompile Include="..\Codes\Pipline.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ParticleSystem.h"
 #include "Transform.h"
-#include "Image.h"
+#include "Particle.h"
 #include "ObjMgr.h"
 #include "Clock.h"
 USING(MyGame)
@@ -126,7 +126,7 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 	for (_uint i = 0; i < _iParticleCnt; ++i)
 	{
 		//파티클 생성
-		CImage::STATEDESC stateDesc;
+		CParticle::STATEDESC stateDesc;
 		stateDesc.m_eTextureSceneID = m_tDesc.m_eTextureSceneID;
 		stateDesc.m_fSpeed = m_tDesc.m_fSpeed;
 		stateDesc.m_pTextureTag = m_tDesc.m_pTextureTag;
@@ -137,9 +137,16 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta,  _uint _iParticl
 		m_tDesc.m_vParticleSize.y = m_tDesc.m_vParticleSize.y == 0 ? 1 : m_tDesc.m_vParticleSize.y;
 		//랜덤사이즈
 		stateDesc.m_tBaseDesc.vSize = Vector2(_float(rand() % (_int)m_tDesc.m_vParticleSize.x), _float(rand() % (_int)m_tDesc.m_vParticleSize.y));
-		CImage* pImage = CImage::Create(m_pGraphic_Device, &stateDesc);
-		m_listParticle.push_back((CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, pImage));
-		Safe_AddRef(pImage);
+	
+		
+		//
+	
+		m_listParticle.push_back((CParticle*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, L"Particle", SCENE_STAGE, &stateDesc));
+		Safe_AddRef(m_listParticle.back());
+		//
+	
+		
+		
 
 		//혹시나 0이 될 수 있으니까
 		gap = gap == 0 ? 1 : gap;

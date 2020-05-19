@@ -101,7 +101,7 @@ _int CCharacter::Interact(CGameObject * _pOther)
 		desc.m_fSpeed = 300.f;
 		desc.m_vParticleSize = Vector2(10.f, 10.f);
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-		CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STAGE, L"ParticleSystem", SCENE_STAGE, &desc));
+		CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &desc));
 
 		
 		Vector2 vDir =  pOtherTransform->Get_Position() - m_pTransform->Get_Position();

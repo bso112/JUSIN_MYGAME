@@ -13,6 +13,9 @@
 #include "AIStateCon.h"
 #include "PlayerStateCon.h"
 #include "KeyMgr.h"
+#include "Pipline.h"
+#include "Particle.h"
+#include "ParticleSystem.h"
 
 USING(MyGame)
 
@@ -32,6 +35,9 @@ HRESULT CMainApp::Initalize()
 
 
 	if (FAILED(Initalize_Default_Setting()))
+		return E_FAIL;
+
+	if (FAILED(Initialize_Prototypes()))
 		return E_FAIL;
 
 	if (FAILED(Initalize_Module()))
@@ -132,12 +138,24 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	return S_OK;
 }
 
+HRESULT CMainApp::Initialize_Prototypes()
+{
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pObjMgr);
+
+	//파티클 시스템 프로토타입 생성
+	pObjMgr->Add_Prototype(L"ParticleSystem", SCENE_STATIC, CParticleSystem::Create(m_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Particle", SCENE_STATIC, CParticle::Create(m_pGraphic_Device));
+
+	return S_OK;
+}
+
 HRESULT CMainApp::Initalize_Scene()
 {
 	if (m_pSceneMgr == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_MENU, m_pGraphic_Device)))
+	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_STAGE, m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;
@@ -211,7 +229,6 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pSceneMgr);
 
-
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		return;
 
@@ -221,7 +238,7 @@ void CMainApp::Free()
 
 	if (0 != CKeyMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release KeyMgr");
-
+	
 	if (0 != CObjMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CObjMgr");
 
@@ -236,6 +253,11 @@ void CMainApp::Free()
 
 	if (0 != CTextureLoader::Destroy_Instance())
 		MSG_BOX("Fail to Release CTextureLoader");
+
+
+	if (0 != CPipline::Destroy_Instance())
+		MSG_BOX("Fail to Release Pipline");
+
 
 	if (0 != CGraphic_Device::Destroy_Instance())
 		MSG_BOX("Fail to Relese CGraphic_Device");

@@ -21,6 +21,10 @@ public:
 	virtual HRESULT	Render();
 
 protected:
+	//플레이어와 턴수를 비교해서 자신이 가져야할 속도를 계산한다.
+	_float		CalulateSpeed(_int movePerturn);
+
+protected:
 	virtual	HRESULT	OnRender();
 
 

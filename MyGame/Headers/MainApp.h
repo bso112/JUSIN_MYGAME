@@ -30,6 +30,7 @@ public:
 
 private:
 	HRESULT Initalize_Default_Setting();
+	HRESULT Initialize_Prototypes();
 	HRESULT	Initalize_Scene();
 	HRESULT Initalize_Module();
 	HRESULT Initalize_Texture();
