@@ -190,9 +190,10 @@ void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENE
 	if (nullptr == pTextureTag)
 		return;
 
-	Safe_Release(m_pTextrue);
-	Set_Module(pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue);
+	Replace_Module(m_pTextureTag, pTextureTag, _eTextureSceneID, (CModule**)&m_pTextrue);
 	m_iTextureID = _iTextureID;
+	m_pTextureTag = pTextureTag;
+
 }
 
 CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID)

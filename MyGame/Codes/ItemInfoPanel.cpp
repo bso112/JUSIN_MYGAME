@@ -15,7 +15,7 @@ HRESULT CItemInfoPanel::Initialize_Prototype()
 HRESULT CItemInfoPanel::Initialize(void * _param)
 {
 	//렌더 깊이
-	m_iDepth = 1;
+	m_iDepth = 2;
 
 	Vector3 vPanelPos = Vector3(g_iWinCX >> 1, g_iWinCY >> 1);
 	//부모의 이니셜라이즈 부름
@@ -140,8 +140,10 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 
 		//버튼
 		m_vecBtn[i]->Set_Text((*actions)[i]);
+
 		//[&]으로하면 지역변수인 actions가 캡쳐되버려서 이상한 곳을 가리키게됨. actions를 리스너에 담아두고 나중에 부르는거니까.
-		m_vecBtn[i]->Add_Listener([=] { _pItem->Use(pHero, (*actions)[i]); });
+		//Add_Listener로 하면 삭제된 _pItem을 리스너에서 해제하는게 애매하게 됨. 그냥 덮어쓰기가 편함.
+		m_vecBtn[i]->Set_Listener([=] { if (_pItem) { _pItem->Use(pHero, (*actions)[i]); } });
 
 	}
 

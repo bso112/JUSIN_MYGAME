@@ -102,6 +102,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				break;
 			pMainApp->Render();
 		}
+
 	}
 
 	Safe_Release(pTimer_Manager);

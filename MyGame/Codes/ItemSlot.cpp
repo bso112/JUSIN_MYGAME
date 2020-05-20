@@ -43,6 +43,9 @@ HRESULT CItemSlot::Remove_Item()
 	if (m_listItem.empty())
 		return E_FAIL;
 
+	//이걸 지웠더니 아이템 사용버튼 클릭할때 아이템이 지워져서 actionsize가 0이 되어버림.
+	//그런데 캡쳐된 i는 1 이상이니 outofrange 오류 발생
+	Safe_Release(m_listItem.back());
 	m_listItem.pop_back();
 
 	return S_OK;
@@ -92,9 +95,6 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 
 	m_pTransform->Update_Transform();
 	
-	
-	if (!m_listItem.empty())
-		m_listItem.front()->LateUpate(_timeDelta);
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
 		return -1;

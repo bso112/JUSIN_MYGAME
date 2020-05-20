@@ -114,7 +114,7 @@ CModule * CGameObject::Get_Module(const _tchar* _eModuleTag)
 	auto& iter = find_if(m_mapModule.begin(), m_mapModule.end(), CFinder_Tag(_eModuleTag));
 	if (iter == m_mapModule.end())
 		return nullptr;
-	
+
 	return iter->second;
 }
 
@@ -129,9 +129,33 @@ HRESULT CGameObject::Add_Module(const _tchar* _pModuleTag, CModule * _pModule)
 	return S_OK;
 }
 
+HRESULT CGameObject::Replace_Module(const _tchar * _pOldModuleTag, const _tchar * _pNewModulePrototypeTag, SCENEID _eNewModulePrototypeSceneID, CModule** _ppOutModule, const _tchar * _pNewModuleTag)
+{
+
+	//이전의 모듈을 지운다.
+	CModule* pOld = Get_Module(_pOldModuleTag);
+	if (nullptr == pOld)
+	{
+		MSG_BOX("교체할 모듈이 없습니다.");
+		return E_FAIL;
+	}
+
+	//모듈에서 지운다.
+	Safe_Release(*_ppOutModule);
+	if (0 != Safe_Release(pOld))
+	{
+		MSG_BOX("Fail to replace Module");
+		return E_FAIL;
+	}
+	m_mapModule.erase(_pOldModuleTag);
+
+	//새로운 모듈을 추가한다.
+	return Set_Module(_pNewModulePrototypeTag, _eNewModulePrototypeSceneID, _ppOutModule, _pNewModuleTag);
+}
+
 void CGameObject::Free()
 {
-	
+
 	for (auto pair : m_mapModule)
 	{
 		Safe_Release(pair.second);

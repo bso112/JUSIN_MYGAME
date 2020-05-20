@@ -92,6 +92,9 @@ public:
 	_bool		Get_Active() { return m_bActive; }
 	void		Set_Depth(_int _iDepth) { m_iDepth = _iDepth; }
 	_int		Get_Depth() { return m_iDepth; }
+	//ppOut을 릴리즈하고, _pOldModuleTag에 해당하는 m_mapModule의 요소를 릴리즈한뒤 ppOut에 새로운 모듈을 셋팅한다.
+	HRESULT		Replace_Module(const _tchar* _pOldModuleTag, const _tchar* _pNewModulePrototypeTag, SCENEID _eNewModulePrototypeSceneID, CModule** _ppOutModule, const _tchar* _pNewModuleTag = nullptr);
+
 public:
 	virtual CGameObject* Clone(void * _pArg = nullptr) = 0;
 

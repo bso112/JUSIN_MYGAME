@@ -21,8 +21,8 @@ private:
 public:
 	virtual HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	virtual _int	Update(_double _timeDelta)	override;
-	virtual _int	LateUpate(_double _timeDelta);
-	virtual HRESULT	Render();
+	virtual _int	LateUpate(_double _timeDelta)override;
+	virtual HRESULT	Render() override;
 	
 
 

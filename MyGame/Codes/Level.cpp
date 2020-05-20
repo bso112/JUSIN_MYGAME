@@ -349,7 +349,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 
 	Vector4 dst = Vector4((float)_dst.x, (float)_dst.y, 0.f, 1.f);
 	//마우스 좌표 변환
-	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix());
+	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix_inverse());
 
 	_int srcX = (_int)_src.x / TILECX;
 	_int srcY = (_int)_src.y / TILECY;
@@ -591,7 +591,7 @@ CTerrain * CLevel::Pick_Tile(POINT & _pt)
 
 	//마우스 좌표 변환
 	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
-	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix());
+	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix_inverse());
 
 	_uint x = (_uint)dst.x / TILECX;
 	_uint y = (_uint)dst.y / TILECY;

@@ -31,7 +31,10 @@ protected:
 	_bool			m_bClicked = false;
 
 protected:
+	//여러개의 리스너
 	vector<function<void()>> m_vecOnListener;
+	//하나의 리스너(계속 덮어쓰는 용도)
+	function<void()>	m_Listener;
 
 
 public:
@@ -46,6 +49,12 @@ public:
 		m_vecOnListener.push_back(_listener);
 		return S_OK;
 	}
+	virtual HRESULT	Set_Listener(function<void()> _listener)
+	{
+		m_Listener = _listener;
+		return S_OK;
+	}
+	
 
 	void	Set_Text(const _tchar* pText) { m_pText = pText; }
 	HRESULT	Set_RenderState(RENDER_STATE _eRenderState);

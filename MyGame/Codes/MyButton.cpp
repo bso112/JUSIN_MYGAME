@@ -139,11 +139,16 @@ HRESULT CMyButton::OnKeyDown(_int KeyCode)
 
 		if (PtInRect(&m_tRect, cursorPos))
 		{
+			//리스너 목록을 호출한다.
 			for (auto& listener : m_vecOnListener)
 			{
 				if (listener)
 					listener();
 			}
+			//싱글 리스너를 호출한다.
+			if (m_Listener)
+				m_Listener();
+
 			m_bClicked = true;
 			return OBJ_CLICKED;
 		}

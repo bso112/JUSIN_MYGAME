@@ -102,7 +102,7 @@ public:
 	HRESULT	Set_Rotation(Vector3 _vRotation);
 
 public:
-	_matrix		Get_Matrix() { return m_StateMatrix; }
+	_matrix		Get_Matrix() { Update_Transform(); return m_StateMatrix; }
 	Vector3		Get_Position() { return m_vPosition; }
 	Vector3		Get_Size() { return m_vSize; }
 	Vector3		Get_Rotation() { return m_vRotation; }

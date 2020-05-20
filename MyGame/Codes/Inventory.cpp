@@ -50,6 +50,10 @@ HRESULT CInventory::Initialize(void * _pArg)
 	_float slotCX = (slotRcX - (margin_slot * SLOTX - 1)) / SLOTX;
 	_float slotCY = (slotRcY - (margin_slot * SLOTY - 1)) / SLOTY;
 
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr)
+		return E_FAIL;
+
 	for (int i = 0; i < SLOTY; ++i)
 	{
 		for (int j = 0; j < SLOTX; ++j)
@@ -58,10 +62,17 @@ HRESULT CInventory::Initialize(void * _pArg)
 				invenRc.left	+	(float)INVEN_MARGIN_H + (slotCX*0.5f) + (slotCX + margin_slot) * j ,
 				invenRc.top		+	(float)INVEN_MARGIN_V + (slotCY*0.5f) + (slotCY + margin_slot) * i);
 
+			
+			//슬롯을 오브젝트 매니저에 등록안하고 렌더러에만 등록하면
+			//렌더러가 슬롯을 지워버린다. 원래 렌더러는 한프레임 그리고 다 지우니까.
 			CItemSlot* pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"slot", SCENE_STAGE);
 			if (nullptr == pSlot)
 				return E_FAIL;
+
+			pSlot->Set_Depth(m_iDepth + 1);
+			pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pSlot);
 			m_vecSlot.push_back(pSlot);
+			Safe_AddRef(pSlot);
 
 		}
 	}
@@ -76,12 +87,6 @@ _int CInventory::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Update_Route(_timeDelta);
-
-	for (auto& slot : m_vecSlot)
-	{
-		slot->Update(_timeDelta);
-	}
 	return 0;
 }
 
@@ -90,14 +95,7 @@ _int CInventory::LateUpate(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	m_pTransform->Update_Transform();
 	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI);
-	
-	//슬롯들을 렌더그룹에 등록한다.
-	for (auto& slot : m_vecSlot)
-	{
-		slot->LateUpate(_timeDelta);
-	}
 
 	return 0;
 }
