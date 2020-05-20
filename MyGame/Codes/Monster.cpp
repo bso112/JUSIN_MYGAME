@@ -103,7 +103,7 @@ _float CMonster::CalulateSpeed(_int movePerturn)
 	if (nullptr == pHeroTransform)
 		return -1.f;
 
-	return pHeroTransform->Get_Desc().speedPerSec;
+	return (_float)pHeroTransform->Get_Desc().speedPerSec;
 
 }
 

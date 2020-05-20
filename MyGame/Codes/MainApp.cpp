@@ -229,21 +229,13 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pSceneMgr);
 
+	//별 의미 없다.
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		return;
 
-
-	if (0 != CSceneMgr::Destroy_Instance())
-		MSG_BOX("Fail to Release CScneeMgr");
-
-	if (0 != CKeyMgr::Destroy_Instance())
-		MSG_BOX("Fail to Release KeyMgr");
-	
-	if (0 != CObjMgr::Destroy_Instance())
-		MSG_BOX("Fail to Release CObjMgr");
-
-	if (0 != CModuleMgr::Destroy_Instance())
-		MSG_BOX("Fail to Relese CModuleMgr");
+	//스태틱 씬의 오브젝트가 오브젝트 매니저를 참조해서 오브젝트 매니저의 refcnt가 0 이 아니게됨.
+	//따라서 클리어 해줘야함
+	CObjMgr::Get_Instance()->Clear_Scene(SCENE_STATIC);
 
 	if (0 != CTimerMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CTimerMgr");
@@ -251,24 +243,31 @@ void CMainApp::Free()
 	if (0 != CTextureLoader::Destroy_Instance())
 		MSG_BOX("Fail to Release CTextureLoader");
 
-	//
-	//while (0 != CRenderer::Destroy_Instance())
-	//	CRenderer::Destroy_Instance();
+	if (0 != CSceneMgr::Destroy_Instance())
+		MSG_BOX("Fail to Release CScneeMgr");
+	
+	if (0 != CObjMgr::Destroy_Instance())
+		MSG_BOX("Fail to Release CObjMgr");
 
-	if (0 != CRenderer::Destroy_Instance())
+	if (0 != CModuleMgr::Destroy_Instance())
+		MSG_BOX("Fail to Relese CModuleMgr");
+
+	CRenderer::Destroy_Instance();
+	CPipline::Destroy_Instance();
+	CKeyMgr::Destroy_Instance();
+	CGraphic_Device::Destroy_Instance();
+
+	/*if (0 != CRenderer::Destroy_Instance())
 		MSG_BOX("Fail to Release CRenderer");
-
-	//while (0 != CPipline::Destroy_Instance())
-	//	CPipline::Destroy_Instance();
 
 	if (0 != CPipline::Destroy_Instance())
 		MSG_BOX("Fail to Relese CPipline");
 
-	//while (0 != CGraphic_Device::Destroy_Instance())
-	//	CGraphic_Device::Destroy_Instance();
+	if (0 != CKeyMgr::Destroy_Instance())
+		MSG_BOX("Fail to Release KeyMgr");
 
 	if (0 != CGraphic_Device::Destroy_Instance())
-		MSG_BOX("Fail to Relese CGraphic_Device");
+		MSG_BOX("Fail to Relese CGraphic_Device");*/
 
 
 

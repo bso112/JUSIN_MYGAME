@@ -703,6 +703,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 
 			m_pTerrains[y][x]->Load_Data(tSaveData);
 
+			//계단이라면 그 위치를 저장한다. 플레이어의 스폰위치가 되니까.
 			if (0 == lstrcmp(tSaveData.m_LayerTag, L"stair"))
 			{
 				CStair* pStair = dynamic_cast<CStair*>(m_pTerrains[y][x]);

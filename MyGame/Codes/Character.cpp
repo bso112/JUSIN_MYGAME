@@ -30,6 +30,11 @@ _int CCharacter::UpdateAct()
 	return m_pStateCon->Update(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 }
 
+void CCharacter::PlayEffect(CEffect * _pEffect)
+{
+	_pEffect->Set_Target(m_pTransform);
+}
+
 void CCharacter::TakeDamage(float _fDamage)
 {
 

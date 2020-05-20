@@ -1,19 +1,25 @@
 #pragma once
 #include "Terrain.h"
 BEGIN(MyGame)
+class Effect;
 class CTrap : public CTerrain
 {
 public:
-	enum TYPE{ TYPE_FIRE ,TYPE_END};
+	enum TYPE{ TYPE_EMPTY, TYPE_FIRE ,TYPE_END};
 private:
-	explicit CTrap(PDIRECT3DDEVICE9 _pGraphic_Device) : CTerrain(_pGraphic_Device) {};
-	explicit CTrap(CTrap& _rhs) : CTerrain(_rhs) {};
+	explicit CTrap(PDIRECT3DDEVICE9 _pGraphic_Device);
+	explicit CTrap(CTrap& _rhs);
 	virtual ~CTrap() = default;
 
 private:
-	TYPE	m_eType = TYPE_END;
+	TYPE		m_eType = TYPE_END;
 
+public:
 	virtual	_int	Interact(CGameObject* _pOther);
+
+protected:
+	//여기서 함정의 타입을 정한다.
+	HRESULT	OnLoadData() override;
 
 public:
 	static CTrap * CTrap::Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, _tchar* _pFilePath = nullptr)
@@ -39,6 +45,9 @@ public:
 		}
 		return pInstance;
 	}
+
+protected:
+	virtual void OnCollisionEnterTerrain(CGameObject* _pOther);
 
 
 };

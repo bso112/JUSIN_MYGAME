@@ -90,7 +90,8 @@ protected:
 	_tchar			m_LayerTag[MAX_PATH] = L"Terrain";
 	// _uint로 하면 음수가 되는순간 4500어쩌구 하는 큰값이 들어가서 최대 텍스쳐 사이즈 -1 이됨.
 	_int			m_iCurFrame = 0;
-
+	//사용되었나?
+	_bool			m_bUsed = false;
 	//디버그용
 private:
 	bool			m_bMarked = false;

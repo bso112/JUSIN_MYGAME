@@ -99,6 +99,9 @@ void CStageUIMgr::Free()
 
 	//다른 씬에서도 쓰려나?
 	if (0 != CInventoryUIMgr::Destroy_Instance())
+	{
+		m_pInventoryUIMgr = nullptr;
 		MSG_BOX("Fail to release InventoryUIMgr");
+	}
 		
 }

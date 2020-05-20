@@ -12,7 +12,7 @@
 #include "StageUIMgr.h"
 #include "Image.h"
 #include "Pipline.h"
-
+#include "Fire.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -52,7 +52,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	}
 
 	//이펙트 프로토타입
-	pObjMgr->Add_Prototype(L"Image_Blood", SCENE_STAGE, CImage::Create(_pGraphic_Device, Vector3(), Vector3(), L"Blood", SCENE_STAGE));
+	pObjMgr->Add_Prototype(L"Effect_Fire", SCENE_STAGE, CFire::Create(_pGraphic_Device));
 
 	Safe_Release(pObjMgr);
 	Safe_Release(pModuleMgr);
@@ -75,6 +75,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	{
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
+
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
 		/*m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
@@ -118,11 +119,11 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 	}
 
 	//마우스 좌표 변환
-	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
+	Vector4 dst = Vector4((float)_pt.x, (float)_pt.y, 0.f, 1.f);
 	D3DXVec4Transform(&dst, &dst, &CPipline::Get_Instance()->Get_CameraMatrix_inverse());
 	POINT pt;
-	pt.x = dst.x;
-	pt.y = dst.y;
+	pt.x = (LONG)dst.x;
+	pt.y = (LONG)dst.y;
 
 
 	auto& iter = m_listGO[_iLevel].begin();

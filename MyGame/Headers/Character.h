@@ -4,6 +4,7 @@
 #include "VIBuffer.h"
 #include "Animator.h"
 #include "Stat.h"
+#include "Effect.h"
 BEGIN(MyGame)
 class CStat;
 class CClock_Single;
@@ -40,6 +41,7 @@ protected:
 	enum IMMUNE {IMMUNE_FIRE, IMMUNE_ICE, IMMUNE_END};
 
 protected:
+	//모듈
 	CTransform*	m_pTransform = nullptr;
 	CVIBuffer*	m_pVIBuffer = nullptr;
 	CShader*	m_pShader = nullptr;
@@ -51,12 +53,12 @@ protected:
 	CCharacter*	m_pFocus = nullptr;
 	//상태머신
 	CStateCon*	m_pStateCon = nullptr;
+	//턴이 끝났는지
 	bool		m_bTurnEnd = false;
 
 
 
 protected:
-	_int	m_iCurFrame = 0;
 	STATS	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
 	
@@ -75,8 +77,9 @@ public:
 	_int		UpdateAct();
 	CCharacter*	Get_Focus() { return m_pFocus; }
 	_bool		IsTurnEnd(){ return m_bTurnEnd; }
+	//턴 상태를 가져온다.
 	void		SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
-	
+	void		PlayEffect(CEffect* _pEffect);
 
 public:
 	virtual void TakeDamage(float _fDamage);

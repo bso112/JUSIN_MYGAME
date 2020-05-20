@@ -33,6 +33,7 @@ private:
 private:
 	CTransform*			m_pTransform = nullptr;
 	tagStateDesc		m_tDesc;
+	//시간초가 지나면 사라지게 하는 등 세세한 컨트롤을 위해 파티클을 담아둔다.
 	list<CGameObject*>	m_listParticle;
 	bool				m_bLoop;
 	CClock_Delay*		m_pDeadClock = nullptr; 
@@ -53,6 +54,7 @@ public:
 	void Spread(Vector2 _dir, _double _timeDelta, _uint _iParticleCnt);
 	//한 자리에서 피어오름 (불, 연기..). _rc는 피어오를 영역
 	void RollUp(RECT& _rc, _uint _iParticleCnt);
+
 
 public:
 	static CParticleSystem* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

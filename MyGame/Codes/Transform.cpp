@@ -41,8 +41,6 @@ HRESULT CTransform::Initialize(void * _pArg)
 	m_vLook = Vector3(1.f, 0.f, 0.f);
 	m_vColliderSize = Vector3(1.f, 1.f, 1.f);
 	D3DXMatrixIdentity(&m_StateMatrix);
-	D3DXMatrixIdentity(&m_ParentMatrix);
-
 
 	//콜라이더를 위한 VIBuffer
 	m_pVIBuffer = dynamic_cast<CVIBuffer*>(CModuleMgr::Get_Instance()->Get_Module(L"VIBuffer", SCENE_STATIC));
@@ -164,7 +162,7 @@ HRESULT CTransform::Update_Normal(_double _timeDelta)
 _int CTransform::Update_Transform()
 {
 	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix,
-		revolveXMatrix, revolveYMatrix, revolveZMatrix;
+		revolveXMatrix, revolveYMatrix, revolveZMatrix, parentMatrix;
 
 	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
 	D3DXMatrixRotationX(&rotationXMatrix, m_vRotation.x);
@@ -174,9 +172,20 @@ _int CTransform::Update_Transform()
 	D3DXMatrixRotationX(&revolveXMatrix, m_vRevolveAngle.x);
 	D3DXMatrixRotationX(&revolveYMatrix, m_vRevolveAngle.y);
 	D3DXMatrixRotationX(&revolveZMatrix, m_vRevolveAngle.z);
+	
+	//부모 행렬셋팅
+	if (nullptr != m_pParent)
+	{
+		_matrix parent = m_pParent->Get_Matrix();
+		D3DXMatrixTranslation(&parentMatrix, parent.m[3][0], parent.m[3][1], parent.m[3][2]);
+	}
+	else
+		D3DXMatrixIdentity(&parentMatrix);
+
 
 	m_StateMatrix = scalingMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix
-		*revolveXMatrix * revolveYMatrix * revolveZMatrix * m_ParentMatrix;
+		* parentMatrix;
+
 	return 0;
 }
 
@@ -224,6 +233,20 @@ HRESULT CTransform::Set_Rotation(Vector3 _vRotation)
 }
 
 
+
+Vector3 CTransform::Get_WorldPos()
+{
+	//부모가 없으면 그냥 포지션 리턴
+	if (nullptr == m_pParent)
+		return m_vPosition;
+
+	Vector3 result = m_vPosition + m_pParent->Get_WorldPos();
+	result.z = 0.f;
+	result.w = 1.f;
+
+	//부모가 있으면 부모의 월드포지션에 자신의 로컬포지션을 더한 값을 리턴
+	return result;
+}
 
 RECT CTransform::Get_Collider()
 {
@@ -281,23 +304,18 @@ HRESULT CTransform::LookAt(CTransform * pTargetTransform)
 	return S_OK;
 }
 
-HRESULT CTransform::RevolveAround(CTransform * pTargetTransform)
-{
-	//타깃을 바라본다.
-	LookAt(pTargetTransform);
-	//부모의 위치를 공전의 기준점으로 둔다.
-	memcpy(m_ParentMatrix.m[3], pTargetTransform->Get_Matrix().m[3], sizeof(_float4));
-	//타깃이 자전한 각만큼 공전
-	m_vRevolveAngle.z = pTargetTransform->Get_Rotation().z;
-	return S_OK;
-}
 
 void CTransform::Set_Parent(CTransform * pParent)
 {
+	if (nullptr == pParent)
+		return;
+	
+	//로컬좌표 변환
+	m_vPosition = m_vPosition - pParent->Get_WorldPos();
+	m_vPosition.z = 0.f;
+	m_vPosition.w = 1.f;
 	//부모 매트릭스
-	memcpy(m_ParentMatrix, pParent->Get_Matrix(), sizeof(_matrix));
-	//타깃이 자전한 각만큼 공전
-	m_vRevolveAngle.z = pParent->Get_Rotation().z;
+	m_pParent = pParent;
 }
 
 HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)

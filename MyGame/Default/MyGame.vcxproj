@@ -193,6 +193,8 @@
     <ClInclude Include="..\Headers\Camera.h" />
     <ClInclude Include="..\Headers\Cheese.h" />
     <ClInclude Include="..\Headers\Crab.h" />
+    <ClInclude Include="..\Headers\Effect.h" />
+    <ClInclude Include="..\Headers\Fire.h" />
     <ClInclude Include="..\Headers\Food.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
     <ClInclude Include="..\Headers\Inventory.h" />
@@ -264,6 +266,7 @@
     <ClInclude Include="..\Headers\Transform.h" />
     <ClInclude Include="..\Headers\VIBuffer.h" />
     <ClInclude Include="..\Headers\Warrior.h" />
+    <ClInclude Include="memo.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -274,6 +277,8 @@
     <ClCompile Include="..\Codes\Camera.cpp" />
     <ClCompile Include="..\Codes\Cheese.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />
+    <ClCompile Include="..\Codes\Effect.cpp" />
+    <ClCompile Include="..\Codes\Fire.cpp" />
     <ClCompile Include="..\Codes\Food.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
     <ClCompile Include="..\Codes\Inventory.cpp" />

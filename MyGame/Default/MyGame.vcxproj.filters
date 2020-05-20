@@ -250,6 +250,12 @@
     <Filter Include="06.Utility\09.TileLoader">
       <UniqueIdentifier>{e06f5fbc-99ec-4115-8d8c-b521e7851fa5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Effect">
+      <UniqueIdentifier>{1acb6d7b-0f89-4d99-8243-1ce84a072996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Effect\Fire">
+      <UniqueIdentifier>{088addaf-4c92-4095-bb13-9941eb8ca20d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -489,6 +495,15 @@
     <ClInclude Include="..\Headers\TileLoader.h">
       <Filter>06.Utility\09.TileLoader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Effect.h">
+      <Filter>04.GameObject\GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="memo.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Fire.h">
+      <Filter>04.GameObject\GameObject\Effect\Fire</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -703,6 +718,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TileLoader.cpp">
       <Filter>06.Utility\09.TileLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Effect.cpp">
+      <Filter>04.GameObject\GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Fire.cpp">
+      <Filter>04.GameObject\GameObject\Effect\Fire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

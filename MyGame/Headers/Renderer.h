@@ -8,7 +8,7 @@ class CRenderer final :public CBase
 	DECLARE_SINGLETON(CRenderer)
 
 public:
-	enum RENDER_GROUP { RENDER_PRIOR, RENDER_YSORT, RENDER_UI, RENDER_TEST, RENDER_END};
+	enum RENDER_GROUP { RENDER_PRIOR, RENDER_YSORT, RENDER_EFFECT, RENDER_UI, RENDER_END};
 private:
 	CRenderer();
 	virtual ~CRenderer();
@@ -25,7 +25,9 @@ public:
 private:
 	HRESULT Render_Prior();
 	HRESULT Render_YSort();
+	HRESULT Render_Effect();
 	HRESULT Render_UI();
+
 
 		
 	// CBase을(를) 통해 상속됨

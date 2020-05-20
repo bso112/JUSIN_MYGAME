@@ -34,6 +34,11 @@ HRESULT CRenderer::Render()
 	if (FAILED(Render_YSort()))
 		return E_FAIL;
 
+
+	if (FAILED(Render_Effect()))
+		return E_FAIL;
+
+
 	if (FAILED(Render_UI()))
 		return E_FAIL;
 
@@ -46,6 +51,16 @@ HRESULT CRenderer::Render()
 
 HRESULT CRenderer::Clear_RenderGroup()
 {
+	/*
+	m_listGO 는 항상 사이즈가 0이다.
+	왜냐하면 이 함수를 부르는 시점은 창을 닫았을때인데,
+	그 때는 
+	if (WM_QUIT == msg.message)
+		break;
+	여기서 브레이크로 나가고 Safe_Release(pMainApp) 이 불리고
+	MainApp의 Free가 불릴때인데 이때는 렌더가 끝난 다음 프레임의 시작점이기때문이다.
+	렌더를 끝내고나면 항상 리스트를 비우기 때문.
+	*/
 	for (size_t i = 0; i < RENDER_END; i++)
 	{
 		for (CGameObject* pGameObject : m_listGO[i])
@@ -88,6 +103,23 @@ HRESULT CRenderer::Render_YSort()
 			MSG_BOX("GameObject Removed on Render_YSort");
 	}
 	m_listGO[RENDER_YSORT].clear();
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Effect()
+{
+	for (auto& GO : m_listGO[RENDER_EFFECT])
+	{
+		if (nullptr != GO)
+		{
+			if (FAILED(GO->Render()))
+				return E_FAIL;
+		}
+
+		if (0 == Safe_Release(GO))
+			MSG_BOX("GameObject Removed on Render_YSort");
+	}
+	m_listGO[RENDER_EFFECT].clear();
 	return S_OK;
 }
 

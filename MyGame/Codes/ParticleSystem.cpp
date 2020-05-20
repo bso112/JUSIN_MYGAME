@@ -38,7 +38,9 @@ HRESULT CParticleSystem::Initialize(void * _pArg)
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 
 	m_pTransform->Set_Position(m_tDesc.m_tBaseDesc.vPos);
-	m_pTransform->Set_Size(Vector2(1.f, 1.f));
+	//절대 사이즈
+	m_pTransform->Set_Size(Vector2(100.f, 100.f));
+
 
 	m_pDeadClock = CClock_Delay::Create();
 
@@ -59,17 +61,6 @@ _int CParticleSystem::Update(_double _timeDelta)
 		}
 		return -1;
 	}
-
-	//?????
-	//파티클시스템 기준으로 파티클들을 이동, 스케일링, 공전시킨다.
-	//for (auto& particle : m_listParticle)
-	//{
-	//	if (nullptr == particle) return 0;
-	//	CTransform* pTransform = (CTransform*)particle->Get_Module(L"Transform");
-	//	if (nullptr == pTransform) return 0;
-
-	//	pTransform->RevolveAround(m_pTransform);
-	//}
 
 
 
@@ -198,7 +189,15 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 		Safe_AddRef(m_listParticle.back());
 	}
 
+	////파티클의 부모를 파티클시스템으로 한다.
+	for (auto& particle : m_listParticle)
+	{
+		if (nullptr == particle) return;
+		CTransform* pParticleTransform = (CTransform*)particle->Get_Module(L"Transform");
+		if (nullptr == pParticleTransform) return;
 
+		pParticleTransform->Set_Parent(m_pTransform);
+	}
 
 }
 

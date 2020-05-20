@@ -37,7 +37,6 @@ private:
 private:
 	STATEDESC	m_tStateDesc;
 	_matrix		m_StateMatrix;
-	_matrix		m_ParentMatrix;
 
 	Vector3		m_vPosition;
 	Vector3		m_vSize;
@@ -54,6 +53,8 @@ private:
 private:
 	//목표 트랜스폼
 	CTransform*			m_pTarget = nullptr;
+	//부모 트랜스폼
+	CTransform*			m_pParent = nullptr;
 	//목표 위치
 	Vector3				m_vDst;
 	//이동할 방향
@@ -104,6 +105,7 @@ public:
 public:
 	_matrix		Get_Matrix() { Update_Transform(); return m_StateMatrix; }
 	Vector3		Get_Position() { return m_vPosition; }
+	Vector3		Get_WorldPos();
 	Vector3		Get_Size() { return m_vSize; }
 	Vector3		Get_Rotation() { return m_vRotation; }
 	RECT		Get_Collider();

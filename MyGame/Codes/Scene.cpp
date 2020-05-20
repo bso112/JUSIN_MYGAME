@@ -46,8 +46,9 @@ HRESULT CScene::Render()
 
 void CScene::Free()
 {
-	Safe_Release(m_pPipline);
-	Safe_Release(m_pObjMgr);
-	Safe_Release(m_pRenderer);
+
+	int a = Safe_Release(m_pPipline);
+	int b = Safe_Release(m_pObjMgr);
+	int c = Safe_Release(m_pRenderer);
 	Safe_Release(m_pGraphic_Device);
 }

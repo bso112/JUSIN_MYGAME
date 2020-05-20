@@ -186,12 +186,13 @@ CGameObject * CItemInfoPanel::Clone(void * _param)
 
 void CItemInfoPanel::Free()
 {
-	Safe_Release(m_pItemIcon);
-	Safe_Release(m_pItemNameText);
-	Safe_Release(m_pDescription);
+	int a = Safe_Release(m_pItemIcon);
+	int b = Safe_Release(m_pItemNameText);
+	int c = Safe_Release(m_pDescription);
+
 	for (auto& btn : m_vecBtn)
 	{
-		Safe_Release(btn);
+		int d = Safe_Release(btn);
 	}
 	CImage::Free();
 }
