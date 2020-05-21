@@ -29,8 +29,8 @@ public:
 public:
 	HRESULT	Add_Item(CItem* _pItem);
 	virtual HRESULT	Set_Listener(function<void(CItem*)> _listener);
+	//슬롯이 가지고 있는 아이템이 사용되면 아이템을 지운다.
 	HRESULT	Remove_Item();
-
 public:
 	_bool	IsEmpty(){ return m_listItem.empty(); }
 	size_t	Get_ItemCnt() { return m_listItem.size(); }

@@ -60,6 +60,7 @@ _int CObjMgr::Update(_double _timeDelta)
 	if (nullptr == pMonsterLayer)
 		return -1;
 
+	//타일과 충돌처리
 	pWorld->Collision_Terrain(pPlayer);
 	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
 
@@ -70,7 +71,7 @@ _int CObjMgr::Update(_double _timeDelta)
 	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
 	if (nullptr == pEffectLayer) return -1;
 
-
+	//게임오브젝트끼리 충돌처리
 	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
 	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pFoodLayer->Get_List());
 	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pEffectLayer->Get_List());

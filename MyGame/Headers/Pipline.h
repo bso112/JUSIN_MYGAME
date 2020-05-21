@@ -22,6 +22,7 @@ public:
 	void	Set_CameraMatrix(_matrix _cameraStateMatrix) { m_CameraStateMatrix = _cameraStateMatrix; }
 
 public:
+	//오브젝트에 적용할 카메라 매트릭스
 	_matrix Get_ViewMatrix() { return m_CameraStateMatrix; }
 
 

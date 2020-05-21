@@ -14,7 +14,7 @@ CFood::CFood(CFood & _rhs)
 
 HRESULT CFood::Initialize_Prototype(_tchar* _pFilePath)
 {
-
+	CItem::Initialize_Prototype(_pFilePath);
 	return S_OK;
 }
 
@@ -64,32 +64,6 @@ _int CFood::LateUpate(_double _timeDelta)
 	return 0;
 }
 
-HRESULT CFood::Render()
-{
-
-	if (nullptr == m_pTexture ||
-		nullptr == m_pVIBuffer ||
-		nullptr == m_pTransform)
-		return E_FAIL;
-
-	if (!m_bActive)
-		return 0;
-
-	ALPHABLEND;
-
-	if (FAILED(m_pTexture->Set_Texture(m_iTextureID - 1)))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
-
-	ALPHABLEND_END;
-
-	return S_OK;
-}
 
 CFood * CFood::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)
 {
@@ -134,20 +108,6 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 	return CItem::Use(_pHero, _pAction);
 }
 
-void CFood::OnCollisionEnter(CGameObject * _pOther)
-{
-	if (!m_bActive)
-		return;
-
-	if (nullptr != dynamic_cast<CHero*>(_pOther))
-	{
-		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
-		RETURN_IF_NULL(pInventoryUIMgr);
-		CInventory* pInven = pInventoryUIMgr->GetInventory();
-		RETURN_IF_NULL(pInven);
-		pInven->Put_Item(this);
-	}
-}
 
 void CFood::Free()
 {

@@ -82,7 +82,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	m_vDir = pTransform->Get_Position() - m_vPosition;
 
 	_float dist = m_vDir.magnitude();
-	_float fSpeed = m_tStateDesc.speedPerSec;
+	_float fSpeed = (_float)m_tStateDesc.speedPerSec;
 
 
 	if (m_vDir.magnitude() > 2.f)
@@ -381,6 +381,9 @@ HRESULT CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopD
 	{
 		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 	}
+	else
+		return NO_ERROR;
+
 	return S_OK;
 }
 

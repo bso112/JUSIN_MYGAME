@@ -9,6 +9,7 @@
 #include "StageUIMgr.h"
 #include "Monster.h"
 #include "ParticleSystem.h"
+#include "Item.h"
 USING(MyGame)
 
 
@@ -48,6 +49,21 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			{
 				return E_FAIL;
 			}
+		}
+#pragma endregion
+
+
+#pragma region 발사모드일때
+	
+		//발사모드고, 발사할 아이템이 있으면
+		if (m_bThrowMode && m_pItemToThrow)
+		{
+			//아이템을 던진다.
+			m_pItemToThrow->Throw(pt);
+			m_bThrowMode = false;
+			m_pItemToThrow = nullptr;
+			//끝낸다.
+			return S_OK;
 		}
 #pragma endregion
 
@@ -132,6 +148,13 @@ bool CHero::Has_Key(TIER _tier)
 
 
 	return true;
+}
+
+HRESULT CHero::ThrowItem(CItem * _pItem)
+{
+	m_bThrowMode = true;
+	m_pItemToThrow = _pItem;
+	return S_OK;
 }
 
 void CHero::Free()

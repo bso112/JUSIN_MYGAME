@@ -25,9 +25,13 @@ HRESULT CItemSlot::Add_Item(CItem * _pItem)
 		m_pTransform == nullptr)
 		return E_FAIL;
 
+	//아이템을 죽이고(오브젝트 매니저, 렌더러에 등록되어있으면 곤란함) 
 	_pItem->Set_Dead();
+	//복사본을 가져온다. (아이템의 렌더, 업데이트를 슬롯에서 관리하자)
 	CItem* clone = (CItem*)_pItem->Clone(&CFood::STATEDESC(BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size()), 10.f));
 	m_listItem.push_back(clone);
+	//레퍼런스카운트 증가안함.
+
 
 	return S_OK;
 }
@@ -43,13 +47,16 @@ HRESULT CItemSlot::Remove_Item()
 	if (m_listItem.empty())
 		return E_FAIL;
 
-	//이걸 지웠더니 아이템 사용버튼 클릭할때 아이템이 지워져서 actionsize가 0이 되어버림.
+	//이걸 지웠더니 아이템 사용버튼 클릭할때 아이템이 지워져서 actionSize가 0이 되어버림.
 	//그런데 캡쳐된 i는 1 이상이니 outofrange 오류 발생
-	Safe_Release(m_listItem.back());
+	//Safe_Release(m_listItem.back());
+	//아이템 죽이기
+	m_listItem.back()->Set_Dead();
 	m_listItem.pop_back();
 
 	return S_OK;
 }
+
 
 HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID)
 {
@@ -77,10 +84,17 @@ _int CItemSlot::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	//사용한 아이템을 체크해서 리스트에서 없앤다.
+	//아이템이 사용됬으면
 	if (!m_listItem.empty() && m_listItem.back()->IsUsed())
 	{
-		Remove_Item();
+		//드롭됬으면 그냥 목록에서만 삭제함.
+		if (m_listItem.back()->IsDrop())
+		{
+			m_listItem.pop_back();
+		}
+		else
+			//아니면 아예 삭제함
+			Remove_Item();
 	}
 
 	return 0;
@@ -125,7 +139,7 @@ HRESULT CItemSlot::Render()
 
 	if (m_listItem.size() > 0)
 	{
-		if(FAILED(m_listItem.front()->Render_Preview()))
+		if(FAILED(m_listItem.front()->Render()))
 			return E_FAIL;
 	}
 
