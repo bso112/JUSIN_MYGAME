@@ -43,7 +43,7 @@ _int CItem::Update(_double _timeDelta)
 	if (m_bThrown && m_bDrop)
 	{
 		//잘 도착하면
-		if (NO_ERROR == m_pTransform->MoveToDst(m_vDest, _timeDelta, 2.f))
+		if (m_pTransform->MoveToDst(m_vDest, _timeDelta, 3.0))
 		{
 			//도착했을때 할 행동을 한다.
 			OnThrow();
@@ -118,16 +118,20 @@ void CItem::Drop(Vector3 _vDropPos)
 	//아이템 버리기
 	m_pTransform->Set_Position(_vDropPos);
 	//원래 사이즈로
-	m_pTransform->Set_Size(m_vSize);
+	m_pTransform->Set_Size(Get_OriginalSize());
 	//사용 초기화
 	m_bUsed = false;
 }
 
 void CItem::Throw(POINT & _pt)
 {
+	//마우스 좌표 변환
+	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
+	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix_inverse());
+
 	//던져진다.
 	m_bThrown = true;
-	m_vDest = Vector3(_pt.x, _pt.y);
+	m_vDest = dst;
 	//사용 초기화
 	m_bUsed = false;
 }
@@ -154,7 +158,7 @@ HRESULT CItem::Render()
 
 	if (nullptr == m_pTexture ||
 		nullptr == m_pVIBuffer ||
-		nullptr == m_pTransform	||
+		nullptr == m_pTransform ||
 		nullptr == m_pPipline)
 		return E_FAIL;
 
@@ -180,7 +184,10 @@ HRESULT CItem::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
+
 	ALPHABLEND_END;
+
+	m_pTransform->Render_Collider();
 
 	return S_OK;
 }

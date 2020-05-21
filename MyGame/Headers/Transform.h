@@ -139,7 +139,8 @@ public:
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance, _double _Speed);
 	HRESULT MoveToDir(Vector3 _vDir, _double _timeDelta);
 	HRESULT MoveToDir(Vector3 _vDir, _double _timeDelta, _double _Speed);
-	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance);
+	//도착하면 true리턴
+	_bool	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance);
 	HRESULT	MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDistance, _double _Speed);
 
 public:

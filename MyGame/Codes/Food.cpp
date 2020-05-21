@@ -17,56 +17,12 @@ CFood::CFood(CFood & _rhs)
 HRESULT CFood::Initialize(void * _param)
 {
 	//할 수 있는 행동을 정한다.
-	CItem::Initialize();
+	CItem::Initialize(_param);
 	m_vecActions.push_back(AC_EAT);
-	
-	//사이즈는 하위클래스에서 정함
-	if (nullptr != _param)
-		m_tDesc.tBaseDesc.vPos = ((BASEDESC*)_param)->vPos;
-
-
-	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
-	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Texture_Food", SCENE_STAGE, (CModule**)&m_pTexture);
-	m_pTextureTag = L"Texture_Food";
-
-	m_pTransform->Set_Position(m_tDesc.tBaseDesc.vPos);
-	m_pTransform->Set_Size(m_tDesc.tBaseDesc.vSize);
-	m_pTransform->Set_ColliderSize(m_tDesc.tBaseDesc.vSize);
-
 
 	return S_OK;
 }
 
-
-
-
-
-CFood * CFood::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)
-{
-	CFood* pInstance = new CFood(_pGrahic_Device);
-	if (FAILED(pInstance->Initialize_Prototype(_pFilePath)))
-	{
-		MSG_BOX("Fail to create CFood");
-		Safe_Release(pInstance);
-
-	}
-	return pInstance;
-}
-
-
-
-CGameObject * CFood::Clone(void * _param)
-{
-	CFood* pInstance = new CFood(*this);
-	if (FAILED(pInstance->Initialize(_param)))
-	{
-		MSG_BOX("Fail to create CFood");
-		Safe_Release(pInstance);
-
-	}
-	return pInstance;
-}
 
 
 HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)

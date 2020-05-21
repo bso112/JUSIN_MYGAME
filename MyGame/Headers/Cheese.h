@@ -2,8 +2,7 @@
 #include "Food.h"
 
 BEGIN(MyGame)
-class CCheese :
-	public CFood
+class CCheese final :public CFood
 {
 private:
 	explicit CCheese(PDIRECT3DDEVICE9 _pGrahic_Device) : CFood(_pGrahic_Device) {};
@@ -39,6 +38,10 @@ public:
 		}
 		return pInstance;
 	}
+
+
+	// CFood을(를) 통해 상속됨
+	virtual Vector3 Get_OriginalSize() override;
 
 };
 END

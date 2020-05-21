@@ -3,7 +3,7 @@
 
 BEGIN(MyGame)
 class CTexture;
-class CFood : public CItem
+class CFood abstract : public CItem
 {
 public:
 	typedef struct tagSTATEDESC
@@ -27,9 +27,6 @@ protected:
 public:
 	virtual HRESULT Initialize(void * _param = nullptr) override;
 
-public:
-	static CFood*	Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath = nullptr);
-	virtual CGameObject * Clone(void * _param = nullptr) override;
 public:
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction) override;
 

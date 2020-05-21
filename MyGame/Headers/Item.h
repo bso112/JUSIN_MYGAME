@@ -34,8 +34,6 @@ protected:
 	const _tchar*			m_pItemName = nullptr;
 	//던져졌을때 도착지점
 	Vector3					m_vDest;
-	//드롭아이템일때 사이즈
-	Vector2					m_vSize;
 
 
 public:
@@ -56,17 +54,20 @@ public:
 	const _tchar*	Get_Name(){ return m_pItemName; }
 	_bool	IsDrop() { return m_bDrop; }
 	_bool	IsUsed() { return m_bUsed; }
+	
 public:
-	void	Drop(Vector3 _vDropPos);
+	virtual	_int	Interact(CGameObject* _pOther) override;
 
 public:
+	void	Drop(Vector3 _vDropPos);
 	void	Throw(POINT& _pt);
 
 protected:
 	virtual	void OnThrow();
-
-public:
-	virtual	_int	Interact(CGameObject* _pOther) override;
+	
+protected:
+	//필드에 있을때의 사이즈를 가져온다.(자식의 멤버변수를 가져오기위함)
+	virtual Vector3 Get_OriginalSize() = 0;
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
