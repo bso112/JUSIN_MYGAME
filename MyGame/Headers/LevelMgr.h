@@ -19,6 +19,7 @@ private:
 
 public:
 	CLevel*	Get_CurrLevel();
+	_uint	Get_CurrDepth() { return m_iCurrLevel; }
 	
 public:
 	HRESULT Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device);

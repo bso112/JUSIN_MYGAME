@@ -5,6 +5,9 @@
 #include "ItemInfoPanel.h"
 #include "Food.h"
 #include "SceneMgr.h"
+#include "ObjMgr.h"
+#include "Spawner.h"
+#include "LevelMgr.h"
 USING(MyGame)
 
 CItemSlot::CItemSlot(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -25,13 +28,14 @@ HRESULT CItemSlot::Add_Item(CItem * _pItem)
 		m_pTransform == nullptr)
 		return E_FAIL;
 
-	//아이템을 죽이고(오브젝트 매니저, 렌더러에 등록되어있으면 곤란함) 
-	_pItem->Set_Dead();
-	//복사본을 가져온다. (아이템의 렌더, 업데이트를 슬롯에서 관리하자)
-	CItem* clone = (CItem*)_pItem->Clone(&CFood::STATEDESC(BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size()), 10.f));
-	m_listItem.push_back(clone);
-	//레퍼런스카운트 증가안함.
-
+	//처음 먹으면 슬롯에 들어가니까 안보여야됨.
+	_pItem->Set_Active(false);
+	CTransform* pTransform = (CTransform*)_pItem->Get_Module(L"Transform");
+	RETURN_FAIL_IF_NULL(pTransform);
+	pTransform->Set_Position(m_pTransform->Get_Position());
+	pTransform->Set_Size(Vector2(CONTENTX, CONTENTY));
+	m_listItem.push_back(_pItem);
+	Safe_AddRef(_pItem);
 
 	return S_OK;
 }
@@ -47,13 +51,39 @@ HRESULT CItemSlot::Remove_Item()
 	if (m_listItem.empty())
 		return E_FAIL;
 
-	//이걸 지웠더니 아이템 사용버튼 클릭할때 아이템이 지워져서 actionSize가 0이 되어버림.
-	//그런데 캡쳐된 i는 1 이상이니 outofrange 오류 발생
-	//Safe_Release(m_listItem.back());
-	//아이템 죽이기
-	m_listItem.back()->Set_Dead();
+	//아이템 없애기
+	CItem* pItem = m_listItem.back();
+	pItem->Set_Dead();
+	Safe_Release(pItem);
 	m_listItem.pop_back();
 
+	return S_OK;
+}
+
+HRESULT CItemSlot::Drop_Item()
+{
+	if (m_listItem.empty())
+		return E_FAIL;
+
+	CItem* pItem = m_listItem.back();
+	
+	CTransform* pItemTransform = (CTransform*)pItem->Get_Module(L"Transform");
+	if (nullptr == pItemTransform) return E_FAIL;
+
+	CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
+	if (nullptr == pPlayer)
+		return E_FAIL;
+	
+	CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
+	if (nullptr == pPlayerTransform)
+		return E_FAIL;
+
+	//아이템을 플레이어 위치에 둔다.
+	pItem->Drop(pPlayerTransform->Get_Position());
+	//참조를 감소시킨다.
+	Safe_Release(pItem);
+	//리스트에서 없앤다.
+	m_listItem.pop_back();
 	return S_OK;
 }
 
@@ -81,19 +111,17 @@ HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureT
 
 _int CItemSlot::Update(_double _timeDelta)
 {
-	if (!m_bActive)
-		return 0;
 
 	//아이템이 사용됬으면
 	if (!m_listItem.empty() && m_listItem.back()->IsUsed())
 	{
-		//드롭됬으면 그냥 목록에서만 삭제함.
+		//드롭됬으면 플레이어 위치에 떨어뜨림.
 		if (m_listItem.back()->IsDrop())
 		{
-			m_listItem.pop_back();
+			Drop_Item();
 		}
 		else
-			//아니면 아예 삭제함
+			//소비됬으면 그냥 지워버림.
 			Remove_Item();
 	}
 
@@ -104,6 +132,7 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 {
 	if (!m_bActive)
 		return 0;
+
 	if (nullptr == m_pRenderer)
 		return -1;
 
@@ -148,6 +177,14 @@ HRESULT CItemSlot::Render()
 	return S_OK;
 }
 
+
+void CItemSlot::OnSetActive(_bool _bActive)
+{
+	for (auto& item : m_listItem)
+	{
+		item->Set_Active(_bActive);
+	}
+}
 
 HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 {

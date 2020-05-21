@@ -101,7 +101,7 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			//인터렉트한다.
 			Interact(pObj);
 			////인터렉트 당한다.
-			//pObj->Interact(this);
+			pObj->Interact(this);
 		}
 
 	}

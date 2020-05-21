@@ -25,10 +25,8 @@ protected:
 protected:
 	STATEDESC	m_tDesc;
 public:
-	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
-	virtual HRESULT Initialize(void * _param = nullptr);
-	virtual _int	Update(_double _timeDelta) override;
-	virtual _int	LateUpate(_double _timeDelta) override;
+	virtual HRESULT Initialize(void * _param = nullptr) override;
+
 public:
 	static CFood*	Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath = nullptr);
 	virtual CGameObject * Clone(void * _param = nullptr) override;

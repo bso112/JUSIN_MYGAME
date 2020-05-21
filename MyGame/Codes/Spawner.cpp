@@ -47,7 +47,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 			return E_FAIL;
 
 		//음식 프로토타입을 만든다.
-		pObjMgr->Add_Prototype(L"Food", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
+		pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
 
 	}
 
@@ -82,17 +82,17 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		//ranPos = pWorld->Get_RandomPos();
 		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		//ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Food", SCENE_STAGE, L"Food", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
 
 		for (auto& GO : m_listGO[0])
 		{
@@ -100,6 +100,24 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		}
 	}
 
+	return S_OK;
+}
+
+HRESULT CSpawner::Add_Interact(CGameObject * _pInteractor, _uint _iDepth)
+{
+	if (nullptr == _pInteractor	||
+		DEPTH <= _iDepth)
+		return E_FAIL;
+
+	//중복 불허용
+	for (auto& go : m_listGO[_iDepth])
+	{
+		if (_pInteractor == go)
+			return E_FAIL;
+	}
+	m_listGO[_iDepth].push_back(_pInteractor);
+	//맞지?
+	Safe_AddRef(_pInteractor);
 	return S_OK;
 }
 

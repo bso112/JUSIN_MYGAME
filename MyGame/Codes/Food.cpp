@@ -12,20 +12,18 @@ CFood::CFood(CFood & _rhs)
 
 }
 
-HRESULT CFood::Initialize_Prototype(_tchar* _pFilePath)
-{
-	CItem::Initialize_Prototype(_pFilePath);
-	return S_OK;
-}
+
 
 HRESULT CFood::Initialize(void * _param)
 {
 	//할 수 있는 행동을 정한다.
 	CItem::Initialize();
 	m_vecActions.push_back(AC_EAT);
-
+	
+	//사이즈는 하위클래스에서 정함
 	if (nullptr != _param)
-		memcpy(&m_tDesc, _param, sizeof(STATEDESC));
+		m_tDesc.tBaseDesc.vPos = ((BASEDESC*)_param)->vPos;
+
 
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
@@ -34,35 +32,14 @@ HRESULT CFood::Initialize(void * _param)
 
 	m_pTransform->Set_Position(m_tDesc.tBaseDesc.vPos);
 	m_pTransform->Set_Size(m_tDesc.tBaseDesc.vSize);
+	m_pTransform->Set_ColliderSize(m_tDesc.tBaseDesc.vSize);
+
 
 	return S_OK;
 }
 
-_int CFood::Update(_double _timeDelta)
-{
-	if (nullptr == m_pTransform	||
-		m_bDead)
-		return -1;
 
-	if (!m_bActive)
-		return 0;
 
-	m_pTransform->Update_Route(_timeDelta);
-	return 0;
-}
-
-_int CFood::LateUpate(_double _timeDelta)
-{
-	if (nullptr == m_pTransform)
-		return -1;
-
-	if (!m_bActive)
-		return 0;
-
-	m_pTransform->Update_Transform();
-	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT);
-	return 0;
-}
 
 
 CFood * CFood::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)
@@ -94,8 +71,9 @@ CGameObject * CFood::Clone(void * _param)
 
 HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
 {
-	if (!m_bActive)
-		return 0;
+	//이거 하면 인벤토리 닫힐때 액티브 false되서 작동안함
+	//if (!m_bActive)
+	//	return 0;
 
 	if (0 == lstrcmp(_pAction, AC_EAT))
 	{

@@ -66,14 +66,14 @@ _int CObjMgr::Update(_double _timeDelta)
 
 	CLayer* pPlayerLayer = Find_Layer(L"Player", SCENE_STAGE);
 	if (nullptr == pPlayerLayer) return -1;
-	CLayer* pFoodLayer = Find_Layer(L"Food", SCENE_STAGE);
-	if (nullptr == pFoodLayer) return -1;
+	CLayer* pItemLayer = Find_Layer(L"Item", SCENE_STAGE);
+	if (nullptr == pItemLayer) return -1;
 	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
 	if (nullptr == pEffectLayer) return -1;
 
 	//게임오브젝트끼리 충돌처리
 	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
-	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pFoodLayer->Get_List());
+	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pItemLayer->Get_List());
 	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pEffectLayer->Get_List());
 	CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
 

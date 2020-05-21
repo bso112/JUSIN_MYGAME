@@ -8,6 +8,7 @@ BEGIN(MyGame)
 class CHero;
 class CItem abstract : public CGameObject
 {
+
 protected:
 	explicit CItem(PDIRECT3DDEVICE9 _pGrahic_Device) : CGameObject(_pGrahic_Device){};
 	explicit CItem(CItem& _rhs);
@@ -25,6 +26,7 @@ protected:
 	_bool					m_bThrown = false;
 	//기본은 드롭된 상태
 	_bool					m_bDrop = true;
+
 protected:
 	const _tchar*			m_pDescription = nullptr;
 	_int					m_iTextureID = 0;
@@ -32,10 +34,15 @@ protected:
 	const _tchar*			m_pItemName = nullptr;
 	//던져졌을때 도착지점
 	Vector3					m_vDest;
+	//드롭아이템일때 사이즈
+	Vector2					m_vSize;
+
+
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
-	virtual _int	Update(_double _timeDelta);
+	virtual _int	Update(_double _timeDelta) ;
+	virtual _int	LateUpate (_double _timeDelta) override;
 	virtual HRESULT	Render() override;
 
 	
@@ -49,7 +56,7 @@ public:
 	const _tchar*	Get_Name(){ return m_pItemName; }
 	_bool	IsDrop() { return m_bDrop; }
 	_bool	IsUsed() { return m_bUsed; }
-private:
+public:
 	void	Drop(Vector3 _vDropPos);
 
 public:
@@ -59,7 +66,7 @@ protected:
 	virtual	void OnThrow();
 
 public:
-	virtual void OnCollisionEnter(CGameObject* _pOther);
+	virtual	_int	Interact(CGameObject* _pOther) override;
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

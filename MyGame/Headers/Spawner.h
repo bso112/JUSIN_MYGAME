@@ -18,9 +18,11 @@ private:
 public:
 	HRESULT Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint _iLevel);
 	HRESULT Spawn(_uint _iLevel);
+	HRESULT	Add_Interact(CGameObject* _pInteractor, _uint _iDepth);
 
 public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);
+
 
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

@@ -3,10 +3,10 @@
 #include "Hero.h"
 #include "TimerMgr.h"
 #include "InventoryUIMgr.h"
-
+#include "Shader.h"
 
 USING(MyGame)
-//복사할때 넘겨줄 값을 잘 생각
+
 CItem::CItem(CItem & _rhs)
 	: CGameObject(_rhs),
 	m_pDescription(_rhs.m_pDescription),
@@ -32,10 +32,15 @@ HRESULT CItem::Initialize_Prototype(_tchar * _pFilePath)
 
 _int CItem::Update(_double _timeDelta)
 {
-	if (nullptr == m_pTransform)
+
+	if (!m_bActive)
+		return 0;
+
+	if (nullptr == m_pTransform ||
+		m_bDead)
 		return -1;
 
-	if (m_bThrown)
+	if (m_bThrown && m_bDrop)
 	{
 		//잘 도착하면
 		if (NO_ERROR == m_pTransform->MoveToDst(m_vDest, _timeDelta, 2.f))
@@ -45,6 +50,31 @@ _int CItem::Update(_double _timeDelta)
 			m_bThrown = false;
 		}
 	}
+	return 0;
+}
+
+_int CItem::LateUpate(_double _timeDelta)
+{
+	if (!m_bActive)
+		return 0;
+
+	if (nullptr == m_pTransform)
+		return -1;
+
+
+	m_pTransform->Update_Transform();
+	//인벤토리에 들어가면 UI취급
+	if (m_bDrop)
+	{
+		m_iDepth = 0;
+		m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT);
+	}
+	else
+	{
+		m_iDepth = 2;
+		m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI);
+	}
+
 	return 0;
 }
 
@@ -66,13 +96,13 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 
 		//사용됨
 		m_bUsed = true;
-		Drop(pHeroTransform->Get_Position());
+		m_bDrop = true;
 	}
 	else if (0 == lstrcmp(_pAction, AC_THROW))
 	{
 		//사용됨
 		m_bUsed = true;
-		Drop(pHeroTransform->Get_Position());
+		m_bDrop = true;
 		//주인에게 던져달라고 함.
 		_pHero->ThrowItem(this);
 
@@ -83,10 +113,14 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 
 void CItem::Drop(Vector3 _vDropPos)
 {
-	//드롭됨
-	m_bDrop = true;
+	//떨어지면 맵상에 보이게
+	m_bActive = true;
 	//아이템 버리기
 	m_pTransform->Set_Position(_vDropPos);
+	//원래 사이즈로
+	m_pTransform->Set_Size(m_vSize);
+	//사용 초기화
+	m_bUsed = false;
 }
 
 void CItem::Throw(POINT & _pt)
@@ -94,6 +128,8 @@ void CItem::Throw(POINT & _pt)
 	//던져진다.
 	m_bThrown = true;
 	m_vDest = Vector3(_pt.x, _pt.y);
+	//사용 초기화
+	m_bUsed = false;
 }
 
 void CItem::OnThrow()
@@ -107,11 +143,15 @@ void CItem::Free()
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pVIBuffer);
+	Safe_Release(m_pShader);
 	CGameObject::Free();
 }
 
 HRESULT CItem::Render()
 {
+	if (!m_bActive)
+		return 0;
+
 	if (nullptr == m_pTexture ||
 		nullptr == m_pVIBuffer ||
 		nullptr == m_pTransform	||
@@ -124,7 +164,9 @@ HRESULT CItem::Render()
 		matrix = m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix();
 	//슬롯에 들어가있을때는 카메라 매트릭스 적용안받음 
 	else
+	{
 		matrix = m_pTransform->Get_Matrix();
+	}
 
 	ALPHABLEND;
 
@@ -144,20 +186,26 @@ HRESULT CItem::Render()
 }
 
 
-void CItem::OnCollisionEnter(CGameObject * _pOther)
+
+_int CItem::Interact(CGameObject * _pOther)
 {
 	if (!m_bActive)
-		return;
+		return 0;
+
+	//인벤토리에 들어가있을때는 인터렉트 안함
+	if (!m_bDrop)
+		return 0;
 
 	//히어로가 아이템을 습득한다.
 	if (nullptr != dynamic_cast<CHero*>(_pOther))
 	{
 		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
-		RETURN_IF_NULL(pInventoryUIMgr);
+		if (nullptr == pInventoryUIMgr) return -1;
 		CInventory* pInven = pInventoryUIMgr->GetInventory();
-		RETURN_IF_NULL(pInven);
+		if (nullptr == pInven) return -1;
 		//드롭되지 않음
 		m_bDrop = false;
 		pInven->Put_Item(this);
 	}
+	return 0;
 }
