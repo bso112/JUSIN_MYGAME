@@ -52,6 +52,18 @@ _int CParticleSystem::Update(_double _timeDelta)
 	if (nullptr == m_pDeadClock)
 		return -1;
 
+	//파티클시스템이 죽으면
+	if (m_bDead)
+	{
+		//파티클도 죽는다.
+		for (auto& particle : m_listParticle)
+		{
+			particle->Set_Dead();
+		}
+		return -1;
+	}
+
+	//일단 파티클시스템의 자체시계도 돌아간다.
 	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dDuration))
 	{
 		m_bDead = true;

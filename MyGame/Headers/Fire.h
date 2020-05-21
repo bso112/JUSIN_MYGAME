@@ -3,7 +3,7 @@
 
 BEGIN(MyGame)
 #define PARTICLE_CNT_FIRE 10
-
+#define DURATION_FIRE 3.f
 class CFire : public CEffect
 {
 private:
@@ -20,7 +20,7 @@ public:
 	virtual HRESULT	Render() override;
 
 private:
-	BASEDESC m_tBaseDesc;
+	BASEDESC		m_tBaseDesc;
 public:
 	virtual void Play() override;
 

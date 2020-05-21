@@ -42,9 +42,12 @@ HRESULT CFire::Initialize(void * _pArg)
 		m_pTransform->Set_ColliderSize(m_tBaseDesc.vSize);
 
 	}
+
+	//이펙트 지속시간 설정
+	m_fDuration = DURATION_FIRE;
 	//불 파티클시스템 생성
 	CParticleSystem::STATEDESC tPsDesc;
-	tPsDesc.m_dDuration = 3.f;
+	tPsDesc.m_dDuration = m_fDuration;
 	tPsDesc.m_dLifeTime = 1.f;
 	tPsDesc.m_eTextureSceneID = SCENE_STAGE;
 	tPsDesc.m_fSpeed = 1.f;
@@ -82,9 +85,14 @@ void CFire::Play()
 
 _int CFire::Update(_double _timeDelta)
 {
+	//지속시간이 다되면 죽음
+	if (0x80000000 & CEffect::Update(_timeDelta))
+		return -1;
+
 	if (nullptr == m_pParticleSystem)
 		return -1;
 
+	//타깃을 향해간다.
 	if (nullptr != m_pTarget)
 	{
 		m_pTransform->Set_Position(m_pTarget->Get_WorldPos());

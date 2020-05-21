@@ -3,7 +3,7 @@
 #include "Transform.h"
 #include "ParticleSystem.h"
 BEGIN(MyGame)
-
+class CClock_Delay;
 class CEffect abstract : public CGameObject
 {
 protected:
@@ -17,8 +17,13 @@ protected:
 	CTransform*			m_pTransform = nullptr;
 	//쫒아다닐 타겟
 	CTransform*			m_pTarget = nullptr;
+	//지속시간을 세는 시계
+	CClock_Delay*		m_pDeadClock = nullptr;
+	//이펙트 지속시간
+	_float				m_fDuration = 0.f;
 
 public:
+	virtual _int Update(_double _timeDelta);
 	virtual void Play() = 0;
 	
 public:
