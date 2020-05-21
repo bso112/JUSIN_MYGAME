@@ -13,7 +13,7 @@ private:
 	virtual ~CLevelMgr() = default;
 
 private:
-	CLevel*		m_aLevel[DEPTH];
+	CLevel*		m_aLevel[MAX_DEPTH];
 	CSpawner*	m_pSpawner = nullptr;
 	_uint		m_iCurrLevel = 0;
 
@@ -26,6 +26,7 @@ public:
 	HRESULT	Initialize();
 	CTerrain*		PickTile(POINT& pt);
 	CGameObject*	PickObject(POINT& pt);
+	_bool			IsMovable(Vector3& _vPos);
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

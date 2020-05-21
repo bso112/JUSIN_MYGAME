@@ -602,6 +602,17 @@ CTerrain * CLevel::Pick_Tile(POINT & _pt)
 	return m_pTerrains[y][x];
 }
 
+CTerrain * CLevel::Pick_Tile(Vector3 & dst)
+{
+	_uint x = (_uint)dst.x / TILECX;
+	_uint y = (_uint)dst.y / TILECY;
+
+	if (x >= WORLDX || y >= WORLDY || x < 0 || y < 0)
+		return nullptr;
+
+	return m_pTerrains[y][x];
+}
+
 Vector3 CLevel::Get_RandomPos()
 {
 	_uint ranX = 0;
@@ -755,7 +766,7 @@ HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 	return S_OK;
 }
 
-//_pObj와 _pObj가 서있는 타일을 충돌처리한다. 
+//_pObj와 _pObj가 서있는 타일을 충돌처리한다. (Obj의 중심점이 타일 안에 들어왔을때 충돌임)
 HRESULT CLevel::Collision_Terrain(CGameObject* _pObj)
 {
 	if (nullptr == _pObj)

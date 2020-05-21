@@ -106,7 +106,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 HRESULT CSpawner::Add_Interact(CGameObject * _pInteractor, _uint _iDepth)
 {
 	if (nullptr == _pInteractor	||
-		DEPTH <= _iDepth)
+		MAX_DEPTH <= _iDepth)
 		return E_FAIL;
 
 	//중복 불허용
@@ -123,7 +123,7 @@ HRESULT CSpawner::Add_Interact(CGameObject * _pInteractor, _uint _iDepth)
 
 CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 {
-	if (DEPTH <= _iLevel)
+	if (MAX_DEPTH <= _iLevel)
 		return nullptr;
 
 	vector<RECT> UIRect = CStageUIMgr::Get_Instance()->GetUIRect();

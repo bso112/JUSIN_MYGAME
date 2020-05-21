@@ -4,6 +4,7 @@
 #include "Spawner.h"
 #include "ObjMgr.h"
 #include "Warrior.h"
+#include "Terrain.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CLevelMgr)
@@ -55,7 +56,7 @@ HRESULT CLevelMgr::Initialize()
 }
 CLevel*	CLevelMgr::Get_CurrLevel()
 {
-	if (m_iCurrLevel >= DEPTH)
+	if (m_iCurrLevel >= MAX_DEPTH)
 		return nullptr;
 
 	return m_aLevel[m_iCurrLevel];
@@ -76,6 +77,19 @@ CGameObject * CLevelMgr::PickObject(POINT & pt)
 	return m_pSpawner->PickObject(pt, m_iCurrLevel);
 }
 
+_bool CLevelMgr::IsMovable(Vector3 & _vPos)
+{
+
+	CLevel* pLevel = Get_CurrLevel();
+	if (nullptr == pLevel)
+		return nullptr;
+
+	CTerrain* pTerrain = pLevel->Pick_Tile(_vPos);
+	if (nullptr == pTerrain)
+		return false;
+	return pTerrain->IsMovable(nullptr);
+}
+
 void CLevelMgr::Free()
 {
 	Safe_Release(m_pSpawner);
@@ -83,7 +97,7 @@ void CLevelMgr::Free()
 	if (0 != CSpawner::Destroy_Instance())
 		MSG_BOX("Fail to Destroy Spawner");
 
-	for (int i = 0; i < DEPTH; ++i)
+	for (int i = 0; i < MAX_DEPTH; ++i)
 	{
 		Safe_Release(m_aLevel[i]);
 	}

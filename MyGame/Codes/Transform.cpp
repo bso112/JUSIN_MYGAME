@@ -172,7 +172,7 @@ _int CTransform::Update_Transform()
 	D3DXMatrixRotationX(&revolveXMatrix, m_vRevolveAngle.x);
 	D3DXMatrixRotationX(&revolveYMatrix, m_vRevolveAngle.y);
 	D3DXMatrixRotationX(&revolveZMatrix, m_vRevolveAngle.z);
-	
+
 	//부모 행렬셋팅
 	if (nullptr != m_pParent)
 	{
@@ -309,7 +309,7 @@ void CTransform::Set_Parent(CTransform * pParent)
 {
 	if (nullptr == pParent)
 		return;
-	
+
 	//로컬좌표 변환
 	m_vPosition = m_vPosition - pParent->Get_WorldPos();
 	m_vPosition.z = 0.f;
@@ -379,7 +379,31 @@ _bool CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDis
 
 	if (vDir.magnitude() >= _fStopDistance)
 	{
-		m_vPosition += vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+		Vector3 nextPos = m_vPosition + vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
+
+
+		RECT rc = {};
+		float fX = nextPos.x;
+		float fY = nextPos.y;
+		int iCX = (int)m_vSize.x;
+		int iCY = (int)m_vSize.y;
+
+		rc.left = (LONG)fX - (iCX >> 1);
+		rc.right = (LONG)fX + (iCX >> 1);
+		rc.top = (LONG)fY - (iCY >> 1);
+		rc.bottom = (LONG)fY + (iCY >> 1);
+		//다음 위치의 네 모서리를 구한다.
+		Vector2 pt[4] = { Vector2(rc.left, rc.top), Vector2(rc.right, rc.top), Vector2(rc.left, rc.bottom), Vector2(rc.right, rc.bottom) };
+
+		//네 모서리를 검사한다.
+		for (int i = 0; i < 4; ++i)
+		{
+			if (!CLevelMgr::Get_Instance()->IsMovable(pt[i]))
+				return false;
+		}
+
+		//통과하면 간다.
+		m_vPosition = nextPos;
 	}
 	else
 		return true;

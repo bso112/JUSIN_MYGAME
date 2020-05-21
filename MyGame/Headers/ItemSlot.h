@@ -7,8 +7,8 @@ class CVIBuffer;
 class CItemInfoPanel;
 
 //내용물 크기
-#define CONTENTX 20.f
-#define CONTENTY 20.f
+#define CONTENTX 100.f
+#define CONTENTY 100.f
 class CItemSlot final: public CMyButton
 {
 private:

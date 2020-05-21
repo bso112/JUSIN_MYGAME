@@ -155,6 +155,8 @@ bool CTerrain::IsMovable(CTransform * _pTransform)
 	return  m_tInfo.m_bMovable && (m_pCharacterTranform == nullptr || m_pCharacterTranform == _pTransform);
 }
 
+
+
 HRESULT CTerrain::Forward_Frame()
 {
 

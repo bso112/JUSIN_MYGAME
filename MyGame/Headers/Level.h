@@ -46,8 +46,11 @@ public:
 	//플레이어용
 	HRESULT	Get_Route(Vector3 _src, POINT& _dst, vector<CTerrain*>& _out, CTransform* _pMover);
 
-	//해당 마우스위치에 있는 타일을 알려준다.
+	//해당 마우스위치에 있는 타일을 알려준다.(마우스좌표 한정)
 	CTerrain* Pick_Tile(POINT& _pt);
+	//해당 위치에 있는 타일을 알려준다.
+	CTerrain* Pick_Tile(Vector3& dst);
+
 
 	Vector3	Get_RandomPos();
 	//플레이어 스폰 위치를 가져온다.

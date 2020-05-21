@@ -10,7 +10,7 @@ const unsigned int		g_iWinCY = 720;
 #define TILECY 25
 
 //레벨 최대 층수
-#define DEPTH 3
+#define MAX_DEPTH 3
 
 
 #define OBJ_NOEVENT 0
