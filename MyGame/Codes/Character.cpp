@@ -7,6 +7,7 @@
 #include "ParticleSystem.h"
 #include "ObjMgr.h"
 #include "TimerMgr.h"
+#include "Image.h"
 
 USING(MyGame)
 
@@ -50,6 +51,19 @@ void CCharacter::TakeDamage(float _fDamage)
 		if (nullptr == m_pTransform)
 			return;
 
+		CImage::STATEDESC desc;
+		desc.m_eTextureSceneID = SCENE_STATIC;
+		desc.m_pTextureTag = L"empty";
+		desc.m_fSpeed = 100.f;
+		desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(30.f, 10.f));
+		CImage* pDamageText = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+		if (nullptr != pDamageText)
+		{
+			pDamageText->Set_UI(false);
+			MYFONT font;
+			font.m_pText = L"³É";
+			pDamageText->Set_Font(font);
+		}
 		//m_pTransform->Stop();
 
 		OnTakeDamage();

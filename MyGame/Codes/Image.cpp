@@ -143,13 +143,19 @@ HRESULT CImage::Render()
 
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pTextrue ||
-		nullptr == m_pTransform)
+		nullptr == m_pTransform	||
+		nullptr == m_pPipline)
 		return E_FAIL;
 
 
 	ALPHABLEND;
+	_matrix matrix;
+	if (m_bUI)
+		matrix = m_pTransform->Get_Matrix();
+	else
+		matrix = m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix();
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	if (FAILED(m_pVIBuffer->Set_Transform(matrix)))
 		return E_FAIL;
 
 	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))
@@ -162,7 +168,12 @@ HRESULT CImage::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	m_tFont.m_tRC = m_pTransform->Get_RECT();
+	if (m_bUI)
+		m_tFont.m_tRC = m_pTransform->Get_RECT();
+	else
+		//매트릭스 곱한 위치를 써야함
+		m_tFont.m_tRC = m_pTransform->Make_Rect(Vector3(matrix.m[3][0], matrix.m[3][1]), m_pTransform->Get_Size());
+
 	//따로 지정한 폰트가 있으면 그 폰트로 그린다.
 	if (nullptr != m_tFont.m_pFont)
 		m_tFont.m_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);

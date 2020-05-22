@@ -8,7 +8,7 @@ class CTexture;
 class CTransform;
 class CShader;
 class CClock_Delay;
-//이미지와 버튼은 프로토타입을 만들기 싫다. 딱히 재활용안하니까.
+//파티클은 그 수가 많기 때문에 무거운 연산을 하면 안된다.
 class CParticle : public CGameObject
 {
 public:

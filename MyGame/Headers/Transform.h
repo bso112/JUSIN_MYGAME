@@ -153,7 +153,7 @@ public:
 
 
 
-private:
+public:
 	RECT	Make_Rect(Vector3 _vPos, Vector2 _vSize);
 
 

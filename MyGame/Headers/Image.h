@@ -31,6 +31,8 @@ protected:
 	const _tchar*	m_pTextureTag = L"";
 	_int			m_iTextureID = 1;
 	MYFONT			m_tFont;
+	//UI¿Œ∞°
+	_bool			m_bUI = true;
 
 public:
 	virtual HRESULT Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID);
@@ -46,6 +48,7 @@ protected:
 
 public:
 	void	Set_Font(MYFONT _tFont) { m_tFont = _tFont; }
+	void	Set_UI(_bool _bUI) { m_bUI = _bUI; }
 	void	Replace_Texture(const _tchar* pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID);
 public:
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID);
