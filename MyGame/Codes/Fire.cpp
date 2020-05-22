@@ -122,20 +122,21 @@ HRESULT CFire::Render()
 
 void CFire::OnCollisionEnter(CGameObject * _pOther)
 {
-	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
-	if (nullptr != pCharacter)
-	{
-		//불붙는다.
-		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-		//클론이나 마찬가지
-		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STATIC, &m_tBaseDesc));
-		//캐릭터를 타깃으로 한다.
-		if (nullptr != pClone)
-		{
-			pClone->Set_Target(dynamic_cast<CTransform*>(pCharacter->Get_Module(L"Transform")));
-			pClone->Play();
-		}
-	}
+	//프레임드랍
+	//CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
+	//if (nullptr != pCharacter)
+	//{
+	//	//불붙는다.
+	//	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	//	//클론이나 마찬가지
+	//	CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STATIC, &m_tBaseDesc));
+	//	//캐릭터를 타깃으로 한다.
+	//	if (nullptr != pClone)
+	//	{
+	//		pClone->Set_Target(dynamic_cast<CTransform*>(pCharacter->Get_Module(L"Transform")));
+	//		pClone->Play();
+	//	}
+	//}
 
 }
 

@@ -98,8 +98,6 @@ _int CParticle::LateUpate(_double _timeDelta)
 
 HRESULT CParticle::Render()
 {
-
-
 	if (!m_bActive)
 		return 0;
 
