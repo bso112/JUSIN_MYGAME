@@ -40,3 +40,4 @@ using namespace std;
 
 extern HWND g_hWnd;
 extern ID3DXFont* g_pFont;
+extern ID3DXFont* g_pFontX2;

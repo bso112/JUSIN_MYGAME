@@ -14,6 +14,8 @@
 #include "Pipline.h"
 #include "Fire.h"
 #include "FireFlower.h"
+#include "IceFlower.h"
+#include "ShieldFlower.h"
 #include "TextureLoader.h"
 USING(MyGame)
 
@@ -59,6 +61,8 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
 		//씨앗 프로토타입을 만든다.
 		pObjMgr->Add_Prototype(L"FireFlower", SCENE_STAGE, CFireFlower::Create(_pGraphic_Device));
+		pObjMgr->Add_Prototype(L"IceFlower", SCENE_STAGE, CIceFlower::Create(_pGraphic_Device));
+		pObjMgr->Add_Prototype(L"ShieldFlower", SCENE_STAGE, CShieldFlower::Create(_pGraphic_Device));
 
 	}
 
@@ -107,6 +111,16 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 
 
 		for (auto& GO : m_listGO[0])

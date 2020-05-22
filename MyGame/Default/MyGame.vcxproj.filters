@@ -262,6 +262,12 @@
     <Filter Include="04.GameObject\GameObject\Item\Seed\FireFlower">
       <UniqueIdentifier>{f3a80f97-5ca2-4adc-9979-11284be659e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Seed\IceFlower">
+      <UniqueIdentifier>{ca2ddea0-32ef-471d-b03f-ad89cb05fab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Seed\ShieldFlower">
+      <UniqueIdentifier>{545b40c6-3ea5-4af7-8743-6a69bc18c515}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -516,6 +522,12 @@
     <ClInclude Include="..\Headers\FireFlower.h">
       <Filter>04.GameObject\GameObject\Item\Seed\FireFlower</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\IceFlower.h">
+      <Filter>04.GameObject\GameObject\Item\Seed\IceFlower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ShieldFlower.h">
+      <Filter>04.GameObject\GameObject\Item\Seed\ShieldFlower</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -742,6 +754,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\FireFlower.cpp">
       <Filter>04.GameObject\GameObject\Item\Seed\FireFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\IceFlower.cpp">
+      <Filter>04.GameObject\GameObject\Item\Seed\IceFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ShieldFlower.cpp">
+      <Filter>04.GameObject\GameObject\Item\Seed\ShieldFlower</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -163,9 +163,14 @@ HRESULT CImage::Render()
 		return E_FAIL;
 
 	m_tFont.m_tRC = m_pTransform->Get_RECT();
-	g_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
+	//따로 지정한 폰트가 있으면 그 폰트로 그린다.
+	if (nullptr != m_tFont.m_pFont)
+		m_tFont.m_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
+	else
+		g_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
 	//하위클래스의 렌더
 	OnRender();
+
 
 	if (FAILED(m_pShader->End_Pass()))
 		return E_FAIL;

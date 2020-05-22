@@ -152,10 +152,13 @@ typedef	struct tagVertex_Texture
 typedef struct tagFont
 {
 	RECT m_tRC = {};
-	Vector2 m_vSize = Vector2();
+	//레퍼런스 안셀란다..
+	//셋팅안하면 g_iFont로 렌더하자. 항상 이 폰트로 렌더하도록 렌더부분 바꾸는건 귀찮음.
+	ID3DXFont* m_pFont = nullptr;
 	DWORD	m_dwFormat = DT_CENTER | DT_VCENTER;
 	D3DXCOLOR	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	const _tchar* m_pText = L"";
+
 }MYFONT;
 
 typedef struct tagTerrain

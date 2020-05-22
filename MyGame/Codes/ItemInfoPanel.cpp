@@ -41,14 +41,14 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 		m_vecBtn.push_back(pBtn);
 
 	}
-
+	
 	//아이콘
 	m_pItemIcon = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 50.f, vPanelPos.y - (PANLEY * 0.5f) + 50.f), Vector2(50.f, 50.f), L"empty", SCENE_STATIC));
 	m_pItemIcon->Set_Active(false);
 	m_pItemIcon->Set_Depth(m_iDepth + 1);
 	Safe_AddRef(m_pItemIcon);
 	//아이템이름 텍스트
-	m_pItemNameText = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 150.f, vPanelPos.y - (PANLEY * 0.5f) + 50.f), Vector2(100.f, 50.f), L"empty", SCENE_STATIC));
+	m_pItemNameText = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, Vector3(vPanelPos.x - (PANELX * 0.5f) + 175.f, vPanelPos.y - (PANLEY * 0.5f) + 50.f), Vector2(200.f, 50.f), L"empty", SCENE_STATIC));
 	m_pItemNameText->Set_Active(false);
 	m_pItemNameText->Set_Depth(m_iDepth + 1);
 	Safe_AddRef(m_pItemNameText);
@@ -107,9 +107,10 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 	{
 		MYFONT font;
 		font.m_Color = D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f);
-		font.m_vSize = Vector2(50.f, 50.f);
+		font.m_pFont = g_pFontX2;
 		font.m_dwFormat = DT_LEFT ;
 		font.m_pText = _pItem->Get_Name();
+	
 		m_pItemNameText->Set_Font(font);
 	}
 
@@ -134,6 +135,7 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 		if (i >= m_vecBtn.size())
 			break;
 
+
 		//버튼
 		m_vecBtn[i]->Set_Text((*actions)[i]);
 
@@ -142,6 +144,10 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 		m_vecBtn[i]->Set_Listener([=] { if (_pItem) { _pItem->Use(pHero, (*actions)[i]); } });
 
 	}
+
+	//셋팅이 안된 버튼은 안보이게한다.
+	for (size_t i = actions->size(); i < m_vecBtn.size(); ++i)
+		m_vecBtn[i]->Set_Active(false);
 
 }
 
