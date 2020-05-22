@@ -13,6 +13,7 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr) override;
 
 
+public:
 	static CCheese * CCheese::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath = nullptr)
 	{
 		CCheese* pInstance = new CCheese(_pGrahic_Device);

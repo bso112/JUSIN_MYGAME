@@ -33,9 +33,10 @@ private:
 	CCharacter*				m_pCurrActor = nullptr;
 
 public:
-	HRESULT	Initialize();
+	HRESULT		Initialize();
 	_int		Update_sequentially();
 	_int		Update_Simultaneously();
+	_int		Get_TurnCnt() {return m_iMaxTurn;}
 
 public:
 	HRESULT	MoveTurn_sequentially(_int _iTurnCnt);

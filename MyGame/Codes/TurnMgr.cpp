@@ -38,7 +38,7 @@ HRESULT CTurnMgr::Initialize()
 	m_pActorLayers[1] = pLayer;
 	Safe_AddRef(m_pActorLayers[1]);
 
-	MoveTurn_sequentially(1);
+	MoveTurn_Simultaneously(1);
 	return S_OK;
 }
 
@@ -194,6 +194,7 @@ HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
 	{
 		for (auto& GO : layer->Get_List())
 		{
+			((CCharacter*)GO)->SetTurnState(false);
 			((CCharacter*)GO)->StartAct();
 		}
 	}

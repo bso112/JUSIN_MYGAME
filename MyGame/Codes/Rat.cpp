@@ -106,7 +106,7 @@ HRESULT CRat::Initialize(void * _param)
 
 
 	//멤버변수 셋팅
-	m_iRecogRange = 5;
+	m_iRecogRange = 20;
 	m_iAttackRange = 1;
 
 	return S_OK;

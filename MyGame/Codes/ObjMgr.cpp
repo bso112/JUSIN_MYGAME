@@ -60,22 +60,31 @@ _int CObjMgr::Update(_double _timeDelta)
 	if (nullptr == pMonsterLayer)
 		return -1;
 
-	//타일과 충돌처리
-	pWorld->Collision_Terrain(pPlayer);
-	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
-
 	CLayer* pPlayerLayer = Find_Layer(L"Player", SCENE_STAGE);
 	if (nullptr == pPlayerLayer) return -1;
 	CLayer* pItemLayer = Find_Layer(L"Item", SCENE_STAGE);
 	if (nullptr == pItemLayer) return -1;
-	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
-	if (nullptr == pEffectLayer) return -1;
+
+	//타일과 충돌처리
+	pWorld->Collision_Terrain(pPlayer);
+	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
+	pWorld->Collision_Terrain(pItemLayer->Get_List());
+
+
 
 	//게임오브젝트끼리 충돌처리
+	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
+	if (nullptr != pEffectLayer)
+	{
+		CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pEffectLayer->Get_List());
+		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
+	}
+
 	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
 	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pItemLayer->Get_List());
-	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pEffectLayer->Get_List());
-	CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
+
+
+
 
 
 
@@ -85,7 +94,7 @@ _int CObjMgr::Update(_double _timeDelta)
 #pragma endregion
 
 
-	
+
 
 	return 0;
 }
@@ -132,7 +141,7 @@ CGameObject* CObjMgr::Add_GO_To_Layer(const _tchar* _ePrototypeID, SCENEID _ePro
 	}
 	else
 	{
-		if(FAILED(layer->Add_GameObject(pGo)))
+		if (FAILED(layer->Add_GameObject(pGo)))
 			goto exception;
 	}
 
@@ -144,8 +153,8 @@ exception:
 
 CGameObject* CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject * _pObj)
 {
-	if (SCENE_END <= _eLayerSceneID	||
-		nullptr	== _pObj)
+	if (SCENE_END <= _eLayerSceneID ||
+		nullptr == _pObj)
 		return nullptr;
 
 	//레이어를 찾아 넣는다. 레이어가 없으면 새로 만든다.
@@ -178,7 +187,7 @@ CGameObject * CObjMgr::Find_Prototype(const _tchar* _ePrototypeID, SCENEID _ePro
 		return nullptr;
 
 	auto& iter = find_if(m_mapPrototype[_ePrototypeSceneID].begin(), m_mapPrototype[_ePrototypeSceneID].end(), CFinder_Tag(_ePrototypeID));
-	
+
 	if (iter == m_mapPrototype[_ePrototypeSceneID].end())
 		return nullptr;
 
@@ -194,7 +203,7 @@ CLayer * CObjMgr::Find_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID)
 
 	if (iter == m_mapLayer[_eLayerSceneID].end())
 		return nullptr;
-	
+
 	return iter->second;
 }
 

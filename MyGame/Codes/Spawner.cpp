@@ -13,6 +13,8 @@
 #include "Image.h"
 #include "Pipline.h"
 #include "Fire.h"
+#include "FireFlower.h"
+#include "TextureLoader.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -34,6 +36,11 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		return E_FAIL;
 	Safe_AddRef(pModuleMgr);
 
+	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	if (nullptr == pLoader)
+		return E_FAIL;
+	Safe_AddRef(pLoader);
+
 	//해당 레벨을 준비한다.
 	if (0 == level)
 	{
@@ -46,14 +53,19 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		if (FAILED(pModuleMgr->Add_Module(L"Texture_Food", SCENE_STAGE, CTexture::Create(_pGraphic_Device, L"../Bin/Resources/Textures/Item/Food/%d.png", 1))))
 			return E_FAIL;
 
+		pLoader->Create_Textrues_From_Folder_Anim(_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Item/");
+
 		//음식 프로토타입을 만든다.
 		pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
+		//씨앗 프로토타입을 만든다.
+		pObjMgr->Add_Prototype(L"FireFlower", SCENE_STAGE, CFireFlower::Create(_pGraphic_Device));
 
 	}
 
 	//이펙트 프로토타입
 	pObjMgr->Add_Prototype(L"Effect_Fire", SCENE_STAGE, CFire::Create(_pGraphic_Device));
 
+	Safe_Release(pLoader);
 	Safe_Release(pObjMgr);
 	Safe_Release(pModuleMgr);
 	return S_OK;
@@ -78,8 +90,8 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-		ranPos = pWorld->Get_RandomPos();
+	/*	m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();*/
 		//m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		//ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
@@ -93,6 +105,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+
 
 		for (auto& GO : m_listGO[0])
 		{

@@ -60,7 +60,8 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		return E_FAIL;
 
 
-	//모든 루트를 이동하면 멈춤
+	//모든 루트를 이동하면 멈춤.
+	//여기서 턴카운트를 곱해서 문제다. 몬스터는 이동 중간에 공격도하니까 턴카운트를 그대로쓰면 안됨.
 	if ((_int)m_iCurrRouteIndex >= m_Route.size() ||
 		(m_iTotalMoveCnt >= (_int)m_tStateDesc.movePerTurn * m_iTurnCnt))
 	{
@@ -144,6 +145,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 	//행동력만큼 이동했는지 체크
 	//m_iCntForTurn은 한턴에 이동한 타일 수를 의미함.
+	//몬스터든, 플레이어든 이동력만큼 움직이면 한턴을 넘긴다.
 	if ((m_iCntForTurn >= (_int)m_tStateDesc.movePerTurn))
 	{
 		m_bTurnEnd = true;

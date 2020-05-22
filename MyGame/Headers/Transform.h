@@ -68,6 +68,7 @@ private:
 	Vector3				m_vColliderSize;
 	//이동력만큼 이동했나?
 	_bool				m_bTurnEnd = false;
+	_bool				m_bPlayer = false;
 
 	//for Update_Noaml
 private:
@@ -93,6 +94,11 @@ public:
 	//state martix를 업데이트한다.
 	_int	Update_Transform();
 	HRESULT	Render_Collider();
+
+
+public:
+	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
+	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
 
 
@@ -128,7 +134,6 @@ public:
 
 public:
 	HRESULT LookAt(CTransform* pTargetTransform);
-	HRESULT	RevolveAround(CTransform* pTargetTransform);
 	void	Set_Parent(CTransform* pParent);
 public:
 	HRESULT MoveToDirAuto(Vector3 _vDir, _double _timeDelta);
@@ -147,9 +152,6 @@ public:
 	HRESULT Add_Froce(Vector3 _vDir, _float _fForce, _double _timeDelta);
 
 
-public:
-	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
-	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
 private:
 	RECT	Make_Rect(Vector3 _vPos, Vector2 _vSize);

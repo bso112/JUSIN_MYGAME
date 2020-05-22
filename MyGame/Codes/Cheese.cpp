@@ -8,8 +8,7 @@ HRESULT CCheese::Initialize(void * _param)
 
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &CTransform::STATEDESC(300.0, 300.0));
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Texture_Food", SCENE_STAGE, (CModule**)&m_pTexture);
-	m_pTextureTag = L"Texture_Food";
+
 
 	if (nullptr != _param)
 		memcpy(&m_tDesc, _param, sizeof(STATEDESC));

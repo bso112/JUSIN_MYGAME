@@ -20,6 +20,8 @@ HRESULT CFood::Initialize(void * _param)
 	CItem::Initialize(_param);
 	m_vecActions.push_back(AC_EAT);
 
+	Set_Module(L"Texture_Food", SCENE_STAGE, (CModule**)&m_pTexture);
+	m_pTextureTag = L"Texture_Food";
 	return S_OK;
 }
 

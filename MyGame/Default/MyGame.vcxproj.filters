@@ -256,6 +256,12 @@
     <Filter Include="04.GameObject\GameObject\Effect\Fire">
       <UniqueIdentifier>{088addaf-4c92-4095-bb13-9941eb8ca20d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Seed">
+      <UniqueIdentifier>{dde26d99-743a-48dd-adbb-4e868fcfd32d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Seed\FireFlower">
+      <UniqueIdentifier>{f3a80f97-5ca2-4adc-9979-11284be659e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -504,6 +510,12 @@
     <ClInclude Include="..\Headers\Fire.h">
       <Filter>04.GameObject\GameObject\Effect\Fire</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Seed.h">
+      <Filter>04.GameObject\GameObject\Item\Seed</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\FireFlower.h">
+      <Filter>04.GameObject\GameObject\Item\Seed\FireFlower</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -724,6 +736,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Fire.cpp">
       <Filter>04.GameObject\GameObject\Effect\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Seed.cpp">
+      <Filter>04.GameObject\GameObject\Item\Seed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\FireFlower.cpp">
+      <Filter>04.GameObject\GameObject\Item\Seed\FireFlower</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
