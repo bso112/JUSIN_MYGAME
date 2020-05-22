@@ -151,6 +151,8 @@ public:
 	HRESULT	Go_Route(vector<CTerrain*> _route, _double _fStopDistance, _int _iTurnCnt);
 	HRESULT	Go_Target(CTransform* _pTarget, _double _fStopDistance);
 
+private:
+	RECT	Make_Rect(Vector3 _vPos, Vector2 _vSize);
 
 
 

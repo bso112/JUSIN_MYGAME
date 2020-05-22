@@ -78,9 +78,7 @@ vector<RECT> CInventoryUIMgr::GetUIRect()
 
 void CInventoryUIMgr::Active_Inventory()
 {
-	static _bool bActive = false;
-	bActive = !bActive;
-	m_pInventory->Set_Active(bActive);
+	m_pInventory->Set_Active(!m_pInventory->Get_Active());
 }
 
 void CInventoryUIMgr::Free()

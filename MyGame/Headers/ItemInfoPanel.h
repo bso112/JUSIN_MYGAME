@@ -23,7 +23,6 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void * _param);
-	virtual HRESULT	OnRender() override;
 	virtual	void	OnSetActive(bool _bActive) override;
 private:
 	vector<CMyButton*>	m_vecBtn;

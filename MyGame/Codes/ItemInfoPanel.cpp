@@ -4,6 +4,7 @@
 #include "ObjMgr.h"
 #include "Item.h"
 #include "Hero.h"
+#include "Shader.h"
 USING(MyGame)
 
 
@@ -15,7 +16,7 @@ HRESULT CItemInfoPanel::Initialize_Prototype()
 HRESULT CItemInfoPanel::Initialize(void * _param)
 {
 	//렌더 깊이
-	m_iDepth = 2;
+	m_iDepth = 3;
 
 	Vector3 vPanelPos = Vector3(g_iWinCX >> 1, g_iWinCY >> 1);
 	//부모의 이니셜라이즈 부름
@@ -71,11 +72,6 @@ HRESULT CItemInfoPanel::Initialize(void * _param)
 
 
 
-HRESULT CItemInfoPanel::OnRender()
-{
-
-	return S_OK;
-}
 
 void CItemInfoPanel::OnSetActive(bool _bActive)
 {

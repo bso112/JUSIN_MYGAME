@@ -203,9 +203,18 @@ _int CItem::Interact(CGameObject * _pOther)
 	if (!m_bDrop)
 		return 0;
 
+	CHero* pHero = dynamic_cast<CHero*>(_pOther);
 	//히어로가 아이템을 습득한다.
-	if (nullptr != dynamic_cast<CHero*>(_pOther))
+	if (nullptr != pHero)
 	{
+		//거리가 충분히 가까우면
+		CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
+		if (nullptr == pHeroTransform) return -1;
+		if (nullptr == m_pTransform) return -1;
+		_float dist = (pHeroTransform->Get_Position() - m_pTransform->Get_Position()).magnitude();
+		if (dist > 30)
+			return -1;
+		
 		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
 		if (nullptr == pInventoryUIMgr) return -1;
 		CInventory* pInven = pInventoryUIMgr->GetInventory();

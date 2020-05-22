@@ -377,35 +377,29 @@ _bool CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDis
 {
 	Vector3 vDir = _vDst - m_vPosition;
 
+	//목적지에 도착하지 않았다면 이동
 	if (vDir.magnitude() >= _fStopDistance)
 	{
 		Vector3 nextPos = m_vPosition + vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 
-
-		RECT rc = {};
-		float fX = nextPos.x;
-		float fY = nextPos.y;
-		int iCX = (int)m_vSize.x;
-		int iCY = (int)m_vSize.y;
-
-		rc.left = (LONG)fX - (iCX >> 1);
-		rc.right = (LONG)fX + (iCX >> 1);
-		rc.top = (LONG)fY - (iCY >> 1);
-		rc.bottom = (LONG)fY + (iCY >> 1);
+		//다음 위치의 Rect를 구한다.
+		RECT rc = Make_Rect(nextPos, m_vSize);
 		//다음 위치의 네 모서리를 구한다.
 		Vector2 pt[4] = { Vector2(rc.left, rc.top), Vector2(rc.right, rc.top), Vector2(rc.left, rc.bottom), Vector2(rc.right, rc.bottom) };
 
 		//네 모서리를 검사한다.
 		for (int i = 0; i < 4; ++i)
 		{
+			//만약 못가는 곳이 있다면 도착이라고 친다.
 			if (!CLevelMgr::Get_Instance()->IsMovable(pt[i]))
-				return false;
+				return true;
 		}
 
 		//통과하면 간다.
 		m_vPosition = nextPos;
 	}
 	else
+		//목적지에 도착했다면 도착
 		return true;
 
 	return false;
@@ -470,6 +464,23 @@ HRESULT CTransform::Go_Target(CTransform * _pTarget, _double _StopDistance)
 	pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
 	return S_OK;
+}
+
+RECT CTransform::Make_Rect(Vector3 _vPos, Vector2 _vSize)
+{
+
+	//다음 위치의 Rect를 구한다.
+	RECT rc = {};
+	float fX = _vPos.x;
+	float fY = _vPos.y;
+	int iCX = (int)_vSize.x;
+	int iCY = (int)_vSize.y;
+
+	rc.left = (LONG)fX - (iCX >> 1);
+	rc.right = (LONG)fX + (iCX >> 1);
+	rc.top = (LONG)fY - (iCY >> 1);
+	rc.bottom = (LONG)fY + (iCY >> 1);
+	return rc;
 }
 
 
