@@ -48,7 +48,7 @@ HRESULT CFire::Initialize(void * _pArg)
 	//불 파티클시스템 생성
 	CParticleSystem::STATEDESC tPsDesc;
 	tPsDesc.m_dDuration = m_fDuration;
-	tPsDesc.m_dLifeTime = 1.f;
+	tPsDesc.m_dLifeTime = 3.f;
 	tPsDesc.m_eTextureSceneID = SCENE_STAGE;
 	tPsDesc.m_fSpeed = 1.f;
 	tPsDesc.m_pTextureTag = L"Fire";
@@ -105,15 +105,15 @@ _int CFire::LateUpate(_double _timeDelta)
 {
 	m_pTransform->Update_Transform();
 
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_EFFECT)))
-		return -1;
+	//if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_EFFECT)))
+	//	return -1;
 
 	return 0;
 }
 
 HRESULT CFire::Render()
 {
-	m_pTransform->Render_Collider();
+	//m_pTransform->Render_Collider();
 	return S_OK;
 }
 
@@ -130,11 +130,10 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 		//클론이나 마찬가지
 		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STATIC, &m_tBaseDesc));
-		//캐릭터를 타깃으로 한다.
+		//캐릭터에 이펙트를 셋팅한다.
 		if (nullptr != pClone)
 		{
-			pClone->Set_Target(dynamic_cast<CTransform*>(pCharacter->Get_Module(L"Transform")));
-			pClone->Play();
+			pCharacter->PlayEffect(this);
 		}
 	}
 

@@ -32,12 +32,15 @@ private:
 
 private:
 	CTransform*			m_pTransform = nullptr;
-	tagStateDesc		m_tDesc;
+	CTexture*			m_pTexture = nullptr;
+	CShader*			m_pShader = nullptr;
+	CClock_Delay*		m_pDeadClock = nullptr; 
+	CObjMgr*			m_pObjMgr = nullptr;
+
 	//시간초가 지나면 사라지게 하는 등 세세한 컨트롤을 위해 파티클을 담아둔다.
 	list<CGameObject*>	m_listParticle;
 	bool				m_bLoop;
-	CClock_Delay*		m_pDeadClock = nullptr; 
-	CObjMgr*			m_pObjMgr = nullptr;
+	tagStateDesc		m_tDesc;
 
 public:
 	_int		Update(_double _timeDelta) override;

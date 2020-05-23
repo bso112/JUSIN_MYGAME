@@ -56,6 +56,8 @@ protected:
 	//턴이 끝났는지
 	bool		m_bTurnEnd = false;
 
+	//현재 활성화된 이펙트
+	CEffect*	m_pEffect = nullptr;
 
 
 protected:

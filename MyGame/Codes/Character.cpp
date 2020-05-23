@@ -33,7 +33,14 @@ _int CCharacter::UpdateAct()
 
 void CCharacter::PlayEffect(CEffect * _pEffect)
 {
+	//이미 활성화되어있는 이펙트가 있으면 중단
+	if (nullptr != m_pEffect)
+		return;
+
+	m_pEffect = _pEffect;
+	//이펙트가 캐릭터를 따라다니게 한다.
 	_pEffect->Set_Target(m_pTransform);
+	m_pEffect->Play();
 }
 
 void CCharacter::TakeDamage(float _fDamage)

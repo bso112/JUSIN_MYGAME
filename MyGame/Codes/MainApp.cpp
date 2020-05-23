@@ -14,7 +14,6 @@
 #include "PlayerStateCon.h"
 #include "KeyMgr.h"
 #include "Pipline.h"
-#include "Particle.h"
 #include "ParticleSystem.h"
 
 USING(MyGame)
@@ -149,7 +148,6 @@ HRESULT CMainApp::Initialize_Prototypes()
 
 	//파티클 시스템 프로토타입 생성
 	pObjMgr->Add_Prototype(L"ParticleSystem", SCENE_STATIC, CParticleSystem::Create(m_pGraphic_Device));
-	pObjMgr->Add_Prototype(L"Particle", SCENE_STATIC, CParticle::Create(m_pGraphic_Device));
 
 	return S_OK;
 }

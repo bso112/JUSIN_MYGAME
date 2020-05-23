@@ -108,7 +108,7 @@ HRESULT CRenderer::Render_YSort()
 
 HRESULT CRenderer::Render_Effect()
 {
-	for (auto& GO : m_listGO[RENDER_EFFECT])
+	for (auto& GO : m_listGO[RENDER_PARTICLE])
 	{
 		if (nullptr != GO)
 		{
@@ -119,7 +119,7 @@ HRESULT CRenderer::Render_Effect()
 		if (0 == Safe_Release(GO))
 			MSG_BOX("GameObject Removed on Render_YSort");
 	}
-	m_listGO[RENDER_EFFECT].clear();
+	m_listGO[RENDER_PARTICLE].clear();
 	return S_OK;
 }
 

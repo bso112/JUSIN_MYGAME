@@ -277,6 +277,7 @@ void CImage::Free()
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pTextrue);
 	Safe_Release(m_pTransform);
+	Safe_Release(m_pDeadClock);
 
 	CGameObject::Free();
 }

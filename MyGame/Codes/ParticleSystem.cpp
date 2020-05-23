@@ -4,6 +4,8 @@
 #include "Particle.h"
 #include "ObjMgr.h"
 #include "Clock.h"
+#include "Texture.h"
+#include "Shader.h"
 USING(MyGame)
 
 CParticleSystem::CParticleSystem(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -36,6 +38,10 @@ HRESULT CParticleSystem::Initialize(void * _pArg)
 		m_tDesc = *((STATEDESC*)_pArg);
 
 	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
+		return E_FAIL;
+	if (FAILED(Set_Module(m_tDesc.m_pTextureTag, m_tDesc.m_eTextureSceneID, (CModule**)&m_pTexture)))
+		return E_FAIL;
 
 	m_pTransform->Set_Position(m_tDesc.m_tBaseDesc.vPos);
 	//절대 사이즈
@@ -84,13 +90,43 @@ _int CParticleSystem::LateUpate(_double _timeDelta)
 	if (m_bDead)
 		return -1;
 
+	//부모인 Effect가 움직이면 같이 움직여야됨. 
 	m_pTransform->Update_Transform();
+
+	if (nullptr == m_pRenderer)
+		return -1;
+
+	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PARTICLE);
 
 	return 0;
 }
 
 HRESULT CParticleSystem::Render()
 {
+
+	ALPHABLEND;
+
+	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Begin()))
+		return E_FAIL;
+	if (FAILED(m_pShader->Begin_Pass(0)))
+		return E_FAIL;
+
+	for (auto& particle : m_listParticle)
+	{
+		particle->Render();
+	}
+
+	if (FAILED(m_pShader->End_Pass()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->End()))
+		return E_FAIL;
+
+
+	ALPHABLEND_END;
 
 	return S_OK;
 }
@@ -150,14 +186,7 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticle
 		stateDesc.m_tBaseDesc.vSize = Vector2(_float(rand() % (_int)m_tDesc.m_vParticleSize.x), _float(rand() % (_int)m_tDesc.m_vParticleSize.y));
 
 
-		//
-
-		m_listParticle.push_back((CParticle*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, L"Particle", SCENE_STAGE, &stateDesc));
-		Safe_AddRef(m_listParticle.back());
-		//
-
-
-
+		m_listParticle.push_back(CParticle::Create(m_pGraphic_Device, stateDesc));
 
 		//혹시나 0이 될 수 있으니까
 		gap = gap == 0 ? 1 : gap;
@@ -195,10 +224,9 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 		_float randY = _rc.top + (rand() % SizeY);
 		CParticle::STATEDESC tParticleDesc = CreateParticleDesc();
 		tParticleDesc.m_tBaseDesc.vPos = Vector2(randX, randY);
-		tParticleDesc.m_fLifeTime = rand() % (_int)m_tDesc.m_dDuration;
+		tParticleDesc.m_dLifeTime = rand() % (_int)m_tDesc.m_dDuration;
 
-		m_listParticle.push_back(m_pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, L"Particle", SCENE_STATIC, &tParticleDesc));
-		Safe_AddRef(m_listParticle.back());
+		m_listParticle.push_back(CParticle::Create(m_pGraphic_Device, tParticleDesc));
 	}
 
 	////파티클의 부모를 파티클시스템으로 한다.
@@ -219,7 +247,7 @@ CParticleSystem * CParticleSystem::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 	CParticleSystem* pInstance = new CParticleSystem(_pGraphic_Device);
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Fail to create CImage");
+		MSG_BOX("Fail to create CParticleSystem");
 		Safe_Release(pInstance);
 
 	}
@@ -231,7 +259,7 @@ CGameObject * CParticleSystem::Clone(void * _pArg)
 	CParticleSystem* pInstance = new CParticleSystem(*this);
 	if (FAILED(pInstance->Initialize(_pArg)))
 	{
-		MSG_BOX("Fail to create CImage");
+		MSG_BOX("Fail to create CParticleSystem");
 		Safe_Release(pInstance);
 
 	}
@@ -247,7 +275,7 @@ CParticle::STATEDESC CParticleSystem::CreateParticleDesc()
 	tParticleDesc.m_pTextureTag = m_tDesc.m_pTextureTag;
 	tParticleDesc.m_tBaseDesc.vPos = m_tDesc.m_tBaseDesc.vPos;
 	tParticleDesc.m_tBaseDesc.vSize = m_tDesc.m_vParticleSize;
-	tParticleDesc.m_fLifeTime = m_tDesc.m_dLifeTime;
+	tParticleDesc.m_dLifeTime = m_tDesc.m_dLifeTime;
 
 	//트랩 타입에 따라 달라지게
 	tParticleDesc.m_iTextureID = 1;
@@ -256,8 +284,10 @@ CParticle::STATEDESC CParticleSystem::CreateParticleDesc()
 
 void CParticleSystem::Free()
 {
-	Safe_Release(m_pDeadClock);
+	Safe_Release(m_pShader);
+	Safe_Release(m_pTexture);
 	Safe_Release(m_pTransform);
+	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pObjMgr);
 	for (auto& particle : m_listParticle)
 	{
