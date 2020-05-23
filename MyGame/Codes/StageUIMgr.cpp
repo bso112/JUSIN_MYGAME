@@ -5,6 +5,7 @@
 #include "MyButton.h"
 #include "Hero.h"
 #include "InventoryUIMgr.h"
+#include "DialogMgr.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CStageUIMgr)
@@ -83,6 +84,13 @@ HRESULT CStageUIMgr::Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHer
 	m_pInventoryUIMgr->Initialize(_pGraphic_Device);
 	Safe_AddRef(m_pInventoryUIMgr);
 
+	CDialogMgr* pDialogMgr = CDialogMgr::Get_Instance();
+	if (nullptr == pDialogMgr)
+		return E_FAIL;
+
+	pDialogMgr->Initialize(_pGraphic_Device);
+
+
 	Safe_Release(_pGraphic_Device);
 	return S_OK;
 }
@@ -103,5 +111,9 @@ void CStageUIMgr::Free()
 		m_pInventoryUIMgr = nullptr;
 		MSG_BOX("Fail to release InventoryUIMgr");
 	}
+
+	if (0 != CDialogMgr::Destroy_Instance())
+		MSG_BOX("Fail to release CDialogMgr");
+
 		
 }

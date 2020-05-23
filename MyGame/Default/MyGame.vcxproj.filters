@@ -271,6 +271,12 @@
     <Filter Include="04.GameObject\GameObject\Item\Key">
       <UniqueIdentifier>{0bedae8f-6ba3-4400-8d50-34df0571a216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Dialog">
+      <UniqueIdentifier>{f8700d21-1c53-4924-9357-03b9163ab02b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Dialog\Manager">
+      <UniqueIdentifier>{cb32fc47-1b95-4517-ab15-d1939f919d11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -534,6 +540,12 @@
     <ClInclude Include="..\Headers\Key.h">
       <Filter>04.GameObject\GameObject\Item\Key</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\MyDialog.h">
+      <Filter>04.GameObject\GameObject\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\DialogMgr.h">
+      <Filter>04.GameObject\GameObject\Dialog\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -769,6 +781,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Key.cpp">
       <Filter>04.GameObject\GameObject\Item\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MyDialog.cpp">
+      <Filter>04.GameObject\GameObject\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="globFuc.cpp">
+      <Filter>98.Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\DialogMgr.cpp">
+      <Filter>04.GameObject\GameObject\Dialog\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

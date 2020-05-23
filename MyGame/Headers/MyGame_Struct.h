@@ -159,6 +159,7 @@ typedef struct tagFont
 	D3DXCOLOR	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	const _tchar* m_pText = nullptr;
 	_tchar	m_pTextArr[MAX_PATH] = L"";
+	wstring	m_pString;
 
 	tagFont() { ZeroMemory(m_pTextArr, sizeof(_tchar) * MAX_PATH); }
 

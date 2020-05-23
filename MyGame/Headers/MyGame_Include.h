@@ -41,3 +41,6 @@ using namespace std;
 extern HWND g_hWnd;
 extern ID3DXFont* g_pFont;
 extern ID3DXFont* g_pFontX2;
+
+//전역함수
+extern RECT Make_Rect(D3DXVECTOR4 _vPos, D3DXVECTOR4 _vSize);

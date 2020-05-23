@@ -4,6 +4,7 @@
 #include "TimerMgr.h"
 #include "InventoryUIMgr.h"
 #include "Shader.h"
+#include "DialogMgr.h"
 
 USING(MyGame)
 
@@ -232,6 +233,10 @@ _int CItem::Interact(CGameObject * _pOther)
 		pInven->Put_Item(this);
 		//하위클래스에서 습득할때 할일 하기.
 		OnPickUp(pHero, pInven);
+		
+
+		CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(m_pItemName));
+
 	}
 	return 0;
 }

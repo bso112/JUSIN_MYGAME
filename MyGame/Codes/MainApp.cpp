@@ -137,8 +137,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);
 	D3DXCreateFont(m_pGraphic_Device, 35, 13, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFontX2);
 
-
-	return S_OK;
+ 	return S_OK;
 }
 
 HRESULT CMainApp::Initialize_Prototypes()

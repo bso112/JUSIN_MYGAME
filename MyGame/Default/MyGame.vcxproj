@@ -193,6 +193,7 @@
     <ClInclude Include="..\Headers\Camera.h" />
     <ClInclude Include="..\Headers\Cheese.h" />
     <ClInclude Include="..\Headers\Crab.h" />
+    <ClInclude Include="..\Headers\DialogMgr.h" />
     <ClInclude Include="..\Headers\Effect.h" />
     <ClInclude Include="..\Headers\Fire.h" />
     <ClInclude Include="..\Headers\FireFlower.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\Headers\ItemSlot.h" />
     <ClInclude Include="..\Headers\Key.h" />
     <ClInclude Include="..\Headers\LevelMgr.h" />
+    <ClInclude Include="..\Headers\MyDialog.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
     <ClInclude Include="..\Headers\Particle.h" />
     <ClInclude Include="..\Headers\ParticleSystem.h" />
@@ -282,6 +284,7 @@
     <ClCompile Include="..\Codes\Camera.cpp" />
     <ClCompile Include="..\Codes\Cheese.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />
+    <ClCompile Include="..\Codes\DialogMgr.cpp" />
     <ClCompile Include="..\Codes\Effect.cpp" />
     <ClCompile Include="..\Codes\Fire.cpp" />
     <ClCompile Include="..\Codes\FireFlower.cpp" />
@@ -294,6 +297,7 @@
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
     <ClCompile Include="..\Codes\Key.cpp" />
     <ClCompile Include="..\Codes\LevelMgr.cpp" />
+    <ClCompile Include="..\Codes\MyDialog.cpp" />
     <ClCompile Include="..\Codes\Particle.cpp" />
     <ClCompile Include="..\Codes\ParticleSystem.cpp" />
     <ClCompile Include="..\Codes\Pipline.cpp" />
@@ -354,6 +358,7 @@
     <ClCompile Include="..\Codes\Transform.cpp" />
     <ClCompile Include="..\Codes\VIBuffer.cpp" />
     <ClCompile Include="..\Codes\Warrior.cpp" />
+    <ClCompile Include="globFuc.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
