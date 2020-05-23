@@ -35,7 +35,7 @@ _int CDoor::Interact(CGameObject* _pOther)
 
 	if (m_bLocked)
 	{
-		if (pHero->Has_Key(TIER_RARE))
+		if (pHero->Has_Key())
 		{
 			UnLock();
 			pHero->PlayAnimation(L"use");

@@ -10,6 +10,7 @@ class CTexture;
 class CVIBuffer;
 class CItemSlot;
 class CItemInfoPanel;
+class CKey;
 #define INVENCX 730 
 #define INVENCY 500 
 #define INVEN_MARGIN_H 30
@@ -28,18 +29,21 @@ private:
 	CTransform*			m_pTransform = nullptr;
 	CVIBuffer*			m_pVIBuffer = nullptr;
 	CTexture*			m_pTexture = nullptr;
+
 	
 private:
 	vector<CItemSlot*>	m_vecSlot;
-	CHero*	m_pHero;
+	//열쇠는 자주검색되기 때문에 따로 갖고있는다.
+	vector<CKey*>		m_vecKey;
 public:
 	HRESULT	Initialize_Prototype();
 	HRESULT	Initialize(void* _pArg);
 	_int	Update(_double _timeDelta) override;
 	virtual _int	LateUpate(_double _timeDelta) override;
 	virtual HRESULT	Render() override;
-	HRESULT Remove_Item(size_t _iIndex);
 	HRESULT	Put_Item(CItem* _pItem);
+	void	Put_Key(CKey* _pKey);
+	_bool	Use_Key();
 
 public:
 	HRESULT	Set_SlotListener(function<void(CItem*)> _func);

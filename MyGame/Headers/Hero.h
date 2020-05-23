@@ -20,9 +20,10 @@ protected:
 	//발사되는 아이템
 	CItem*		m_pItemToThrow = nullptr;
 	
+	
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
-	_bool	Has_Key(TIER _tier);
+	_bool	Has_Key();
 	HRESULT	ThrowItem(CItem* _pItem);
 protected:
 	explicit CHero(PDIRECT3DDEVICE9 _pGraphic_Device);

@@ -268,6 +268,9 @@
     <Filter Include="04.GameObject\GameObject\Item\Seed\ShieldFlower">
       <UniqueIdentifier>{545b40c6-3ea5-4af7-8743-6a69bc18c515}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Key">
+      <UniqueIdentifier>{0bedae8f-6ba3-4400-8d50-34df0571a216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -528,6 +531,9 @@
     <ClInclude Include="..\Headers\ShieldFlower.h">
       <Filter>04.GameObject\GameObject\Item\Seed\ShieldFlower</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Key.h">
+      <Filter>04.GameObject\GameObject\Item\Key</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -760,6 +766,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ShieldFlower.cpp">
       <Filter>04.GameObject\GameObject\Item\Seed\ShieldFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Key.cpp">
+      <Filter>04.GameObject\GameObject\Item\Key</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

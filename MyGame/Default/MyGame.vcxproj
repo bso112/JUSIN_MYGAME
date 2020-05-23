@@ -203,6 +203,7 @@
     <ClInclude Include="..\Headers\InventoryUIMgr.h" />
     <ClInclude Include="..\headers\ItemInfoPanel.h" />
     <ClInclude Include="..\Headers\ItemSlot.h" />
+    <ClInclude Include="..\Headers\Key.h" />
     <ClInclude Include="..\Headers\LevelMgr.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
     <ClInclude Include="..\Headers\Particle.h" />
@@ -291,6 +292,7 @@
     <ClCompile Include="..\Codes\InventoryUIMgr.cpp" />
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp" />
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
+    <ClCompile Include="..\Codes\Key.cpp" />
     <ClCompile Include="..\Codes\LevelMgr.cpp" />
     <ClCompile Include="..\Codes\Particle.cpp" />
     <ClCompile Include="..\Codes\ParticleSystem.cpp" />

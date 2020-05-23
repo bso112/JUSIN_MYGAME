@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "Key.h"
 #include "ObjMgr.h"
 #include "Hero.h"
 #include "ItemSlot.h"
@@ -34,9 +35,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 	m_pTransform->Set_Position(Vector2(float(g_iWinCX >> 1), float(g_iWinCY >> 1)));
 	m_pTransform->Set_Size(Vector2(INVENCX, INVENCY));
-	m_pHero = dynamic_cast<CHero*>(CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE));
-	if (nullptr == m_pHero)
-		MSG_BOX("플레이어를 찾지 못하였습니다.");
+
 
 
 	RECT invenRc = m_pTransform->Get_RECT();
@@ -147,9 +146,24 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 	return S_OK;
 }
 
-HRESULT CInventory::Remove_Item(size_t _iIndex)
+void CInventory::Put_Key(CKey * _pKey)
 {
-	return S_OK;
+	m_vecKey.push_back(_pKey);
+	Safe_AddRef(_pKey);
+}
+
+_bool CInventory::Use_Key()
+{
+	if (m_vecKey.empty())
+		return false;
+
+	//키를 소모한다.
+	m_vecKey.back()->Use();
+	//레퍼런스감소
+	Safe_Release(m_vecKey.back());
+	//공간 지움
+	m_vecKey.pop_back();
+	return true;
 }
 
 
@@ -186,10 +200,12 @@ void CInventory::Free()
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);
 
+	for (auto& key : m_vecKey)
+		Safe_Release(key);
+
 	for (auto& slot : m_vecSlot)
-	{
 		Safe_Release(slot);
-	}
+
 	CGameObject::Free();
 }
 

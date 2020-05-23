@@ -187,7 +187,11 @@ HRESULT CItem::Render()
 
 	ALPHABLEND_END;
 
+#ifdef MYDEBUG
+
 	m_pTransform->Render_Collider();
+#endif // MYDEBUG
+
 
 	return S_OK;
 }
@@ -201,6 +205,10 @@ _int CItem::Interact(CGameObject * _pOther)
 
 	//인벤토리에 들어가있을때는 인터렉트 안함
 	if (!m_bDrop)
+		return 0;
+
+	//하위클래스에서 정의하는 기타 조건들
+	if (!IsInteractable())
 		return 0;
 
 	CHero* pHero = dynamic_cast<CHero*>(_pOther);
@@ -222,6 +230,12 @@ _int CItem::Interact(CGameObject * _pOther)
 		//드롭되지 않음
 		m_bDrop = false;
 		pInven->Put_Item(this);
+		//하위클래스에서 습득할때 할일 하기.
+		OnPickUp(pHero, pInven);
 	}
 	return 0;
+}
+
+void CItem::OnPickUp(CHero * _pHero, CInventory* _pInventory)
+{
 }

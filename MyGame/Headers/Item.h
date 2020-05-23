@@ -6,6 +6,7 @@
 #include "Texture.h"
 BEGIN(MyGame)
 class CHero;
+class CInventory;
 class CItem abstract : public CGameObject
 {
 
@@ -49,6 +50,9 @@ public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
 	virtual const _tchar* Get_Description() { return m_pDescription; }
 	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
+	//열쇠같은 경우, 그냥 문을 누르면 사용함.
+	void	Use() { m_bUsed = true; }
+public:
 	_int	Get_TextureID() { return m_iTextureID; }
 	const _tchar*	Get_TextureTag() { return m_pTextureTag; }
 	const _tchar*	Get_Name(){ return m_pItemName; }
@@ -57,6 +61,10 @@ public:
 	
 public:
 	virtual	_int	Interact(CGameObject* _pOther) override;
+	virtual	void	OnPickUp(CHero*	_pHero, CInventory* _pInventory);
+
+protected:
+	virtual _bool	IsInteractable() { return true; }
 
 public:
 	void	Drop(Vector3 _vDropPos);

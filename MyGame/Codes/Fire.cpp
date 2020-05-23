@@ -113,7 +113,11 @@ _int CFire::LateUpate(_double _timeDelta)
 
 HRESULT CFire::Render()
 {
+#ifndef MYDEBUG
 	//m_pTransform->Render_Collider();
+
+#endif // !MYDEBUG
+
 	return S_OK;
 }
 

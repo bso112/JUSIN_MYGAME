@@ -71,7 +71,11 @@ HRESULT CSeed::Render()
 
 	ALPHABLEND_END;
 
+#ifdef MYDEBUG
+
 	m_pTransform->Render_Collider();
+#endif // MYDEBUG
+
 
 	return S_OK;
 }

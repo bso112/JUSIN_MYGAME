@@ -10,6 +10,7 @@
 #include "Monster.h"
 #include "ParticleSystem.h"
 #include "Item.h"
+#include "InventoryUIMgr.h"
 USING(MyGame)
 
 
@@ -143,11 +144,10 @@ HRESULT CHero::PlayAnimation(const _tchar * _pTag)
 	return m_pAnimator[m_eCurrCloth]->Play(_pTag);
 }
 
-bool CHero::Has_Key(TIER _tier)
+bool CHero::Has_Key()
 {
-
-
-	return true;
+ 	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
+	return pInventory->Use_Key();
 }
 
 HRESULT CHero::ThrowItem(CItem * _pItem)
