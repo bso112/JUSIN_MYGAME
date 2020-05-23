@@ -58,6 +58,8 @@ void CCharacter::TakeDamage(float _fDamage)
 		if (nullptr == m_pTransform)
 			return;
 
+#pragma region 데미지폰트
+
 		CImage::STATEDESC desc;
 		desc.m_eTextureSceneID = SCENE_STATIC;
 		desc.m_pTextureTag = L"empty";
@@ -82,6 +84,8 @@ void CCharacter::TakeDamage(float _fDamage)
 			if (nullptr != pTransform)
 				pTransform->MoveToDirAuto(Vector2(0.f, -1.f), CTimerMgr::Get_Instance()->Get_TimeDelta());
 		}
+#pragma endregion
+
 
 
 		OnTakeDamage();

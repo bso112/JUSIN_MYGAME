@@ -27,13 +27,13 @@ HRESULT CFood::Initialize(void * _param)
 
 
 
-HRESULT CFood::Use(CHero * _pHero, const _tchar * _pAction)
+HRESULT CFood::Use(CHero * _pHero, const _tchar ** _pAction)
 {
 	//이거 하면 인벤토리 닫힐때 액티브 false되서 작동안함
 	//if (!m_bActive)
 	//	return 0;
 
-	if (0 == lstrcmp(_pAction, AC_EAT))
+	if (0 == lstrcmp(*_pAction, AC_EAT))
 	{
 		//먹기
 		_pHero->Heal(m_tDesc.fHealAmount);

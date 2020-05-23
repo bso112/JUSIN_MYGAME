@@ -7,6 +7,9 @@ protected:
 	explicit CWeapon(PDIRECT3DDEVICE9 _pGrahic_Device);
 	explicit CWeapon(CWeapon& _rhs);
 	virtual ~CWeapon() = default;
+
+public:
+	virtual HRESULT Initialize(void * _param = nullptr);
 };
 
 END

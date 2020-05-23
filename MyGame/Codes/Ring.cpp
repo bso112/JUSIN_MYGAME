@@ -19,6 +19,11 @@ HRESULT CRing::Initialize(void * _param)
 
 	if (FAILED(Set_Module(L"ring", SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
+
+	m_pTextureTag = L"ring";
+	m_eBodyPart = BODY_FINGER;
+
+	return S_OK;
 }
 
 CRing * CRing::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)

@@ -20,7 +20,7 @@ HRESULT CEquipment::Initialize(void * _param)
 	CItem::Initialize(_param);
 	m_vecActions.push_back(AC_EQUIP);
 	
-	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
+	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &m_tTransformDesc)))
 		return E_FAIL;
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
@@ -40,14 +40,21 @@ HRESULT CEquipment::Initialize(void * _param)
 	return S_OK;
 }
 
-HRESULT CEquipment::Use(CHero * _pHero, const _tchar * _pAction)
+HRESULT CEquipment::Use(CHero * _pHero, const _tchar** _pAction)
 {
 	CItem::Use(_pHero, _pAction);
 
-	if (0 == lstrcmp(_pAction, AC_EQUIP))
+	if (0 == lstrcmp(*_pAction, AC_EQUIP))
 	{
 		_pHero->Equip(this, m_eBodyPart);
+		*_pAction = AC_UNEQUIP;
 	}
+	else if (0 == lstrcmp(*_pAction, AC_UNEQUIP))
+	{
+		_pHero->UnEquip(m_eBodyPart);
+		*_pAction = AC_EQUIP;
+	}
+
 
 
 	return S_OK;

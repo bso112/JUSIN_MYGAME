@@ -69,7 +69,7 @@ _int CParticleSystem::Update(_double _timeDelta)
 		return -1;
 	}
 
-	//일단 파티클시스템의 자체시계도 돌아간다.
+	//이펙트에서 하긴 하지만, 일단 파티클시스템의 자체시계도 돌아간다.
 	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dDuration))
 	{
 		m_bDead = true;
@@ -78,6 +78,12 @@ _int CParticleSystem::Update(_double _timeDelta)
 			particle->Set_Dead();
 		}
 		return -1;
+	}
+
+	//매니저에 등록안하니 업데이트 불러줘야한다.
+	for (auto& particle : m_listParticle)
+	{
+		particle->Update(_timeDelta);
 	}
 
 
@@ -96,7 +102,14 @@ _int CParticleSystem::LateUpate(_double _timeDelta)
 	if (nullptr == m_pRenderer)
 		return -1;
 
+	//딱히 하는건 없지만 부르자.
+	for (auto& particle : m_listParticle)
+	{
+		particle->LateUpate(_timeDelta);
+	}
+
 	m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PARTICLE);
+
 
 	return 0;
 }

@@ -138,7 +138,7 @@ void CItemInfoPanel::Set_Item(CItem * _pItem)
 
 		//[&]으로하면 지역변수인 actions가 캡쳐되버려서 이상한 곳을 가리키게됨. actions를 리스너에 담아두고 나중에 부르는거니까.
 		//Add_Listener로 하면 삭제된 _pItem을 리스너에서 해제하는게 애매하게 됨. 그냥 덮어쓰기가 편함.
-		m_vecBtn[i]->Set_Listener([=] { if (_pItem) { _pItem->Use(pHero, (*actions)[i]); } });
+		m_vecBtn[i]->Set_Listener([=] { if (_pItem) { _pItem->Use(pHero, &(*actions)[i]); } });
 
 		//버튼
 		m_vecBtn[i]->Set_Text((*actions)[i]);

@@ -12,7 +12,7 @@ CParticle::CParticle(CParticle & _rhs)
 {
 	m_bActive = true;
 	ZeroMemory(&m_tDesc, sizeof(STATEDESC));
-	m_pDeadClock = CClock_Delay::Create();
+	
 }
 
 
@@ -25,7 +25,7 @@ HRESULT CParticle::Initialize(void * _pArg)
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
 
-
+	m_pDeadClock = CClock_Delay::Create();
 
 	CTransform::STATEDESC transformDesc;
 	transformDesc.speedPerSec = m_tDesc.m_fSpeed;

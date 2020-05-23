@@ -26,7 +26,8 @@ CHero::CHero(PDIRECT3DDEVICE9 _pGraphic_Device)
 CHero::CHero(CHero & _hero)
 	: CCharacter(_hero)
 {
-
+	ZeroMemory(m_pAnimator, sizeof(m_pAnimator));
+	ZeroMemory(m_pEquipments, sizeof(m_pEquipments));
 }
 
 
@@ -164,6 +165,10 @@ HRESULT CHero::Equip(CEquipment * _pItem, BODYPART _eBodyPart)
 	if (_eBodyPart >= BODY_END ||
 		nullptr == _pItem)
 		return E_FAIL;
+
+	//이미 끼고 있으면 뺀다.
+	if (nullptr != m_pEquipments[_eBodyPart])
+		UnEquip(_eBodyPart);
 
 	m_pEquipments[_eBodyPart] = _pItem;
 	Safe_AddRef(_pItem);

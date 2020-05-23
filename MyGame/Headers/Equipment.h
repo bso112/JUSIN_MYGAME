@@ -36,7 +36,7 @@ protected:
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 public:
-	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction) override;
+	virtual HRESULT	Use(CHero* _pHero, const _tchar** _pAction) override;
 public:
 	STATS Get_Stats() { return m_tDesc.m_tStats; }
 protected:

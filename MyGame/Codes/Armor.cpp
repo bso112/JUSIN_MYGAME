@@ -20,6 +20,8 @@ HRESULT CArmor::Initialize(void * _param)
 	if (FAILED(Set_Module(L"cloth", SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
 
+	m_pTextureTag = L"cloth";
+	m_eBodyPart = BODY_TORSO;
 	return S_OK;
 }
 

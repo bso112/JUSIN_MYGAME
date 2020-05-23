@@ -28,7 +28,7 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr) override;
 
 public:
-	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction) override;
+	virtual HRESULT	Use(CHero* _pHero, const _tchar** _pAction) override;
 
 
 

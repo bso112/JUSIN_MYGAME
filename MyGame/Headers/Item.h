@@ -19,6 +19,7 @@ protected:
 	vector<const _tchar*>	m_vecActions;
 	CVIBuffer*				m_pVIBuffer = nullptr;
 	CTransform*				m_pTransform = nullptr;
+	CTransform::STATEDESC	m_tTransformDesc = CTransform::STATEDESC(300.f, 300.f);
 	CTexture*				m_pTexture = nullptr;
 	CShader*				m_pShader = nullptr;
 	//사용되었는가? 사용되었으면 슬롯에서 사라진다.
@@ -49,7 +50,8 @@ public:
 public:
 	virtual vector<const _tchar*>* Get_Actions() { return &m_vecActions; }
 	virtual const _tchar* Get_Description() { return m_pDescription; }
-	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction);
+	//Equip의 경우 Use한 후에 UnEquip으로 바뀔 수 있으니 action은 이중포인터로 받는다.
+	virtual HRESULT	Use(CHero* _pHero, const _tchar** _pAction);
 	//열쇠같은 경우, 그냥 문을 누르면 사용함.
 	void	Use() { m_bUsed = true; }
 public:

@@ -28,29 +28,29 @@ public:
 		//추가 값들을 더한다.
 		float finalValue = m_fBaseValue;
 		//랜덤 최소값도 함께 처리하자.
-		float minValue = m_fMinValue;
+		float finalMinValue = m_fMinValue;
 		for (auto& val : m_listModifier)
 		{
 			finalValue += val;
-			minValue += val;
+			finalMinValue += val;
 		}
 
 		//음수가 되는 것은 원하는 바가 아니다.
 		if (finalValue < 0)
 			finalValue = 0;
-		if (minValue < 0)
-			minValue = 0;
+		if (finalMinValue < 0)
+			finalMinValue = 0;
 
 		//랜덤 값이면
 		if (m_bRandom)
 		{
 			//0으로 나누지 못한다.
-			if (finalValue - minValue <= 0)
+			if (finalValue - finalMinValue <= 0)
 				return finalValue;
 
 			//범위내 랜덤값을 구한다.
-			finalValue = float(rand() % (int)(finalValue - minValue));
-			finalValue += m_fMinValue;
+			finalValue = float(rand() % (int)(finalValue - finalMinValue));
+			finalValue += finalMinValue;
 		}
 
 		return finalValue;

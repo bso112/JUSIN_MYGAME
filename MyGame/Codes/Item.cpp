@@ -81,7 +81,7 @@ _int CItem::LateUpate(_double _timeDelta)
 
 
 
-HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
+HRESULT CItem::Use(CHero* _pHero, const _tchar ** _pAction)
 {
 	if (nullptr == _pHero)
 		return E_FAIL;
@@ -90,7 +90,7 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 	if (nullptr == pHeroTransform)
 		return E_FAIL;
 
-	if (0 == lstrcmp(_pAction, AC_DROP))
+	if (0 == lstrcmp(*_pAction, AC_DROP))
 	{
 		if (nullptr == m_pTransform)
 			return E_FAIL;
@@ -99,7 +99,7 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar * _pAction)
 		m_bUsed = true;
 		m_bDrop = true;
 	}
-	else if (0 == lstrcmp(_pAction, AC_THROW))
+	else if (0 == lstrcmp(*_pAction, AC_THROW))
 	{
 		//»ç¿ëµÊ
 		m_bUsed = true;

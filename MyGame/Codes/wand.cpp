@@ -21,6 +21,7 @@ HRESULT CWand::Initialize(void * _param)
 	if (FAILED(Set_Module(L"wand", SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
 
+	m_pTextureTag = L"wand";
 }
 
 CWand * CWand::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)

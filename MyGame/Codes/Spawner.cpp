@@ -143,6 +143,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		
+		ranPos = pWorld->Get_RandomPos();
 		//아이템 만들기
 		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
 		if(nullptr != pItem) m_listGO[0].push_back(pItem);

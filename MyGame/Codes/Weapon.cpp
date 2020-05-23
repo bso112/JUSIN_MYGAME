@@ -12,3 +12,10 @@ CWeapon::CWeapon(CWeapon & _rhs)
 	:CEquipment(_rhs)
 {
 }
+
+HRESULT CWeapon::Initialize(void * _param)
+{
+	CEquipment::Initialize(_param);
+	m_eBodyPart = BODY_HAND;
+	return S_OK;
+}
