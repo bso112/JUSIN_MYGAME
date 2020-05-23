@@ -298,6 +298,12 @@
     <Filter Include="06.Utility\10.ItemFactory">
       <UniqueIdentifier>{5198dc1b-fa92-469a-9b89-755826039d0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Arrow">
+      <UniqueIdentifier>{97ef80aa-f10f-40fb-bf35-317fa8cd6d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Bomb">
+      <UniqueIdentifier>{27f69047-693f-4e78-a043-32219a67b471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -588,6 +594,12 @@
     <ClInclude Include="..\Headers\wand.h">
       <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\Wand</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Arrow.h">
+      <Filter>04.GameObject\GameObject\Item\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Bomb.h">
+      <Filter>04.GameObject\GameObject\Item\Bomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -853,6 +865,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\wand.cpp">
       <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\Wand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Arrow.cpp">
+      <Filter>04.GameObject\GameObject\Item\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Bomb.cpp">
+      <Filter>04.GameObject\GameObject\Item\Bomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

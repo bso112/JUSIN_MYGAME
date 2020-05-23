@@ -9,7 +9,6 @@ class CHero abstract : public CCharacter
 {
 protected:
 	enum CLOTH	{ CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END};
-	enum BODYPART { BODY_HAND, BODY_TORSO, BODY_FINGER, BODY_FINGER2, BODY_END };
 protected:
 	CLOTH		m_eCurrCloth = CLOTH_BASIC;
 	CAnimator*	m_pAnimator[CLOTH_END];
@@ -25,8 +24,8 @@ protected:
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
 	HRESULT	ThrowItem(CItem* _pItem);
-	HRESULT	Equip(CEquipment* _pItem, _uint _eBodyPart);
-	HRESULT	UnEquip(_uint _eBodyPart);
+	HRESULT	Equip(CEquipment* _pItem, BODYPART _eBodyPart);
+	HRESULT	UnEquip(BODYPART _eBodyPart);
 
 
 public:

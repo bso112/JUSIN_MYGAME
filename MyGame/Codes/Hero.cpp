@@ -159,7 +159,7 @@ HRESULT CHero::ThrowItem(CItem * _pItem)
 	return S_OK;
 }
 
-HRESULT CHero::Equip(CEquipment * _pItem, _uint _eBodyPart)
+HRESULT CHero::Equip(CEquipment * _pItem, BODYPART _eBodyPart)
 {
 	if (_eBodyPart >= BODY_END ||
 		nullptr == _pItem)
@@ -177,7 +177,7 @@ HRESULT CHero::Equip(CEquipment * _pItem, _uint _eBodyPart)
 	return S_OK;
 }
 
-HRESULT CHero::UnEquip(_uint _eBodyPart)
+HRESULT CHero::UnEquip(BODYPART _eBodyPart)
 {
 	if (_eBodyPart >= BODY_END	||
 		nullptr == m_pEquipments[_eBodyPart])

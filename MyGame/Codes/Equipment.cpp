@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Equipment.h"
+#include "Hero.h"
 
 
 USING(MyGame)
@@ -34,6 +35,19 @@ HRESULT CEquipment::Initialize(void * _param)
 	m_pDescription = m_tDesc.m_pDescription;
 	m_iTextureID = m_tDesc.m_iTextureID;
 	m_pItemName = m_tDesc.m_pItemName;
+
+
+	return S_OK;
+}
+
+HRESULT CEquipment::Use(CHero * _pHero, const _tchar * _pAction)
+{
+	CItem::Use(_pHero, _pAction);
+
+	if (0 == lstrcmp(_pAction, AC_EQUIP))
+	{
+		_pHero->Equip(this, m_eBodyPart);
+	}
 
 
 	return S_OK;

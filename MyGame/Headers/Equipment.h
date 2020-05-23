@@ -26,7 +26,8 @@ public:
 public:
 
 protected:
-	STATEDESC m_tDesc;
+	STATEDESC	m_tDesc;
+	BODYPART	m_eBodyPart = BODY_END;
 protected:
 	explicit CEquipment(PDIRECT3DDEVICE9 _pGrahic_Device);
 	explicit CEquipment(CEquipment& _rhs);
@@ -34,7 +35,8 @@ protected:
 
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
-
+public:
+	virtual HRESULT	Use(CHero* _pHero, const _tchar* _pAction) override;
 public:
 	STATS Get_Stats() { return m_tDesc.m_tStats; }
 protected:

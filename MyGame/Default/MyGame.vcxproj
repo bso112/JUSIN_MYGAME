@@ -191,6 +191,8 @@
   <ItemGroup>
     <ClInclude Include="..\Headers\AIState.h" />
     <ClInclude Include="..\Headers\Armor.h" />
+    <ClInclude Include="..\Headers\Arrow.h" />
+    <ClInclude Include="..\Headers\Bomb.h" />
     <ClInclude Include="..\Headers\Camera.h" />
     <ClInclude Include="..\Headers\Cheese.h" />
     <ClInclude Include="..\Headers\Crab.h" />
@@ -289,6 +291,8 @@
   <ItemGroup>
     <ClCompile Include="..\Codes\AIState.cpp" />
     <ClCompile Include="..\Codes\Armor.cpp" />
+    <ClCompile Include="..\Codes\Arrow.cpp" />
+    <ClCompile Include="..\Codes\Bomb.cpp" />
     <ClCompile Include="..\Codes\Camera.cpp" />
     <ClCompile Include="..\Codes\Cheese.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />

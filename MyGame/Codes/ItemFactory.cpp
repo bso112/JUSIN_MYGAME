@@ -18,6 +18,7 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	pObjMgr->Add_Prototype(L"Wand", SCENE_STAGE, CWand::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Ring", SCENE_STAGE, CRing::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Armor", SCENE_STAGE, CArmor::Create(_pGraphic_Device));
+
 	return S_OK;
 }
 
@@ -41,6 +42,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_pDescription = L"짧은 검이다. 과일이나 깎아먹을 수 있겠다.";
 		tDesc.m_pItemName = L"숏소드";
 		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 3.f;
 		tDesc.m_tStats = tStats;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
@@ -49,27 +51,90 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_pDescription = L"긴 검이다. 무게가 꽤나간다.";
 		tDesc.m_pItemName = L"롱소드";
 		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 5.f;
 		tDesc.m_tStats = tStats;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
-		break;
 	case MyGame::CItemFactory::ITEM_DAGGER:
+		tDesc.m_iTextureID = 3;
+		tDesc.m_pDescription = L"근접전이나 암살에 적당할 듯 하다.";
+		tDesc.m_pItemName = L"대거";
+		tStats.m_fAtt = 2.f;
+		tDesc.m_tBaseDesc = _tDesc;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_IRONSWORD:
+		tDesc.m_iTextureID = 5;
+		tDesc.m_pItemName = L"철검";
+		tDesc.m_pDescription = L"굉장히 단단해 보이는 검이다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 6.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_BATTLEAXE:
+		tDesc.m_iTextureID = 7;
+		tDesc.m_pItemName = L"전투도끼";
+		tDesc.m_pDescription = L"야만족이 사용하는 도끼";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 6.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_GOLDAXE:
+		tDesc.m_iTextureID = 8;
+		tDesc.m_pItemName = L"황금망치";
+		tDesc.m_pDescription = L"금으로 된 망치다. 어느 부자가 만들었다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 5.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_SPEAR:
+		tDesc.m_iTextureID = 9;
+		tDesc.m_pItemName = L"창";
+		tDesc.m_pDescription = L"평범한 창이다. 쥐 정도는 쉽게 잡을 것 같다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 5.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_TRIDENT:
+		tDesc.m_iTextureID = 10;
+		tDesc.m_pItemName = L"삼지창";
+		tDesc.m_pDescription = L"꽤나 멋있다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 7.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_MACE:
+		tDesc.m_iTextureID = 11;
+		tDesc.m_pItemName = L"메이스";
+		tDesc.m_pDescription = L"그냥 들고 때리면 된다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 4.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_LETHERARMOR:
+		tDesc.m_iTextureID = 2;
+		tDesc.m_pItemName = L"가죽갑옷";
+		tDesc.m_pDescription = L"어떤 동물의 가죽일까?";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fArmor = 2.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_CHAINARMOR:
+		tDesc.m_iTextureID = 6;
+		tDesc.m_pItemName = L"사슬갑옷";
+		tDesc.m_pDescription = L"움직일때마다 소리가난다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fArmor = 3.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_PLATEARMOR:
 		break;
