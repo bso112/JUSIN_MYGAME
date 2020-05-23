@@ -277,6 +277,27 @@
     <Filter Include="04.GameObject\GameObject\Dialog\Manager">
       <UniqueIdentifier>{cb32fc47-1b95-4517-ab15-d1939f919d11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Equipment">
+      <UniqueIdentifier>{9d59156a-9bea-4287-9ae0-2a5ee35ee056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Equipment\Weapon">
+      <UniqueIdentifier>{a1007ceb-3889-4aed-8acf-85e027712dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Equipment\Armor">
+      <UniqueIdentifier>{66db14c5-66e1-4052-a87d-996914bc0ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Equipment\Ring">
+      <UniqueIdentifier>{ba07ca79-2cce-4846-8ab6-33a8a4eb182c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Equipment\Weapon\MeleeWeapon">
+      <UniqueIdentifier>{a8e2f339-5a33-44b1-b1f4-962e2b4f904d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Equipment\Weapon\Wand">
+      <UniqueIdentifier>{ef9161ea-7b0c-4d7d-ab82-b04cd076bf8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\10.ItemFactory">
+      <UniqueIdentifier>{5198dc1b-fa92-469a-9b89-755826039d0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -546,6 +567,27 @@
     <ClInclude Include="..\Headers\DialogMgr.h">
       <Filter>04.GameObject\GameObject\Dialog\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Equipment.h">
+      <Filter>04.GameObject\GameObject\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ItemFactory.h">
+      <Filter>06.Utility\10.ItemFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Armor.h">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Ring.h">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Ring</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Weapon.h">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MeleeWeapon.h">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\MeleeWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\wand.h">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\Wand</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -790,6 +832,27 @@
     </ClCompile>
     <ClCompile Include="..\Codes\DialogMgr.cpp">
       <Filter>04.GameObject\GameObject\Dialog\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Equipment.cpp">
+      <Filter>04.GameObject\GameObject\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ItemFactory.cpp">
+      <Filter>06.Utility\10.ItemFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Armor.cpp">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Ring.cpp">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Ring</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Weapon.cpp">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MeleeWeapon.cpp">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\MeleeWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\wand.cpp">
+      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\Wand</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

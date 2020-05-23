@@ -12,14 +12,14 @@ private:
 
 private:
 	RECT m_pPlaceHolder[MAX_SENTENCE];
-	list<wstring*> m_senetencs;
+	list<pair<wstring*, D3DXCOLOR>> m_senetencs;
 
 public:
 	virtual HRESULT Initialize(void * _pArg = nullptr);
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
 public:
-	void	Log(wstring* _pLog);
+	void	Log(wstring* _pLog, D3DXCOLOR _pColor = 0xffffffff);
 public:
 	static CMyDialog * Create(PDIRECT3DDEVICE9 _pGrahic_Device);
 	virtual CGameObject * Clone(void * _pArg = nullptr) override;

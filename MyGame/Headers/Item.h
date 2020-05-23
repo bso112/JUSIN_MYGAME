@@ -9,7 +9,7 @@ class CHero;
 class CInventory;
 class CItem abstract : public CGameObject
 {
-
+	friend class CItemFactory;
 protected:
 	explicit CItem(PDIRECT3DDEVICE9 _pGrahic_Device) : CGameObject(_pGrahic_Device){};
 	explicit CItem(CItem& _rhs);

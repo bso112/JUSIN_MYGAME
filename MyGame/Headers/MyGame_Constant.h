@@ -28,9 +28,9 @@ enum TIER	{ TIER_COMMON, TIER_RARE, TIER_LAGEND, TIER_END};
 #define AC_EQUIP		L"EQUIP"
 #define AC_UNEQUIP		L"UNEQUIP"
 #define AC_READ			L"READ"
-
-#define MSG_WIN(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L" 을(를) 쓰려뜨렸습니다!")
-#define MSG_PICK(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L" 을(를) 주웠습니다.")
+#define AC_ZAP			L"ZAP"
+#define MSG_WIN(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L"을(를) 쓰려뜨렸다!")
+#define MSG_PICK(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L"을(를) 주웠다.")
 
 
 

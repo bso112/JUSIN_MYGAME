@@ -18,6 +18,7 @@
 #include "ShieldFlower.h"
 #include "TextureLoader.h"
 #include "Key.h"
+#include "ItemFactory.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -67,6 +68,8 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		//열쇠 프로토타입을 만든다.
 		pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
 
+		CItemFactory::Make_Prototpyes(_pGraphic_Device);
+
 	}
 
 	//이펙트 프로토타입
@@ -94,6 +97,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	{
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
+
 
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
@@ -138,7 +142,10 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
-
+		
+		//아이템 만들기
+		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
+		if(nullptr != pItem) m_listGO[0].push_back(pItem);
 
 		for (auto& GO : m_listGO[0])
 		{

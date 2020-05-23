@@ -10,6 +10,7 @@
 #include "Monster.h"
 #include "ParticleSystem.h"
 #include "Item.h"
+#include "Equipment.h"
 #include "InventoryUIMgr.h"
 USING(MyGame)
 
@@ -19,6 +20,7 @@ CHero::CHero(PDIRECT3DDEVICE9 _pGraphic_Device)
 	: CCharacter(_pGraphic_Device)
 {
 	ZeroMemory(m_pAnimator, sizeof(m_pAnimator));
+	ZeroMemory(m_pEquipments, sizeof(m_pEquipments));
 }
 
 CHero::CHero(CHero & _hero)
@@ -157,8 +159,44 @@ HRESULT CHero::ThrowItem(CItem * _pItem)
 	return S_OK;
 }
 
+HRESULT CHero::Equip(CEquipment * _pItem, _uint _eBodyPart)
+{
+	if (_eBodyPart >= BODY_END ||
+		nullptr == _pItem)
+		return E_FAIL;
+
+	m_pEquipments[_eBodyPart] = _pItem;
+	Safe_AddRef(_pItem);
+
+	CEquipment::STATS itemStats = _pItem->Get_Stats();
+	m_tStat.m_fArmor->AddModifier(itemStats.m_fArmor);
+	m_tStat.m_fAtt->AddModifier(itemStats.m_fAtt);
+	m_tStat.m_fMaxHp->AddModifier(itemStats.m_fMaxHP);
+
+
+	return S_OK;
+}
+
+HRESULT CHero::UnEquip(_uint _eBodyPart)
+{
+	if (_eBodyPart >= BODY_END	||
+		nullptr == m_pEquipments[_eBodyPart])
+		return E_FAIL;
+
+
+	CEquipment::STATS itemStats = m_pEquipments[_eBodyPart]->Get_Stats();
+	m_tStat.m_fArmor->RemoveModifire(itemStats.m_fArmor);
+	m_tStat.m_fAtt->RemoveModifire(itemStats.m_fAtt);
+	m_tStat.m_fMaxHp->RemoveModifire(itemStats.m_fMaxHP);
+
+	Safe_Release(m_pEquipments[_eBodyPart]);
+	return S_OK;
+}
+
 void CHero::Free()
 {
+	for (int i = 0; i < BODY_END; ++i)
+		Safe_Release(m_pEquipments[i]);
 
 	for (int i = 0; i < CLOTH_END; ++i)
 		Safe_Release(m_pAnimator[i]);

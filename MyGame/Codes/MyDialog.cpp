@@ -58,23 +58,24 @@ HRESULT CMyDialog::Render()
 	auto& iter = m_senetencs.begin();
 	for (int i = 0; iter != m_senetencs.end(); ++iter)
 	{
-		g_pFont->DrawText(NULL, (*iter)->c_str(), -1, &m_pPlaceHolder[i], DT_LEFT, 0xffffffff);
+		g_pFont->DrawText(NULL, (*iter).first->c_str(), -1, &m_pPlaceHolder[i], DT_LEFT, (*iter).second);
 		++i;
 	}
 
 	return S_OK;
 }
 
-void CMyDialog::Log(wstring* _pLog)
+void CMyDialog::Log(wstring* _pLog, D3DXCOLOR _pColor)
 {
 	//만약 꽉찼으면 맨뒤의 것을 삭제
 	if (m_senetencs.size() >= MAX_SENTENCE)
 	{
-		Safe_Delete(m_senetencs.back());
+		wstring* back = m_senetencs.back().first;
+		Safe_Delete(back);
 		m_senetencs.pop_back();
 	}
-
-	m_senetencs.push_front(_pLog);
+	
+	m_senetencs.push_front(make_pair(_pLog, _pColor));
 }
 
 
@@ -95,8 +96,9 @@ void CMyDialog::Free()
 {
 	for (auto& sentence : m_senetencs)
 	{
-		Safe_Delete(sentence);
+		Safe_Delete(sentence.first);
 	}
+	m_senetencs.clear();
 }
 
 CGameObject * CMyDialog::Clone(void * _pArg)

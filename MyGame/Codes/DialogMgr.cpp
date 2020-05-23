@@ -22,11 +22,11 @@ HRESULT CDialogMgr::Initialize(PDIRECT3DDEVICE9 _pGraphic_Device)
 	return S_OK;
 }
 
-HRESULT CDialogMgr::Log_Main(wstring* _pLog)
+HRESULT CDialogMgr::Log_Main(wstring* _pLog, D3DXCOLOR _pColor)
 {
 	if (nullptr == m_pMainDialog)
 		return E_FAIL;
-	m_pMainDialog->Log(_pLog);
+	m_pMainDialog->Log(_pLog, _pColor);
 	return S_OK;
 }
 

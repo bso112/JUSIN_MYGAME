@@ -220,8 +220,8 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 	for (_uint i = 0; i < _iParticleCnt; ++i)
 	{
 
-		_float randX = _rc.left + (rand() % SizeX);
-		_float randY = _rc.top + (rand() % SizeY);
+		_float randX = (_float)_rc.left + (rand() % SizeX);
+		_float randY = (_float)_rc.top + (rand() % SizeY);
 		CParticle::STATEDESC tParticleDesc = CreateParticleDesc();
 		tParticleDesc.m_tBaseDesc.vPos = Vector2(randX, randY);
 		tParticleDesc.m_dLifeTime = rand() % (_int)m_tDesc.m_dDuration;
