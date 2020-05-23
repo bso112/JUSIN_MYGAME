@@ -7,6 +7,7 @@ class CVIBuffer;
 class CTexture;
 class CTransform;
 class CShader;
+class CClock_Delay;
 //이미지와 버튼은 프로토타입을 만들기 싫다. 딱히 재활용안하니까.
 class CImage : public CGameObject
 {
@@ -17,6 +18,7 @@ public:
 		const _tchar*	m_pTextureTag = L"";
 		SCENEID			m_eTextureSceneID = SCENE_END;
 		_float			m_fSpeed = 1.f;
+		_double			m_dLifeTime = FLT_MAX;
 	}STATEDESC;
 protected:
 	explicit CImage(PDIRECT3DDEVICE9 _pGraphic_Device) : CGameObject(_pGraphic_Device) {};
@@ -33,6 +35,10 @@ protected:
 	MYFONT			m_tFont;
 	//UI인가
 	_bool			m_bUI = true;
+	_double			m_dLifeTime = FLT_MAX;
+
+private:
+	CClock_Delay* m_pDeadClock = nullptr;
 
 public:
 	virtual HRESULT Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID);

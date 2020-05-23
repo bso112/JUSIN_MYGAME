@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Renderer.h"
 #include "Shader.h"
+#include "Clock.h"
 USING(MyGame)
 
 
@@ -51,6 +52,9 @@ HRESULT CImage::Initialize_Prototype(void* _pArg)
 
 	desc = *((STATEDESC*)_pArg);
 
+	m_pDeadClock = CClock_Delay::Create();
+	m_dLifeTime = desc.m_dLifeTime;
+
 	if (FAILED(Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer)))
 		return E_FAIL;
 
@@ -68,6 +72,8 @@ HRESULT CImage::Initialize_Prototype(void* _pArg)
 
 	m_pTransform->Set_Position(desc.m_tBaseDesc.vPos);
 	m_pTransform->Set_Size(Vector4(desc.m_tBaseDesc.vSize));
+
+
 	return S_OK;
 }
 
@@ -106,6 +112,14 @@ _int CImage::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
+	//라이프타임이 설정되었으면
+	if (nullptr != m_pDeadClock && m_dLifeTime != FLT_MAX)
+	{
+		//라이프타임이 지나면 죽기
+		if (m_pDeadClock->isThreashHoldReached(m_dLifeTime))
+			m_bDead = true;
+	}
+
 	m_pTransform->Update_Normal(_timeDelta);
 	//이걸 내가 여기 넣었었나봄.. 메뉴만들때. 따라서 여기 있어야됨.
 	m_pTransform->Update_Transform();
@@ -143,7 +157,7 @@ HRESULT CImage::Render()
 
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pTextrue ||
-		nullptr == m_pTransform	||
+		nullptr == m_pTransform ||
 		nullptr == m_pPipline)
 		return E_FAIL;
 
@@ -174,11 +188,17 @@ HRESULT CImage::Render()
 		//매트릭스 곱한 위치를 써야함
 		m_tFont.m_tRC = m_pTransform->Make_Rect(Vector3(matrix.m[3][0], matrix.m[3][1]), m_pTransform->Get_Size());
 
+
+	//텍스트는 _tchar 배열일수도, 상수문자열 일수도 있다. 상수문자열이 지정안되어있으면 _tchar 배열을 사용하도록하자.
+	const _tchar* szBuff = (m_tFont.m_pText == nullptr) ? m_tFont.m_pTextArr : m_tFont.m_pText;
+
 	//따로 지정한 폰트가 있으면 그 폰트로 그린다.
 	if (nullptr != m_tFont.m_pFont)
-		m_tFont.m_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
+		m_tFont.m_pFont->DrawText(NULL, szBuff, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
 	else
-		g_pFont->DrawText(NULL, m_tFont.m_pText, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
+		g_pFont->DrawText(NULL, szBuff, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
+
+
 	//하위클래스의 렌더
 	OnRender();
 

@@ -157,7 +157,10 @@ typedef struct tagFont
 	ID3DXFont* m_pFont = nullptr;
 	DWORD	m_dwFormat = DT_CENTER | DT_VCENTER;
 	D3DXCOLOR	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	const _tchar* m_pText = L"";
+	const _tchar* m_pText = nullptr;
+	_tchar	m_pTextArr[MAX_PATH] = L"";
+
+	tagFont() { ZeroMemory(m_pTextArr, sizeof(_tchar) * MAX_PATH); }
 
 }MYFONT;
 
