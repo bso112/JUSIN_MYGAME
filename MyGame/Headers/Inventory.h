@@ -32,7 +32,8 @@ private:
 
 	
 private:
-	vector<CItemSlot*>	m_vecSlot;
+	vector<CItemSlot*>	m_vecEquipSlot;
+	vector<CItemSlot*>	m_vecItemSlot;
 	//열쇠는 자주검색되기 때문에 따로 갖고있는다.
 	vector<CKey*>		m_vecKey;
 public:
@@ -41,10 +42,12 @@ public:
 	_int	Update(_double _timeDelta) override;
 	virtual _int	LateUpate(_double _timeDelta) override;
 	virtual HRESULT	Render() override;
+	
+public:
+	HRESULT Equip();
 	HRESULT	Put_Item(CItem* _pItem);
 	void	Put_Key(CKey* _pKey);
 	_bool	Use_Key();
-
 public:
 	HRESULT	Set_SlotListener(function<void(CItem*)> _func);
 	HRESULT	Add_SlotListener(function<void()> _func);

@@ -70,7 +70,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 			pSlot->Set_Depth(m_iDepth + 1);
 			pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pSlot);
-			m_vecSlot.push_back(pSlot);
+			m_vecItemSlot.push_back(pSlot);
 			Safe_AddRef(pSlot);
 
 		}
@@ -123,7 +123,7 @@ HRESULT CInventory::Render()
 
 HRESULT CInventory::Initialize_Prototype()
 {
-	m_vecSlot.reserve(SLOTX * SLOTY);
+	m_vecItemSlot.reserve(SLOTX * SLOTY);
 
 	return S_OK;
 }
@@ -132,10 +132,10 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 	if (nullptr == _pItem)
 		return E_FAIL;
 
-	if (m_vecSlot.empty())
+	if (m_vecItemSlot.empty())
 		return E_FAIL;
 
-	for (auto& pSlot : m_vecSlot)
+	for (auto& pSlot : m_vecItemSlot)
 	{
 		if (pSlot->IsEmpty())
 		{
@@ -170,7 +170,7 @@ _bool CInventory::Use_Key()
 
 HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 {
-	for (auto& slot : m_vecSlot)
+	for (auto& slot : m_vecItemSlot)
 	{
 		slot->Set_Listener(_func);
 	}
@@ -179,7 +179,7 @@ HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 
 HRESULT CInventory::Add_SlotListener(function<void()> _func)
 {
-	for (auto& slot : m_vecSlot)
+	for (auto& slot : m_vecItemSlot)
 	{
 		slot->Add_Listener(_func);
 	}
@@ -188,7 +188,7 @@ HRESULT CInventory::Add_SlotListener(function<void()> _func)
 
 void CInventory::OnSetActive(_bool _bActive)
 {
-	for (auto& slot : m_vecSlot)
+	for (auto& slot : m_vecItemSlot)
 	{
 		slot->Set_Active(_bActive);
 	}
@@ -203,7 +203,7 @@ void CInventory::Free()
 	for (auto& key : m_vecKey)
 		Safe_Release(key);
 
-	for (auto& slot : m_vecSlot)
+	for (auto& slot : m_vecItemSlot)
 		Safe_Release(slot);
 
 	CGameObject::Free();
