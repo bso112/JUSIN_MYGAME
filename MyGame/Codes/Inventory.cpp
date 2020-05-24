@@ -23,6 +23,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 {
 
 	m_iDepth = 0;
+	m_vecEquipSlot.reserve(4);
 
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform)))
 		return E_FAIL;
@@ -58,19 +59,28 @@ HRESULT CInventory::Initialize(void * _pArg)
 		for (int j = 0; j < SLOTX; ++j)
 		{
 			Vector2 vPos = Vector2(
-				invenRc.left	+	(float)INVEN_MARGIN_H + (slotCX*0.5f) + (slotCX + margin_slot) * j ,
-				invenRc.top		+	(float)INVEN_MARGIN_V + (slotCY*0.5f) + (slotCY + margin_slot) * i);
+				invenRc.left + (float)INVEN_MARGIN_H + (slotCX*0.5f) + (slotCX + margin_slot) * j,
+				invenRc.top + (float)INVEN_MARGIN_V + (slotCY*0.5f) + (slotCY + margin_slot) * i);
 
-			
+
 			//슬롯을 오브젝트 매니저에 등록안하고 렌더러에만 등록하면
 			//렌더러가 슬롯을 지워버린다. 원래 렌더러는 한프레임 그리고 다 지우니까.
-			CItemSlot* pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"slot", SCENE_STAGE);
+			CItemSlot* pSlot;
+			if (i == 0 && j < 4)
+				pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"equipSlot", SCENE_STAGE);
+			else
+				pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"slot", SCENE_STAGE);
+
 			if (nullptr == pSlot)
 				return E_FAIL;
 
 			pSlot->Set_Depth(m_iDepth + 1);
 			pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pSlot);
-			m_vecItemSlot.push_back(pSlot);
+
+			if (i == 0 && j < 4)
+				m_vecEquipSlot.push_back(pSlot);
+			else
+				m_vecItemSlot.push_back(pSlot);
 			Safe_AddRef(pSlot);
 
 		}
@@ -106,7 +116,7 @@ HRESULT CInventory::Render()
 
 	if (nullptr == m_pTexture ||
 		nullptr == m_pVIBuffer ||
-		nullptr == m_pTransform )
+		nullptr == m_pTransform)
 		return E_FAIL;
 
 	ALPHABLEND;
@@ -114,7 +124,7 @@ HRESULT CInventory::Render()
 	m_pTexture->Set_Texture(0);
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
-	
+
 	ALPHABLEND_END;
 	return S_OK;
 
@@ -124,9 +134,52 @@ HRESULT CInventory::Render()
 HRESULT CInventory::Initialize_Prototype()
 {
 	m_vecItemSlot.reserve(SLOTX * SLOTY);
-
 	return S_OK;
 }
+
+
+HRESULT CInventory::Equip(CItem* _pEquipment, BODYPART _eBodyPart)
+{
+
+	if (_eBodyPart >= BODY_END ||
+		_eBodyPart >= m_vecEquipSlot.size() ||
+		nullptr == _pEquipment)
+		return E_FAIL;
+
+
+	//슬롯을 순회해서 해당 아이템을 가지고 있는 슬롯을 찾는다.
+	for (auto& slot : m_vecItemSlot)
+	{
+		//찾았으면
+		if (slot->Has_Item(_pEquipment))
+		{
+			//찾은 슬롯을 클리어하고
+			CItem* pItem = slot->UnEquip();
+			if (nullptr == pItem)
+				return E_FAIL;
+
+			//찾은 아이템을 장착한다.
+			m_vecEquipSlot[_eBodyPart]->Equip(pItem);
+			return S_OK;
+		}
+	}
+}
+
+HRESULT CInventory::UnEquip(BODYPART _eBodyPart)
+{
+	if (_eBodyPart >= BODY_END ||
+		_eBodyPart >= m_vecEquipSlot.size())
+		return E_FAIL;
+
+
+	//장착슬롯에 있는 아이템을 빼서 다시 인벤토리에 넣는다.
+	CItem* pUnEquipped = m_vecEquipSlot[_eBodyPart]->UnEquip();
+	if (nullptr == pUnEquipped)
+		return E_FAIL;
+	Put_Item(pUnEquipped);
+	return S_OK;
+}
+
 HRESULT CInventory::Put_Item(CItem * _pItem)
 {
 	if (nullptr == _pItem)
@@ -171,27 +224,34 @@ _bool CInventory::Use_Key()
 HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 {
 	for (auto& slot : m_vecItemSlot)
-	{
 		slot->Set_Listener(_func);
-	}
+
+	for (auto& slot : m_vecEquipSlot)
+		slot->Set_Listener(_func);
+
+
+
 	return S_OK;
 }
 
 HRESULT CInventory::Add_SlotListener(function<void()> _func)
 {
 	for (auto& slot : m_vecItemSlot)
-	{
 		slot->Add_Listener(_func);
-	}
+
+	for (auto& slot : m_vecEquipSlot)
+		slot->Add_Listener(_func);
+
 	return S_OK;
 }
 
 void CInventory::OnSetActive(_bool _bActive)
 {
 	for (auto& slot : m_vecItemSlot)
-	{
 		slot->Set_Active(_bActive);
-	}
+	for (auto& slot : m_vecEquipSlot)
+		slot->Set_Active(_bActive);
+
 }
 
 void CInventory::Free()
@@ -202,6 +262,9 @@ void CInventory::Free()
 
 	for (auto& key : m_vecKey)
 		Safe_Release(key);
+
+	for (auto& slot : m_vecEquipSlot)
+		Safe_Release(slot);
 
 	for (auto& slot : m_vecItemSlot)
 		Safe_Release(slot);

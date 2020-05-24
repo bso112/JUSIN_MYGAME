@@ -66,14 +66,14 @@ HRESULT CItemSlot::Drop_Item()
 		return E_FAIL;
 
 	CItem* pItem = m_listItem.back();
-	
+
 	CTransform* pItemTransform = (CTransform*)pItem->Get_Module(L"Transform");
 	if (nullptr == pItemTransform) return E_FAIL;
 
 	CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
 	if (nullptr == pPlayer)
 		return E_FAIL;
-	
+
 	CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
 	if (nullptr == pPlayerTransform)
 		return E_FAIL;
@@ -85,6 +85,36 @@ HRESULT CItemSlot::Drop_Item()
 	//리스트에서 없앤다.
 	m_listItem.pop_back();
 	return S_OK;
+}
+
+void CItemSlot::Equip(CItem* _pItem)
+{
+	//아이템 리스트를 비운다. (장비슬롯은 하나의 아이템만 가진다)
+	Clear();
+	//아이템을 추가한다.
+	Add_Item(_pItem);
+}
+
+CItem * CItemSlot::UnEquip()
+{
+	if (m_listItem.size() <= 0)
+		return nullptr;
+	//클리어 하기 전에 가지고 있던 아이템을 반환한다.
+	CItem* pItem = m_listItem.back();
+	Clear();
+	return pItem;
+}
+
+_bool CItemSlot::Has_Item(CItem * _pItem)
+{
+	if (nullptr == _pItem)
+		return false;
+	for (auto& item : m_listItem)
+	{
+		if (item == _pItem)
+			return true;
+	}
+	return false;
 }
 
 
@@ -101,7 +131,7 @@ HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureT
 	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
 
 
-	if (FAILED(Set_Module(L"slot", SCENE_STAGE, (CModule**)&m_pTexture)))
+	if (FAILED(Set_Module(_pTextureTag, SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
 
 	m_pTransform->Set_Position(_vPos);
@@ -137,7 +167,7 @@ _int CItemSlot::LateUpate(_double _timeDelta)
 		return -1;
 
 	m_pTransform->Update_Transform();
-	
+
 
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
 		return -1;
@@ -168,7 +198,7 @@ HRESULT CItemSlot::Render()
 
 	if (m_listItem.size() > 0)
 	{
-		if(FAILED(m_listItem.front()->Render()))
+		if (FAILED(m_listItem.front()->Render()))
 			return E_FAIL;
 	}
 
@@ -177,6 +207,13 @@ HRESULT CItemSlot::Render()
 	return S_OK;
 }
 
+
+void CItemSlot::Clear()
+{
+	for (auto& item : m_listItem)
+		Safe_Release(item);
+	m_listItem.clear();
+}
 
 void CItemSlot::OnSetActive(_bool _bActive)
 {

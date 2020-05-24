@@ -57,8 +57,8 @@ unsigned long Safe_Release(T& pInstance)
 	if (nullptr != pInstance)
 	{
 		dwRefCnt = pInstance->Release();
-		if (0 == dwRefCnt)
-			pInstance = nullptr;
+		//if (0 == dwRefCnt)
+		pInstance = nullptr;
 	}
 
 	return dwRefCnt;

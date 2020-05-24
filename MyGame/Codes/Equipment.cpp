@@ -47,11 +47,6 @@ HRESULT CEquipment::Use(CHero * _pHero, const _tchar** _pAction)
 
 	if (0 == lstrcmp(*_pAction, AC_EQUIP))
 	{
-		CInventoryUIMgr* pInvenUImgr = CInventoryUIMgr::Get_Instance();
-		RETURN_FAIL_IF_NULL(pInvenUImgr);
-		CInventory* pInven = pInvenUImgr->GetInventory();
-		RETURN_FAIL_IF_NULL(pInven);
-		pInven->
 		_pHero->Equip(this, m_eBodyPart);
 		*_pAction = AC_UNEQUIP;
 	}

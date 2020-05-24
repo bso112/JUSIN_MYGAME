@@ -32,7 +32,9 @@ private:
 
 	
 private:
+	//장비품 슬롯의 벡터
 	vector<CItemSlot*>	m_vecEquipSlot;
+	//소지품 슬롯의 벡터
 	vector<CItemSlot*>	m_vecItemSlot;
 	//열쇠는 자주검색되기 때문에 따로 갖고있는다.
 	vector<CKey*>		m_vecKey;
@@ -44,7 +46,8 @@ public:
 	virtual HRESULT	Render() override;
 	
 public:
-	HRESULT Equip();
+	HRESULT	Equip(CItem* _pEquipment, BODYPART _eBodyPart);
+	HRESULT	UnEquip(BODYPART _eBodyPart);
 	HRESULT	Put_Item(CItem* _pItem);
 	void	Put_Key(CKey* _pKey);
 	_bool	Use_Key();

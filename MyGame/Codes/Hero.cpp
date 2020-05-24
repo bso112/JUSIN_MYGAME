@@ -178,6 +178,9 @@ HRESULT CHero::Equip(CEquipment * _pItem, BODYPART _eBodyPart)
 	m_tStat.m_fAtt->AddModifier(itemStats.m_fAtt);
 	m_tStat.m_fMaxHp->AddModifier(itemStats.m_fMaxHP);
 
+	//인벤토리 갱신
+	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
+	pInventory->Equip(_pItem, _eBodyPart);
 
 	return S_OK;
 }
@@ -195,6 +198,11 @@ HRESULT CHero::UnEquip(BODYPART _eBodyPart)
 	m_tStat.m_fMaxHp->RemoveModifire(itemStats.m_fMaxHP);
 
 	Safe_Release(m_pEquipments[_eBodyPart]);
+
+	//인벤토리 갱신
+	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
+	pInventory->UnEquip(_eBodyPart);
+
 	return S_OK;
 }
 
