@@ -2,6 +2,7 @@
 #include "Fire.h"
 #include "ObjMgr.h"
 #include "Character.h"
+#include "Clock.h"
 
 USING(MyGame)
 CFire::CFire(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -40,23 +41,21 @@ HRESULT CFire::Initialize(void * _pArg)
 		m_pTransform->Set_Position(m_tBaseDesc.vPos);
 		m_pTransform->Set_Size(m_tBaseDesc.vSize);
 		m_pTransform->Set_ColliderSize(m_tBaseDesc.vSize);
-
 	}
 
 	//이펙트 지속시간 설정
 	m_fDuration = DURATION_FIRE;
 	//불 파티클시스템 생성
-	CParticleSystem::STATEDESC tPsDesc;
-	tPsDesc.m_dDuration = m_fDuration;
-	tPsDesc.m_dLifeTime = 3.f;
-	tPsDesc.m_eTextureSceneID = SCENE_STAGE;
-	tPsDesc.m_fSpeed = 1.f;
-	tPsDesc.m_pTextureTag = L"Fire";
-	tPsDesc.m_tBaseDesc.vPos = m_tBaseDesc.vPos;
-	tPsDesc.m_tBaseDesc.vSize = m_tBaseDesc.vSize;
-	tPsDesc.m_vParticleSize = Vector2(5.f, 5.f);
+	m_tParticleDesc.m_dDuration = m_fDuration;
+	m_tParticleDesc.m_dLifeTime = 3.f;
+	m_tParticleDesc.m_eTextureSceneID = SCENE_STAGE;
+	m_tParticleDesc.m_fSpeed = 1.f;
+	m_tParticleDesc.m_pTextureTag = L"Fire";
+	m_tParticleDesc.m_tBaseDesc.vPos = m_tBaseDesc.vPos;
+	m_tParticleDesc.m_tBaseDesc.vSize = m_tBaseDesc.vSize;
+	m_tParticleDesc.m_vParticleSize = Vector2(5.f, 5.f);
 
-	m_pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &tPsDesc));
+	m_pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &m_tParticleDesc));
 	RETURN_FAIL_IF_NULL(m_pParticleSystem);
 	//맞지? 레이어에도 있고 멤버변수에도 있으니까.
 	Safe_AddRef(m_pParticleSystem);
@@ -69,6 +68,8 @@ HRESULT CFire::Initialize(void * _pArg)
 		pPsTransform->Set_Parent(m_pTransform);
 	}
 
+	m_pSpawnTimer = CClock_Trigger::Create();
+
 	return S_OK;
 }
 
@@ -78,13 +79,18 @@ void CFire::Play()
 		nullptr == m_pTransform)
 		return;
 
-	//Fire의 위치에 파티클 시스템 재생
-	m_pParticleSystem->RollUp(m_pTransform->Get_RECT(), PARTICLE_CNT_FIRE);
+	m_bPlaying = true;
 }
 
 
 _int CFire::Update(_double _timeDelta)
-{
+{	
+	if (nullptr == m_pSpawnTimer)
+		return -1;
+
+	if (!m_bPlaying)
+		return 0;
+
 	//지속시간이 다되면 죽음
 	if (0x80000000 & CEffect::Update(_timeDelta))
 		return -1;
@@ -98,7 +104,11 @@ _int CFire::Update(_double _timeDelta)
 		m_pTransform->Set_Position(m_pTarget->Get_WorldPos());
 	}
 
-	return _int();
+	//0.5초마다 생성
+	if(m_pSpawnTimer->isThreashHoldReached(0.1))
+		m_pParticleSystem->RollUp(m_pTransform->Get_RECT(), 1);
+
+	return 0;
 }
 
 _int CFire::LateUpate(_double _timeDelta)
@@ -169,6 +179,7 @@ CGameObject * CFire::Clone(void * _param)
 
 void CFire::Free()
 {
+	Safe_Release(m_pSpawnTimer);
 	CEffect::Free();
 }
 

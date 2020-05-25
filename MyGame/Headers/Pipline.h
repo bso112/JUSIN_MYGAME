@@ -23,7 +23,7 @@ public:
 
 public:
 	//오브젝트에 적용할 카메라 매트릭스
-	_matrix Get_ViewMatrix() { return m_CameraStateMatrix; }
+	_matrix Get_ViewMatrix();
 
 
 	// CBase을(를) 통해 상속됨

@@ -92,10 +92,12 @@ protected:
 	_int			m_iCurFrame = 0;
 	//사용되었나?
 	_bool			m_bUsed = false;
+	//에디터용
+	_bool			m_bUI = false;
 	//디버그용
 private:
 	bool			m_bMarked = false;
-
+	
 
 public:
 	virtual HRESULT	Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pPrototypeTag, const _tchar* _pLayerTag, _tchar* _pFilePath = nullptr);
@@ -112,6 +114,8 @@ public:
 	bool		IsHidden() { return m_bHidden; }
 	//원래부터 movable이고, _pTransform 이외의 누군가 서있지 않으면 갈 수 있다.
 	bool		IsMovable(CTransform* _pTransform);
+	//에디터용
+	void		Set_UI() { m_bUI = true; }
 
 
 public:

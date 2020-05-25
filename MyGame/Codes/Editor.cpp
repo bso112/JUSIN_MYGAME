@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Renderer.h"
 #include "ModuleMgr.h"
+#include "Camera.h"
 USING(MyGame)
 
 CEditor::CEditor(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -21,7 +22,12 @@ HRESULT CEditor::Initialize()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
-	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level1.dat");
+	//카메라 생성
+	m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
+	CCamera* pMainCam = dynamic_cast<CCamera*>(m_pObjMgr->Add_GO_To_Layer(L"MainCamera", SCENE_STAGE, L"Camera", SCENE_STAGE, &BASEDESC(Vector3(float((TILECX * WORLDX) >> 1), float((TILECY * WORLDY) >> 1)), Vector3(1.f, 1.f, 1.f))));
+	RETURN_FAIL_IF_NULL(pMainCam);
+
+	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level2.dat");
 	RETURN_FAIL_IF_NULL(m_pWorld);
 
 
@@ -34,6 +40,8 @@ _int CEditor::Update(_double _timeDelta)
 		nullptr == m_pWorld)
 		return E_FAIL;
 
+	CScene::Update(_timeDelta);
+
 	POINT pt;
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
@@ -42,7 +50,9 @@ _int CEditor::Update(_double _timeDelta)
 	if (nullptr != m_pCurrTerrain)
 	{
 		CTransform* pTransform = (CTransform*)m_pCurrTerrain->Get_Module(L"Transform");
-		pTransform->Set_Position(Vector3((float)pt.x, (float)pt.y, 0.f, 1.f));
+		Vector4 vPos = Vector3(pt.x, pt.y, 0.f, 1.f);
+		D3DXVec4Transform(&vPos, &vPos, &CPipline::Get_Instance()->Get_CameraMatrix());
+		pTransform->Set_Position(vPos);
 		pTransform->Update_Transform();
 	}
 
@@ -80,7 +90,7 @@ _int CEditor::Update(_double _timeDelta)
 	//세이브
 	if (CKeyMgr::Get_Instance()->Key_Down('S'))
 	{
-		m_pWorld->Save_World(L"../Bin/Data/level1.dat");
+		m_pWorld->Save_World(L"../Bin/Data/level2.dat");
 	}
 	//로드
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
@@ -97,6 +107,8 @@ HRESULT CEditor::Render()
 	if (nullptr == m_pWorld ||
 		nullptr == m_pPalette)
 		return E_FAIL;
+
+	CScene::Render();
 
 	m_pWorld->Render_ForEditor();
 	m_pPalette->Render();
@@ -143,7 +155,7 @@ void CEditor::Free()
 
 	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_EDITOR)))
 		MSG_BOX("Fail to Clear Module Prototypes");
-	
+
 
 	CScene::Free();
 

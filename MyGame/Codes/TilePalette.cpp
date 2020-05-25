@@ -7,6 +7,7 @@
 #include "TextureLoader.h"
 #include "ObjMgr.h"
 #include "TileLoader.h"
+#include "Pipline.h"
 
 
 USING(MyGame)
@@ -58,6 +59,12 @@ HRESULT CTilePalette::Initalize()
 
 			}
 		}
+	}
+
+	//카메라 영향 안받도록 한다.
+	for (auto& tile : m_vecTile)
+	{
+		tile->Set_UI();
 	}
 
 	return S_OK;

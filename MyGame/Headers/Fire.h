@@ -4,13 +4,13 @@
 BEGIN(MyGame)
 #define PARTICLE_CNT_FIRE 10
 #define DURATION_FIRE 3.f
+class CClock_Trigger;
 class CFire : public CEffect
 {
 private:
 	explicit CFire(PDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CFire(CFire& _rhs);
 	virtual ~CFire() = default;
-
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
@@ -20,7 +20,11 @@ public:
 	virtual HRESULT	Render() override;
 
 private:
-	BASEDESC		m_tBaseDesc;
+	CClock_Trigger*				m_pSpawnTimer = nullptr;
+	BASEDESC					m_tBaseDesc;
+	CParticleSystem::STATEDESC	m_tParticleDesc;
+	_bool						m_bPlaying = false;
+
 public:
 	virtual void Play() override;
 

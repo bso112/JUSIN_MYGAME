@@ -19,7 +19,7 @@ CLevelMgr::CLevelMgr()
 HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	//레벨을 준비한다.
-	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level1.dat");
+	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level2.dat");
 	RETURN_FAIL_IF_NULL(m_aLevel[0]);
 
 

@@ -217,6 +217,7 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticle
 
 }
 
+//_rc안의 랜덤한 장소에 파티클을 스폰한다.
 void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 {
 

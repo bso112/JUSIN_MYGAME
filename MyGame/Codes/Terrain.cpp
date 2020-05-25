@@ -66,9 +66,23 @@ _int CTerrain::LateUpate(_double _timeDelta)
 {
 	m_pTransform->Update_Transform();
 
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PRIOR)))
+	if (nullptr == m_pPipline ||
+		nullptr == m_pTransform)
 		return -1;
 
+	_matrix camMatrix = m_pPipline->Get_CameraMatrix();
+	Vector3 vPos = m_pTransform->Get_Position();
+	D3DXVec4Transform(&vPos, &vPos, &camMatrix);
+
+	//ÄÃ¸µ
+	if (-100.f <= vPos.x && g_iWinCX + 100.f>= vPos.x)
+	{
+		if (-100.f <= vPos.y && g_iWinCY + 100.f >= vPos.y)
+		{
+			if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PRIOR)))
+				return -1;
+		}
+	}
 	return 0;
 }
 
@@ -78,8 +92,17 @@ HRESULT CTerrain::Render()
 {
 	m_pTransform->Update_Transform();
 
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
-		return E_FAIL;
+	if (m_bUI)
+	{
+		if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
+			return E_FAIL;
+
+	}
 
 
 	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iCurFrame)))
@@ -88,7 +111,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
 
-	int pass = 0; 
+	int pass = 0;
 	if (m_bMarked || !m_tInfo.m_bMovable) pass = 2;
 	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
@@ -118,7 +141,7 @@ CTerrain::SAVE_DATA CTerrain::Get_SaveData()
 	tSaveData.m_vRotation = m_pTransform->Get_Rotation();
 	tSaveData.m_vSize = m_pTransform->Get_Size();
 	tSaveData.m_iCurFrame = m_iCurFrame;
-	
+
 	ZeroMemory(&tSaveData.m_PrototypeTag, sizeof(tSaveData.m_PrototypeTag));
 	memcpy(tSaveData.m_PrototypeTag, m_PrototypeTag, sizeof(_tchar) * lstrlen(m_PrototypeTag));
 

@@ -4,8 +4,8 @@
 
 BEGIN(MyGame)
 
-#define WORLDX 100
-#define WORLDY 100
+#define WORLDX 400
+#define WORLDY 400
 
 class CTerrain;
 class CTransform;

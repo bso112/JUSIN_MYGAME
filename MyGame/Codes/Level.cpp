@@ -58,8 +58,11 @@ HRESULT CLevel::Set_Terrain(CTerrain * _pTerrain, POINT& _pt)
 	if (nullptr == _pTerrain)
 		return E_FAIL;
 
-	_uint x = _pt.x / TILECX;
-	_uint y = _pt.y / TILECY;
+	Vector4 vPos = Vector4((float)_pt.x, (float)_pt.y, 0.f, 1.f);
+	D3DXVec4Transform(&vPos, &vPos, &CPipline::Get_Instance()->Get_CameraMatrix());
+
+	_uint x = (_uint)vPos.x / TILECX;
+	_uint y = (_uint)vPos.y / TILECY;
 
 
 	//타일의 인덱스에 따른 타일의 좌표를 구한다.
@@ -677,7 +680,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 	if (INVALID_HANDLE_VALUE == hFile)
 		return E_FAIL;
 
-	////현재 타일을 모두 지운다.
+	////할 필요가 없음. 왜냐하면 타일을 미리 깔아두는게 아니기 때문에.
 	//Free();
 
 	DWORD				dwByte = 0;
