@@ -20,7 +20,8 @@ CTerrain::CTerrain(CTerrain & _rhs)
 	m_pTexture(_rhs.m_pTexture),
 	m_iCurFrame(_rhs.m_iCurFrame),
 	m_eState(_rhs.m_eState),
-	m_tInfo(_rhs.m_tInfo)
+	m_tInfo(_rhs.m_tInfo),
+	m_bMaskable(_rhs.m_bMaskable)
 {
 	memcpy(m_PrototypeTag, _rhs.m_PrototypeTag, sizeof(m_PrototypeTag));
 	memcpy(m_LayerTag, _rhs.m_LayerTag, sizeof(m_LayerTag));
@@ -112,7 +113,7 @@ HRESULT CTerrain::Render()
 		return E_FAIL;
 
 	int pass = 0;
-	if (m_bMarked || !m_tInfo.m_bMovable) pass = 2;
+	//if (m_bMarked || !m_tInfo.m_bMovable) pass = 2;
 	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
 

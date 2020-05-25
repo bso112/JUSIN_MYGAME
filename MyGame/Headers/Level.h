@@ -22,7 +22,8 @@ private:
 	//객체가 아닌 포인터로 지형을 구성한다. (지형이 있는 인덱스만 채워진다. 나머지는 nullptr)
 	CTerrain*	m_pTerrains[WORLDY][WORLDX];
 	CPipline*	m_pPipline = nullptr;
-
+	//마스크는 그냥 장식용이라 피킹할일도 없어서 벡터로 선언함.
+	vector<CTerrain*> m_vecMask;
 private:
 
 	//로드 파일경로
@@ -39,6 +40,8 @@ public:
 
 public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
+	HRESULT	Fill_Terrain(CTerrain* _pTerrain, POINT& _pt);
+	HRESULT	Erase_Mask(POINT& _pt);
 	HRESULT	Get_TerrainPos(POINT _dst, Vector3& _out);
 	//A* 알고리즘을 적용해 경로를 반환한다.
 	//몬스터용
@@ -50,7 +53,6 @@ public:
 	CTerrain* Pick_Tile(POINT& _pt);
 	//해당 위치에 있는 타일을 알려준다.
 	CTerrain* Pick_Tile(Vector3& dst);
-
 
 	Vector3	Get_RandomPos();
 	//플레이어 스폰 위치를 가져온다.

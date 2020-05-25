@@ -94,6 +94,8 @@ protected:
 	_bool			m_bUsed = false;
 	//에디터용
 	_bool			m_bUI = false;
+	//마스트 타일이냐?
+	_bool			m_bMaskable = false;
 	//디버그용
 private:
 	bool			m_bMarked = false;
@@ -125,6 +127,8 @@ public:
 	const NODE&	Get_Node() { return m_tNode; }
 	void		Clear_Node() { m_tNode.Clear(); }
 	void		Set_Mark(bool _bMarked) { m_bMarked = _bMarked; }
+	void		Set_Maskable() { m_bMaskable = true; }
+	_bool		IsMaskable() { return m_bMaskable; }
 
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);

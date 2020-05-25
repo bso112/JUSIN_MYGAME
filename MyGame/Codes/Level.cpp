@@ -67,6 +67,12 @@ HRESULT CLevel::Render_ForEditor()
 			}
 		}
 	}
+
+	for (auto& maskTile : m_vecMask)
+	{
+		maskTile->Render();
+	}
+
 	return S_OK;
 }
 
@@ -89,28 +95,115 @@ HRESULT CLevel::Set_Terrain(CTerrain * _pTerrain, POINT& _pt)
 	if (x >= WORLDX || y >= WORLDY)
 		return E_FAIL;
 
-	//만약 이미 타일이 있다면 지우기
-	if (nullptr != m_pTerrains[y][x])
+
+	//만약 이미 타일이 있고, 그 타일이 마스크 가능한 타일이면
+	if (nullptr != m_pTerrains[y][x] && m_pTerrains[y][x]->IsMaskable())
 	{
-		Safe_Release(m_pTerrains[y][x]);
-		return S_OK;
+		//깊은복사
+		CTerrain* pTerrain = (CTerrain*)_pTerrain->Clone();
+
+		//지형의 위치를 지정한다.
+		CTransform* pTransform = (CTransform*)pTerrain->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+		{
+			pTransform->Set_Position(Vector2(fX, fY, 0.f, 1.f));
+			pTransform->Update_Transform();
+		}
+
+		//마스크는 나중에 지우기 위해 따로 보관한다.
+		m_vecMask.push_back(pTerrain);
+
+	}
+	else
+	{
+		//만약 이미 타일이 있으면 지우기
+		if (nullptr != m_pTerrains[y][x])
+		{
+			Safe_Release(m_pTerrains[y][x]);
+			return S_OK;
+		}
+
+		//널포인터일때
+
+		//깊은복사
+		CTerrain* pTerrain = (CTerrain*)_pTerrain->Clone();
+
+		//지형의 위치를 지정한다.
+		CTransform* pTransform = (CTransform*)pTerrain->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+		{
+			pTransform->Set_Position(Vector2(fX, fY, 0.f, 1.f));
+			pTransform->Update_Transform();
+		}
+		//타일을 채운다.
+		m_pTerrains[y][x] = pTerrain;
 	}
 
 
-	//깊은복사
-	CTerrain* pTerrain = (CTerrain*)_pTerrain->Clone();
+	return S_OK;
+}
 
-	//지형의 위치를 지정한다.
-	CTransform* pTransform = (CTransform*)pTerrain->Get_Module(L"Transform");
-	if (nullptr != pTransform)
+HRESULT CLevel::Fill_Terrain(CTerrain * _pTerrain, POINT & _pt)
+{
+	if (nullptr == _pTerrain)
+		return E_FAIL;
+
+	Vector4 vPos = Vector4((float)_pt.x, (float)_pt.y, 0.f, 1.f);
+	D3DXVec4Transform(&vPos, &vPos, &CPipline::Get_Instance()->Get_CameraMatrix());
+
+	_uint x = (_uint)vPos.x / TILECX;
+	_uint y = (_uint)vPos.y / TILECY;
+
+
+	//타일의 인덱스에 따른 타일의 좌표를 구한다.
+	float fX = (TILECX >> 1) + (float)(TILECX * x);
+	float fY = (TILECY >> 1) + (float)(TILECY * y);
+
+	if (x >= WORLDX || y >= WORLDY)
+		return E_FAIL;
+
+	//널포인트일때만 생성
+	if (nullptr == m_pTerrains[y][x])
 	{
-		pTransform->Set_Position(Vector2(fX, fY, 0.f, 1.f));
-		pTransform->Update_Transform();
+		//깊은복사
+		CTerrain* pTerrain = (CTerrain*)_pTerrain->Clone();
+
+		//지형의 위치를 지정한다.
+		CTransform* pTransform = (CTransform*)pTerrain->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+		{
+			pTransform->Set_Position(Vector2(fX, fY, 0.f, 1.f));
+			pTransform->Update_Transform();
+		}
+
+		//타일을 채운다.
+		m_pTerrains[y][x] = pTerrain;
+
 	}
 
-	//타일을 채운다.
-	m_pTerrains[y][x] = pTerrain;
+	return S_OK;
+}
 
+HRESULT CLevel::Erase_Mask(POINT & _pt)
+{
+	Vector4 vPos = Vector4((float)_pt.x, (float)_pt.y, 0.f, 1.f);
+	D3DXVec4Transform(&vPos, &vPos, &CPipline::Get_Instance()->Get_CameraMatrix());
+
+	POINT pt;
+	pt.x = vPos.x;
+	pt.y = vPos.y;
+
+	auto& iter = m_vecMask.begin();
+	while (iter != m_vecMask.end())
+	{
+		CTransform* pTransform = (CTransform*)(*iter)->Get_Module(L"Transform");
+		if (PtInRect(&pTransform->Get_RECT(), pt))
+		{
+			Safe_Release(*iter);
+			m_vecMask.erase(iter);
+			break;
+		}
+	}
 	return S_OK;
 }
 
@@ -668,7 +761,8 @@ HRESULT CLevel::Save_World(const _tchar* _filePath)
 	DWORD dwByte = 0;
 	int zero = 0;
 	int one = 1;
-	//데이터 앞에 표시를 달자. 널이면 0, 널이 아니면 1
+	int two = 2;
+	//데이터 앞에 표시를 달자. 널이면 0, 널이 아니면 1, 마스크타일이면 2
 	for (auto& terrainArr : m_pTerrains)
 	{
 		for (auto& terrain : terrainArr)
@@ -683,6 +777,11 @@ HRESULT CLevel::Save_World(const _tchar* _filePath)
 				WriteFile(hFile, &terrain->Get_SaveData(), sizeof(CTerrain::SAVE_DATA), &dwByte, NULL);
 			}
 		}
+	}
+	for (auto& maskTile : m_vecMask)
+	{
+		WriteFile(hFile, &two, sizeof(int), &dwByte, NULL);
+		WriteFile(hFile, &maskTile->Get_SaveData(), sizeof(CTerrain::SAVE_DATA), &dwByte, NULL);
 	}
 	CloseHandle(hFile);
 	MessageBox(g_hWnd, L"Tile Save", L"Success", MB_OK);
@@ -717,7 +816,6 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 		//읽을 데이터가 nullptr가 아니면 읽는다.
 		if (0 != prefix)
 		{
-
 			ReadFile(hFile, &tSaveData, sizeof(CTerrain::SAVE_DATA), &dwByte, NULL);
 
 			if (0 == dwByte)
@@ -727,12 +825,25 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 			프로토타입 태그를 통해 올바른 클래스로 변환한다.
 			예를들어 CDoor의 프로토타입에서 복사된 CGameObject가 CTerrain으로 변환되어 Load_Data를 통해 데이터가 셋팅된다.
 			*/
-			m_pTerrains[y][x] = dynamic_cast<CTerrain*>(CObjMgr::Get_Instance()->Add_GO_To_Layer(tSaveData.m_PrototypeTag, m_eSceneID, tSaveData.m_LayerTag, _eSceneID));
-			if (nullptr == m_pTerrains[y][x])
-				return E_FAIL;
-			Safe_AddRef(m_pTerrains[y][x]);
 
-			m_pTerrains[y][x]->Load_Data(tSaveData);
+
+			CTerrain* pTerrain = dynamic_cast<CTerrain*>(CObjMgr::Get_Instance()->Add_GO_To_Layer(tSaveData.m_PrototypeTag, m_eSceneID, tSaveData.m_LayerTag, _eSceneID));
+			if (nullptr == pTerrain)
+			{
+				MSG_BOX("타일 로드 실패");
+				continue;
+			}
+
+			//마스크 타일이면
+			if (2 == prefix)
+				m_vecMask.push_back(pTerrain);
+			//아니면
+			else
+				m_pTerrains[y][x] = pTerrain;
+
+			Safe_AddRef(pTerrain);
+
+			pTerrain->Load_Data(tSaveData);
 
 			//계단이라면 그 위치를 저장한다. 플레이어의 스폰위치가 되니까.
 			if (0 == lstrcmp(tSaveData.m_LayerTag, L"stair"))
@@ -888,6 +999,9 @@ CLevel * CLevel::Create(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID, _t
 
 void CLevel::Free()
 {
+	for (auto& mask : m_vecMask)
+		Safe_Release(mask);
+
 	for (auto& tileArr : m_pTerrains)
 	{
 		for (auto& tile : tileArr)

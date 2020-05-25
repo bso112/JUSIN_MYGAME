@@ -24,8 +24,8 @@ HRESULT CEditor::Initialize()
 
 	//카메라 생성
 	m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
-	CCamera* pMainCam = dynamic_cast<CCamera*>(m_pObjMgr->Add_GO_To_Layer(L"MainCamera", SCENE_STAGE, L"Camera", SCENE_STAGE, &BASEDESC(Vector3(float((TILECX * WORLDX) >> 1), float((TILECY * WORLDY) >> 1)), Vector3(1.f, 1.f, 1.f))));
-	RETURN_FAIL_IF_NULL(pMainCam);
+	m_pMainCam = dynamic_cast<CCamera*>(m_pObjMgr->Add_GO_To_Layer(L"MainCamera", SCENE_STAGE, L"Camera", SCENE_STAGE, &BASEDESC(Vector3(float((TILECX * WORLDX) >> 1), float((TILECY * WORLDY) >> 1)), Vector3(1.f, 1.f, 1.f))));
+	RETURN_FAIL_IF_NULL(m_pMainCam);
 
 	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level2.dat");
 	RETURN_FAIL_IF_NULL(m_pWorld);
@@ -71,6 +71,21 @@ _int CEditor::Update(_double _timeDelta)
 			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
 	}
 
+	//마스크를 지운다.
+	if (CKeyMgr::Get_Instance()->Key_Down('E'))
+	{
+		if (nullptr != m_pCurrTerrain)
+			m_pWorld->Erase_Mask(pt);
+	}
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing('F'))
+	{
+		//지형을 채운다.
+		if (nullptr != m_pCurrTerrain)
+			m_pWorld->Fill_Terrain(m_pCurrTerrain, pt);
+	}
+	
+
 	//현재 선택된 타일의 프레임을 뒤로
 	if (CKeyMgr::Get_Instance()->Key_Down('A'))
 	{
@@ -105,13 +120,22 @@ HRESULT CEditor::Render()
 {
 
 	if (nullptr == m_pWorld ||
-		nullptr == m_pPalette)
+		nullptr == m_pPalette	||
+		nullptr == m_pPipline	||
+		nullptr == m_pMainCam)
 		return E_FAIL;
 
 	CScene::Render();
 
 	m_pWorld->Render_ForEditor();
 	m_pPalette->Render();
+
+	CTransform* pCamTransform = (CTransform*)m_pMainCam->Get_Module(L"Transform");
+	Vector2 vCamPos = pCamTransform->Get_Position();
+	_tchar szBuff[MAX_PATH] = L"";
+	wsprintf(szBuff, L"X: %d, Y: %d", (_int)vCamPos.x, (_int)vCamPos.y);
+
+	g_pFont->DrawText(NULL, szBuff, -1, nullptr, DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 
 	if (nullptr != m_pCurrTerrain)
 		m_pCurrTerrain->Render();

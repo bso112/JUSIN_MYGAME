@@ -5,6 +5,7 @@ BEGIN(MyGame)
 class CTilePalette;
 class CLevel;
 class CTerrain;
+class CCamera;
 class CEditor final: public CScene
 {
 private:
@@ -22,6 +23,7 @@ private:
 	CLevel*			m_pWorld = nullptr;
 	//Editor 씬에만 있는 임시타일이다.
 	CTerrain*		m_pCurrTerrain = nullptr;
+	CCamera*		m_pMainCam = nullptr;
 
 
 public:
