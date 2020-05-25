@@ -76,7 +76,7 @@ HRESULT CWarrior::Initialize(void * _param)
 
 #pragma region 모듈준비
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
-	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, nullptr, &CTransform::STATEDESC(200.f, 100.f, 1));
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, nullptr, &CTransform::STATEDESC(250.f, 100.f, 1));
 	Set_Module(L"PlayerStateCon", SCENE_STATIC, (CModule**)&m_pStateCon);
 	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
 
@@ -99,32 +99,38 @@ HRESULT CWarrior::Initialize(void * _param)
 
 #pragma region 애니메이션 설정
 
+	_double idleAnimSpeed = 1.0;
+	_double attackAnimSpeed = 0.1;
+	_double eatAnimSpeed = 0.2;
+	_double floatAnimSpeed = 0.2;
+	_double useAnimSpeed = 0.2;
+	_double walkAnimSpeed = 0.02;
 
 	//애니메이션 셋팅
 	CTexture* pTexture = nullptr;
 
 	Set_Module(L"warrior_naked_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedIdleAnim = CAnimation::Create(pTexture, 1.0, true);
+	CAnimation* pNakedIdleAnim = CAnimation::Create(pTexture, idleAnimSpeed, true);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"idle", pNakedIdleAnim);
 
 	Set_Module(L"warrior_naked_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedAttackAnim = CAnimation::Create(pTexture, 0.1, false);
+	CAnimation* pNakedAttackAnim = CAnimation::Create(pTexture, attackAnimSpeed, false);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"attack", pNakedAttackAnim);
 
 	Set_Module(L"warrior_naked_eat", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedEatAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pNakedEatAnim = CAnimation::Create(pTexture, eatAnimSpeed, false);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"eat", pNakedEatAnim);
 
 	Set_Module(L"warrior_naked_floating", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedFloatingAnim = CAnimation::Create(pTexture, 0.2, true);
+	CAnimation* pNakedFloatingAnim = CAnimation::Create(pTexture, floatAnimSpeed, true);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"floating", pNakedFloatingAnim);
 
 	Set_Module(L"warrior_naked_use", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedUseAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pNakedUseAnim = CAnimation::Create(pTexture, useAnimSpeed, false);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"use", pNakedUseAnim);
 
 	Set_Module(L"warrior_naked_walk", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pNakedWalkAnim = CAnimation::Create(pTexture, 0.1, true);
+	CAnimation* pNakedWalkAnim = CAnimation::Create(pTexture, walkAnimSpeed, true);
 	m_pAnimator[CLOTH_NAKED]->Add_Animation(L"walk", pNakedWalkAnim);
 
 
@@ -133,28 +139,29 @@ HRESULT CWarrior::Initialize(void * _param)
 	pNakedUseAnim->Set_NextAnim(pNakedIdleAnim);
 
 	Set_Module(L"warrior_cloth_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothIdleAnim = CAnimation::Create(pTexture, 1.0, true);
+	CAnimation* pClothIdleAnim = CAnimation::Create(pTexture, idleAnimSpeed, true);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"idle", pClothIdleAnim);
 
-	Set_Module(L"warrior_cloth_walk", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothWalkAnim = CAnimation::Create(pTexture, 0.1, true);
-	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"walk", pClothWalkAnim);
-
 	Set_Module(L"warrior_cloth_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothAttackAnim = CAnimation::Create(pTexture, 0.1, false);
+	CAnimation* pClothAttackAnim = CAnimation::Create(pTexture, attackAnimSpeed, false);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"attack", pClothAttackAnim);
 
 	Set_Module(L"warrior_cloth_eat", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothEatAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pClothEatAnim = CAnimation::Create(pTexture, eatAnimSpeed, false);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"eat", pClothEatAnim);
 
 	Set_Module(L"warrior_cloth_floating", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothFloatingAnim = CAnimation::Create(pTexture, 0.2, true);
+	CAnimation* pClothFloatingAnim = CAnimation::Create(pTexture, floatAnimSpeed, true);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"floating", pClothFloatingAnim);
 
 	Set_Module(L"warrior_cloth_use", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pClothUseAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pClothUseAnim = CAnimation::Create(pTexture, useAnimSpeed, false);
 	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"use", pClothUseAnim);
+
+
+	Set_Module(L"warrior_cloth_walk", SCENE_STAGE, (CModule**)&pTexture);
+	CAnimation* pClothWalkAnim = CAnimation::Create(pTexture, walkAnimSpeed, true);
+	m_pAnimator[CLOTH_BASIC]->Add_Animation(L"walk", pClothWalkAnim);
 
 
 	pClothAttackAnim->Set_NextAnim(pClothIdleAnim);
@@ -164,27 +171,27 @@ HRESULT CWarrior::Initialize(void * _param)
 
 
 	Set_Module(L"warrior_leather_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherIdleAnim = CAnimation::Create(pTexture, 1.0, true);
+	CAnimation* pLeatherIdleAnim = CAnimation::Create(pTexture, idleAnimSpeed, true);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"idle", pLeatherIdleAnim);
 
 	Set_Module(L"warrior_leather_attack", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherAttackAnim = CAnimation::Create(pTexture, 0.1, false);
+	CAnimation* pLeatherAttackAnim = CAnimation::Create(pTexture, attackAnimSpeed, false);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"attack", pLeatherAttackAnim);
 
 	Set_Module(L"warrior_leather_eat", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherEatAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pLeatherEatAnim = CAnimation::Create(pTexture, eatAnimSpeed, false);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"eat", pLeatherEatAnim);
 
 	Set_Module(L"warrior_leather_floating", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherFloatingAnim = CAnimation::Create(pTexture, 0.2, true);
+	CAnimation* pLeatherFloatingAnim = CAnimation::Create(pTexture, floatAnimSpeed, true);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"floating", pLeatherFloatingAnim);
 
 	Set_Module(L"warrior_leather_use", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherUseAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pLeatherUseAnim = CAnimation::Create(pTexture, useAnimSpeed, false);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"use", pLeatherUseAnim);
 
 	Set_Module(L"warrior_leather_walk", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pLeatherWalkeAnim = CAnimation::Create(pTexture, 0.1, true);
+	CAnimation* pLeatherWalkeAnim = CAnimation::Create(pTexture, walkAnimSpeed, true);
 	m_pAnimator[CLOTH_LEATHER]->Add_Animation(L"walk", pLeatherWalkeAnim);
 
 	pLeatherAttackAnim->Set_NextAnim(pLeatherIdleAnim);

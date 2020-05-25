@@ -55,7 +55,7 @@ HRESULT CTileLoader::CreateTilePrototype(PDIRECT3DDEVICE9 _pGraphic_Device, SCEN
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_wall", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_wall", _eSceneID, pTerrain); if(container)container->push_back(pTerrain); 
 
-	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_water", _eSceneID);
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_water", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_water", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
 	pTerrain->Set_Maskable();
 

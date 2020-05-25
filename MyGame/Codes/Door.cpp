@@ -57,8 +57,10 @@ HRESULT CDoor::OnMoveFrame()
 	{
 	case STATE_UNLOCKED:
 		UnLock();
+		break;
 	case STATE_LOCKED:
 		Lock();
+		break;
 	default:
 		break;
 	}

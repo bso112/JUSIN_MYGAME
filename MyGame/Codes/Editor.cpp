@@ -105,7 +105,7 @@ _int CEditor::Update(_double _timeDelta)
 	//세이브
 	if (CKeyMgr::Get_Instance()->Key_Down('S'))
 	{
-		m_pWorld->Save_World(L"../Bin/Data/level3.dat");
+		m_pWorld->Save_World(L"../Bin/Data/level2.dat");
 	}
 	//로드
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))

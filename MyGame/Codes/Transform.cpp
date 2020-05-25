@@ -80,13 +80,12 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	if (nullptr == pTransform)
 		return E_FAIL;
 
-	m_vDir = pTransform->Get_Position() - m_vPosition;
-
-	_float dist = m_vDir.magnitude();
 	_float fSpeed = (_float)m_tStateDesc.speedPerSec;
-
-
-	if (m_vDir.magnitude() > 2.f)
+	//전의 방향과 현재 방향을 내적해서 음수가 나오면 목적지에 도착한것.
+	Vector3 currDir = pTransform->Get_Position() - m_vPosition;
+	float cos = D3DXVec4Dot(&m_vDir.Nomalize(), &currDir.Nomalize());
+	m_vDir = currDir;
+	if (currDir.magnitude() > 5.f)
 	{
 		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
 		if (m_Route[m_iCurrRouteIndex]->IsMovable(this))

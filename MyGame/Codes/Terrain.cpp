@@ -93,6 +93,9 @@ HRESULT CTerrain::Render()
 {
 	m_pTransform->Update_Transform();
 
+	ALPHATEST;
+
+	
 	if (m_bUI)
 	{
 		if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
@@ -129,6 +132,7 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->End()))
 		return E_FAIL;
 
+	ALPHATEST_END;
 
 	return S_OK;
 }

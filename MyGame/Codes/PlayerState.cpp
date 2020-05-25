@@ -34,7 +34,10 @@ CPlayerState::STATE CPlayerIdle::Act(_bool _canAttack, _bool _isAlerted, _double
 		return STATE_END;
 
 	if (pTransform->Is_Moving())
+	{
+		pHero->PlayAnimation(L"walk");
 		return STATE_WALK;
+	}
 
 	//바로 턴 종료
 	m_pActor->SetTurnState(true);
@@ -79,7 +82,7 @@ CPlayerState::STATE CPlayerWalk::Act(_bool _canAttack, _bool _isAlerted, _double
 	if (nullptr == pHero)
 		return STATE_END;
 	else
-		pHero->PlayAnimation(L"walk");
+		//pHero->PlayAnimation(L"walk");
 
 	pTransform->NextTurn();
 

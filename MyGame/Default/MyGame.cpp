@@ -90,7 +90,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// 일초에 천번호출된다.  (TimeDelta : 0.001)
 		TimerAcc += pTimer_Manager->Compute_TimeDelta(L"Timer_Default");
 
-		if (TimerAcc >= 1.0 / 100.0)
+		if (TimerAcc >= 0.001)
 		{
 			TimerAcc = 0.0;
 
@@ -98,6 +98,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			_double timeDelta = pTimer_Manager->Compute_TimeDelta(L"Timer_100");
 			if (timeDelta > 0.1)
 				timeDelta = 0.1;
+
 			if (0 > pMainApp->Update(timeDelta))
 				break;
 			pMainApp->Render();
