@@ -203,6 +203,8 @@ HRESULT CLevel::Erase_Mask(POINT & _pt)
 			m_vecMask.erase(iter);
 			break;
 		}
+
+		++iter;
 	}
 	return S_OK;
 }

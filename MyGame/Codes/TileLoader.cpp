@@ -36,6 +36,10 @@ HRESULT CTileLoader::CreateTilePrototype(PDIRECT3DDEVICE9 _pGraphic_Device, SCEN
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_mask", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_floor_mask", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
 
+	//10개 넘어가면 인식못함..
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_One_floor_mask_ex", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_One_floor_mask_ex", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_One_sign", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_One_sign", _eSceneID, pTerrain); if(container)container->push_back(pTerrain); 
 
