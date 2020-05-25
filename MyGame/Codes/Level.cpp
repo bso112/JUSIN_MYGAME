@@ -41,13 +41,30 @@ HRESULT CLevel::Initialize(SCENEID _eSceneID, _tchar* _pFilePath)
 HRESULT CLevel::Render_ForEditor()
 {
 
+	_matrix camMatrix = m_pPipline->Get_CameraMatrix_inverse();
+
+
+
 	for (int i = 0; i < WORLDY; ++i)
 	{
 		for (int j = 0; j < WORLDX; ++j)
 		{
 			if (nullptr != m_pTerrains[i][j])
+			{
+				CTransform* pTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
 
-				m_pTerrains[i][j]->Render();
+				Vector3 vPos = pTransform->Get_Position();
+				D3DXVec4Transform(&vPos, &vPos, &camMatrix);
+
+				//ÄÃ¸µ
+				if (-100.f <= vPos.x && g_iWinCX + 100.f >= vPos.x)
+				{
+					if (-100.f <= vPos.y && g_iWinCY + 100.f >= vPos.y)
+					{
+						m_pTerrains[i][j]->Render();
+					}
+				}
+			}
 		}
 	}
 	return S_OK;

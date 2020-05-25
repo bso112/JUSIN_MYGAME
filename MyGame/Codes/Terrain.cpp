@@ -185,14 +185,15 @@ HRESULT CTerrain::Forward_Frame()
 
 	++m_iCurFrame;
 
-	if (FAILED(OnMoveFrame()))
-		return E_FAIL;
 
 	if (m_iCurFrame < 0)
 		m_iCurFrame = 0;
 
 	if (m_iCurFrame >= (_int)m_pTexture->Get_TextureSize())
 		m_iCurFrame = (_int)m_pTexture->Get_TextureSize() - 1;
+
+	if (FAILED(OnMoveFrame()))
+		return E_FAIL;
 
 	return S_OK;
 }
