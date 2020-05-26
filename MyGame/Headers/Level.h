@@ -24,6 +24,7 @@ private:
 	CPipline*	m_pPipline = nullptr;
 	//마스크는 그냥 장식용이라 피킹할일도 없어서 벡터로 선언함.
 	vector<CTerrain*> m_vecMask;
+	list<CGameObject*> m_listCollidable;
 private:
 
 	//로드 파일경로

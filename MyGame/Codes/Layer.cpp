@@ -52,8 +52,7 @@ _int CLayer::Clear_DeadObjects()
 	{
 		if ((*iter)->Get_Dead())
 		{
-			if (0 != Safe_Release(*iter))
-				MSG_BOX("¾ÈÁ×À½");
+			Safe_Release(*iter);
 			iter = m_listGO.erase(iter);
 		}
 		else
