@@ -64,12 +64,12 @@ _int CItem::LateUpate(_double _timeDelta)
 
 
 	m_pTransform->Update_Transform();
-	//인벤토리에 들어가면 UI취급
 	if (m_bDrop)
 	{
 		m_iDepth = 0;
 		m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT);
 	}
+	//인벤토리에 들어가면 UI취급
 	else
 	{
 		m_iDepth = 2;

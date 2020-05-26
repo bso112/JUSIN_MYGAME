@@ -45,16 +45,27 @@ _int CParticle::Update(_double _timeDelta)
 	if (nullptr == m_pDeadClock)
 		return -1;
 
-	//라이프타임이 지나면 죽기
-	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dLifeTime))
-		m_bDead = true;
-
 	if (m_bDead)
 		return -1;
 
 	if (!m_bActive)
 		return 0;
 
+	//라이프타임이 지나면 죽기
+	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dLifeTime))
+		m_bDead = true;
+
+
+	if (m_bFadeOut)
+	{
+		//알파값 점점 줄이기
+		m_fAlpha -= 1 * _timeDelta;
+		if (m_fAlpha <= 0)
+			m_fAlpha = 0;
+	}
+
+
+	//이동
 	m_pTransform->Update_Normal(_timeDelta);
 
 	return 0;

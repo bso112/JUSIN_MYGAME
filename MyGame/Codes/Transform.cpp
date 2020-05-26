@@ -157,6 +157,9 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 HRESULT CTransform::Update_Normal(_double _timeDelta)
 {
 	m_vPosition += m_vDir_Normal * float(m_tStateDesc.speedPerSec * _timeDelta);
+
+	m_vSize -= m_dShrinkSpeed * _timeDelta;
+	m_vSize += m_dExpandSpeed * _timeDelta;
 	return S_OK;
 }
 
@@ -344,7 +347,7 @@ HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _
 	return S_OK;
 }
 
-HRESULT CTransform::MoveToDirAuto(Vector3 _vDir, _double _timeDelta)
+HRESULT CTransform::MoveToDirAuto(Vector3 _vDir)
 {
 
 	m_vDir_Normal = _vDir;
@@ -358,6 +361,18 @@ HRESULT CTransform::MoveToDirAuto(Vector3 _vDir, _double _timeDelta, _double _Sp
 	m_vDir_Normal = _vDir;
 	m_tStateDesc.speedPerSec = _Speed;
 
+	return S_OK;
+}
+
+HRESULT CTransform::Shrink_Auto(Vector2 _vShrink)
+{
+	m_dShrinkSpeed = _vShrink;
+	return S_OK;
+}
+
+HRESULT CTransform::Expand_Auto(Vector2 _vExpand)
+{
+	m_dExpandSpeed = _vExpand;
 	return S_OK;
 }
 

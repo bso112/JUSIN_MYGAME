@@ -20,6 +20,7 @@ CCharacter::CCharacter(CCharacter & _character)
 	m_tStat(_character.m_tStat),
 	m_vecImmune(_character.m_vecImmune)
 {
+	m_pEffect = nullptr;
 	m_pDeadClock = CClock_Delay::Create();
 }
 
@@ -35,14 +36,17 @@ _int CCharacter::UpdateAct()
 
 void CCharacter::PlayEffect(CEffect * _pEffect)
 {
-	//이미 활성화되어있는 이펙트가 있으면 중단
-	if (nullptr != m_pEffect)
-		return;
+	//이펙트가 비어있거나 기존 이펙트가 죽었으면
+	if (nullptr == m_pEffect || m_pEffect->Get_Dead())
+	{
+		//교체
+		m_pEffect = _pEffect;
+		//이펙트가 캐릭터를 따라다니게 한다.
+		_pEffect->Set_Target(m_pTransform);
+		m_pEffect->Play();
+	}
 
-	m_pEffect = _pEffect;
-	//이펙트가 캐릭터를 따라다니게 한다.
-	_pEffect->Set_Target(m_pTransform);
-	m_pEffect->Play();
+
 }
 
 void CCharacter::TakeDamage(float _fDamage)
@@ -85,7 +89,7 @@ void CCharacter::TakeDamage(float _fDamage)
 			//위로 올리기
 			CTransform* pTransform = (CTransform*)pDamageText->Get_Module(L"Transform");
 			if (nullptr != pTransform)
-				pTransform->MoveToDirAuto(Vector2(0.f, -1.f), CTimerMgr::Get_Instance()->Get_TimeDelta());
+				pTransform->MoveToDirAuto(Vector2(0.f, -1.f));
 		}
 #pragma endregion
 
@@ -121,7 +125,7 @@ bool CCharacter::IsImmune(IMMUNE _eImmune)
 
 _int CCharacter::Interact(CGameObject * _pOther)
 {
-	if (nullptr == m_pTransform		||
+	if (nullptr == m_pTransform ||
 		nullptr == _pOther)
 		return -1;
 
@@ -140,10 +144,10 @@ _int CCharacter::Interact(CGameObject * _pOther)
 
 			_tchar szBuff[20] = L"";
 			wsprintf(szBuff, L"%d", (_int)Damage);
-			CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(pCharacter->Get_Name(),m_pName, szBuff));
+			CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(pCharacter->Get_Name(), m_pName, szBuff));
 
 
-			
+
 
 #pragma region 파티클 생성
 

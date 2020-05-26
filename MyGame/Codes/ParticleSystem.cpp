@@ -6,6 +6,7 @@
 #include "Clock.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "TimerMgr.h"
 USING(MyGame)
 
 CParticleSystem::CParticleSystem(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -80,12 +81,19 @@ _int CParticleSystem::Update(_double _timeDelta)
 		return -1;
 	}
 
-	//매니저에 등록안하니 업데이트 불러줘야한다.
-	for (auto& particle : m_listParticle)
+	//매니저에 등록안하니 업데이트 불러줘야함
+	auto& iter = m_listParticle.begin();
+	while (iter != m_listParticle.end())
 	{
-		particle->Update(_timeDelta);
-	}
+		if (0x80000000 & (*iter)->Update(_timeDelta))
+		{
+			Safe_Release(*iter);
+			iter = m_listParticle.erase(iter);
 
+		}
+		else
+			++iter;
+	}
 
 
 	return 0;
@@ -122,14 +130,26 @@ HRESULT CParticleSystem::Render()
 	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
 		return E_FAIL;
 
+
+
+
+
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
-	if (FAILED(m_pShader->Begin_Pass(0)))
+	if (FAILED(m_pShader->Begin_Pass(m_iShaderPass)))
 		return E_FAIL;
 
 	for (auto& particle : m_listParticle)
 	{
+
+		_float alpha = ((CParticle*)particle)->Get_Alpha();
+		if (FAILED(m_pShader->Set_Value("g_Alpha", &alpha, sizeof(_float))))
+			return E_FAIL;
+
+		m_pShader->CommitChage();
+		
 		particle->Render();
+
 	}
 
 	if (FAILED(m_pShader->End_Pass()))
@@ -140,6 +160,12 @@ HRESULT CParticleSystem::Render()
 
 
 	ALPHABLEND_END;
+
+	_float OriginalAlpha = 1;
+	//원래대로 돌려놓기
+	if (FAILED(m_pShader->Set_Value("g_Alpha", &OriginalAlpha, sizeof(_float))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -211,14 +237,14 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticle
 		CTransform* pParicleTransform = (CTransform*)m_listParticle.back()->Get_Module(L"Transform");
 		if (nullptr == pParicleTransform)
 			return;
-		pParicleTransform->MoveToDirAuto(vDir, _timeDelta);
+		pParicleTransform->MoveToDirAuto(vDir);
 
 	}
 
 }
 
 //_rc안의 랜덤한 장소에 파티클을 스폰한다.
-void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
+void CParticleSystem::RollUp(RECT& _rc, _uint _iParticleCnt)
 {
 
 	if (nullptr == m_pObjMgr)
@@ -238,7 +264,7 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 		_float randY = (_float)_rc.top + (rand() % SizeY);
 		CParticle::STATEDESC tParticleDesc = CreateParticleDesc();
 		tParticleDesc.m_tBaseDesc.vPos = Vector2(randX, randY);
-		tParticleDesc.m_dLifeTime = rand() % (_int)m_tDesc.m_dDuration;
+		tParticleDesc.m_dLifeTime = rand() / (_double)RAND_MAX * m_tDesc.m_dLifeTime;
 
 		m_listParticle.push_back(CParticle::Create(m_pGraphic_Device, tParticleDesc));
 	}
@@ -251,6 +277,9 @@ void CParticleSystem::RollUp(RECT& _rc,  _uint _iParticleCnt)
 		if (nullptr == pParticleTransform) return;
 
 		pParticleTransform->Set_Parent(m_pTransform);
+		pParticleTransform->MoveToDirAuto(Vector3(0.f, -1.f));
+		pParticleTransform->Shrink_Auto(m_tDesc.m_vParticleSize);
+		((CParticle*)particle)->Set_FadeOut();
 	}
 
 }

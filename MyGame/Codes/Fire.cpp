@@ -47,9 +47,9 @@ HRESULT CFire::Initialize(void * _pArg)
 	m_fDuration = DURATION_FIRE;
 	//불 파티클시스템 생성
 	m_tParticleDesc.m_dDuration = m_fDuration;
-	m_tParticleDesc.m_dLifeTime = 3.f;
+	m_tParticleDesc.m_dLifeTime = 0.5f;
 	m_tParticleDesc.m_eTextureSceneID = SCENE_STAGE;
-	m_tParticleDesc.m_fSpeed = 1.f;
+	m_tParticleDesc.m_fSpeed = 50.f;
 	m_tParticleDesc.m_pTextureTag = L"Fire";
 	m_tParticleDesc.m_tBaseDesc.vPos = m_tBaseDesc.vPos;
 	m_tParticleDesc.m_tBaseDesc.vSize = m_tBaseDesc.vSize;
@@ -59,7 +59,8 @@ HRESULT CFire::Initialize(void * _pArg)
 	RETURN_FAIL_IF_NULL(m_pParticleSystem);
 	//맞지? 레이어에도 있고 멤버변수에도 있으니까.
 	Safe_AddRef(m_pParticleSystem);
-
+	m_pParticleSystem->Set_ShaderPass(4);
+	m_pParticleSystem->Set_FadeOut();
 
 	//파티클 시스템의 부모를 fire로 지정
 	CTransform* pPsTransform = dynamic_cast<CTransform*>(m_pParticleSystem->Get_Module(L"Transform"));
@@ -105,8 +106,8 @@ _int CFire::Update(_double _timeDelta)
 	}
 
 	//0.5초마다 생성
-	if(m_pSpawnTimer->isThreashHoldReached(1.0))
-		m_pParticleSystem->RollUp(m_pTransform->Get_RECT(), 1);
+	if(m_pSpawnTimer->isThreashHoldReached(0.2))
+		m_pParticleSystem->RollUp(m_pTransform->Get_RECT(), 5);
 
 	return 0;
 }
@@ -136,7 +137,6 @@ HRESULT CFire::Render()
 
 void CFire::OnCollisionEnter(CGameObject * _pOther)
 {
-	//프레임드랍.. 새롭게 생긴 파이어도 콜리전엔터를 부르고..재귀네
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
 	if (nullptr != pCharacter)
 	{
@@ -147,7 +147,7 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 		//캐릭터에 이펙트를 셋팅한다.
 		if (nullptr != pClone)
 		{
-			pCharacter->PlayEffect(this);
+			pCharacter->PlayEffect(pClone);
 		}
 	}
 

@@ -32,12 +32,21 @@ protected:
 	STATEDESC		m_tDesc;
 	CClock_Delay*	m_pDeadClock = nullptr;
 
+private:
+	//¾ËÆÄ°ª
+	_float			m_fAlpha = 1;
+	_bool			m_bFadeOut = false;
 public:
 	virtual HRESULT Initialize(void* _pArg);
 
 	virtual _int Update(_double _timeDelta) override;
 	virtual _int LateUpate(_double _timeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	void	Set_FadeOut() { m_bFadeOut = true; }
+public:
+	_float	Get_Alpha() { return m_fAlpha; }
 
 protected:
 	virtual HRESULT	OnRender();

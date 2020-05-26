@@ -42,6 +42,11 @@ private:
 	bool				m_bLoop;
 	tagStateDesc		m_tDesc;
 
+	_uint				m_iShaderPass = 0;
+
+	//알파값을 점점 줄일것인가.
+	_bool				m_bFadeOut = false;
+
 public:
 	_int		Update(_double _timeDelta) override;
 	_int		LateUpate(_double _timeDelta) override;
@@ -58,7 +63,9 @@ public:
 	//한 자리에서 피어오름 (불, 연기..). _rc는 피어오를 영역
 	void RollUp(RECT& _rc, _uint _iParticleCnt);
 
-
+public:
+	void	Set_ShaderPass(_uint _iPass) { m_iShaderPass = _iPass; }
+	void	Set_FadeOut() { m_bFadeOut = true; }
 public:
 	static CParticleSystem* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual CGameObject * Clone(void * _pArg = nullptr) override;

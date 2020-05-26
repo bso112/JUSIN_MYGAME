@@ -74,6 +74,9 @@ private:
 private:
 	//이동할 방향
 	Vector3				m_vDir_Normal;
+	Vector3				m_dShrinkSpeed;
+	Vector3				m_dExpandSpeed;
+
 
 private:
 	static _int m_iTurnCnt;
@@ -136,8 +139,13 @@ public:
 	HRESULT LookAt(CTransform* pTargetTransform);
 	void	Set_Parent(CTransform* pParent);
 public:
-	HRESULT MoveToDirAuto(Vector3 _vDir, _double _timeDelta);
+	HRESULT MoveToDirAuto(Vector3 _vDir);
 	HRESULT	MoveToDirAuto(Vector3 _vDir, _double _timeDelta, _double _Speed);
+	//크기가 작아진다.
+	HRESULT	Shrink_Auto(Vector2 _vShrink);
+	//크기가 커진다.
+	HRESULT	Expand_Auto(Vector2 _vExpand);
+
 
 public:
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance);

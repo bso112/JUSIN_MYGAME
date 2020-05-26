@@ -887,13 +887,13 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 
 HRESULT CLevel::Next_Level()
 {
-	MSG_BOX("다음층으로 갑니다.");
+	//MSG_BOX("다음층으로 갑니다.");
 	return S_OK;
 }
 
 HRESULT CLevel::Prv_Level()
 {
-	MSG_BOX("이전층으로 갑니다.");
+	//MSG_BOX("이전층으로 갑니다.");
 	return S_OK;
 }
 

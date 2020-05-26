@@ -21,6 +21,7 @@ public:
 public:
 	HRESULT Set_Texture(D3DXHANDLE hParameter, LPDIRECT3DTEXTURE9 pTexture);
 	HRESULT Set_Value(D3DXHANDLE hParameter, void* _pValue, _uint _iSize);
+	HRESULT	CommitChage() { return m_pEffect->CommitChanges(); }
 public:
 	HRESULT Begin();
 	HRESULT	End();

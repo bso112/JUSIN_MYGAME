@@ -60,24 +60,25 @@ _int CObjMgr::Update(_double _timeDelta)
 
 	//CLayer* pPlayerLayer = Find_Layer(L"Player", SCENE_STAGE);
 	//if (nullptr == pPlayerLayer) return -1;
-	//CLayer* pItemLayer = Find_Layer(L"Item", SCENE_STAGE);
-	//if (nullptr == pItemLayer) return -1;
+	CLayer* pItemLayer = Find_Layer(L"Item", SCENE_STAGE);
+	if (nullptr == pItemLayer) return -1;
 
 	////타일과 충돌처리
 	pWorld->Collision_Terrain(pPlayer);
 	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
+	pWorld->Collision_Terrain(pItemLayer->Get_List());
 
 
-	////게임오브젝트끼리 충돌처리
-	//CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
-	//if (nullptr != pEffectLayer)
-	//{
-	//	CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pEffectLayer->Get_List());
-	//	CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
-	//}
+	//이펙트 충돌처리
+	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
+	if (nullptr != pEffectLayer)
+	{
+		CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pEffectLayer->Get_List());
+		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
+	}
 
 	//CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
-	//CCollisionMgr::Collision_Rect(pPlayerLayer->Get_List(), pItemLayer->Get_List());
+	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
 
 
 
