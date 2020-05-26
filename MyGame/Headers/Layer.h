@@ -21,6 +21,8 @@ public:
 public:
 	CGameObject*				Get_Front() { if (m_listGO.size() <= 0) return nullptr; return m_listGO.front(); }
 	const list<CGameObject*>&	Get_List() { return  m_listGO; }
+	//죽은 게임오브젝트 클리어
+	_int						Clear_DeadObjects();
 public:
 	static CLayer* Create();
 private:

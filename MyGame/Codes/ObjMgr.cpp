@@ -26,8 +26,7 @@ _int CObjMgr::Update(_double _timeDelta)
 		{
 			if (nullptr != pair.second)
 			{
-				if (0x80000000 & pair.second->Update(_timeDelta))
-					return -1;
+				pair.second->Update(_timeDelta);
 			}
 
 		}
@@ -39,8 +38,7 @@ _int CObjMgr::Update(_double _timeDelta)
 		{
 			if (nullptr != pair.second)
 			{
-				if (0x80000000 & pair.second->Late_Update(_timeDelta))
-					return -1;
+				pair.second->Late_Update(_timeDelta);
 			}
 
 		}
@@ -230,6 +228,21 @@ HRESULT CObjMgr::Clear_Scene(SCENEID _eSceneID)
 
 	m_mapPrototype[_eSceneID].clear();
 
+	return S_OK;
+}
+
+HRESULT CObjMgr::Clear_DeadObjects()
+{
+	for (int i = 0; i < SCENE_END; ++i)
+	{
+		for (auto& pair : m_mapLayer[i])
+		{
+			if (nullptr != pair.second)
+			{
+				pair.second->Clear_DeadObjects();
+			}
+		}
+	}
 	return S_OK;
 }
 

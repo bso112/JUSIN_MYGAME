@@ -24,7 +24,7 @@ HRESULT CCrab::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CCrab::Initialize(void * _param)
 {
-
+	m_pName = L"°Ô";
 #pragma region ½ºÅÝ¼ÂÆÃ
 
 	//½ºÅÝ¼ÂÆÃ

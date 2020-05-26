@@ -21,6 +21,7 @@ CHero::CHero(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	ZeroMemory(m_pAnimator, sizeof(m_pAnimator));
 	ZeroMemory(m_pEquipments, sizeof(m_pEquipments));
+	m_pName = L"당신";
 }
 
 CHero::CHero(CHero & _hero)
@@ -28,6 +29,7 @@ CHero::CHero(CHero & _hero)
 {
 	ZeroMemory(m_pAnimator, sizeof(m_pAnimator));
 	ZeroMemory(m_pEquipments, sizeof(m_pEquipments));
+	m_pName = L"당신";
 }
 
 

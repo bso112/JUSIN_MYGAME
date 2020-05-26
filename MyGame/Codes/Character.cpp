@@ -8,6 +8,7 @@
 #include "ObjMgr.h"
 #include "TimerMgr.h"
 #include "Image.h"
+#include "DialogMgr.h"
 
 USING(MyGame)
 
@@ -19,6 +20,7 @@ CCharacter::CCharacter(CCharacter & _character)
 	m_tStat(_character.m_tStat),
 	m_vecImmune(_character.m_vecImmune)
 {
+	m_pDeadClock = CClock_Trigger::Create();
 }
 
 _int CCharacter::StartAct()
@@ -52,6 +54,7 @@ void CCharacter::TakeDamage(float _fDamage)
 	{
 		OnDead();
 		m_tStat.m_fHP = 0.f;
+		m_bDying = true;
 	}
 	else
 	{
@@ -131,8 +134,16 @@ _int CCharacter::Interact(CGameObject * _pOther)
 
 		if (IsTargetInRange(pCharacter, m_iAttackRange))
 		{
-			pCharacter->TakeDamage(m_tStat.m_fAtt->GetValue());
+			_float Damage = m_tStat.m_fAtt->GetValue();
+			pCharacter->TakeDamage(Damage);
 			OnAttack(_pOther);
+
+			_tchar szBuff[20] = L"";
+			wsprintf(szBuff, L"%d", (_int)Damage);
+			CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(pCharacter->Get_Name(),m_pName, szBuff));
+
+
+			
 
 #pragma region 파티클 생성
 
@@ -218,6 +229,7 @@ void CCharacter::OnDead()
 
 void CCharacter::OnTakeDamage()
 {
+
 	//반짝거림
 	m_iPass = 3;
 

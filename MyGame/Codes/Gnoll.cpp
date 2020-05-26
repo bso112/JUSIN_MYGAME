@@ -25,6 +25,7 @@ HRESULT CGnoll::Initialize_Prototype(_tchar * _pFilePath)
 HRESULT CGnoll::Initialize(void * _param)
 {
 
+	m_pName = L"±×³î";
 #pragma region ½ºÅÝ¼ÂÆÃ
 
 	//½ºÅÝ¼ÂÆÃ

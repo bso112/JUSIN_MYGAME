@@ -12,17 +12,11 @@ HRESULT CLayer::Initialize()
 
 _int CLayer::Update(_double _timeDelta)
 {
-	//이거 리스트가 비어도 괜찮은 건가?
 	auto& iter = m_listGO.begin();
 	while (iter != m_listGO.end())
 	{
-		if (0x80000000 & (*iter)->Update(_timeDelta))
-		{
-			Safe_Release(*iter);
-			iter = m_listGO.erase(iter);
-		}
-		else
-			++iter;
+		(*iter)->Update(_timeDelta);
+		++iter;
 	}
 
 	return 0;
@@ -33,13 +27,8 @@ _int CLayer::Late_Update(_double _timeDelta)
 	auto& iter = m_listGO.begin();
 	while (iter != m_listGO.end())
 	{
-		if (0x80000000 & (*iter)->LateUpate(_timeDelta))
-		{
-			Safe_Release(*iter);
-			iter = m_listGO.erase(iter);
-		}
-		else
-			++iter;
+		(*iter)->LateUpate(_timeDelta);
+		++iter;
 	}
 
 
@@ -52,6 +41,29 @@ HRESULT CLayer::Add_GameObject(CGameObject * _pGO)
 		return E_FAIL;
 
 	m_listGO.push_back(_pGO);
+	return S_OK;
+}
+
+_int CLayer::Clear_DeadObjects()
+{
+	
+	auto& iter = m_listGO.begin();
+	while (iter != m_listGO.end())
+	{
+		if ((*iter)->Get_Dead())
+		{
+			if (0 != Safe_Release(*iter))
+				MSG_BOX("안죽음");
+			iter = m_listGO.erase(iter);
+		}
+		else
+			++iter;
+	}
+
+	////만약 리스트가 비면 -1
+	//if (m_listGO.empty())
+	//	return -1;
+
 	return S_OK;
 }
 

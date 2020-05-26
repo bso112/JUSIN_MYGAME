@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Door.h"
 #include "Hero.h"
+#include "DialogMgr.h"
 
 USING(MyGame)
 CDoor::CDoor(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -40,6 +41,8 @@ _int CDoor::Interact(CGameObject* _pOther)
 			UnLock();
 			pHero->PlayAnimation(L"use");
 		}
+		else
+			CDialogMgr::Get_Instance()->Log_Main(new wstring(L"알맞은 열쇠가 없습니다."));
 
 	}
 	return 0;

@@ -20,6 +20,7 @@ protected:
 	CPipline*						m_pPipline = nullptr;
 
 protected:
+	bool	m_bDying = false;
 	bool	m_bDead = false;
 	bool	m_bActive = true;
 	//렌더 깊이 (작을수록 더 먼저그려진다)

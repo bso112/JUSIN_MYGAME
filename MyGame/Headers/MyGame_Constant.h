@@ -31,6 +31,7 @@ enum BODYPART { BODY_HAND, BODY_TORSO, BODY_FINGER, BODY_ARTEFACT, BODY_END };
 #define AC_READ			L"READ"
 #define AC_ZAP			L"ZAP"
 #define MSG_WIN(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L"을(를) 쓰려뜨렸다!")
+#define MSG_DAMAGE(VICTIME, ATTACKER, DAMAGE) new wstring(wstring(VICTIME) + L"은 " + wstring(ATTACKER) + L"에게 " + wstring(DAMAGE) + L"데미지를 받았다.")
 #define MSG_PICK(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L"을(를) 주웠다.")
 
 

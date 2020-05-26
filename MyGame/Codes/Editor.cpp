@@ -27,7 +27,7 @@ HRESULT CEditor::Initialize()
 	m_pMainCam = dynamic_cast<CCamera*>(m_pObjMgr->Add_GO_To_Layer(L"MainCamera", SCENE_STAGE, L"Camera", SCENE_STAGE, &BASEDESC(Vector3(float((TILECX * WORLDX) >> 1), float((TILECY * WORLDY) >> 1)), Vector3(1.f, 1.f, 1.f))));
 	RETURN_FAIL_IF_NULL(m_pMainCam);
 
-	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level2.dat");
+	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/test.dat");
 	RETURN_FAIL_IF_NULL(m_pWorld);
 
 
@@ -105,7 +105,7 @@ _int CEditor::Update(_double _timeDelta)
 	//세이브
 	if (CKeyMgr::Get_Instance()->Key_Down('S'))
 	{
-		m_pWorld->Save_World(L"../Bin/Data/level2.dat");
+		m_pWorld->Save_World(L"../Bin/Data/test.dat");
 	}
 	//로드
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))

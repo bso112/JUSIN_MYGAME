@@ -7,7 +7,7 @@
 #include "Effect.h"
 BEGIN(MyGame)
 class CStat;
-class CClock_Single;
+class CClock_Trigger;
 class CStateCon;
 class CShader;
 class CCharacter abstract : public CGameObject
@@ -59,6 +59,7 @@ protected:
 	//현재 활성화된 이펙트
 	CEffect*	m_pEffect = nullptr;
 
+	CClock_Trigger*	m_pDeadClock = nullptr;
 
 protected:
 	STATS	m_tStat = {};
@@ -73,6 +74,8 @@ protected:
 	_uint	m_iAttackRange = 0;
 	//인식범위
 	_uint	m_iRecogRange = 0;
+
+	const _tchar* m_pName = L"";
 
 public:
 	_int		StartAct();
@@ -89,7 +92,7 @@ public:
 	void SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
 	bool IsAlive();
 	bool IsImmune(IMMUNE _eImmune);
-
+	const _tchar*	Get_Name() { return m_pName; }
 
 public:
 	virtual	_int	Interact(CGameObject* _pOther);

@@ -235,7 +235,7 @@ _int CItem::Interact(CGameObject * _pOther)
 		OnPickUp(pHero, pInven);
 		
 
-		CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(m_pItemName), 0xffff7f00);
+		CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(m_pItemName), 0xffffffff);
 
 	}
 	return 0;

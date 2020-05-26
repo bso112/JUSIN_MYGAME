@@ -24,13 +24,14 @@ HRESULT CRat::Initialize_Prototype(_tchar * _pFilePath)
 HRESULT CRat::Initialize(void * _param)
 {
 
+	m_pName = L"½Ã±ÃÁã";
 #pragma region ½ºÅÝ¼ÂÆÃ
 
 	//½ºÅÝ¼ÂÆÃ
 	m_tStat.m_fExp = 10.f;
-	m_tStat.m_fMaxHp = CStat::Create(1000.f);
-	m_tStat.m_fHP = 1000.f;
-	m_tStat.m_fAtt = CStat::Create(5.f);
+	m_tStat.m_fMaxHp = CStat::Create(25.f);
+	m_tStat.m_fHP = 25.f;
+	m_tStat.m_fAtt = CStat::Create(1.f, 5.f);
 	m_tStat.m_iGold = 5;
 	m_tStat.m_fArmor = CStat::Create(2.f);
 #pragma endregion
@@ -137,10 +138,17 @@ CGameObject * CRat::Clone(void * _param)
 	return pInstance;
 }
 
+void CRat::OnDead()
+{
+	CMonster::OnDead();
+	if (nullptr == m_pAnimator)
+		return;
+	m_pAnimator->Play(L"dead");
+}
+
 
 
 void CRat::Free()
 {
-
 	CMonster::Free();
 }

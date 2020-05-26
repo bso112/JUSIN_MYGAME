@@ -22,6 +22,8 @@ HRESULT CWand::Initialize(void * _param)
 		return E_FAIL;
 
 	m_pTextureTag = L"wand";
+
+	return S_OK;
 }
 
 CWand * CWand::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)

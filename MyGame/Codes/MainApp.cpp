@@ -15,6 +15,7 @@
 #include "KeyMgr.h"
 #include "Pipline.h"
 #include "ParticleSystem.h"
+#include "DialogMgr.h"
 
 USING(MyGame)
 
@@ -63,11 +64,11 @@ _int CMainApp::Update(_double _timeDelta)
 	m_dwTimeAcc += _timeDelta;
 #endif
 	m_pSceneMgr->Update(_timeDelta);
-	
+
 	if (nullptr == m_pSceneMgr)
 		return -1;
 
-	
+
 	CKeyMgr* pKeyMgr = CKeyMgr::Get_Instance();
 	if (nullptr == pKeyMgr)
 		return -1;
@@ -109,9 +110,13 @@ HRESULT CMainApp::Render()
 	m_pGraphic_Device->EndScene();
 	m_pGraphic_Device->Present(nullptr, nullptr, g_hWnd, nullptr);
 
+	//죽은 게임 오브젝트를 클리어한다.
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	pObjMgr->Clear_DeadObjects();
 	//만약 씬이 바뀌었으면 이전씬을 지운다.
 	if (FAILED(m_pSceneMgr->Clear_PrvScene()))
 		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -137,7 +142,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);
 	D3DXCreateFont(m_pGraphic_Device, 35, 13, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFontX2);
 
- 	return S_OK;
+	return S_OK;
 }
 
 HRESULT CMainApp::Initialize_Prototypes()
@@ -196,7 +201,7 @@ HRESULT CMainApp::Initalize_Module()
 
 HRESULT CMainApp::Initalize_Texture()
 {
-	
+
 	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
 
 	if (nullptr == pLoader)
@@ -225,7 +230,7 @@ CMainApp * CMainApp::Create()
 
 void CMainApp::Free()
 {
-	
+
 	Safe_Release(g_pFont);
 	Safe_Release(g_pFontX2);
 	Safe_Release(m_pGraphic_Device);
@@ -235,19 +240,22 @@ void CMainApp::Free()
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		return;
 
+	if (0 != CDialogMgr::Destroy_Instance())
+		MSG_BOX("Fail to Release DIalogMgr");
+
 	//스태틱 씬의 오브젝트가 오브젝트 매니저를 참조해서 오브젝트 매니저의 refcnt가 0 이 아니게됨.
 	//따라서 클리어 해줘야함
 	CObjMgr::Get_Instance()->Clear_Scene(SCENE_STATIC);
 
-	if (0 != CTimerMgr::Destroy_Instance())
-		MSG_BOX("Fail to Release CTimerMgr");
+
+	MSG_BOX("Fail to Release CTimerMgr");
 
 	if (0 != CTextureLoader::Destroy_Instance())
 		MSG_BOX("Fail to Release CTextureLoader");
 
 	if (0 != CSceneMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CScneeMgr");
-	
+
 	if (0 != CObjMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release CObjMgr");
 

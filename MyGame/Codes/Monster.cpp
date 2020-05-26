@@ -4,7 +4,8 @@
 #include "SceneMgr.h"
 #include "Animator.h"
 #include "Shader.h"
-
+#include "Clock.h"
+#include "DialogMgr.h"
 USING(MyGame)
 
 CMonster::CMonster(CMonster & _rhs)
@@ -16,6 +17,17 @@ CMonster::CMonster(CMonster & _rhs)
 
 _int CMonster::Update(_double _timeDelta)
 {
+
+	if (m_bDying)
+	{
+		if (nullptr == m_pDeadClock)
+			m_bDead = true;
+
+		if (m_pDeadClock->isThreashHoldReached(3.0))
+			m_bDead = true;
+
+		return 0;
+	}
 	if (!m_bActive)
 		return 0;
 
@@ -26,6 +38,8 @@ _int CMonster::Update(_double _timeDelta)
 
 _int CMonster::LateUpate(_double _timeDelta)
 {
+
+
 	if (!m_bActive)
 		return 0;
 
@@ -37,7 +51,7 @@ _int CMonster::LateUpate(_double _timeDelta)
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
 		return E_FAIL;
 
-
+	
 	return 0;
 }
 
@@ -110,6 +124,11 @@ _float CMonster::CalulateSpeed(_int movePerturn)
 HRESULT CMonster::OnRender()
 {
 	return S_OK;
+}
+
+void CMonster::OnDead()
+{
+	CDialogMgr::Get_Instance()->Log_Main(MSG_WIN(m_pName));
 }
 
 void CMonster::OnAttack(CGameObject * _pOther)

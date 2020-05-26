@@ -163,6 +163,7 @@ HRESULT CInventory::Equip(CItem* _pEquipment, BODYPART _eBodyPart)
 			return S_OK;
 		}
 	}
+	return S_OK;
 }
 
 HRESULT CInventory::UnEquip(BODYPART _eBodyPart)
