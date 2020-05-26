@@ -62,6 +62,11 @@ CLevel*	CLevelMgr::Get_CurrLevel()
 	return m_aLevel[m_iCurrLevel];
 }
 
+void CLevelMgr::Clear_DeadObjects()
+{
+	m_pSpawner->Clear_DeadObjects(m_iCurrLevel);
+}
+
 
 CTerrain * CLevelMgr::PickTile(POINT & pt)
 {

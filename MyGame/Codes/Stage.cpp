@@ -54,6 +54,7 @@ _int CStage::Update(_double _timeDelta)
 HRESULT CStage::Render()
 {
 	CScene::Render();
+	m_pLevelMgr->Clear_DeadObjects();
 
 	return S_OK;
 }

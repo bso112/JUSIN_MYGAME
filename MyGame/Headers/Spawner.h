@@ -12,7 +12,6 @@ class CSpawner : public CBase
 private:
 	explicit CSpawner();
 	virtual ~CSpawner() = default;
-
 private:
 	list<CGameObject*> m_listGO[MAX_DEPTH];
 public:
@@ -22,6 +21,7 @@ public:
 
 public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);
+	_int			Clear_DeadObjects(_uint _iLevel);
 
 
 	// CBase을(를) 통해 상속됨

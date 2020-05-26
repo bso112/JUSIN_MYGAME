@@ -7,7 +7,7 @@
 #include "Effect.h"
 BEGIN(MyGame)
 class CStat;
-class CClock_Trigger;
+class CClock_Delay;
 class CStateCon;
 class CShader;
 class CCharacter abstract : public CGameObject
@@ -59,13 +59,12 @@ protected:
 	//현재 활성화된 이펙트
 	CEffect*	m_pEffect = nullptr;
 
-	CClock_Trigger*	m_pDeadClock = nullptr;
+	CClock_Delay*	m_pDeadClock = nullptr;
 
 protected:
 	STATS	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
 	
-	bool	m_bDead = false;
 	bool	m_bInvisible = false;
 	//이동할 목표지점
 	Vector4			m_vDst = {};

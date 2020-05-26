@@ -20,7 +20,7 @@ CCharacter::CCharacter(CCharacter & _character)
 	m_tStat(_character.m_tStat),
 	m_vecImmune(_character.m_vecImmune)
 {
-	m_pDeadClock = CClock_Trigger::Create();
+	m_pDeadClock = CClock_Delay::Create();
 }
 
 _int CCharacter::StartAct()
@@ -242,6 +242,7 @@ void CCharacter::OnAttack(CGameObject * _pOther)
 
 void CCharacter::Free()
 {
+	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pStateCon);

@@ -227,6 +227,22 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 	return nullptr;
 }
 
+_int CSpawner::Clear_DeadObjects(_uint _iLevel)
+{
+	auto& iter = m_listGO[_iLevel].begin();
+	while (iter != m_listGO[_iLevel].end())
+	{
+		if ((*iter)->Get_Dead())
+		{
+			Safe_Release(*iter);
+			iter = m_listGO[_iLevel].erase(iter);
+		}
+		else
+			++iter;
+	}
+	return 0;
+}
+
 
 
 void CSpawner::Free()
