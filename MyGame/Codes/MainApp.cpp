@@ -248,8 +248,6 @@ void CMainApp::Free()
 	CObjMgr::Get_Instance()->Clear_Scene(SCENE_STATIC);
 
 
-	MSG_BOX("Fail to Release CTimerMgr");
-
 	if (0 != CTextureLoader::Destroy_Instance())
 		MSG_BOX("Fail to Release CTextureLoader");
 
@@ -265,6 +263,7 @@ void CMainApp::Free()
 	CRenderer::Destroy_Instance();
 	CPipline::Destroy_Instance();
 	CKeyMgr::Destroy_Instance();
+	CTimerMgr::Destroy_Instance();
 	CGraphic_Device::Destroy_Instance();
 
 	/*if (0 != CRenderer::Destroy_Instance())
