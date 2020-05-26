@@ -81,6 +81,7 @@ HRESULT CParticle::Render()
 		nullptr == m_pTransform)
 		return E_FAIL;
 
+	_matrix tmp = m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix();
 	//비긴셰이더는 파티클시스템에서 함
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;

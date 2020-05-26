@@ -268,6 +268,11 @@ HRESULT CWarrior::Render()
 
 #ifdef MYDEBUG
 	m_pTransform->Render_Collider();
+
+	_tchar szBuff[MAX_PATH] = L"";
+	wsprintf(szBuff, L"X: %d, Y: %d", (_int)m_pTransform->Get_Position().x, (_int)m_pTransform->Get_Position().y);
+
+	g_pFont->DrawText(NULL, szBuff, -1, &m_pTransform->Get_RECT(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 #endif // MYDEBUG
 
 

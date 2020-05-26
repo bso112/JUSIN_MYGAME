@@ -312,7 +312,7 @@ void CTransform::Set_Parent(CTransform * pParent)
 		return;
 
 	//로컬좌표 변환
-	m_vPosition = m_vPosition - pParent->Get_WorldPos();
+	m_vPosition = Get_WorldPos() - pParent->Get_WorldPos();
 	m_vPosition.z = 0.f;
 	m_vPosition.w = 1.f;
 	//부모 매트릭스
