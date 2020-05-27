@@ -48,7 +48,7 @@ _int CItem::Update(_double _timeDelta)
 		if (m_pTransform->MoveToDst(m_vDest, _timeDelta, 3.0))
 		{
 			//도착했을때 할 행동을 한다.
-			OnThrow();
+			OnThrowEnd();
 			m_bThrown = false;
 		}
 	}
@@ -136,9 +136,14 @@ void CItem::Throw(POINT & _pt)
 	m_vDest = dst;
 	//사용 초기화
 	m_bUsed = false;
+	OnThrowStart();
 }
 
-void CItem::OnThrow()
+void CItem::OnThrowStart()
+{
+}
+
+void CItem::OnThrowEnd()
 {
 	//멈춘다.
 

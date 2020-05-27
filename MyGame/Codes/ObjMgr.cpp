@@ -79,6 +79,8 @@ _int CObjMgr::Update(_double _timeDelta)
 
 	//CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
 	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
+	CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pItemLayer->Get_List());
+
 
 
 

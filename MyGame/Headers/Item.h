@@ -74,7 +74,8 @@ public:
 	void	Throw(POINT& _pt);
 
 protected:
-	virtual	void OnThrow();
+	virtual	void OnThrowStart();
+	virtual	void OnThrowEnd();
 	
 protected:
 	//필드에 있을때의 사이즈를 가져온다.(자식의 멤버변수를 가져오기위함)

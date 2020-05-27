@@ -6,6 +6,7 @@
 #include "Ring.h"
 #include "Armor.h"
 #include "ObjMgr.h"
+#include "Arrow.h"
 USING(MyGame)
 
 HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -18,6 +19,8 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	pObjMgr->Add_Prototype(L"Wand", SCENE_STAGE, CWand::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Ring", SCENE_STAGE, CRing::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Armor", SCENE_STAGE, CArmor::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Arrow", SCENE_STAGE, CArrow::Create(_pGraphic_Device));
+
 
 	return S_OK;
 }
@@ -143,6 +146,13 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 	case MyGame::CItemFactory::ITEM_DRAGONARMOR:
 		break;
 	case MyGame::CItemFactory::ITEM_ARROW:
+		tDesc.m_iTextureID = 1;
+		tDesc.m_pItemName = L"화살";
+		tDesc.m_pDescription = L"흔하게 볼 수 있는 화살이다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 3.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_BOMB:
 		break;

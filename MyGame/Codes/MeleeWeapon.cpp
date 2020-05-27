@@ -16,7 +16,6 @@ CMeleeWeapon::CMeleeWeapon(CMeleeWeapon & _rhs)
 HRESULT CMeleeWeapon::Initialize(void * _param)
 {
 	CWeapon::Initialize(_param);
-
 	if (FAILED(Set_Module(L"meleeWeapon", SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
 

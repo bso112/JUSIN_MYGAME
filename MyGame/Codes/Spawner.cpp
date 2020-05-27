@@ -68,6 +68,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		//열쇠 프로토타입을 만든다.
 		pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
 
+
 		CItemFactory::Make_Prototpyes(_pGraphic_Device);
 
 	}
@@ -132,6 +133,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		if (nullptr != pItem) m_listGO[0].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
+		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[0].push_back(pItem);
 	
 		for (auto& GO : m_listGO[0])
