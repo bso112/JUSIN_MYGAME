@@ -57,10 +57,15 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CWarrior::Initialize(void * _param)
 {
+
 	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	if (m_eSceneID >= SCENE_END)
 		return E_FAIL;
 	CKeyMgr::Get_Instance()->RegisterObserver(m_eSceneID, this);
+
+	m_iDepth = 10;
+
+
 #pragma region ½ºÅÝÁØºñ
 
 	//½ºÅÝ¼ÂÆÃ

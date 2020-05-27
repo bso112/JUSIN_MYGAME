@@ -21,6 +21,7 @@ HRESULT CItem::Initialize(void * _param)
 {
 	m_vecActions.push_back(AC_DROP);
 	m_vecActions.push_back(AC_THROW);
+	
 
 	return S_OK;
 }
@@ -173,7 +174,7 @@ HRESULT CItem::Render()
 		matrix = m_pTransform->Get_Matrix();
 	}
 
-	ALPHABLEND;
+	ALPHATEST;
 
 	if (FAILED(m_pVIBuffer->Set_Transform(matrix)))
 		return E_FAIL;
@@ -186,7 +187,7 @@ HRESULT CItem::Render()
 		return E_FAIL;
 
 
-	ALPHABLEND_END;
+	ALPHATEST_END;
 
 #ifdef MYDEBUG
 
@@ -228,6 +229,7 @@ _int CItem::Interact(CGameObject * _pOther)
 		if (nullptr == pInventoryUIMgr) return -1;
 		CInventory* pInven = pInventoryUIMgr->GetInventory();
 		if (nullptr == pInven) return -1;
+		//습득
 		//드롭되지 않음
 		m_bDrop = false;
 		pInven->Put_Item(this);

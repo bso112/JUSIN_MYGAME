@@ -18,15 +18,9 @@ HRESULT CIceFlower::Initialize(void * _param)
 {
 	CSeed::Initialize(_param);
 
-	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &CTransform::STATEDESC(300.0, 300.0));
-	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 
 	if (nullptr != _param)
 		m_pTransform->Set_Position((*(Vector3*)_param));
-
-	m_vOriginalSize = Vector2(30.f, 25.f);
-	m_pTransform->Set_Size(m_vOriginalSize);
-	m_pTransform->Set_ColliderSize(m_vOriginalSize);
 
 
 	m_pDescription = L"얼음꽃의 씨앗이다. 차가운 기운이 느껴진다.";

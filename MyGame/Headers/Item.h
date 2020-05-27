@@ -5,6 +5,7 @@
 #include "VIBuffer.h"
 #include "Texture.h"
 BEGIN(MyGame)
+#define COLLIDER_SIZE Vector2(15.f, 15.f)
 class CHero;
 class CInventory;
 class CItem abstract : public CGameObject

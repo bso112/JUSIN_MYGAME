@@ -31,7 +31,7 @@ HRESULT CEquipment::Initialize(void * _param)
 
 	m_pTransform->Set_Position(m_tDesc.m_tBaseDesc.vPos);
 	m_pTransform->Set_Size(m_tDesc.m_tBaseDesc.vSize);
-	m_pTransform->Set_ColliderSize(m_tDesc.m_tBaseDesc.vSize);
+	m_pTransform->Set_ColliderSize(COLLIDER_SIZE);
 
 	m_pDescription = m_tDesc.m_pDescription;
 	m_iTextureID = m_tDesc.m_iTextureID;

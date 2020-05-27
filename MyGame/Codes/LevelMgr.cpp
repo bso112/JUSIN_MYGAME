@@ -22,7 +22,6 @@ HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level2.dat");
 	RETURN_FAIL_IF_NULL(m_aLevel[0]);
 
-
 	//아이템, 몬스터 프로토타입을 준비한다.
 	if (FAILED(m_pSpawner->Ready_Prototypes(_pGraphic_Device, m_iCurrLevel)))
 		return E_FAIL;

@@ -32,7 +32,7 @@ HRESULT CKey::Initialize(void * _param)
 		m_pTransform->Set_Position(*(Vector3*)_param);
 
 	m_pTransform->Set_Size(m_vOriginalSize);
-	m_pTransform->Set_ColliderSize(m_vOriginalSize);
+	m_pTransform->Set_ColliderSize(COLLIDER_SIZE);
 
 	m_pItemName = L"열쇠";
 	m_pDescription = L"잠긴 문을 열 수 있다.";

@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "ModuleMgr.h"
 #include "Pipline.h"
+#include "Spawner.h"
 USING(MyGame)
 
 _int CTransform::m_iTurnCnt = 0;
@@ -76,17 +77,19 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		return TURN_END;
 	}
 
-	CTransform* pTransform = (CTransform*)m_Route[m_iCurrRouteIndex]->Get_Module(L"Transform");
-	if (nullptr == pTransform)
+	CTransform* pTileTransform = (CTransform*)m_Route[m_iCurrRouteIndex]->Get_Module(L"Transform");
+	if (nullptr == pTileTransform)
 		return E_FAIL;
 
 	_float fSpeed = (_float)m_tStateDesc.speedPerSec;
 	//전의 방향과 현재 방향을 내적해서 음수가 나오면 목적지에 도착한것.
-	Vector3 currDir = pTransform->Get_Position() - m_vPosition;
+	Vector3 currDir = pTileTransform->Get_Position() - m_vPosition;
 	float cos = D3DXVec4Dot(&m_vDir.Nomalize(), &currDir.Nomalize());
 	m_vDir = currDir;
 	if (currDir.magnitude() > 5.f)
 	{
+		//아무도 서있지 않은 타일인가. 자기자신이 서있다고 되는건가?
+		_bool	bEmptyTile = (nullptr == CSpawner::Get_Instance()->PickObject(pTileTransform->Get_Position(), 1, this));
 		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
 		if (m_Route[m_iCurrRouteIndex]->IsMovable(this))
 		{
@@ -399,14 +402,14 @@ _bool CTransform::MoveToDst(Vector3 _vDst, _double _timeDelta, _double _fStopDis
 		Vector3 nextPos = m_vPosition + vDir.nomalize() * float(m_tStateDesc.speedPerSec * _timeDelta);
 
 		//다음 위치의 Rect를 구한다.
-		RECT rc = Make_Rect(nextPos, m_vSize);
+		RECT rc = Make_Rect(nextPos, m_vColliderSize);
 		//다음 위치의 네 모서리를 구한다.
 		Vector2 pt[4] = { Vector2(rc.left, rc.top), Vector2(rc.right, rc.top), Vector2(rc.left, rc.bottom), Vector2(rc.right, rc.bottom) };
 
 		//네 모서리를 검사한다.
 		for (int i = 0; i < 4; ++i)
 		{
-			//만약 못가는 곳이 있다면 도착이라고 친다.
+			//만약 못가는 곳이 있다면 도착이라고 친다.a
 			if (!CLevelMgr::Get_Instance()->IsMovable(pt[i]))
 				return true;
 		}

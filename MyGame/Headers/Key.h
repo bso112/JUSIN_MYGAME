@@ -12,7 +12,7 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr) override;
 
 private:
-	Vector2 m_vOriginalSize = Vector2(15.f, 15.f);
+	Vector2 m_vOriginalSize = Vector2(20.f, 20.f);
 
 protected:
 	virtual	void	OnPickUp(CHero*	_pHero, CInventory* _pInventory) override;

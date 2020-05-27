@@ -6,6 +6,7 @@ BEGIN(MyGame)
 몬스터, 아이템을 랜덤하게 스폰해주는 클래스
 */
 class CGameObject;
+class CTransform;
 class CSpawner : public CBase
 {
 	DECLARE_SINGLETON(CSpawner)
@@ -21,6 +22,7 @@ public:
 
 public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);
+	CGameObject*	PickObject(Vector3 _vPos, _uint _iLevel, CTransform* pSelfTransform);
 	_int			Clear_DeadObjects(_uint _iLevel);
 
 

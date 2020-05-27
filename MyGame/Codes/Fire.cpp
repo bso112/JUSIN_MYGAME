@@ -116,7 +116,7 @@ _int CFire::LateUpate(_double _timeDelta)
 {
 	m_pTransform->Update_Transform();
 
-	//if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_EFFECT)))
+	//if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PARTICLE)))
 	//	return -1;
 
 	return 0;

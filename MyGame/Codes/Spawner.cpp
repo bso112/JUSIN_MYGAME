@@ -97,19 +97,18 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	{
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
-
-
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(25.f, 20.f)), 10.f)));
+		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
@@ -119,11 +118,17 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 
-		
+
+		////아이템 만들기
 		ranPos = pWorld->Get_RandomPos();
-		//아이템 만들기
 		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
-		if(nullptr != pItem) m_listGO[0].push_back(pItem);
+		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE);
+		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
+		if (nullptr != pItem) m_listGO[0].push_back(pItem);
 
 		for (auto& GO : m_listGO[0])
 		{
@@ -136,7 +141,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 HRESULT CSpawner::Add_Interact(CGameObject * _pInteractor, _uint _iDepth)
 {
-	if (nullptr == _pInteractor	||
+	if (nullptr == _pInteractor ||
 		MAX_DEPTH <= _iDepth)
 		return E_FAIL;
 
@@ -152,7 +157,7 @@ HRESULT CSpawner::Add_Interact(CGameObject * _pInteractor, _uint _iDepth)
 	return S_OK;
 }
 
-CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
+CGameObject* CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 {
 	if (MAX_DEPTH <= _iLevel)
 		return nullptr;
@@ -193,7 +198,50 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 				if (PtInRect(&pTransform->Get_Collider(), pt))
 					return *iter;
 			}
-			
+
+			++iter;
+		}
+
+		
+	}
+
+
+	return nullptr;
+}
+
+CGameObject * CSpawner::PickObject(Vector3 _vPos, _uint _iLevel, CTransform * pSelfTransform)
+{
+
+	if (MAX_DEPTH <= _iLevel)
+		return nullptr;
+
+
+	//좌표 변환
+	D3DXVec4Transform(&_vPos, &_vPos, &CPipline::Get_Instance()->Get_ViewMatrix());
+	POINT pt;
+	pt.x = (LONG)_vPos.x;
+	pt.y = (LONG)_vPos.y;
+
+
+	auto& iter = m_listGO[_iLevel].begin();
+	while (iter != m_listGO[_iLevel].end())
+	{
+		//만약 지워진 오브젝트면 리스트에 지운다.
+		if (nullptr == *iter)
+		{
+			Safe_Release(*iter);
+			iter = m_listGO[_iLevel].erase(iter);
+		}
+		else
+		{
+			//오브젝트를 피킹한다.
+			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
+			if (nullptr != pTransform && pSelfTransform != pTransform)
+			{
+				if (PtInRect(&pTransform->Get_Collider(), pt))
+					return *iter;
+			}
+
 			++iter;
 		}
 
@@ -202,7 +250,11 @@ CGameObject * CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 
 
 	return nullptr;
+
 }
+
+
+
 
 _int CSpawner::Clear_DeadObjects(_uint _iLevel)
 {

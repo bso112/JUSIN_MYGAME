@@ -91,6 +91,7 @@ HRESULT CRenderer::Render_Prior()
 
 HRESULT CRenderer::Render_YSort()
 {
+	m_listGO[RENDER_YSORT].sort([](CGameObject* a, CGameObject* b)->bool { return a->Get_Depth() < b->Get_Depth(); });
 	for (auto& GO : m_listGO[RENDER_YSORT])
 	{
 		if (nullptr != GO)
@@ -117,7 +118,7 @@ HRESULT CRenderer::Render_Effect()
 		}
 
 		if (0 == Safe_Release(GO))
-			MSG_BOX("GameObject Removed on Render_YSort");
+			MSG_BOX("GameObject Removed on Render_Effect");
 	}
 	m_listGO[RENDER_PARTICLE].clear();
 	return S_OK;

@@ -19,7 +19,12 @@ HRESULT CSeed::Initialize(void * _param)
 
 	Set_Module(L"seed", SCENE_STAGE, (CModule**)&m_pTexture);
 	m_pTextureTag = L"seed";
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &CTransform::STATEDESC(300.0, 300.0));
+	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 
+	m_vOriginalSize = Vector2(30.f, 25.f);
+	m_pTransform->Set_Size(m_vOriginalSize);
+	m_pTransform->Set_ColliderSize(COLLIDER_SIZE);
 
 	return S_OK;
 }
