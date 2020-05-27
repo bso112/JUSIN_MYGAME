@@ -596,7 +596,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 				/*CTransform* pTileTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
 				if (nullptr != CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), _pMover))
 					continue;*/
-				//이미 방문한 곳이면 제외
+					//이미 방문한 곳이면 제외
 				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
 					continue;
 				//자기자신 제외
@@ -850,7 +850,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 			else
 				m_pTerrains[y][x] = pTerrain;
 
-			if (0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_trap")	||
+			if (0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_trap") ||
 				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_stair"))
 			{
 				m_listCollidable.push_back(pTerrain);
@@ -858,6 +858,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 			}
 
 			Safe_AddRef(pTerrain);
+
 
 			pTerrain->Load_Data(tSaveData);
 
@@ -887,6 +888,24 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 		++index;
 
 	}
+
+
+	//for (int i = 0; i < WORLDY; ++i)
+	//{
+	//	for (int j = 0; j < WORLDX; ++j)
+	//	{
+	//		if (nullptr != m_pTerrains[i][j])
+	//		{
+	//			if (m_pTerrains[i][j]->IsMovable(nullptr))
+	//			{
+	//				m_listMovable.push_back(m_pTerrains[i][j]);
+
+	//			}
+	//		}
+	//	}
+	//}
+
+
 	CloseHandle(hFile);
 	MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
 	return S_OK;
@@ -997,12 +1016,14 @@ HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 
 HRESULT CLevel::Collision_Terrain(CGameObject* _pObj)
 {
+	//CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), m_listMovable);
 	CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), m_listCollidable);
 	return S_OK;
 }
 
 HRESULT CLevel::Collision_Terrain(list<CGameObject*> _pObjlist)
 {
+	//CCollisionMgr::GameObjectInTile(_pObjlist, m_listMovable);
 	CCollisionMgr::GameObjectInTile(_pObjlist, m_listCollidable);
 	return S_OK;
 }
@@ -1024,6 +1045,9 @@ CLevel * CLevel::Create(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID, _t
 
 void CLevel::Free()
 {
+	//for (auto& movable : m_listMovable)
+	//	Safe_Release(movable);
+
 	for (auto& collidable : m_listCollidable)
 		Safe_Release(collidable);
 	for (auto& mask : m_vecMask)

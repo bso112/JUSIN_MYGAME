@@ -31,7 +31,7 @@ _int CMonster::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 
-	//m_pTransform->Update_Route(_timeDelta);
+	m_pTransform->Update_Route(_timeDelta);
 
 	return 0;
 }

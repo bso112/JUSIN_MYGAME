@@ -101,10 +101,9 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 			CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
 			RETURN_FAIL_IF_NULL(pLevel);
-			//타겟이 있으면 타겟을 따라가고, 아니면 목표위치로 간다.
+
 			if (m_pTarget != nullptr)
 			{
-
 				pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 			}
 			else

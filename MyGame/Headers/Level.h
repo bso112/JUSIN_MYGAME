@@ -24,7 +24,9 @@ private:
 	CPipline*	m_pPipline = nullptr;
 	//마스크는 그냥 장식용이라 피킹할일도 없어서 벡터로 선언함.
 	vector<CTerrain*> m_vecMask;
+	//충돌처리를 위해 리스트로선언
 	list<CGameObject*> m_listCollidable;
+	//list<CGameObject*> m_listMovable;
 private:
 
 	//로드 파일경로
@@ -37,7 +39,7 @@ private:
 public:
 	HRESULT	Initialize(SCENEID _eSceneID, _tchar* _pLoadFilePath = nullptr);
 	HRESULT Render_ForEditor();
-	
+
 
 public:
 	HRESULT	Set_Terrain(CTerrain* _pTerrain, POINT& _pt);
@@ -59,11 +61,13 @@ public:
 	//플레이어 스폰 위치를 가져온다.
 	Vector3 Get_PlayerSpawnPos();
 
+	//list<CGameObject*>* Get_Movable() { return &m_listMovable; }
+
 
 public:
 	HRESULT	Save_World(const _tchar* _filePath);
 	//지형의 프로토타입이 있다고 가정하고 로드한다.
-	HRESULT	Load_World( SCENEID _eSceneID);
+	HRESULT	Load_World(SCENEID _eSceneID);
 
 public:
 	HRESULT	Next_Level();
