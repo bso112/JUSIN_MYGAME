@@ -308,6 +308,20 @@ HRESULT CTransform::LookAt(CTransform * pTargetTransform)
 	return S_OK;
 }
 
+HRESULT CTransform::LookAt(Vector3 _vPos)
+{
+	Vector3		vDirection = _vPos - m_vPosition;
+
+	_float		fCosTheta = D3DXVec4Dot(&m_vLook.Nomalize(), &vDirection.Nomalize());
+
+	if (_vPos.y >= m_vPosition.y)
+		m_vRotation.z = acosf(fCosTheta);
+	else
+		m_vRotation.z = D3DXToRadian(360.0f) - acosf(fCosTheta);
+
+	return S_OK;
+}
+
 
 void CTransform::Set_Parent(CTransform * pParent)
 {

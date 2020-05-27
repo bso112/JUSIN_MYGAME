@@ -44,6 +44,7 @@ _int CItem::Update(_double _timeDelta)
 
 	if (m_bThrown && m_bDrop)
 	{
+		//m_pTransform->LookAt(m_vDest);
 		//Àß µµÂøÇÏ¸é
 		if (m_pTransform->MoveToDst(m_vDest, _timeDelta, 3.0))
 		{

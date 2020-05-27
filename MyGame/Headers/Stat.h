@@ -12,13 +12,13 @@ private:
 
 private:
 	//기본 값
-	float m_fBaseValue;
+	float m_fBaseValue = 0.f;
 	//추가 값
 	list<float> m_listModifier;
 	//랜덤값인가
 	_bool m_bRandom = false;
 	//랜덤 최소 값
-	float m_fMinValue;
+	float m_fMinValue = 0.f;
 
 public:
 	void AddModifier(float _fModifier) { if (_fModifier > 0) m_listModifier.push_back(_fModifier); }
@@ -55,6 +55,26 @@ public:
 
 		return finalValue;
 	};
+	float GetMaxValue()
+	{
+		//추가 값들을 더한다.
+		float finalValue = m_fBaseValue;
+		for (auto& val : m_listModifier)
+		{
+			finalValue += val;
+		}
+		return finalValue;
+	}
+	float GetMinValue()
+	{
+		//추가 값들을 더한다.
+		float finalValue = m_fMinValue;
+		for (auto& val : m_listModifier)
+		{
+			finalValue += val;
+		}
+		return finalValue;
+	}
 
 public:
 	static CStat* Create(float _baseValue)

@@ -150,8 +150,6 @@ _int CImage::LateUpate(_double _timeDelta)
 
 HRESULT CImage::Render()
 {
-
-
 	if (!m_bActive)
 		return 0;
 

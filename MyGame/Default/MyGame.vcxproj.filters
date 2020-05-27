@@ -187,17 +187,8 @@
     <Filter Include="04.GameObject\GameObject\Character\Monster\02.Crab">
       <UniqueIdentifier>{e9cb1e4a-f097-4938-85ca-2ab1de415a21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="10.Inventory">
-      <UniqueIdentifier>{c2360551-d0e6-437a-804d-3f0b927730b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Item\Food">
       <UniqueIdentifier>{6638e61c-8413-4fa8-9a99-4fe37d403e1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10.Inventory\ItemInfoPanel">
-      <UniqueIdentifier>{c9e485f3-f023-4abc-b50b-cdd17d4b5f78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10.Inventory\UIMgr">
-      <UniqueIdentifier>{ffc80686-cfa6-4189-bc5d-33376b0566b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="06.Utility\02.Module\Module\Shader">
       <UniqueIdentifier>{8e9a1b21-0aa9-4078-8e18-024e239b8c12}</UniqueIdentifier>
@@ -303,6 +294,18 @@
     </Filter>
     <Filter Include="04.GameObject\GameObject\Item\Bomb">
       <UniqueIdentifier>{27f69047-693f-4e78-a043-32219a67b471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Stage\UI\Inventory">
+      <UniqueIdentifier>{c2360551-d0e6-437a-804d-3f0b927730b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Stage\UI\Inventory\ItemInfoPanel">
+      <UniqueIdentifier>{c9e485f3-f023-4abc-b50b-cdd17d4b5f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Stage\UI\Inventory\UIMgr">
+      <UniqueIdentifier>{ffc80686-cfa6-4189-bc5d-33376b0566b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Stage\UI\StatsPanel">
+      <UniqueIdentifier>{14fdb86d-6d67-4ea2-96ff-8543fe7734b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -496,7 +499,7 @@
       <Filter>06.Utility\00.Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Inventory.h">
-      <Filter>10.Inventory</Filter>
+      <Filter>03.Scene\Scene\Stage\UI\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Food.h">
       <Filter>04.GameObject\GameObject\Item\Food</Filter>
@@ -508,10 +511,10 @@
       <Filter>04.GameObject\GameObject\Button\Slot</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\ItemInfoPanel.h">
-      <Filter>10.Inventory\ItemInfoPanel</Filter>
+      <Filter>03.Scene\Scene\Stage\UI\Inventory\ItemInfoPanel</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\InventoryUIMgr.h">
-      <Filter>10.Inventory\UIMgr</Filter>
+      <Filter>03.Scene\Scene\Stage\UI\Inventory\UIMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Stair.h">
       <Filter>04.GameObject\GameObject\Terrain\03. Stair</Filter>
@@ -599,6 +602,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Bomb.h">
       <Filter>04.GameObject\GameObject\Item\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\StatsPanel.h">
+      <Filter>03.Scene\Scene\Stage\UI\StatsPanel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -771,7 +777,7 @@
       <Filter>06.Utility\00.Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Inventory.cpp">
-      <Filter>10.Inventory</Filter>
+      <Filter>03.Scene\Scene\Stage\UI\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Food.cpp">
       <Filter>04.GameObject\GameObject\Item\Food</Filter>
@@ -780,10 +786,10 @@
       <Filter>04.GameObject\GameObject\Button\Slot</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp">
-      <Filter>10.Inventory\ItemInfoPanel</Filter>
+      <Filter>03.Scene\Scene\Stage\UI\Inventory\ItemInfoPanel</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\InventoryUIMgr.cpp">
-      <Filter>10.Inventory\UIMgr</Filter>
+      <Filter>03.Scene\Scene\Stage\UI\Inventory\UIMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Stair.cpp">
       <Filter>04.GameObject\GameObject\Terrain\03. Stair</Filter>
@@ -871,6 +877,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Bomb.cpp">
       <Filter>04.GameObject\GameObject\Item\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StatsPanel.cpp">
+      <Filter>03.Scene\Scene\Stage\UI\StatsPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

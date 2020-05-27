@@ -137,6 +137,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	//그래픽 디바이스 셋팅
 	ALPHATEST;
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	//폰트셋팅
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);

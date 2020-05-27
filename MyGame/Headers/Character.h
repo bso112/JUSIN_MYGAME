@@ -17,7 +17,7 @@ protected:
 	explicit CCharacter(CCharacter& _character);
 	virtual ~CCharacter() = default;
 
-protected:
+public:
 	typedef struct tagStats
 	{
 		float	m_fHP		= 0.f;

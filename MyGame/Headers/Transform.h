@@ -136,6 +136,7 @@ public:
 
 public:
 	HRESULT LookAt(CTransform* pTargetTransform);
+	HRESULT	LookAt(Vector3 _vPos);
 	void	Set_Parent(CTransform* pParent);
 public:
 	HRESULT MoveToDirAuto(Vector3 _vDir);

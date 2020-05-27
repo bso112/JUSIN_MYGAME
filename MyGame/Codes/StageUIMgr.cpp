@@ -6,6 +6,7 @@
 #include "Hero.h"
 #include "InventoryUIMgr.h"
 #include "DialogMgr.h"
+#include "StatsPanel.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CStageUIMgr)
@@ -31,6 +32,20 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	int iBtnCY = 70;
 	CMyButton* pBtn = nullptr;
 
+
+	//스텟판넬
+	m_pStatsPanel = dynamic_cast<CStatsPanel*>( m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CStatsPanel::Create(_pGraphic_Device)));
+	if (m_pStatsPanel == nullptr)
+		return E_FAIL;
+	Safe_AddRef(m_pStatsPanel);
+
+	//초상화버튼
+	pBtn = CMyButton::Create(_pGraphic_Device, Vector2(40.f, 40.f), Vector2(80.f, 80.f), L"empty_bound", SCENE_STATIC);
+	pBtn->Add_Listener([&] {m_pStatsPanel->Set_Active(!m_pStatsPanel->Get_Active()); m_pStatsPanel->Set_Player();});
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
+	vecUI.push_back(pBtn);
+
+
 	//인벤토리버튼
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"inventoryBtn", SCENE_STAGE);
 	//누르면 인벤토리 켜기
@@ -38,6 +53,8 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	vecUI.push_back(pBtn);
 	
+
+
 
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1) + iBtnCX * 1, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"searchBtn", SCENE_STAGE);
 	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
@@ -117,11 +134,18 @@ vector<RECT> CStageUIMgr::GetUIRect()
 	{
 		rc.push_back(uiRect);
 	}
+	//활성화상태면
+	if (m_pStatsPanel->Get_Active())
+	{
+		CTransform* pTrasform = (CTransform*)m_pStatsPanel->Get_Module(L"Transform");
+		rc.push_back(pTrasform->Get_RECT());
+	}
 	return rc;
 }
 
 void CStageUIMgr::Free()
 {
+	Safe_Release(m_pStatsPanel);
 	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pInventoryUIMgr);
 
