@@ -264,11 +264,25 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 	}
 
 	//지나온 노드(최종경로가 아니다)
-	vector<CTerrain*> visited;
+	vector<CTerrain*> closed;
 	//탐사한 노드
 	set<CTerrain*> open;
 	//검사의 중심이 되는 현재노드(그냥 visited의 마지막 노드)
 	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
+
+
+	//검사에서 제외할 타일들
+	vector<pair<int,int>> closedTiles = CSpawner::Get_Instance()->Get_TileIndexs();
+	for (auto& tile : closedTiles)
+	{
+		if (tile.first >= WORLDX || tile.second >= WORLDY)
+			return E_FAIL;
+
+		if (nullptr == m_pTerrains[tile.second][tile.first])
+			return E_FAIL;
+
+		closed.push_back(m_pTerrains[tile.second][tile.first]);
+	}
 
 	_int currX = srcX;
 	_int currY = srcY;
@@ -330,7 +344,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 		//선택된 노드는 open리스트에서 제거한다.
 		open.erase(pCurrNode);
 		//방문했다고 표시
-		visited.push_back(pCurrNode);
+		closed.push_back(pCurrNode);
 
 		//목적지에 도달했으면 끝
 		if (m_pTerrains[dstY][dstX] == pCurrNode)
@@ -359,7 +373,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 				//if (nullptr != CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), _pMover))
 				//	continue;
 				//이미 방문한 곳이면 제외
-				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
+				if (find(closed.begin(), closed.end(), m_pTerrains[i][j]) != closed.end())
 					continue;
 				//자기자신 제외
 				if (i == currY && j == currX)
@@ -415,32 +429,32 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 	//visited에 들어가 있는건 방문했던 모든 노드다. 그 중에서 경로를 뽑아내야한다.
 
 	//도착지점
-	CTerrain* pLastNode = visited.back();
+	CTerrain* pLastNode = closed.back();
 
 	//길을 찾지 못했을때는 목표와 가장 가까운 곳을 도착지로 설정
 	if (open.size() == 0)
 	{
 		//경로중에 Hcost가 가장 낮은것을 목적지로함.
 		//Hcost가 같으면 Gcost를 비교 낮은걸 취함. (더 이동이 적은것을 택함)
-		if (visited.size() > 0)
+		if (closed.size() > 0)
 		{
-			pLastNode = visited[0];
+			pLastNode = closed[0];
 
-			for (int i = 1; i < visited.size(); ++i)
+			for (int i = 1; i < closed.size(); ++i)
 			{
 				_int lastHcost = pLastNode->Get_Node().Hcost;
 				_int lastGcost = pLastNode->Get_Node().Gcost;
-				_int currHcost = visited[i]->Get_Node().Hcost;
-				_int currGcost = visited[i]->Get_Node().Gcost;
+				_int currHcost = closed[i]->Get_Node().Hcost;
+				_int currGcost = closed[i]->Get_Node().Gcost;
 
 				if (lastHcost > currHcost)
 				{
-					pLastNode = visited[i];
+					pLastNode = closed[i];
 				}
 				else if (lastHcost == currHcost)
 				{
 					if (lastGcost > currGcost)
-						pLastNode = visited[i];
+						pLastNode = closed[i];
 				}
 			}
 		}
@@ -502,11 +516,15 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 	}
 
 	//지나온 노드(최종경로가 아니다)
-	vector<CTerrain*> visited;
+	vector<CTerrain*> closed;
 	//탐사한 노드
 	set<CTerrain*> open;
 	//검사의 중심이 되는 현재노드(그냥 visited의 마지막 노드)
 	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
+
+	//검사에서 제외할 타일들
+
+
 
 	_int currX = srcX;
 	_int currY = srcY;
@@ -568,7 +586,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 		//선택된 노드는 open리스트에서 제거한다.
 		open.erase(pCurrNode);
 		//방문했다고 표시
-		visited.push_back(pCurrNode);
+		closed.push_back(pCurrNode);
 
 		//목적지에 도달했으면 끝
 		if (m_pTerrains[dstY][dstX] == pCurrNode)
@@ -597,7 +615,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 				if (nullptr != CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), _pMover))
 					continue;*/
 					//이미 방문한 곳이면 제외
-				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
+				if (find(closed.begin(), closed.end(), m_pTerrains[i][j]) != closed.end())
 					continue;
 				//자기자신 제외
 				if (i == currY && j == currX)
@@ -653,32 +671,32 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 	//visited에 들어가 있는건 방문했던 모든 노드다. 그 중에서 경로를 뽑아내야한다.
 
 	//도착지점
-	CTerrain* pLastNode = visited.back();
+	CTerrain* pLastNode = closed.back();
 
 	//길을 찾지 못했을때는 목표와 가장 가까운 곳을 도착지로 설정
 	if (open.size() == 0)
 	{
 		//경로중에 Hcost가 가장 낮은것을 목적지로함.
 		//Hcost가 같으면 Gcost를 비교 낮은걸 취함. (더 이동이 적은것을 택함)
-		if (visited.size() > 0)
+		if (closed.size() > 0)
 		{
-			pLastNode = visited[0];
+			pLastNode = closed[0];
 
-			for (int i = 1; i < visited.size(); ++i)
+			for (int i = 1; i < closed.size(); ++i)
 			{
 				_int lastHcost = pLastNode->Get_Node().Hcost;
 				_int lastGcost = pLastNode->Get_Node().Gcost;
-				_int currHcost = visited[i]->Get_Node().Hcost;
-				_int currGcost = visited[i]->Get_Node().Gcost;
+				_int currHcost = closed[i]->Get_Node().Hcost;
+				_int currGcost = closed[i]->Get_Node().Gcost;
 
 				if (lastHcost > currHcost)
 				{
-					pLastNode = visited[i];
+					pLastNode = closed[i];
 				}
 				else if (lastHcost == currHcost)
 				{
 					if (lastGcost > currGcost)
-						pLastNode = visited[i];
+						pLastNode = closed[i];
 				}
 			}
 		}

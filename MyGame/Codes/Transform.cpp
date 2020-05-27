@@ -128,18 +128,18 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		//한 타일지나면 인덱스 더하기
 		++m_iCurrRouteIndex;
 
-		//타깃을 쫒는 상태라면 (주로 몬스터)
-		if (nullptr != m_pTarget)
-		{
-			//타깃의 위치는 변하기 때문에 루트를 매번 갱신해줘야한다.(한칸 갈때마다)
-			m_Route.swap(vector<CTerrain*>());
-			CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
-			RETURN_FAIL_IF_NULL(pLevel);
-			pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
+		////타깃을 쫒는 상태라면 (주로 몬스터)
+		//if (nullptr != m_pTarget)
+		//{
+		//	//타깃의 위치는 변하기 때문에 루트를 매번 갱신해줘야한다.(한칸 갈때마다)
+		//	m_Route.swap(vector<CTerrain*>());
+		//	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+		//	RETURN_FAIL_IF_NULL(pLevel);
+		//	pLevel->Get_Route(m_vPosition, m_pTarget->Get_Position(), m_Route, this);
 
-			//갱신시에는 루트 인덱스도 초기화
-			m_iCurrRouteIndex = 0;
-		}
+		//	//갱신시에는 루트 인덱스도 초기화
+		//	m_iCurrRouteIndex = 0;
+		//}
 	}
 
 	//행동력만큼 이동했는지 체크

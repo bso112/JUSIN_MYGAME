@@ -265,6 +265,22 @@ CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform *
 
 
 
+vector<pair<int,int>> CSpawner::Get_TileIndexs()
+{
+	vector<pair<int, int>> indexs;
+	for (auto& character : m_listCharacter[CLevelMgr::Get_Instance()->Get_CurrDepth()])
+	{
+		CTransform* pTransform = (CTransform*)character->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+		{
+			Vector2 vPos = pTransform->Get_Position();
+			pair<int, int> index = pair<int, int>((int)vPos.x / TILECX, (int)vPos.y / TILECY);
+			indexs.push_back(index);
+		}
+	}
+	return indexs;
+}
+
 _int CSpawner::Clear_DeadObjects(_uint _iLevel)
 {
 	if (MAX_DEPTH <= _iLevel)
