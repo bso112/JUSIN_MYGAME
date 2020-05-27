@@ -25,7 +25,7 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	Safe_AddRef(_pHero);
 
 	vector<CGameObject*>  vecUI;
-	vecUI.push_back(m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, Vector4(float(g_iWinCX>>1), 50.f, 0.f, 1.f), Vector2((float)g_iWinCX, 100.f), L"status_pane", SCENE_STAGE)));
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, Vector4(float(g_iWinCX>>1), 50.f, 0.f, 1.f), Vector2((float)g_iWinCX, 100.f), L"status_pane", SCENE_STAGE));
 	
 	int iBtnCX = 60;
 	int iBtnCY = 70;

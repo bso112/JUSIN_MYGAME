@@ -92,17 +92,21 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	if (nullptr == pWorld)
 		return E_FAIL;
 
+	m_listCharacter->push_back(pObjMgr->Get_Player(SCENE_STAGE));
 
+	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
 	if (0 == _iLevel)
 	{
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-
+		m_listCharacter[0].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[0].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[0].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
@@ -129,8 +133,12 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
 		if (nullptr != pItem) m_listGO[0].push_back(pItem);
-
+	
 		for (auto& GO : m_listGO[0])
+		{
+			Safe_AddRef(GO);
+		}
+		for (auto& GO : m_listCharacter[0])
 		{
 			Safe_AddRef(GO);
 		}
@@ -209,7 +217,7 @@ CGameObject* CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 	return nullptr;
 }
 
-CGameObject * CSpawner::PickObject(Vector3 _vPos, _uint _iLevel, CTransform * pSelfTransform)
+CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform * pSelfTransform)
 {
 
 	if (MAX_DEPTH <= _iLevel)
@@ -217,14 +225,13 @@ CGameObject * CSpawner::PickObject(Vector3 _vPos, _uint _iLevel, CTransform * pS
 
 
 	//좌표 변환
-	D3DXVec4Transform(&_vPos, &_vPos, &CPipline::Get_Instance()->Get_ViewMatrix());
 	POINT pt;
 	pt.x = (LONG)_vPos.x;
 	pt.y = (LONG)_vPos.y;
 
 
-	auto& iter = m_listGO[_iLevel].begin();
-	while (iter != m_listGO[_iLevel].end())
+	auto& iter = m_listCharacter[_iLevel].begin();
+	while (iter != m_listCharacter[_iLevel].end())
 	{
 		//만약 지워진 오브젝트면 리스트에 지운다.
 		if (nullptr == *iter)
@@ -245,9 +252,7 @@ CGameObject * CSpawner::PickObject(Vector3 _vPos, _uint _iLevel, CTransform * pS
 			++iter;
 		}
 
-
 	}
-
 
 	return nullptr;
 
@@ -258,6 +263,9 @@ CGameObject * CSpawner::PickObject(Vector3 _vPos, _uint _iLevel, CTransform * pS
 
 _int CSpawner::Clear_DeadObjects(_uint _iLevel)
 {
+	if (MAX_DEPTH <= _iLevel)
+		return -1;
+
 	auto& iter = m_listGO[_iLevel].begin();
 	while (iter != m_listGO[_iLevel].end())
 	{
@@ -269,6 +277,20 @@ _int CSpawner::Clear_DeadObjects(_uint _iLevel)
 		else
 			++iter;
 	}
+
+
+	auto& iter2 = m_listCharacter[_iLevel].begin();
+	while (iter2 != m_listCharacter[_iLevel].end())
+	{
+		if ((*iter2)->Get_Dead())
+		{
+			Safe_Release(*iter2);
+			iter2 = m_listCharacter[_iLevel].erase(iter2);
+		}
+		else
+			++iter2;
+	}
+
 	return 0;
 }
 
@@ -276,6 +298,14 @@ _int CSpawner::Clear_DeadObjects(_uint _iLevel)
 
 void CSpawner::Free()
 {
+
+	for (auto& list : m_listCharacter)
+	{
+		for (auto& GO : list)
+		{
+			Safe_Release(GO);
+		}
+	}
 	for (auto& list : m_listGO)
 	{
 		for (auto& GO : list)

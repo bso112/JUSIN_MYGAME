@@ -9,7 +9,8 @@
 #include "StageUIMgr.h"
 #include "Pipline.h"
 #include "TileLoader.h"
-
+#include "Spawner.h"
+#include "LevelMgr.h"
 USING(MyGame)
 
 
@@ -354,6 +355,9 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 				//가지 못하는 곳이면 제외
 				if (!m_pTerrains[i][j]->IsMovable(_pMover))
 					continue;
+				//CTransform* pTileTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
+				//if (nullptr != CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), _pMover))
+				//	continue;
 				//이미 방문한 곳이면 제외
 				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
 					continue;
@@ -589,6 +593,9 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 				//가지 못하는 곳이면 제외
 				if (!m_pTerrains[i][j]->IsMovable(_pMover))
 					continue;
+				/*CTransform* pTileTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
+				if (nullptr != CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), _pMover))
+					continue;*/
 				//이미 방문한 곳이면 제외
 				if (find(visited.begin(), visited.end(), m_pTerrains[i][j]) != visited.end())
 					continue;
@@ -740,7 +747,7 @@ Vector3 CLevel::Get_RandomPos()
 
 	} while (m_pTerrains[ranY][ranX] == nullptr || !m_pTerrains[ranY][ranX]->IsMovable(nullptr));
 
-	return Vector3((float)ranX * TILECX, (float)ranY * TILECY, 0.f, 1.f);
+	return Vector3((TILECX >> 1) + (float)ranX * TILECX, (TILECY >> 1) + (float)ranY * TILECY, 0.f, 1.f);
 }
 
 Vector3 CLevel::Get_PlayerSpawnPos()

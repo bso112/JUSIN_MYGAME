@@ -83,15 +83,13 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 
 	_float fSpeed = (_float)m_tStateDesc.speedPerSec;
 	//전의 방향과 현재 방향을 내적해서 음수가 나오면 목적지에 도착한것.
-	Vector3 currDir = pTileTransform->Get_Position() - m_vPosition;
-	float cos = D3DXVec4Dot(&m_vDir.Nomalize(), &currDir.Nomalize());
-	m_vDir = currDir;
-	if (currDir.magnitude() > 5.f)
+	m_vDir = pTileTransform->Get_Position() - m_vPosition;
+	if (m_vDir.magnitude() > 5.f)
 	{
 		//아무도 서있지 않은 타일인가. 자기자신이 서있다고 되는건가?
-		_bool	bEmptyTile = (nullptr == CSpawner::Get_Instance()->PickObject(pTileTransform->Get_Position(), 1, this));
+		_bool	bEmptyTile = (nullptr == CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), this));
 		//가려는 경로를 다시 체크해서 갈 수 있는 곳이면
-		if (m_Route[m_iCurrRouteIndex]->IsMovable(this))
+		if (bEmptyTile)
 		{
 			m_vPosition += m_vDir.nomalize() * float(fSpeed * _timeDelta);
 		}
