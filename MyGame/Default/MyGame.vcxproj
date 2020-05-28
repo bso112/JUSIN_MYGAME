@@ -211,6 +211,7 @@
     <ClInclude Include="..\Headers\ItemSlot.h" />
     <ClInclude Include="..\Headers\Key.h" />
     <ClInclude Include="..\Headers\LevelMgr.h" />
+    <ClInclude Include="..\Headers\Loading.h" />
     <ClInclude Include="..\Headers\MeleeWeapon.h" />
     <ClInclude Include="..\Headers\MyDialog.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="..\Headers\Pipline.h" />
     <ClInclude Include="..\Headers\PlayerState.h" />
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
+    <ClInclude Include="..\Headers\Scene_Loading.h" />
     <ClInclude Include="..\Headers\StatsPanel.h" />
     <ClInclude Include="..\Headers\wand.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
@@ -312,6 +314,7 @@
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
     <ClCompile Include="..\Codes\Key.cpp" />
     <ClCompile Include="..\Codes\LevelMgr.cpp" />
+    <ClCompile Include="..\Codes\Loading.cpp" />
     <ClCompile Include="..\Codes\MeleeWeapon.cpp" />
     <ClCompile Include="..\Codes\MyDialog.cpp" />
     <ClCompile Include="..\Codes\Particle.cpp" />
@@ -319,6 +322,7 @@
     <ClCompile Include="..\Codes\Pipline.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
+    <ClCompile Include="..\Codes\Scene_Loading.cpp" />
     <ClCompile Include="..\Codes\StatsPanel.cpp" />
     <ClCompile Include="..\Codes\wand.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />

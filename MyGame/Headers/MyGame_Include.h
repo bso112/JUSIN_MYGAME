@@ -31,11 +31,15 @@ using namespace std;
 #endif
 #endif
 
+
+#include <process.h>
+
 #include "MyGame_Mecro.h"
 #include "MyGame_Constant.h"
 #include "MyGame_Function.h"
 #include "MyGame_Typedef.h"
 #include "MyGame_Struct.h"
+
 
 
 extern HWND g_hWnd;

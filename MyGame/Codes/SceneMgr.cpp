@@ -4,6 +4,7 @@
 #include "CharacterSelect.h"
 #include "Stage.h"
 #include "Editor.h"
+#include "Scene_Loading.h"
 
 USING(MyGame)
 
@@ -12,8 +13,10 @@ IMPLEMENT_SINGLETON(CSceneMgr)
 
 HRESULT CSceneMgr::Scene_Change(SCENEID _eID, PDIRECT3DDEVICE9 _pGraphic_Device)
 {
+
 	m_pPrvScene = m_pCurrScene;
 	m_eCurrSceneID = _eID;
+
 
 	switch (_eID)
 	{
@@ -68,8 +71,8 @@ HRESULT CSceneMgr::Render()
 
 HRESULT CSceneMgr::Clear_PrvScene()
 {
-	if (0 != Safe_Release(m_pPrvScene)) 
-		return E_FAIL; 
+	if (0 != Safe_Release(m_pPrvScene))
+		return E_FAIL;
 	return S_OK;
 
 }

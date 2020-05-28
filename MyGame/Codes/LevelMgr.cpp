@@ -5,6 +5,7 @@
 #include "ObjMgr.h"
 #include "Warrior.h"
 #include "Terrain.h"
+
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CLevelMgr)
@@ -51,6 +52,14 @@ HRESULT CLevelMgr::Initialize()
 	if (FAILED(m_pSpawner->Spawn(m_iCurrLevel)))
 		return E_FAIL;
 
+	return S_OK;
+}
+HRESULT CLevelMgr::Next_Level()
+{
+	return S_OK;
+}
+HRESULT CLevelMgr::Prv_Level()
+{
 	return S_OK;
 }
 CLevel*	CLevelMgr::Get_CurrLevel()

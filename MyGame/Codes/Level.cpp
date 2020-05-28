@@ -929,17 +929,6 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 	return S_OK;
 }
 
-HRESULT CLevel::Next_Level()
-{
-	//MSG_BOX("다음층으로 갑니다.");
-	return S_OK;
-}
-
-HRESULT CLevel::Prv_Level()
-{
-	//MSG_BOX("이전층으로 갑니다.");
-	return S_OK;
-}
 
 HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID)
 {

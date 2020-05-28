@@ -15,6 +15,7 @@ private:
 	SCENEID m_eCurrSceneID = SCENE_END;
 	CScene* m_pCurrScene = nullptr;
 	CScene*	m_pPrvScene = nullptr;
+	CScene*	m_pLoadingScene = nullptr;
 public:
 	HRESULT Scene_Change(SCENEID _eID, PDIRECT3DDEVICE9 _pGraphic_Device);
 	_int	Update(_double _timeDelta);

@@ -18,10 +18,11 @@ private:
 	_uint		m_iCurrLevel = 0;
 
 public:
+	HRESULT	Next_Level();
+	HRESULT	Prv_Level();
 	CLevel*	Get_CurrLevel();
 	_uint	Get_CurrDepth() { return m_iCurrLevel; }
 	void	Clear_DeadObjects();
-	
 public:
 	HRESULT Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device);
 	HRESULT	Initialize();

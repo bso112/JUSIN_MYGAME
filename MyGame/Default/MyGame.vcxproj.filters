@@ -307,6 +307,12 @@
     <Filter Include="03.Scene\Scene\Stage\UI\StatsPanel">
       <UniqueIdentifier>{14fdb86d-6d67-4ea2-96ff-8543fe7734b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10.Loading">
+      <UniqueIdentifier>{32bcac0c-4b0c-4cef-91b3-f2e70957f2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\Scene\Loading">
+      <UniqueIdentifier>{722d93b9-8add-4636-9240-34e279fa4053}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -606,6 +612,12 @@
     <ClInclude Include="..\Headers\StatsPanel.h">
       <Filter>03.Scene\Scene\Stage\UI\StatsPanel</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Scene_Loading.h">
+      <Filter>03.Scene\Scene\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Loading.h">
+      <Filter>10.Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -880,6 +892,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\StatsPanel.cpp">
       <Filter>03.Scene\Scene\Stage\UI\StatsPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Scene_Loading.cpp">
+      <Filter>03.Scene\Scene\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Loading.cpp">
+      <Filter>10.Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
