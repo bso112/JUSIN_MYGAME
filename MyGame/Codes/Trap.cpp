@@ -28,7 +28,8 @@ _int CTrap::Interact(CGameObject * _pOther)
 
 void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 {
-
+	if (!m_bActive)
+		return;
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 
 	//사용한 상태면 무시

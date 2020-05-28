@@ -76,6 +76,8 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	//이펙트 프로토타입
 	pObjMgr->Add_Prototype(L"Effect_Fire", SCENE_STAGE, CFire::Create(_pGraphic_Device));
 
+
+
 	Safe_Release(pLoader);
 	Safe_Release(pObjMgr);
 	Safe_Release(pModuleMgr);
@@ -89,65 +91,118 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	if (nullptr == pObjMgr)
 		return E_FAIL;
 
-	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
+	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_Level(_iLevel);
 	if (nullptr == pWorld)
 		return E_FAIL;
 
-	m_listCharacter->push_back(pObjMgr->Get_Player(SCENE_STAGE));
+
 
 	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
 	if (0 == _iLevel)
 	{
+		//기본적으로 플레이어를 넣어둔다.
+		m_listCharacter->push_back(pObjMgr->Get_Player(SCENE_STAGE));
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-		m_listCharacter[0].push_back(m_listGO[0].back());
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-		m_listCharacter[0].push_back(m_listGO[0].back());
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
-		m_listCharacter[0].push_back(m_listGO[0].back());
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[0].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 
 
 		////아이템 만들기
 		ranPos = pWorld->Get_RandomPos();
 		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
-		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE);
-		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
-		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
-		if (nullptr != pItem) m_listGO[0].push_back(pItem);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 	
-		for (auto& GO : m_listGO[0])
+		for (auto& GO : m_listGO[_iLevel])
 		{
 			Safe_AddRef(GO);
 		}
-		for (auto& GO : m_listCharacter[0])
+		for (auto& GO : m_listCharacter[_iLevel])
 		{
 			Safe_AddRef(GO);
 		}
 	}
+	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
+	if (1 == _iLevel)
+	{
 
+		Vector3 ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+
+
+		////아이템 만들기
+		ranPos = pWorld->Get_RandomPos();
+		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+
+		for (auto& GO : m_listGO[_iLevel])
+		{
+			Safe_AddRef(GO);
+		}
+		for (auto& GO : m_listCharacter[_iLevel])
+		{
+			Safe_AddRef(GO);
+		}
+	}
 	return S_OK;
 }
 
@@ -279,6 +334,14 @@ vector<pair<int,int>> CSpawner::Get_TileIndexs()
 		}
 	}
 	return indexs;
+}
+
+void CSpawner::SetActive(_bool _bActive, _uint _iLevel)
+{
+	for (auto& GO : m_listGO[_iLevel])
+	{
+		GO->Set_Active(_bActive);
+	}
 }
 
 _int CSpawner::Clear_DeadObjects(_uint _iLevel)

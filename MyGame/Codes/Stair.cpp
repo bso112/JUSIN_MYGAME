@@ -63,6 +63,9 @@ HRESULT CStair::OnLoadData()
 
 void CStair::OnCollisionEnterTerrain(CGameObject * _pOther)
 {
+	if (!m_bActive)
+		return;
+
 	if (nullptr == _pOther)
 		return;
 

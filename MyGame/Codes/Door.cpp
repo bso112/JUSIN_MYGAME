@@ -18,6 +18,9 @@ CDoor::CDoor(CDoor & _rhs)
 
 _int CDoor::Interact(CGameObject* _pOther)
 {
+	if (!m_bActive)
+		return 0;
+
 	if (nullptr == m_pTransform)
 		return -1;
 

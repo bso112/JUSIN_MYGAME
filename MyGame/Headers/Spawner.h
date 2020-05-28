@@ -28,6 +28,9 @@ public:
 	_int			Clear_DeadObjects(_uint _iLevel);
 	vector<pair<int, int>> Get_TileIndexs();
 
+public:
+	void	SetActive(_bool _bActive, _uint _iLevel);
+
 
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

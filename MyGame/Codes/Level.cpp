@@ -29,9 +29,6 @@ HRESULT CLevel::Initialize(SCENEID _eSceneID, _tchar* _pFilePath)
 		return E_FAIL;
 
 	m_eSceneID = _eSceneID;
-	//지형 프로토타입을 만든다.
-	if (_eSceneID != SCENE_EDITOR)
-		Initalize_Prototypes(m_pGraphic_Device, _eSceneID);
 
 	m_pLoadfilePath = _pFilePath;
 	return S_OK;
@@ -777,6 +774,19 @@ Vector3 CLevel::Get_PlayerSpawnPos()
 
 
 
+void CLevel::SetActive(_bool _bActive)
+{
+	for (int i = 0; i < WORLDY; ++i)
+	{
+		for (int j = 0; j < WORLDX; ++j)
+		{
+			if(m_pTerrains[i][j] != nullptr)
+				m_pTerrains[i][j]->Set_Active(_bActive);
+		}
+	}
+
+}
+
 HRESULT CLevel::Save_World(const _tchar* _filePath)
 {
 	HANDLE hFile = CreateFile(_filePath, GENERIC_WRITE
@@ -933,8 +943,6 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID)
 {
 
-	//타일 생성
-	CTileLoader::CreateTilePrototype(_pGraphic_Device, SCENE_STAGE);
 
 	return S_OK;
 }

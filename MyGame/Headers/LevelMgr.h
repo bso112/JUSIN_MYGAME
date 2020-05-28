@@ -15,13 +15,14 @@ private:
 private:
 	CLevel*		m_aLevel[MAX_DEPTH];
 	CSpawner*	m_pSpawner = nullptr;
-	_uint		m_iCurrLevel = 0;
+	_int		m_iCurrLevel = 0;
 
 public:
 	HRESULT	Next_Level();
 	HRESULT	Prv_Level();
 	CLevel*	Get_CurrLevel();
-	_uint	Get_CurrDepth() { return m_iCurrLevel; }
+	CLevel*	Get_Level(_int index);
+	_int	Get_CurrDepth() { return m_iCurrLevel; }
 	void	Clear_DeadObjects();
 public:
 	HRESULT Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device);

@@ -65,6 +65,9 @@ HRESULT CTerrain::Initialize()
 
 _int CTerrain::LateUpate(_double _timeDelta)
 {
+	if (!m_bActive)
+		return 0;
+
 	m_pTransform->Update_Transform();
 
 	if (nullptr == m_pPipline ||
@@ -91,6 +94,9 @@ _int CTerrain::LateUpate(_double _timeDelta)
 
 HRESULT CTerrain::Render()
 {
+	if (!m_bActive)
+		return 0;
+
 	m_pTransform->Update_Transform();
 
 	ALPHATEST;
@@ -177,6 +183,7 @@ HRESULT CTerrain::Load_Data(SAVE_DATA& _eSaveData)
 
 bool CTerrain::IsMovable(CTransform * _pTransform)
 {
+
 	if (nullptr == _pTransform)
 		return m_tInfo.m_bMovable;
 
@@ -221,6 +228,9 @@ HRESULT CTerrain::Backward_Frame()
 
 void CTerrain::OnCollisionEnter(CGameObject * _pOther)
 {
+	if (!m_bActive)
+		return;
+
 	if (nullptr != dynamic_cast<CCharacter*>(_pOther))
 	{
 		CTransform* pTransform = (CTransform*)_pOther->Get_Module(L"Transform");
@@ -234,12 +244,15 @@ void CTerrain::OnCollisionEnter(CGameObject * _pOther)
 
 void CTerrain::OnCollisionStay(CGameObject * _pOther)
 {
-
+	if (!m_bActive)
+		return;
 	OnCollisionStayTerrain(_pOther);
 }
 
 void CTerrain::OnCollisionExit(CGameObject * _pOther)
 {
+	if (!m_bActive)
+		return;
 	if (nullptr != dynamic_cast<CCharacter*>(_pOther))
 	{
 		m_pCharacterTranform = nullptr;

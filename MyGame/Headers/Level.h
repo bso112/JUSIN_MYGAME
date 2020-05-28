@@ -62,7 +62,7 @@ public:
 
 	//list<CGameObject*>* Get_Movable() { return &m_listMovable; }
 
-
+	void	SetActive(_bool _bActive);
 public:
 	HRESULT	Save_World(const _tchar* _filePath);
 	//지형의 프로토타입이 있다고 가정하고 로드한다.
