@@ -144,7 +144,7 @@ HRESULT CMenu::Initialize()
 	m_vecCanvas[1].push_back(pBtn);
 	pBtn = CMyButton::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) + 10 + 100.f, 660.f, 0.f, 1.f), Vector2(200.f, 80.f), L"RedButton", SCENE_MENU);
 	pBtn->Set_Text(L"Game Start");
-	pBtn->Add_Listener([&] {CSceneMgr::Get_Instance()->Scene_Change(SCENEID::SCENE_STAGE, m_pGraphic_Device);});
+	pBtn->Add_Listener([&] {CSceneMgr::Get_Instance()->Scene_Change(SCENEID::SCENE_LOADING, m_pGraphic_Device);});
 	m_vecCanvas[1].push_back(pBtn);
 
 #pragma endregion

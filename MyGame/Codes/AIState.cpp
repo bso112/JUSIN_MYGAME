@@ -76,6 +76,11 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 	if (nullptr == pTransform)
 		return STATE_END;
 
+	//공격 모션
+	CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+	if (nullptr == pAnimator)
+		return STATE_END;
+
 	//만약 이동력만큼 다 움직였으면
 	if (pTransform->Is_TurnEnd())
 	{
@@ -84,6 +89,23 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 		//트랜스폼도 턴종료
 		pTransform->NextTurn();
 	}
+	//공격애니메이션 끝나면
+	else if (m_bAttack && pAnimator->IsEndAnim(L"attack"))
+	{
+		CCharacter* pFocus = m_pActor->Get_Focus();
+		if (nullptr == pFocus)
+			return STATE_END;
+
+		//공격
+		m_pActor->Interact(pFocus);
+
+		//턴종료
+		m_pActor->SetTurnState(true);
+		m_bAttack = false;
+	}
+	//그외에는 턴 진행중
+	else
+		m_pActor->SetTurnState(false);
 
 	return STATE_END;
 }
@@ -107,21 +129,14 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 	//공격할 수 있으면
 	if (_canAttack)
 	{
-		CCharacter* pFocus = m_pActor->Get_Focus();
-		if (nullptr == pFocus)
-			return STATE_END;
-
-		//공격
-		m_pActor->Interact(pFocus);
-
 		//공격 모션
 		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
 		if (nullptr == pAnimator)
 			return STATE_END;
 
 		pAnimator->Play(L"attack");
-		//공격하고 나면 턴종료
-		m_pActor->SetTurnState(true);
+		m_bAttack = true;
+
 	}
 	//인식했으면
 	else if (_isAlerted)

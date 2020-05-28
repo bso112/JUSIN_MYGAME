@@ -19,7 +19,7 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 
 protected:
-	virtual	void OnThrow();
+	virtual	void OnThrowEnd() override;
 	virtual HRESULT	Render() override;
 	//꽃 상태가 아닐때만 마우스클릭으로 인터렉트 가능
 	virtual _bool	IsInteractable() { return !m_bFlower; }

@@ -18,15 +18,18 @@ private:
 	CRITICAL_SECTION	m_CriticalSection;
 	HANDLE				m_Handle;
 	SCENEID				m_eSceneID = SCENE_END;
+	_bool				m_bFinish = false;
 public:
 	//스레드를 생성한다.
 	HRESULT	Initialize(SCENEID _eSceneID);
-	HRESULT	Load_Scene(SCENEID _eSceneID);
 
+public:
+	HRESULT				Initialize_Stage();
 public:
 	SCENEID				Get_SceneID(){ return m_eSceneID; }
 	CRITICAL_SECTION	Get_CriticalSection() { return m_CriticalSection; }
-
+	_bool				IsFinish() { return m_bFinish; }
+	void				Set_Finish() { m_bFinish = true; }
 public:
 	static CLoading* Create(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID);
 	virtual void Free() override;

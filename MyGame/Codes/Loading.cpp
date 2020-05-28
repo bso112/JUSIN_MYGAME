@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "..\Headers\Loading.h"
+#include "TextureLoader.h"
+#include "LevelMgr.h"
+#include "ObjMgr.h"
+#include "Camera.h"
 
 USING(MyGame)
 CLoading::CLoading(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -24,12 +28,16 @@ _uint APIENTRY Theared_Main(void* _pArg)
 	case SCENE_MENU:
 		break;
 	case SCENE_STAGE:
+		pLoading->Initialize_Stage();
 		break;
+
 	}
 
 	//임계영역을 빠져나온다.
 	LeaveCriticalSection(&pLoading->Get_CriticalSection());
 
+
+	pLoading->Set_Finish();
 	if (FAILED(hr))
 		return -1;
 
@@ -67,12 +75,47 @@ HRESULT CLoading::Initialize(SCENEID _eSceneID)
 	return S_OK;
 }
 
-HRESULT CLoading::Load_Scene(SCENEID _eSceneID)
+HRESULT CLoading::Initialize_Stage()
 {
-	m_eSceneID = _eSceneID;
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr)
+		return E_FAIL;
+
+	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	if (nullptr == pLoader)
+
+		return E_FAIL;
+
+	Safe_AddRef(pLoader);
+
+	//텍스쳐생성
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/icon/");
+	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
+	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Effect/");
+
+
+	Safe_Release(pLoader);
+
+	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
+
+	//레벨에 필요한 프로로타입 생성
+	if (FAILED(pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
+		return E_FAIL;
+
+
+
+	//카메라 프로로타입 생성
+	pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
+
+
+
 
 	return S_OK;
+
 }
+
+
 
 CLoading * CLoading::Create(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID _eSceneID)
 {

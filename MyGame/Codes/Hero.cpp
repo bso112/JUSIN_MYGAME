@@ -91,7 +91,7 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 
 		//플레이어가 움직일 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
+		CTurnMgr::Get_Instance()->MoveTurn_sequentially2(iTurnCnt);
 
 		//턴 이동 후 인터렉트.
 		//타일피킹
@@ -106,8 +106,9 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		{
 			//인터렉트한다.
 			Interact(pObj);
-			////인터렉트 당한다.
-			pObj->Interact(this);
+			//인터렉트 당한다. (몬스터와의 인터렉트는 턴으로 제어한다)
+			if(nullptr == dynamic_cast<CMonster*>(pObj))
+				pObj->Interact(this);
 		}
 
 	}

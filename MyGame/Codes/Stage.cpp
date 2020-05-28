@@ -28,8 +28,8 @@ CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 HRESULT CStage::Initialize()
 {
 
-	if (FAILED(Initalize_Prototypes()))
-		return E_FAIL;
+	/*if (FAILED(Initalize_Prototypes()))
+		return E_FAIL;*/
 
 	if (FAILED(Initalize_Layers()))
 		return E_FAIL;
@@ -45,7 +45,7 @@ HRESULT CStage::Initialize()
 
 _int CStage::Update(_double _timeDelta)
 {
-	m_pTurnMgr->Update_Simultaneously();
+	m_pTurnMgr->Update_sequentially2();
 	CScene::Update(_timeDelta);
 
 	return 0;
@@ -63,33 +63,33 @@ HRESULT CStage::Render()
 
 HRESULT CStage::Initalize_Prototypes()
 {
-	if (nullptr == m_pObjMgr)
-		return E_FAIL;
+	//if (nullptr == m_pObjMgr)
+	//	return E_FAIL;
 
-	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
-	if (nullptr == pLoader)
+	//CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	//if (nullptr == pLoader)
 
-		return E_FAIL;
+	//	return E_FAIL;
 
-	Safe_AddRef(pLoader);
+	//Safe_AddRef(pLoader);
 
-	//텍스쳐생성
-	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
-	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/icon/");
-	pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
-	pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Effect/");
-
-
-	Safe_Release(pLoader);
-
-	//레벨에 필요한 프로로타입 생성
-	if (FAILED(m_pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
-		return E_FAIL;
+	////텍스쳐생성
+	//pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/Stage/");
+	//pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/UI/icon/");
+	//pLoader->Create_Textrues_From_Folder_Anim(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Terrain/level_one/");
+	//pLoader->Create_Textrues_From_Folder(m_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Effect/");
 
 
+	//Safe_Release(pLoader);
 
-	//카메라 프로로타입 생성
-	m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
+	////레벨에 필요한 프로로타입 생성
+	//if (FAILED(m_pLevelMgr->Initialize_Prototypes(m_pGraphic_Device)))
+	//	return E_FAIL;
+
+
+
+	////카메라 프로로타입 생성
+	//m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
 
 	return S_OK;
 }

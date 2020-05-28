@@ -27,7 +27,7 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 
 
-CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
+CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 {
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr)
@@ -38,6 +38,19 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 
 	CItem* pItem = nullptr;
 
+	const _tchar* layerTag = L"item";
+	switch (_level)
+	{
+	case 1:
+		layerTag = L"item";
+	case 2:
+		layerTag = L"item_lv2";
+	case 3:
+		layerTag = L"item_lv3";
+	default:
+		break;
+	}
+
 	switch (_eID)
 	{
 	case MyGame::CItemFactory::ITEM_SHORTSWORD:
@@ -47,7 +60,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 3.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_LONGSWORD:
 		tDesc.m_iTextureID = 2;
@@ -56,7 +69,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 5.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_DAGGER:
 		tDesc.m_iTextureID = 3;
@@ -65,7 +78,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tStats.m_fAtt = 2.f;
 		tDesc.m_tBaseDesc = _tDesc;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_IRONSWORD:
 		tDesc.m_iTextureID = 5;
@@ -74,7 +87,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 6.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_BATTLEAXE:
 		tDesc.m_iTextureID = 7;
@@ -83,7 +96,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 6.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_GOLDAXE:
 		tDesc.m_iTextureID = 8;
@@ -92,7 +105,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 5.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_SPEAR:
 		tDesc.m_iTextureID = 9;
@@ -101,7 +114,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 5.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_TRIDENT:
 		tDesc.m_iTextureID = 10;
@@ -110,7 +123,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 7.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_MACE:
 		tDesc.m_iTextureID = 11;
@@ -119,7 +132,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 4.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_LETHERARMOR:
 		tDesc.m_iTextureID = 2;
@@ -128,7 +141,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fArmor = 2.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE,layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_CHAINARMOR:
 		tDesc.m_iTextureID = 6;
@@ -137,7 +150,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fArmor = 3.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_PLATEARMOR:
 		break;
@@ -152,7 +165,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 3.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, L"Item", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_BOMB:
 		break;

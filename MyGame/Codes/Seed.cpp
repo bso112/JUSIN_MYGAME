@@ -29,7 +29,7 @@ HRESULT CSeed::Initialize(void * _param)
 	return S_OK;
 }
 
-void CSeed::OnThrow()
+void CSeed::OnThrowEnd()
 {
 	//꽃으로 변한다
 	++m_iTextureID;

@@ -39,6 +39,8 @@ class CAIHunting : public CAIState
 public:
 	explicit CAIHunting(CCharacter* _pActor) :CAIState(_pActor) {};
 
+private:
+	_bool	m_bAttack = false;
 public:
 	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta) override;
 	virtual STATE	Act(_bool _canAttack, _bool _isAlerted,  _double _timeDelta) override;

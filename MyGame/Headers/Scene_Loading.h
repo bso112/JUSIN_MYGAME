@@ -11,15 +11,12 @@ protected:
 	virtual ~CScene_Loading() = default;
 
 private:
-	CImage*		m_pMainUI = nullptr;
 	CLoading*	m_pLoading = nullptr;
 public:
 	virtual HRESULT Initialize();
 	virtual _int	Update(_double _timeDelta);
 	virtual HRESULT	Render();
 
-public:
-	HRESULT	Initialize_Scene(SCENEID _SceneID, _uint _iLevel);
 
 
 public:

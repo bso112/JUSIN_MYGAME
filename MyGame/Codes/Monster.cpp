@@ -137,7 +137,7 @@ void CMonster::OnAttack(CGameObject * _pOther)
 		nullptr == m_pAnimator)
 		return;
 
-	m_pAnimator->Play(L"attack");
+	//m_pAnimator->Play(L"attack");
 }
 
 void CMonster::Free()

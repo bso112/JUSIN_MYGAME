@@ -26,25 +26,31 @@ CCharacter::CCharacter(CCharacter & _character)
 
 _int CCharacter::StartAct()
 {
+	if (!m_bActive)
+		return 0;
 	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 }
 
 _int CCharacter::UpdateAct()
 {
+	if (!m_bActive)
+		return 0;
 	return m_pStateCon->Update(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 }
 
 void CCharacter::PlayEffect(CEffect * _pEffect)
 {
-	//이펙트가 비어있거나 기존 이펙트가 죽었으면
-	if (nullptr == m_pEffect || m_pEffect->Get_Dead())
-	{
-		//교체
-		m_pEffect = _pEffect;
-		//이펙트가 캐릭터를 따라다니게 한다.
-		_pEffect->Set_Target(m_pTransform);
-		m_pEffect->Play();
-	}
+	//릭남
+	if (nullptr != m_pEffect)
+		Safe_Release(m_pEffect);
+	//교체
+	m_pEffect = _pEffect;
+	Safe_AddRef(m_pEffect);
+	//이펙트가 캐릭터를 따라다니게 한다.
+	m_pEffect->Set_Target(m_pTransform);
+	m_pEffect->Play();
+
+
 
 
 }
@@ -246,6 +252,7 @@ void CCharacter::OnAttack(CGameObject * _pOther)
 
 void CCharacter::Free()
 {
+	Safe_Release(m_pEffect);
 	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);

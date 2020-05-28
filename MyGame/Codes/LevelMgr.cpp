@@ -40,8 +40,6 @@ HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	if (FAILED(CObjMgr::Get_Instance()->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(_pGraphic_Device))))
 		return E_FAIL;
 
-
-
 	return S_OK;
 }
 
@@ -61,17 +59,17 @@ HRESULT CLevelMgr::Initialize()
 	if (FAILED(m_pSpawner->Spawn(0)))
 		return E_FAIL;
 
-	////두번째 레벨을 로드한다.
-	//if (FAILED(m_aLevel[1]->Load_World(SCENE_STAGE)))
-	//	return E_FAIL;
+	//두번째 레벨을 로드한다.
+	if (FAILED(m_aLevel[1]->Load_World(SCENE_STAGE)))
+		return E_FAIL;
 
-	////두번째 레벨의 아이템, 몬스터를 스폰한다.
-	//if (FAILED(m_pSpawner->Spawn(1)))
-	//	return E_FAIL;
+	//두번째 레벨의 아이템, 몬스터를 스폰한다.
+	if (FAILED(m_pSpawner->Spawn(1)))
+		return E_FAIL;
 
-	////안보이게 한다.
-	//m_aLevel[1]->SetActive(false);
-	//m_pSpawner->SetActive(false, 1);
+	//안보이게 한다.
+	m_aLevel[1]->SetActive(false);
+	m_pSpawner->SetActive(false, 1);
 
 
 
@@ -93,6 +91,8 @@ HRESULT CLevelMgr::Next_Level()
 	if (nullptr == pHero)
 		return E_FAIL;
 	pHero->Set_InitialPos();
+	CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
+	pHeroTransform->Stop();
 	return S_OK;
 }
 HRESULT CLevelMgr::Prv_Level()
@@ -113,6 +113,8 @@ HRESULT CLevelMgr::Prv_Level()
 	if (nullptr == pHero)
 		return E_FAIL;
 	pHero->Set_InitialPos();
+	CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
+	pHeroTransform->Stop();
 
 
 	return S_OK;

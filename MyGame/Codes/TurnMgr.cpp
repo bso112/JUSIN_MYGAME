@@ -96,6 +96,78 @@ _int CTurnMgr::Update_sequentially()
 	return S_OK;
 }
 
+_int CTurnMgr::Update_sequentially2()
+{
+	if (!m_bTurnStart)
+		return 0;
+
+
+	//모든 엑터를 순서대로 행동시킨다.
+	static int layerIndex = 0;
+	static int objIndex = 0;
+	static _bool actLock = false;
+	if (layerIndex < 2)
+	{
+		list<CGameObject*> actorList = m_pActorLayers[layerIndex]->Get_List();
+		auto& iter = actorList.begin();
+		if (actorList.size() > objIndex)
+		{
+			//흠..? 레이어를 매 호출마다 받는데.. 이럴필요 없을텐데 터지네
+			if ((*iter)->Get_Dead())
+				return 0;
+
+			//인덱스만큼 이터레터 이동
+			for (int i = 0; i < objIndex; ++i)
+				++iter;
+
+			m_pCurrActor = dynamic_cast<CCharacter*>(*iter);
+			if (nullptr == m_pCurrActor)
+				return -1;
+
+			//현재액터가 턴을 종료하면
+			if (m_pCurrActor->IsTurnEnd())
+			{
+				//다음 액터를 셋팅
+				++objIndex;
+				actLock = false;
+				//한번 턴이 끝난 액터는 다음번을 위해 턴 상태 초기화
+				m_pCurrActor->SetTurnState(false);
+			}
+			else
+			{
+				//현재 액터를 한번만 동작시키기 위한 락
+				if (!actLock)
+				{
+					m_pCurrActor->StartAct();
+					actLock = true;
+				}
+			}
+
+		}
+		else
+		{
+			++layerIndex;
+			objIndex = 0;
+		}
+	}
+	else
+	{
+		//모든 액터의 턴이 모두 끝남. 
+		m_bTurnStart = false;
+		layerIndex = 0;
+		objIndex = 0;
+	}
+
+
+	//업데이트로 각 액터의 턴종료시점을 판단한다.
+	if (nullptr != m_pCurrActor)
+		m_pCurrActor->UpdateAct();
+
+
+
+	return 0;
+}
+
 _int CTurnMgr::Update_Simultaneously()
 {
 
@@ -182,6 +254,15 @@ HRESULT CTurnMgr::MoveTurn_sequentially(_int _iTurnCnt)
 	return S_OK;
 
 }
+
+HRESULT CTurnMgr::MoveTurn_sequentially2(_int _iTurnCnt)
+{
+
+	m_bTurnStart = true;
+
+	return S_OK;
+}
+
 
 HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
 {

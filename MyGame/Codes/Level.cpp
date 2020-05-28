@@ -935,7 +935,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 
 
 	CloseHandle(hFile);
-	MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
+	//MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
 	return S_OK;
 }
 

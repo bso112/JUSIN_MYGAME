@@ -59,6 +59,14 @@ HRESULT CAnimator::Play(const _tchar* _pTag)
 	return S_OK;
 }
 
+_bool CAnimator::IsEndAnim(const _tchar * _pAnimTag)
+{
+	auto& iter = find_if(m_mapAnim.begin(), m_mapAnim.end(), CFinder_Tag(_pAnimTag));
+	if (iter == m_mapAnim.end())
+		return false;
+	return (*iter).second != m_pCurrAnim;
+}
+
 CAnimator * CAnimator::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	CAnimator* pInstance = new CAnimator(_pGraphic_Device);

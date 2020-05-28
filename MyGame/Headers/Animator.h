@@ -23,6 +23,10 @@ public:
 	HRESULT	Add_Animation(const _tchar* _pTag, CAnimation* _pAnimation);
 	_int	Render(CShader* _pShader);
 	HRESULT	Play(const _tchar* _pTag);
+
+public:
+	//끝난 애니메이션인가?
+	_bool	IsEndAnim(const _tchar* _pAnimTag);
 public:
 	static CAnimator* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual CModule* Clone(void * _pArg = nullptr) override;

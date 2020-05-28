@@ -94,7 +94,7 @@ _int CFire::Update(_double _timeDelta)
 
 	//지속시간이 다되면 죽음
 	if (0x80000000 & CEffect::Update(_timeDelta))
-		return -1;
+		m_bDead = true;
 
 	if (nullptr == m_pParticleSystem)
 		return -1;
