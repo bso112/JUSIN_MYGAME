@@ -20,7 +20,7 @@ CLevelMgr::CLevelMgr()
 HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	//레벨을 준비한다.
-	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level2.dat");
+	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level3.dat");
 	RETURN_FAIL_IF_NULL(m_aLevel[0]);
 
 	//아이템, 몬스터 프로토타입을 준비한다.

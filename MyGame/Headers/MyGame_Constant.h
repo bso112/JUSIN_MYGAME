@@ -8,7 +8,8 @@ const unsigned int		g_iWinCY = 720;
 
 #define TILECX 25
 #define TILECY 25
-
+#define WORLDX 400
+#define WORLDY 400
 //레벨 최대 층수
 #define MAX_DEPTH 3
 
