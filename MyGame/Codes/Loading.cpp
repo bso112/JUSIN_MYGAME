@@ -4,6 +4,7 @@
 #include "LevelMgr.h"
 #include "ObjMgr.h"
 #include "Camera.h"
+#include "TargetMgr.h"
 
 USING(MyGame)
 CLoading::CLoading(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -109,6 +110,12 @@ HRESULT CLoading::Initialize_Stage()
 	pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
 
 
+
+	//·»´õÅ¸°Ù »ý¼º
+	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pTargetMgr);
+	pTargetMgr->Add_RenderTarget(m_pGraphic_Device, L"Portrait", g_iWinCX, g_iWinCY, D3DFMT_A8R8G8B8);
+	pTargetMgr->Add_RenderTarget(m_pGraphic_Device, L"fog", g_iWinCX, g_iWinCY, D3DFMT_A8R8G8B8);
 
 
 	return S_OK;

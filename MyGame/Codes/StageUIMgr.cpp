@@ -7,6 +7,8 @@
 #include "InventoryUIMgr.h"
 #include "DialogMgr.h"
 #include "StatsPanel.h"
+#include "Texture.h"
+#include "TargetMgr.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CStageUIMgr)
@@ -39,10 +41,16 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 		return E_FAIL;
 	Safe_AddRef(m_pStatsPanel);
 
+	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pTargetMgr);
+	LPDIRECT3DTEXTURE9 pPortrait = pTargetMgr->Get_Texture(L"Portrait");
+	RETURN_FAIL_IF_NULL(pPortrait);
+
 	//초상화버튼
-	pBtn = CMyButton::Create(_pGraphic_Device, Vector2(40.f, 40.f), Vector2(80.f, 80.f), L"empty_bound", SCENE_STATIC);
+	pBtn = CMyButton::Create(_pGraphic_Device, Vector2(40.f, 40.f), Vector2(80.f, 80.f), CTexture::Create(_pGraphic_Device, pPortrait));
 	pBtn->Add_Listener([&] {m_pStatsPanel->Set_Active(!m_pStatsPanel->Get_Active()); m_pStatsPanel->Set_Player();});
 	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
+	
 	vecUI.push_back(pBtn);
 
 

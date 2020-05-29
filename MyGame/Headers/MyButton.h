@@ -39,6 +39,7 @@ protected:
 
 public:
 	virtual HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
+	virtual HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, CTexture* _pTexture);
 	virtual _int	Update(_double _timeDelta)	override;
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
@@ -64,6 +65,8 @@ public:
 
 public:
 	static CMyButton*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
+	static CMyButton*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, CTexture* _pTexture);
+
 public:
 	virtual CGameObject * Clone(void * _pArg = nullptr) override;
 	virtual void Free() override;

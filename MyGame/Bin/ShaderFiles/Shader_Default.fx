@@ -9,13 +9,20 @@ sampler BaseSampler = sampler_state
 	texture = g_BaseTexture;
 };
 
-vector PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+
+struct PS_OUT
 {
-	vector vColor = (vector)0.f;
+	vector vColor : COLOR0;
+	vector vPortrait : COLOR1;
+};
 
-	vColor = tex2D(BaseSampler, _vTexUV);
+PS_OUT PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+{
+	PS_OUT Out = (PS_OUT)0.f;
 
-	return vColor;
+	Out.vColor = Out.vPortrait = tex2D(BaseSampler, _vTexUV);
+
+	return Out;
 
 }
 

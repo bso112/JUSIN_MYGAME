@@ -9,6 +9,7 @@
 #include "PlayerStateCon.h"
 #include "KeyMgr.h"
 #include "SceneMgr.h"
+#include "TargetMgr.h"
 USING(MyGame)
 
 
@@ -249,8 +250,15 @@ HRESULT CWarrior::Render()
 	if (!m_bActive)
 		return S_OK;
 
+
+	_matrix matrix = m_pTransform->Get_Matrix();
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
+
+	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pTargetMgr);
+	pTargetMgr->Set_RenderTarget(L"Portrait", 1);
+
 
 	ALPHABLEND;
 
@@ -268,8 +276,14 @@ HRESULT CWarrior::Render()
 	if (m_iPass == 3)
 		m_iPass = 0;
 
+
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+	
+	//ÃÊ»óÈ­ ·»´õ
+	
+
+
 
 #ifdef MYDEBUG
 	m_pTransform->Render_Collider();
@@ -290,7 +304,9 @@ HRESULT CWarrior::Render()
 
 	ALPHABLEND_END;
 
+	pTargetMgr->Release_RenderTarget(L"Portrait");
 
+	m_pTransform->Set_Matrix(matrix);
 
 
 

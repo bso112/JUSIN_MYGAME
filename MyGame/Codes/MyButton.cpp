@@ -36,6 +36,24 @@ HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTa
 	return S_OK;
 }
 
+HRESULT CMyButton::Initialize(Vector4 _vPos, Vector2 _vSize, CTexture * _pTexture)
+{
+	//슬롯에서 CMyButton::Itialize 이렇게하면 두번등록되버림
+	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
+	//키매니저에 옵저버로 등록한다.
+	CKeyMgr::Get_Instance()->RegisterObserver(m_eSceneID, this);
+
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform);
+	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
+	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
+
+	m_pTexture = _pTexture;
+
+	m_pTransform->Set_Position(_vPos);
+	m_pTransform->Set_Size(_vSize);
+	return S_OK;
+}
+
 
 
 
@@ -162,6 +180,18 @@ CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, 
 {
 	CMyButton* pInstance = new CMyButton(_pGraphic_Device);
 	if (FAILED(pInstance->Initialize(_vPos, _vSize, _pTextureTag, _eTextureSceneID)))
+	{
+		MSG_BOX("Fail to create CMyButton");
+		Safe_Release(pInstance);
+
+	}
+	return pInstance;
+}
+
+CMyButton * CMyButton::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, CTexture * _pTexture)
+{
+	CMyButton* pInstance = new CMyButton(_pGraphic_Device);
+	if (FAILED(pInstance->Initialize(_vPos, _vSize, _pTexture)))
 	{
 		MSG_BOX("Fail to create CMyButton");
 		Safe_Release(pInstance);

@@ -7,6 +7,7 @@
 #include "SceneMgr.h"
 #include "Statics.h"
 #include "KeyMgr.h"
+#include "TargetMgr.h"
 
 
 USING(MyGame)
@@ -280,6 +281,8 @@ HRESULT CMenu::Render()
 {
 	CScene::Render();
 
+
+
 	for (int i = 0; i < ARC2Y; ++i)
 	{
 		for (int j = 0; j < ARC2X; ++j)
@@ -308,7 +311,6 @@ HRESULT CMenu::Render()
 			btn->Render();
 		}
 	}
-
 
 
 	return 0;

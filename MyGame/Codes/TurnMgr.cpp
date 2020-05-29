@@ -109,6 +109,7 @@ _int CTurnMgr::Update_sequentially2()
 	if (layerIndex < 2)
 	{
 		list<CGameObject*> actorList = m_pActorLayers[layerIndex]->Get_List();
+		
 		auto& iter = actorList.begin();
 		if (actorList.size() > objIndex)
 		{
@@ -259,6 +260,15 @@ HRESULT CTurnMgr::MoveTurn_sequentially2(_int _iTurnCnt)
 {
 
 	m_bTurnStart = true;
+	for (auto& layer : m_pActorLayers)
+	{
+		for (auto& actor : layer->Get_List())
+		{
+			CCharacter* pActor = dynamic_cast<CCharacter*>(actor);
+			pActor->SetTurnState(false);
+		}
+	}
+
 
 	return S_OK;
 }

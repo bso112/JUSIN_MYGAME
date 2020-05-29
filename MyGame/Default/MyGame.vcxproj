@@ -201,6 +201,7 @@
     <ClInclude Include="..\Headers\Equipment.h" />
     <ClInclude Include="..\Headers\Fire.h" />
     <ClInclude Include="..\Headers\FireFlower.h" />
+    <ClInclude Include="..\Headers\Fog.h" />
     <ClInclude Include="..\Headers\Food.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
     <ClInclude Include="..\Headers\IceFlower.h" />
@@ -222,6 +223,8 @@
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
     <ClInclude Include="..\Headers\Scene_Loading.h" />
     <ClInclude Include="..\Headers\StatsPanel.h" />
+    <ClInclude Include="..\Headers\Target.h" />
+    <ClInclude Include="..\Headers\TargetMgr.h" />
     <ClInclude Include="..\Headers\wand.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
     <ClInclude Include="..\Headers\Ring.h" />
@@ -304,6 +307,7 @@
     <ClCompile Include="..\Codes\Equipment.cpp" />
     <ClCompile Include="..\Codes\Fire.cpp" />
     <ClCompile Include="..\Codes\FireFlower.cpp" />
+    <ClCompile Include="..\Codes\Fog.cpp" />
     <ClCompile Include="..\Codes\Food.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
     <ClCompile Include="..\Codes\IceFlower.cpp" />
@@ -324,6 +328,8 @@
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
     <ClCompile Include="..\Codes\Scene_Loading.cpp" />
     <ClCompile Include="..\Codes\StatsPanel.cpp" />
+    <ClCompile Include="..\Codes\Target.cpp" />
+    <ClCompile Include="..\Codes\TargetMgr.cpp" />
     <ClCompile Include="..\Codes\wand.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
     <ClCompile Include="..\Codes\Ring.cpp" />

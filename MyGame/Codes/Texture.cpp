@@ -31,6 +31,15 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* _pFilePath, _uint _iCnt)
 	return S_OK;
 }
 
+HRESULT CTexture::Initialize_Prototype(LPDIRECT3DTEXTURE9 _pTexture)
+{
+	if (nullptr == _pTexture)
+		return E_FAIL;
+
+	m_vecTexture.push_back(_pTexture);
+	return S_OK;
+}
+
 HRESULT CTexture::Initialize(void * _pArg)
 {
 	return S_OK;
@@ -66,6 +75,18 @@ CTexture * CTexture::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePat
 {
 	CTexture* pInstance = new CTexture(_pGraphic_Device);
 	if (FAILED(pInstance->Initialize_Prototype(_pFilePath, _iCnt)))
+	{
+		MSG_BOX("Fail to create CTexture");
+		delete pInstance;
+		pInstance = nullptr;
+	}
+	return pInstance;
+}
+
+CTexture * CTexture::Create(PDIRECT3DDEVICE9 _pGraphic_Device, LPDIRECT3DTEXTURE9 _pTexture)
+{
+	CTexture* pInstance = new CTexture(_pGraphic_Device);
+	if (FAILED(pInstance->Initialize_Prototype(_pTexture)))
 	{
 		MSG_BOX("Fail to create CTexture");
 		delete pInstance;

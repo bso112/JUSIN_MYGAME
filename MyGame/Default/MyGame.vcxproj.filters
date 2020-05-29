@@ -313,6 +313,18 @@
     <Filter Include="03.Scene\Scene\Loading">
       <UniqueIdentifier>{722d93b9-8add-4636-9240-34e279fa4053}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\11.RenderTarget">
+      <UniqueIdentifier>{1708d025-2fdc-4bd9-9d54-f56f9f5526c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\11.RenderTarget\Manager">
+      <UniqueIdentifier>{b4f60ea6-21aa-45ad-a88a-05e41bff4abe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Utility\11.RenderTarget\Target">
+      <UniqueIdentifier>{4b134d3b-22b4-47d9-af6a-951259d54739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Fog">
+      <UniqueIdentifier>{7f7f50f5-60af-4cb2-a2dc-bbbbf26e8817}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -618,6 +630,15 @@
     <ClInclude Include="..\Headers\Loading.h">
       <Filter>10.Loading</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Target.h">
+      <Filter>06.Utility\11.RenderTarget\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TargetMgr.h">
+      <Filter>06.Utility\11.RenderTarget\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Fog.h">
+      <Filter>04.GameObject\GameObject\Fog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -898,6 +919,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Loading.cpp">
       <Filter>10.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Target.cpp">
+      <Filter>06.Utility\11.RenderTarget\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TargetMgr.cpp">
+      <Filter>06.Utility\11.RenderTarget\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Fog.cpp">
+      <Filter>04.GameObject\GameObject\Fog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,8 @@ private:
 	vector<LPDIRECT3DTEXTURE9> m_vecTexture;
 public:
 	virtual HRESULT Initialize_Prototype(const _tchar* _pFilePath, _uint _iCnt);
+	virtual HRESULT Initialize_Prototype(LPDIRECT3DTEXTURE9 _pTexture);
+
 	virtual HRESULT Initialize(void* _pArg);
 
 public:
@@ -27,6 +29,7 @@ public:
 
 public:
 	static CTexture* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath, _uint _iCnt = 1);
+	static CTexture* Create(PDIRECT3DDEVICE9 _pGraphic_Device, LPDIRECT3DTEXTURE9 _pTexture);
 	virtual CModule * Clone(void * _pArg = nullptr) override;
 	virtual void Free();
 };

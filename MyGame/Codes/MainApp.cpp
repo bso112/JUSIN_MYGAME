@@ -16,6 +16,7 @@
 #include "Pipline.h"
 #include "ParticleSystem.h"
 #include "DialogMgr.h"
+#include "TargetMgr.h"
 
 USING(MyGame)
 
@@ -143,6 +144,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);
 	D3DXCreateFont(m_pGraphic_Device, 35, 13, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFontX2);
 
+
 	return S_OK;
 }
 
@@ -243,6 +245,10 @@ void CMainApp::Free()
 
 	if (0 != CDialogMgr::Destroy_Instance())
 		MSG_BOX("Fail to Release DIalogMgr");
+
+	if (0 != CTargetMgr::Destroy_Instance())
+		MSG_BOX("Fail to Release CTargetMgr");
+
 
 	//스태틱 씬의 오브젝트가 오브젝트 매니저를 참조해서 오브젝트 매니저의 refcnt가 0 이 아니게됨.
 	//따라서 클리어 해줘야함
