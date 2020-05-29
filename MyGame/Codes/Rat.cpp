@@ -106,9 +106,7 @@ HRESULT CRat::Initialize(void * _param)
 	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
 
 
-	//멤버변수 셋팅
-	m_iRecogRange = 5;
-	m_iAttackRange = 1;
+
 
 	return S_OK;
 }

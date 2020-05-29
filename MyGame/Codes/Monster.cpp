@@ -13,6 +13,9 @@ CMonster::CMonster(CMonster & _rhs)
 {
 	SCENEID eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	m_pFocus = (CCharacter*)CObjMgr::Get_Instance()->Get_Player(eSceneID);
+	//멤버변수 셋팅
+	m_iRecogRange = 15;
+	m_iAttackRange = 1;
 }
 
 _int CMonster::Update(_double _timeDelta)

@@ -3,6 +3,7 @@
 #include "ObjMgr.h"
 #include "Character.h"
 #include "Clock.h"
+#include "TurnMgr.h"
 
 USING(MyGame)
 CFire::CFire(PDIRECT3DDEVICE9 _pGraphic_Device)

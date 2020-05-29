@@ -105,7 +105,6 @@ _int CTurnMgr::Update_sequentially2()
 	//모든 엑터를 순서대로 행동시킨다.
 	static int layerIndex = 0;
 	static int objIndex = 0;
-	static _bool actLock = false;
 	if (layerIndex < 2)
 	{
 		list<CGameObject*> actorList = m_pActorLayers[layerIndex]->Get_List();
@@ -130,17 +129,17 @@ _int CTurnMgr::Update_sequentially2()
 			{
 				//다음 액터를 셋팅
 				++objIndex;
-				actLock = false;
+				m_bActLock = false;
 				//한번 턴이 끝난 액터는 다음번을 위해 턴 상태 초기화
 				m_pCurrActor->SetTurnState(false);
 			}
 			else
 			{
 				//현재 액터를 한번만 동작시키기 위한 락
-				if (!actLock)
+				if (!m_bActLock)
 				{
 					m_pCurrActor->StartAct();
-					actLock = true;
+					m_bActLock = true;
 				}
 			}
 
@@ -266,6 +265,7 @@ HRESULT CTurnMgr::MoveTurn_sequentially2(_int _iTurnCnt)
 		{
 			CCharacter* pActor = dynamic_cast<CCharacter*>(actor);
 			pActor->SetTurnState(false);
+			m_bActLock = false;
 		}
 	}
 

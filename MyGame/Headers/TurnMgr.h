@@ -23,6 +23,7 @@ private:
 	_int	m_iCurrTurn = 0;
 	_int	m_iMaxTurn = 0;
 
+	_bool	m_bActLock = false;
 
 private:
 	CLayer*	m_pActorLayers[2];

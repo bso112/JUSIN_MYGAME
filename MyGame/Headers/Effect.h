@@ -21,7 +21,8 @@ protected:
 	CClock_Delay*		m_pDeadClock = nullptr;
 	//이펙트 지속시간
 	_float				m_fDuration = 0.f;
-
+	
+	_int				m_iTurnCnt = 0;
 public:
 	virtual _int Update(_double _timeDelta);
 	virtual void Play() = 0;
