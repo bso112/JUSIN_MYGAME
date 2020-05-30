@@ -2,6 +2,7 @@
 #include "Base.h"
 
 BEGIN(MyGame)
+#define	MAX_LAYER_CNT 3
 class CLayer;
 class CCharacter;
 /*
@@ -26,7 +27,7 @@ private:
 	_bool	m_bActLock = false;
 
 private:
-	CLayer*	m_pActorLayers[2];
+	CLayer*	m_pActorLayers[MAX_LAYER_CNT];
 
 	
 

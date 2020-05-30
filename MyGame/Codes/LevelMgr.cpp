@@ -112,7 +112,7 @@ HRESULT CLevelMgr::Prv_Level()
 	CHero* pHero = dynamic_cast<CHero*>(CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE));
 	if (nullptr == pHero)
 		return E_FAIL;
-	pHero->Set_InitialPos();
+	pHero->Set_LastPos();
 	CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
 	pHeroTransform->Stop();
 

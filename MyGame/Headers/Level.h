@@ -34,7 +34,10 @@ private:
 	//어느 씬의 월드인가
 	SCENEID		m_eSceneID = SCENE_END;
 	PDIRECT3DDEVICE9 m_pGraphic_Device = nullptr;
+	//플레이어가 스폰되는 위치
 	Vector3		m_vPlayerSpawnPos;
+	//이전 층의 마지막 위치
+	Vector3		m_vPlayerLastPos;
 public:
 	HRESULT	Initialize(SCENEID _eSceneID, _tchar* _pLoadFilePath = nullptr);
 	HRESULT Render_ForEditor();
@@ -59,6 +62,7 @@ public:
 	Vector3	Get_RandomPos();
 	//플레이어 스폰 위치를 가져온다.
 	Vector3 Get_PlayerSpawnPos();
+	Vector3	Get_PlayerLastPos();
 
 	//list<CGameObject*>* Get_Movable() { return &m_listMovable; }
 

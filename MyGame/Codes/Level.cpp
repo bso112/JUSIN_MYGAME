@@ -273,10 +273,10 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 	for (auto& tile : closedTiles)
 	{
 		if (tile.first >= WORLDX || tile.second >= WORLDY)
-			return E_FAIL;
+			continue;
 
 		if (nullptr == m_pTerrains[tile.second][tile.first])
-			return E_FAIL;
+			continue;
 
 		closed.push_back(m_pTerrains[tile.second][tile.first]);
 	}
@@ -519,9 +519,19 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 	//검사의 중심이 되는 현재노드(그냥 visited의 마지막 노드)
 	CTerrain* pCurrNode = m_pTerrains[srcY][srcX];
 
+
 	//검사에서 제외할 타일들
+	vector<pair<int, int>> closedTiles = CSpawner::Get_Instance()->Get_TileIndexs();
+	for (auto& tile : closedTiles)
+	{
+		if (tile.first >= WORLDX || tile.second >= WORLDY)
+			continue;
 
+		if (nullptr == m_pTerrains[tile.second][tile.first])
+			continue;
 
+		closed.push_back(m_pTerrains[tile.second][tile.first]);
+	}
 
 	_int currX = srcX;
 	_int currY = srcY;
@@ -770,6 +780,11 @@ Vector3 CLevel::Get_PlayerSpawnPos()
 	return m_vPlayerSpawnPos;
 }
 
+Vector3 CLevel::Get_PlayerLastPos()
+{
+	return m_vPlayerLastPos;
+}
+
 
 
 
@@ -879,7 +894,9 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 				m_pTerrains[y][x] = pTerrain;
 
 			if (0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_trap") ||
-				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_stair"))
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_stair")	||
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_trap")	||
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_stair"))
 			{
 				m_listCollidable.push_back(pTerrain);
 				Safe_AddRef(pTerrain);
@@ -902,6 +919,13 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 					m_vPlayerSpawnPos = pTransform->Get_Position();
 
 				}
+				else if (CStair::TYPE_DOWN == pStair->Get_Type())
+				{
+					CTransform* pTransform = (CTransform*)pStair->Get_Module(L"Transform");
+					RETURN_FAIL_IF_NULL(pTransform);
+					m_vPlayerLastPos = pTransform->Get_Position();
+
+				}
 			}
 
 
@@ -918,24 +942,9 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 	}
 
 
-	//for (int i = 0; i < WORLDY; ++i)
-	//{
-	//	for (int j = 0; j < WORLDX; ++j)
-	//	{
-	//		if (nullptr != m_pTerrains[i][j])
-	//		{
-	//			if (m_pTerrains[i][j]->IsMovable(nullptr))
-	//			{
-	//				m_listMovable.push_back(m_pTerrains[i][j]);
-
-	//			}
-	//		}
-	//	}
-	//}
-
 
 	CloseHandle(hFile);
-	//MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
+
 	return S_OK;
 }
 
@@ -947,98 +956,17 @@ HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 	return S_OK;
 }
 
-////_pObj와 _pObj가 서있는 타일을 충돌처리한다. (Obj의 중심점이 타일 안에 들어왔을때 충돌임)
-//HRESULT CLevel::Collision_Terrain(CGameObject* _pObj)
-//{
-//	if (nullptr == _pObj)
-//		return E_FAIL;
-//
-//	CTransform* pTransform = (CTransform*)_pObj->Get_Module(L"Transform");
-//
-//	//_pObj가 서있는 타일의 인덱스를 구한다.
-//	int x = (int)pTransform->Get_Position().x / TILECX;
-//	int y = (int)pTransform->Get_Position().y / TILECY;
-//
-//	if (x < 0 || y < 0 || x >= WORLDX || y >= WORLDY)
-//		return E_FAIL;
-//
-//	if (nullptr == m_pTerrains[y][x])
-//		return E_FAIL;
-//
-//	//_pObj가 서있는 타일 중심으로 전방향의 타일을 구한다.
-//	//collision Exit을 특정하기 위해서는 모든 방향의 타일을 검사해야한다.
-//	//플레이어 위치와 플레이어가 서있다고 계산한 타일의 위치는 꽤 엇나갈 수 있다.
-//	//따라서 넓은 범위를 충돌검사해야한다.
-//	list<CGameObject*> terrains;
-//	for (int i = y - 2; i < y + 2; ++i)
-//	{
-//		for (int j = x - 2; j < x + 2; ++j)
-//		{
-//			if (nullptr != m_pTerrains[i][j])
-//			{
-//				terrains.push_back(m_pTerrains[i][j]);
-//			}
-//		}
-//	}
-//
-//	//충돌처리.
-//	CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), terrains);
-//
-//	return S_OK;
-//}
-//HRESULT CLevel::Collision_Terrain(list<CGameObject*> _pObjlist)
-//{
-//	for (auto& _pObj : _pObjlist)
-//	{
-//		if (nullptr == _pObj)
-//			return E_FAIL;
-//
-//		CTransform* pTransform = (CTransform*)_pObj->Get_Module(L"Transform");
-//
-//		//_pObj가 서있는 타일의 인덱스를 구한다.
-//		int x = (int)pTransform->Get_Position().x / TILECX;
-//		int y = (int)pTransform->Get_Position().y / TILECY;
-//
-//		if (x < 0 || y < 0 || x >= WORLDX || y >= WORLDY)
-//			return E_FAIL;
-//
-//		if (nullptr == m_pTerrains[y][x])
-//			return E_FAIL;
-//
-//		//_pObj가 서있는 타일 중심으로 전방향의 타일을 구한다.
-//		//collision Exit을 특정하기 위해서는 모든 방향의 타일을 검사해야한다.
-//		//플레이어 위치와 플레이어가 서있다고 계산한 타일의 위치는 꽤 엇나갈 수 있다.
-//		//따라서 넓은 범위를 충돌검사해야한다.
-//		list<CGameObject*> terrains;
-//		for (int i = y - 2; i < y + 2; ++i)
-//		{
-//			for (int j = x - 2; j < x + 2; ++j)
-//			{
-//				if (nullptr != m_pTerrains[i][j])
-//				{
-//					terrains.push_back(m_pTerrains[i][j]);
-//				}
-//			}
-//		}
-//
-//		//충돌처리.
-//		CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), terrains);
-//
-//	}
-//
-//	return S_OK;
-//}
 
 HRESULT CLevel::Collision_Terrain(CGameObject* _pObj)
 {
-	//CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), m_listMovable);
+
 	CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), m_listCollidable);
 	return S_OK;
 }
 
 HRESULT CLevel::Collision_Terrain(list<CGameObject*> _pObjlist)
 {
-	//CCollisionMgr::GameObjectInTile(_pObjlist, m_listMovable);
+
 	CCollisionMgr::GameObjectInTile(_pObjlist, m_listCollidable);
 	return S_OK;
 }

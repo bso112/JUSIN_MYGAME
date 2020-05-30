@@ -43,6 +43,9 @@ protected:
 public:
 	//히어로가 위치할 처음 위치를 구한다.
 	HRESULT	Set_InitialPos();
+	//이전 층에서의 마지막 위치를 구한다.
+	HRESULT	Set_LastPos();
+
 
 	
 public:

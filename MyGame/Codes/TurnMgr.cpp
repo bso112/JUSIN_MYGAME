@@ -38,7 +38,15 @@ HRESULT CTurnMgr::Initialize()
 	m_pActorLayers[1] = pLayer;
 	Safe_AddRef(m_pActorLayers[1]);
 
-	MoveTurn_Simultaneously(1);
+	pLayer = CObjMgr::Get_Instance()->Find_Layer(L"Monster_lv2", SCENE_STAGE);
+	if (nullptr == pLayer)
+		MSG_BOX("몬스터 레이어가 없습니다.");
+
+	m_pActorLayers[2] = pLayer;
+	Safe_AddRef(m_pActorLayers[2]);
+
+
+
 	return S_OK;
 }
 
@@ -105,7 +113,7 @@ _int CTurnMgr::Update_sequentially2()
 	//모든 엑터를 순서대로 행동시킨다.
 	static int layerIndex = 0;
 	static int objIndex = 0;
-	if (layerIndex < 2)
+	if (layerIndex < MAX_LAYER_CNT)
 	{
 		list<CGameObject*> actorList = m_pActorLayers[layerIndex]->Get_List();
 		
@@ -124,8 +132,8 @@ _int CTurnMgr::Update_sequentially2()
 			if (nullptr == m_pCurrActor)
 				return -1;
 
-			//현재액터가 턴을 종료하면
-			if (m_pCurrActor->IsTurnEnd())
+			//현재액터가 턴을 종료하면, 혹은 비활성화 상태면
+			if (m_pCurrActor->IsTurnEnd()	|| !m_pCurrActor->Get_Active())
 			{
 				//다음 액터를 셋팅
 				++objIndex;
@@ -261,8 +269,13 @@ HRESULT CTurnMgr::MoveTurn_sequentially2(_int _iTurnCnt)
 	m_bTurnStart = true;
 	for (auto& layer : m_pActorLayers)
 	{
+		if (nullptr == layer)
+			continue;
+
 		for (auto& actor : layer->Get_List())
 		{
+			if (!actor->Get_Active())
+				continue;
 			CCharacter* pActor = dynamic_cast<CCharacter*>(actor);
 			pActor->SetTurnState(false);
 			m_bActLock = false;

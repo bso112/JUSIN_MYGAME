@@ -136,12 +136,25 @@ HRESULT CHero::Set_InitialPos()
 		return E_FAIL;
 
 	m_pTransform->Set_Position(pLevel->Get_PlayerSpawnPos());
-
-
-
 	return S_OK;
 
 
+}
+
+HRESULT CHero::Set_LastPos()
+{
+	if (m_pTransform == nullptr)
+		return E_FAIL;
+
+	CLevel* pLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+
+	if (nullptr == pLevel)
+		return E_FAIL;
+
+	m_pTransform->Set_Position(pLevel->Get_PlayerLastPos());
+	return S_OK;
+
+	return S_OK;
 }
 
 
