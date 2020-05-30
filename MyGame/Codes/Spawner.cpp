@@ -144,13 +144,13 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_FIREPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);

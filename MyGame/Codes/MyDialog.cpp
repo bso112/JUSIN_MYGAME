@@ -18,7 +18,7 @@ HRESULT CMyDialog::Initialize(void * _pArg)
 {
 	//플레이스홀더들을 만든다.
 
-	_float fBaseCX = 400.f;
+	_float fBaseCX = 800.f;
 	_float fBaseCY = 250.f;
 	_float fBaseX = 0;
 	_float fBaseY = 70;

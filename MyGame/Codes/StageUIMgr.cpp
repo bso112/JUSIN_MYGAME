@@ -9,6 +9,7 @@
 #include "StatsPanel.h"
 #include "Texture.h"
 #include "TargetMgr.h"
+#include "HpBar.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CStageUIMgr)
@@ -53,6 +54,14 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	
 	vecUI.push_back(pBtn);
 
+	//HpBar
+	_float HpBarfCX = 163.f;
+	_float HpBarfCY = 11.f;
+	CHpBar* pHpBar = CHpBar::Create(_pGraphic_Device, Vector3(90.f + HpBarfCX * 0.5f, 8.f + HpBarfCY * 0.5f), Vector2(HpBarfCX, HpBarfCY), L"hp_bar", SCENE_STAGE);
+	CCharacter* pPlayer = (CCharacter*)CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
+	RETURN_FAIL_IF_NULL(pPlayer);
+	pHpBar->Set_Owner(pPlayer);
+	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pHpBar);
 
 	//인벤토리버튼
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"inventoryBtn", SCENE_STAGE);

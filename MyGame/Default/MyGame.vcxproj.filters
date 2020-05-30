@@ -328,6 +328,21 @@
     <Filter Include="04.GameObject\GameObject\Item\Potion">
       <UniqueIdentifier>{b6e20e3d-a50a-4426-a591-edde9ddb5cf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Potion\HealPotion">
+      <UniqueIdentifier>{95d58e6d-b255-4b4f-b93f-ab870ef257be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Potion\ParalyzePotion">
+      <UniqueIdentifier>{f7a8c4f1-899f-4793-9ef8-096e2d6721d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Potion\FirePotion">
+      <UniqueIdentifier>{4906b2c8-3d57-4a4a-b56a-674270f0cda6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Potion\PoisonPotion">
+      <UniqueIdentifier>{07d771b2-333d-490c-8cc7-42da006a6fc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Image\HpBar">
+      <UniqueIdentifier>{a878d663-96f8-497d-902c-969e45ac9f48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -645,6 +660,21 @@
     <ClInclude Include="..\Headers\Potion.h">
       <Filter>04.GameObject\GameObject\Item\Potion</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\HealPotion.h">
+      <Filter>04.GameObject\GameObject\Item\Potion\HealPotion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\FirePotion.h">
+      <Filter>04.GameObject\GameObject\Item\Potion\FirePotion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ParalyzePotion.h">
+      <Filter>04.GameObject\GameObject\Item\Potion\ParalyzePotion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\PoisionPotion.h">
+      <Filter>04.GameObject\GameObject\Item\Potion\PoisonPotion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\HpBar.h">
+      <Filter>04.GameObject\GameObject\Image\HpBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -937,6 +967,21 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Potion.cpp">
       <Filter>04.GameObject\GameObject\Item\Potion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\HealPotion.cpp">
+      <Filter>04.GameObject\GameObject\Item\Potion\HealPotion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\FirePotion.cpp">
+      <Filter>04.GameObject\GameObject\Item\Potion\FirePotion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ParalyzePotion.cpp">
+      <Filter>04.GameObject\GameObject\Item\Potion\ParalyzePotion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\PoisionPotion.cpp">
+      <Filter>04.GameObject\GameObject\Item\Potion\PoisonPotion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\HpBar.cpp">
+      <Filter>04.GameObject\GameObject\Image\HpBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -99,8 +99,6 @@ void CCharacter::TakeDamage(float _fDamage)
 		}
 #pragma endregion
 
-
-
 		OnTakeDamage();
 	}
 
@@ -111,6 +109,29 @@ void CCharacter::Heal(_float _healAmount)
 	m_tStat.m_fHP += _healAmount;
 	if (m_tStat.m_fHP >= m_tStat.m_fMaxHp->GetValue())
 		m_tStat.m_fHP = m_tStat.m_fMaxHp->GetValue();
+
+	//회복 파티클 생성
+	CObjMgr* pObjMgr =  CObjMgr::Get_Instance();
+	if (nullptr == pObjMgr) return;
+
+	if (nullptr == m_pTransform)
+		return;
+	Vector3 vPos = m_pTransform->Get_Position();
+	CImage::STATEDESC desc;
+	desc.m_dLifeTime = 0.5f;
+	desc.m_eTextureSceneID = SCENE_STAGE;
+	desc.m_fSpeed = 70.f;
+	desc.m_pTextureTag = L"specks";
+	desc.m_tBaseDesc = BASEDESC(vPos, Vector2(20.f, 20.f));
+	desc.m_iTextureID = 1;
+
+	CImage* pImage = (CImage*) pObjMgr->Add_GO_To_Layer(L"Effect", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+	if (nullptr == pImage)
+		return;
+	pImage->Set_UI(false);
+	CTransform* pImgTransform = (CTransform*)pImage->Get_Module(L"Transform");
+	pImgTransform->MoveToDirAuto(Vector3(0.f, -1.f));
+	
 }
 
 

@@ -60,6 +60,7 @@ HRESULT CImage::Initialize_Prototype(void* _pArg)
 
 	m_pTextureTag = desc.m_pTextureTag;
 	m_eSceneID = desc.m_eTextureSceneID;
+	m_iTextureID = desc.m_iTextureID;
 
 	if (FAILED(Set_Module(m_pTextureTag, m_eSceneID, (CModule**)&m_pTextrue)))
 		return E_FAIL;

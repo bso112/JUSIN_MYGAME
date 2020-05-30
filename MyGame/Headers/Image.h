@@ -17,6 +17,7 @@ public:
 		BASEDESC		m_tBaseDesc = {};
 		const _tchar*	m_pTextureTag = L"";
 		SCENEID			m_eTextureSceneID = SCENE_END;
+		_int			m_iTextureID = 1;
 		_float			m_fSpeed = 1.f;
 		_double			m_dLifeTime = FLT_MAX;
 	}STATEDESC;

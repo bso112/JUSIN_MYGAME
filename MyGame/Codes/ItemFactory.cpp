@@ -7,7 +7,10 @@
 #include "Armor.h"
 #include "ObjMgr.h"
 #include "Arrow.h"
-#include "Potion.h"
+#include "HealPotion.h"
+#include "PoisionPotion.h"
+#include "ParalyzePotion.h"
+#include "FirePotion.h"
 USING(MyGame)
 
 HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -21,7 +24,11 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	pObjMgr->Add_Prototype(L"Ring", SCENE_STAGE, CRing::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Armor", SCENE_STAGE, CArmor::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Arrow", SCENE_STAGE, CArrow::Create(_pGraphic_Device));
-	pObjMgr->Add_Prototype(L"Potion", SCENE_STAGE, CPotion::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"HealPotion", SCENE_STAGE, CHealPotion::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"ParalyzePotion", SCENE_STAGE, CParalyzePotion::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"FirePotion", SCENE_STAGE, CFirePotion::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"PosionPotion", SCENE_STAGE, CPoisionPotion::Create(_pGraphic_Device));
+
 
 
 
@@ -42,15 +49,15 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 
 	CItem::STATEDESC tDesc;
 	CItem::STATS tStats;
-	const _tchar* layerTag = L"item";
+	const _tchar* layerTag = L"Item";
 	switch (_level)
 	{
 	case 1:
-		layerTag = L"item";
+		layerTag = L"Item";
 	case 2:
-		layerTag = L"item_lv2";
+		layerTag = L"Item_lv2";
 	case 3:
-		layerTag = L"item_lv3";
+		layerTag = L"Item_lv3";
 	default:
 		break;
 	}
@@ -182,15 +189,39 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 	case MyGame::CItemFactory::ITEM_END:
 		break;
 	case MyGame::CItemFactory::ITEM_HEALPOTION:
-		tDesc.m_iTextureID = 1;
+		tDesc.m_iTextureID = 7;
 		tDesc.m_pItemName = L"회복포션";
 		tDesc.m_pDescription = L"먹으면 체력이 찬다.";
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fHp = 20.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Potion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"HealPotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_FIREPOTION:
+		tDesc.m_iTextureID = 1;
+		tDesc.m_pItemName = L"화염포션";
+		tDesc.m_pDescription = L"뜨거운 기운이 느껴진다.";
+		tStats.m_fAtt = 3.f;
+		tDesc.m_tBaseDesc = _tDesc;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"FirePotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
+		break;
+	case MyGame::CItemFactory::ITEM_PARALYZEPOTION:
+		tDesc.m_iTextureID = 9;
+		tDesc.m_pItemName = L"마비포션";
+		tDesc.m_pDescription = L"유독한 마비가스가 담겨져있다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"ParalyzePotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
+		break;
+	case MyGame::CItemFactory::ITEM_POSIONPOTION:
+		tDesc.m_iTextureID = 5;
+		tDesc.m_pItemName = L"독포션";
+		tDesc.m_pDescription = L"심상치 않은 독의 기운이 느껴진다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 3.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"PosionPotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	default:
 		break;

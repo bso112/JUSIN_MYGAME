@@ -5,6 +5,7 @@
 #include "TimerMgr.h"
 #include "Character.h"
 #include "Hero.h"
+#include "DialogMgr.h"
 USING(MyGame)
 
 CPotion::CPotion(PDIRECT3DDEVICE9 _pGrahic_Device)
@@ -55,7 +56,7 @@ HRESULT CPotion::Use(CHero * _pHero, const _tchar ** _pAction)
 		//사용됨
 		m_bUsed = true;
 		m_bDead = true;
-		_pHero->Heal(m_tDesc.m_tStats.m_fHp);
+		OnDrink(_pHero);
 	}
 	return S_OK;
 }
@@ -85,6 +86,8 @@ void CPotion::OnThrowEnd()
 
 	m_bDead = true;
 
+	//포션마다의 효과
+	OnShatter();
 
 }
 
@@ -131,6 +134,17 @@ HRESULT CPotion::Render()
 
 }
 
+
+void CPotion::OnDrink(CHero * _pHero)
+{
+	CDialogMgr::Get_Instance()->Log_Main(new wstring(L"포션을 마셨지만, 아무일도 일어나지 않았다."));
+}
+
+void CPotion::OnShatter()
+{
+	CDialogMgr::Get_Instance()->Log_Main(new wstring(L"포션은 날카로운 소리를 내며 깨졌다. 그러나 아무일도 일어나지 않았다."));
+}
+
 Vector3 CPotion::Get_OriginalSize()
 {
 	return m_vOriginalSize;
@@ -138,6 +152,10 @@ Vector3 CPotion::Get_OriginalSize()
 
 void CPotion::OnCollisionEnter(CGameObject * _pOther)
 {
+	//데미지를 줄 수 있는 상태여야만 됨(던지는 중)
+	if (!m_bThrown)
+		return;
+
 	if (nullptr == _pOther)
 		return;
 	
@@ -145,37 +163,12 @@ void CPotion::OnCollisionEnter(CGameObject * _pOther)
 
 	if (nullptr == pCharacter)
 		return;
-
-	pCharacter->TakeDamage(3.f);
-	m_bDead = true;
+	//깨져서 사라짐
+	OnThrowEnd();
 }
 
-CPotion* CPotion::Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath)
-{
-	CPotion* pInstance = new CPotion(_pGrahic_Device);
-	if (FAILED(pInstance->Initialize_Prototype(_pFilePath)))
-	{
-		MSG_BOX("Fail to create CPotion");
-		Safe_Release(pInstance);
-
-	}
-	return pInstance;
-}
-
-
-
-CPotion * CPotion::Clone(void * _param)
-{
-	CPotion* pInstance = new CPotion(*this);
-	if (FAILED(pInstance->Initialize(_param)))
-	{
-		MSG_BOX("Fail to create CPotion");
-		Safe_Release(pInstance);
-
-	}
-	return pInstance;
-}
 
 void CPotion::Free()
 {
+	CItem::Free();
 }

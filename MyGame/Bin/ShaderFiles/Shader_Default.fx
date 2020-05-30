@@ -3,6 +3,8 @@
 
 texture g_BaseTexture;
 float	g_Alpha;
+float	g_fMaxHp;
+float	g_fCurrHp;
 
 sampler BaseSampler = sampler_state
 {
@@ -73,6 +75,21 @@ vColor.a = g_Alpha;
 return vColor;
 }
 
+vector PS_HPBAR(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+{
+	vector vColor = (vector)0.f;
+
+vColor = tex2D(BaseSampler, _vTexUV);
+
+float ratio = g_fCurrHp / g_fMaxHp;
+
+//UV좌표는 곧 이미지의 비율이니까.
+if (ratio < _vTexUV.x)
+	vColor.a = 0;
+
+return vColor;
+}
+
 technique DefaultTechnique
 {
 
@@ -100,6 +117,11 @@ technique DefaultTechnique
 	{
 		VertexShader = NULL;
 		PixelShader = compile ps_3_0 PS_ALPHA();
+	}
+	pass HpBar
+	{
+		VertexShader = NULL;
+		PixelShader = compile ps_3_0 PS_HPBAR();
 	}
 
 }

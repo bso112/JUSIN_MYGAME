@@ -91,7 +91,7 @@ HRESULT CRenderer::Render_Prior()
 
 HRESULT CRenderer::Render_YSort()
 {
-	m_listGO[RENDER_YSORT].sort([](CGameObject* a, CGameObject* b)->bool { return a->Get_Depth() < b->Get_Depth(); });
+//	m_listGO[RENDER_YSORT].sort([](CGameObject* a, CGameObject* b)->bool { return a->Get_Depth() < b->Get_Depth(); });
 	for (auto& GO : m_listGO[RENDER_YSORT])
 	{
 		if (nullptr != GO)
