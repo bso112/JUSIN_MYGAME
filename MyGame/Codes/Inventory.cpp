@@ -146,7 +146,7 @@ HRESULT CInventory::Equip(CItem* _pEquipment, BODYPART _eBodyPart)
 		nullptr == _pEquipment)
 		return E_FAIL;
 
-
+	CItem* pItem = nullptr;
 	//슬롯을 순회해서 해당 아이템을 가지고 있는 슬롯을 찾는다.
 	for (auto& slot : m_vecItemSlot)
 	{
@@ -154,15 +154,27 @@ HRESULT CInventory::Equip(CItem* _pEquipment, BODYPART _eBodyPart)
 		if (slot->Has_Item(_pEquipment))
 		{
 			//찾은 슬롯을 클리어하고
-			CItem* pItem = slot->UnEquip();
+			pItem = slot->UnEquip();
 			if (nullptr == pItem)
 				return E_FAIL;
 
-			//찾은 아이템을 장착한다.
-			m_vecEquipSlot[_eBodyPart]->Equip(pItem);
-			return S_OK;
 		}
 	}
+	//장비슬롯에도 있을 가능성이 있음.
+	for (auto& slot : m_vecEquipSlot)
+	{
+		//찾았으면
+		if (slot->Has_Item(_pEquipment))
+		{
+			//찾은 슬롯을 클리어하고
+			pItem = slot->UnEquip();
+			if (nullptr == pItem)
+				return E_FAIL;
+
+		}
+	}
+	//찾은 아이템을 장착한다.
+	m_vecEquipSlot[_eBodyPart]->Equip(pItem);
 	return S_OK;
 }
 

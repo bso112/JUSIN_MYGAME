@@ -325,6 +325,9 @@
     <Filter Include="04.GameObject\GameObject\Fog">
       <UniqueIdentifier>{7f7f50f5-60af-4cb2-a2dc-bbbbf26e8817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Potion">
+      <UniqueIdentifier>{b6e20e3d-a50a-4426-a591-edde9ddb5cf5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -639,6 +642,9 @@
     <ClInclude Include="..\Headers\Fog.h">
       <Filter>04.GameObject\GameObject\Fog</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Potion.h">
+      <Filter>04.GameObject\GameObject\Item\Potion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -928,6 +934,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Fog.cpp">
       <Filter>04.GameObject\GameObject\Fog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Potion.cpp">
+      <Filter>04.GameObject\GameObject\Item\Potion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

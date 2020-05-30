@@ -8,6 +8,7 @@
 #include "ObjMgr.h"
 #include "Spawner.h"
 #include "LevelMgr.h"
+#include "Hero.h"
 USING(MyGame)
 
 CItemSlot::CItemSlot(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -89,6 +90,8 @@ HRESULT CItemSlot::Drop_Item()
 
 void CItemSlot::Equip(CItem* _pItem)
 {
+	//만약 아이템이 이미 있다면 해제
+	UnEquip();
 	//아이템 리스트를 비운다. (장비슬롯은 하나의 아이템만 가진다)
 	Clear();
 	//아이템을 추가한다.
@@ -99,6 +102,7 @@ CItem * CItemSlot::UnEquip()
 {
 	if (m_listItem.size() <= 0)
 		return nullptr;
+
 	//클리어 하기 전에 가지고 있던 아이템을 반환한다.
 	CItem* pItem = m_listItem.back();
 	Clear();

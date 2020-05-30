@@ -7,6 +7,7 @@
 #include "Armor.h"
 #include "ObjMgr.h"
 #include "Arrow.h"
+#include "Potion.h"
 USING(MyGame)
 
 HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -20,6 +21,8 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	pObjMgr->Add_Prototype(L"Ring", SCENE_STAGE, CRing::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Armor", SCENE_STAGE, CArmor::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Arrow", SCENE_STAGE, CArrow::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Potion", SCENE_STAGE, CPotion::Create(_pGraphic_Device));
+
 
 
 	return S_OK;
@@ -33,11 +36,12 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 	if (nullptr == pObjMgr)
 		return nullptr;
 
-	CEquipment::STATEDESC tDesc;
-	CEquipment::STATS tStats;
+
 
 	CItem* pItem = nullptr;
 
+	CItem::STATEDESC tDesc;
+	CItem::STATS tStats;
 	const _tchar* layerTag = L"item";
 	switch (_level)
 	{
@@ -176,6 +180,17 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 	case MyGame::CItemFactory::ITEM_REDRING:
 		break;
 	case MyGame::CItemFactory::ITEM_END:
+		break;
+	case MyGame::CItemFactory::ITEM_HEALPOTION:
+		tDesc.m_iTextureID = 1;
+		tDesc.m_pItemName = L"회복포션";
+		tDesc.m_pDescription = L"먹으면 체력이 찬다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fHp = 20.f;
+		tDesc.m_tStats = tStats;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Potion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
+		break;
+	case MyGame::CItemFactory::ITEM_FIREPOTION:
 		break;
 	default:
 		break;

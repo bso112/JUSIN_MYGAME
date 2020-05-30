@@ -10,6 +10,26 @@ class CHero;
 class CInventory;
 class CItem abstract : public CGameObject
 {
+public:
+	typedef struct tagStats
+	{
+		float	m_fMaxHP = 0.f;
+		float	m_fHp = 0.f;
+		float	m_fArmor = 0.f;
+		float	m_fAtt = 0.f;
+		int		m_iGold = 0;
+
+	}STATS;
+
+	typedef struct tagSTATEDESC
+	{
+		BASEDESC		m_tBaseDesc;
+		STATS			m_tStats;
+		_uint			m_iTextureID = 1;
+		const _tchar*	m_pDescription;
+		const _tchar*	m_pItemName;
+
+	}STATEDESC;
 	friend class CItemFactory;
 protected:
 	explicit CItem(PDIRECT3DDEVICE9 _pGrahic_Device) : CGameObject(_pGrahic_Device){};

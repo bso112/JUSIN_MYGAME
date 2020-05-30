@@ -221,6 +221,7 @@
     <ClInclude Include="..\Headers\Pipline.h" />
     <ClInclude Include="..\Headers\PlayerState.h" />
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
+    <ClInclude Include="..\Headers\Potion.h" />
     <ClInclude Include="..\Headers\Scene_Loading.h" />
     <ClInclude Include="..\Headers\StatsPanel.h" />
     <ClInclude Include="..\Headers\Target.h" />
@@ -326,6 +327,7 @@
     <ClCompile Include="..\Codes\Pipline.cpp" />
     <ClCompile Include="..\Codes\PlayerState.cpp" />
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
+    <ClCompile Include="..\Codes\Potion.cpp" />
     <ClCompile Include="..\Codes\Scene_Loading.cpp" />
     <ClCompile Include="..\Codes\StatsPanel.cpp" />
     <ClCompile Include="..\Codes\Target.cpp" />

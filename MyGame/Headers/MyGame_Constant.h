@@ -24,13 +24,14 @@ enum BODYPART { BODY_HAND, BODY_TORSO, BODY_FINGER, BODY_ARTEFACT, BODY_END };
 #define TURN_NOEVENT	98
 #define TURN_END		99
 
-#define AC_DROP			L"DROP"
-#define AC_THROW		L"THROW"
-#define AC_EAT			L"EAT"
-#define AC_EQUIP		L"EQUIP"
-#define AC_UNEQUIP		L"UNEQUIP"
-#define AC_READ			L"READ"
-#define AC_ZAP			L"ZAP"
+#define AC_DROP			L"버린다"
+#define AC_THROW		L"던진다"
+#define AC_EAT			L"먹는다"
+#define AC_DRINK		L"마신다"
+#define AC_EQUIP		L"장착한다"
+#define AC_UNEQUIP		L"해제한다"
+#define AC_READ			L"읽는다"
+#define AC_ZAP			L"사용한다"
 #define MSG_WIN(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L"을(를) 쓰려뜨렸다!")
 #define MSG_DAMAGE(VICTIME, ATTACKER, DAMAGE) new wstring(wstring(VICTIME) + L"은 " + wstring(ATTACKER) + L"에게 " + wstring(DAMAGE) + L"데미지를 받았다.")
 #define MSG_PICK(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L"을(를) 주웠다.")

@@ -45,9 +45,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		return E_FAIL;
 	Safe_AddRef(pLoader);
 
-	//해당 레벨을 준비한다.
-	if (0 == level)
-	{
+#pragma region legacy
 		//몬스터 프로토타입을 만든다.
 		pObjMgr->Add_Prototype(L"Rat", SCENE_STAGE, CRat::Create(_pGraphic_Device));
 		pObjMgr->Add_Prototype(L"Gnoll", SCENE_STAGE, CGnoll::Create(_pGraphic_Device));
@@ -68,10 +66,11 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		//열쇠 프로토타입을 만든다.
 		pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
 
+#pragma endregion
 
 		CItemFactory::Make_Prototpyes(_pGraphic_Device);
 
-	}
+
 
 	//이펙트 프로토타입
 	pObjMgr->Add_Prototype(L"Effect_Fire", SCENE_STAGE, CFire::Create(_pGraphic_Device));
@@ -141,7 +140,23 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-	
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+
 		for (auto& GO : m_listGO[_iLevel])
 		{
 			Safe_AddRef(GO);
@@ -192,6 +207,8 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 
 		for (auto& GO : m_listGO[_iLevel])
