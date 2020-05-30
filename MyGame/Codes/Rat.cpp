@@ -106,7 +106,7 @@ HRESULT CRat::Initialize(void * _param)
 	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
 
 
-
+	CMonster::Initialize(_param);
 
 	return S_OK;
 }

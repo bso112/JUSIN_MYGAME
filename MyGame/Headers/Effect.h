@@ -17,13 +17,13 @@ protected:
 	CTransform*			m_pTransform = nullptr;
 	//쫒아다닐 타겟
 	CTransform*			m_pTarget = nullptr;
-	//지속시간을 세는 시계
-	CClock_Delay*		m_pDeadClock = nullptr;
-	//이펙트 지속시간
-	_float				m_fDuration = 0.f;
-	
+
+	//이펙트의 지속시간 (파티클시스템이 아님)
+	_int				m_iDuration = 0;
+	//지금까지 센 턴
 	_int				m_iTurnCnt = 0;
 public:
+	virtual _int Act();
 	virtual _int Update(_double _timeDelta);
 	virtual void Play() = 0;
 	

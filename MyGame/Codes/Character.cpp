@@ -9,12 +9,18 @@
 #include "TimerMgr.h"
 #include "Image.h"
 #include "DialogMgr.h"
+#include "BuffController.h"
 
 USING(MyGame)
 
 
 
-//VIBUffer 복사하는 코드 지움
+CCharacter::CCharacter(PDIRECT3DDEVICE9 _pGraphic_Device)
+	:CGameObject(_pGraphic_Device)
+{
+};
+
+
 CCharacter::CCharacter(CCharacter & _character)
 	:CGameObject(_character),
 	m_tStat(_character.m_tStat),
@@ -22,12 +28,20 @@ CCharacter::CCharacter(CCharacter & _character)
 {
 	m_pEffect = nullptr;
 	m_pDeadClock = CClock_Delay::Create();
+	m_pBuffCon = CBuffController::Create(m_pGraphic_Device);
 }
 
 _int CCharacter::StartAct()
 {
 	if (!m_bActive)
 		return 0;
+
+	if (nullptr == m_pStateCon ||
+		nullptr == m_pBuffCon)
+		return 0;
+
+	m_pBuffCon->Act(this);
+	
 	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 }
 
@@ -40,7 +54,7 @@ _int CCharacter::UpdateAct()
 
 void CCharacter::PlayEffect(CEffect * _pEffect)
 {
-	//릭남
+	
 	if (nullptr != m_pEffect)
 		Safe_Release(m_pEffect);
 	//교체
@@ -148,6 +162,14 @@ bool CCharacter::IsImmune(IMMUNE _eImmune)
 			return true;
 	}
 	return false;
+}
+
+void CCharacter::Add_Buff(CBuff * pBuff)
+{
+	if (nullptr == pBuff)
+		return;
+
+	m_pBuffCon->Add_Buff(pBuff);
 }
 
 _int CCharacter::Interact(CGameObject * _pOther)
@@ -273,6 +295,7 @@ void CCharacter::OnAttack(CGameObject * _pOther)
 
 void CCharacter::Free()
 {
+
 	Safe_Release(m_pEffect);
 	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);
@@ -280,6 +303,7 @@ void CCharacter::Free()
 	Safe_Release(m_pStateCon);
 	Safe_Release(m_pShader);
 	m_tStat.Free();
+	Safe_Release(m_pBuffCon);
 
 	CGameObject::Free();
 }

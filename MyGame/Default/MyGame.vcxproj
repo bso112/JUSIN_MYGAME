@@ -193,6 +193,8 @@
     <ClInclude Include="..\Headers\Armor.h" />
     <ClInclude Include="..\Headers\Arrow.h" />
     <ClInclude Include="..\Headers\Bomb.h" />
+    <ClInclude Include="..\Headers\BuffController.h" />
+    <ClInclude Include="..\Headers\Burn.h" />
     <ClInclude Include="..\Headers\Camera.h" />
     <ClInclude Include="..\Headers\Cheese.h" />
     <ClInclude Include="..\Headers\Crab.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="..\Headers\MeleeWeapon.h" />
     <ClInclude Include="..\Headers\MyDialog.h" />
     <ClInclude Include="..\Headers\MyGame_Struct.h" />
+    <ClInclude Include="..\Headers\Paralyze.h" />
     <ClInclude Include="..\Headers\ParalyzePotion.h" />
     <ClInclude Include="..\Headers\Particle.h" />
     <ClInclude Include="..\Headers\ParticleSystem.h" />
@@ -305,6 +308,8 @@
     <ClCompile Include="..\Codes\Armor.cpp" />
     <ClCompile Include="..\Codes\Arrow.cpp" />
     <ClCompile Include="..\Codes\Bomb.cpp" />
+    <ClCompile Include="..\Codes\BuffController.cpp" />
+    <ClCompile Include="..\Codes\Burn.cpp" />
     <ClCompile Include="..\Codes\Camera.cpp" />
     <ClCompile Include="..\Codes\Cheese.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />
@@ -330,6 +335,7 @@
     <ClCompile Include="..\Codes\Loading.cpp" />
     <ClCompile Include="..\Codes\MeleeWeapon.cpp" />
     <ClCompile Include="..\Codes\MyDialog.cpp" />
+    <ClCompile Include="..\Codes\Paralyze.cpp" />
     <ClCompile Include="..\Codes\ParalyzePotion.cpp" />
     <ClCompile Include="..\Codes\Particle.cpp" />
     <ClCompile Include="..\Codes\ParticleSystem.cpp" />

@@ -3,16 +3,34 @@
 #include "Character.h"
 USING(MyGame)
 
-void CBuff::AttachTo(CCharacter * _pCharacter)
+HRESULT CBuff::Initialize(void* _pArg)
 {
-	m_pTarget = _pCharacter;
+	return S_OK;
 }
 
-void CBuff::Detach()
+_int CBuff::Act(CCharacter* _pTarget)
 {
+	//끝났으면 남은 턴수는 0, 아무것도 안함.
+	if (m_tStateDesc.m_iDuration < m_iTurnCnt)
+		return 0;
+
+	//행동
+	OnAct(_pTarget);
+
+	++m_iTurnCnt;
+	return m_tStateDesc.m_iDuration - m_iTurnCnt;
 }
 
-void CBuff::Act()
+HRESULT CBuff::End_Buff()
 {
-	m_pTarget->SetInvisible(true);
+	m_iTurnCnt = m_tStateDesc.m_iDuration;
+	return S_OK;
 }
+
+
+
+void CBuff::Free()
+{
+	m_tStateDesc.m_tStats.Free();
+}
+

@@ -3,7 +3,6 @@
 
 BEGIN(MyGame)
 #define PARTICLE_CNT_FIRE 10
-#define DURATION_FIRE 3.f
 class CClock_Trigger;
 class CFire : public CEffect
 {

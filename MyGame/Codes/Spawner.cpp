@@ -174,11 +174,11 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
-		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
-		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		//m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		//m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		//ranPos = pWorld->Get_RandomPos();
+		//m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		//m_listCharacter[_iLevel].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();

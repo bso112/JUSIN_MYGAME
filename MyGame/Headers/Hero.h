@@ -5,22 +5,23 @@ BEGIN(MyGame)
 class CKeyMgr;
 class CItem;
 class CEquipment;
+class CHpBar;
 class CHero abstract : public CCharacter
 {
 protected:
-	enum CLOTH	{ CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END};
+	enum CLOTH { CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END };
 protected:
 	CLOTH		m_eCurrCloth = CLOTH_BASIC;
 	CAnimator*	m_pAnimator[CLOTH_END];
 
 protected:
-	Vector3		m_vDst = {};
+	Vector3			m_vDst = {};
 	//무언가를 던지려는 상태인가
-	_bool		m_bThrowMode = false;
+	_bool			m_bThrowMode = false;
 	//발사되는 아이템
-	CItem*		m_pItemToThrow = nullptr;
+	CItem*			m_pItemToThrow = nullptr;
 	CEquipment*		m_pEquipments[BODY_END];
-	
+
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
 	HRESULT	ThrowItem(CItem* _pItem);
@@ -47,7 +48,7 @@ public:
 	HRESULT	Set_LastPos();
 
 
-	
+
 public:
 	virtual void Free() override;
 

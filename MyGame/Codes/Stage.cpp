@@ -10,6 +10,7 @@
 #include "ObjMgr.h"
 #include "Camera.h"
 #include "ParticleSystem.h"
+#include "BuffController.h"
 
 USING(MyGame)
 
@@ -122,6 +123,7 @@ void CStage::Free()
 	//스테이지 씬의 프로토타입과 레이어(게임오브젝트)들을 완전히 지움.
 	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))
 		MSG_BOX("Fail to Clear GameObject Prototypes");
+
 
 	//스테이지 씬의 모듈 프로토타입 완전히 지움.
 	if (FAILED(CModuleMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))

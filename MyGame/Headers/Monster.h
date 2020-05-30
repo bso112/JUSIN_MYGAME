@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 
 class CAnimator;
+class CHpBar;
 class CMonster abstract : public CCharacter
 {
 
@@ -14,8 +15,10 @@ protected:
 
 protected:
 	CAnimator*		m_pAnimator = nullptr;
+	CHpBar*			m_pHpBar = nullptr;
 
 public:
+	virtual HRESULT	Initialize(void * _param);
 	virtual _int	Update(_double _timeDelta);
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();

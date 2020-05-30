@@ -17,7 +17,7 @@ public:
 		//파티클의 라이프타임
 		_double			m_dLifeTime = 0.0;
 		//파티클 시스템의 지속시간
-		_double			m_dDuration = 0.0;
+		_double			m_dDuration = 0;
 		_float			m_fSpeed = 0.f;
 		const _tchar*	m_pTextureTag = L"";
 		SCENEID			m_eTextureSceneID = SCENE_END;
@@ -34,6 +34,7 @@ private:
 	CTransform*			m_pTransform = nullptr;
 	CTexture*			m_pTexture = nullptr;
 	CShader*			m_pShader = nullptr;
+	//파티클 시스템은 턴이 아닌, 시간에 영향을 받는다. (피 같은 경우)
 	CClock_Delay*		m_pDeadClock = nullptr; 
 	CObjMgr*			m_pObjMgr = nullptr;
 

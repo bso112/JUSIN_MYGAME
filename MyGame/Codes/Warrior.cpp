@@ -71,7 +71,7 @@ HRESULT CWarrior::Initialize(void * _param)
 
 	//½ºÅÝ¼ÂÆÃ
 	m_tStat.m_fExp = 0.f;
-	m_tStat.m_fMaxHp = CStat::Create(50.f);
+	m_tStat.m_fMaxHp = CStat::Create(1000.f);
 	m_tStat.m_fHP = m_tStat.m_fMaxHp->GetValue();
 	m_tStat.m_fAtt = CStat::Create(1.f, 5.f);
 	m_tStat.m_iGold = 0;

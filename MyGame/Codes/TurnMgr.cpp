@@ -132,8 +132,8 @@ _int CTurnMgr::Update_sequentially2()
 			if (nullptr == m_pCurrActor)
 				return -1;
 
-			//현재액터가 턴을 종료하면, 혹은 비활성화 상태면
-			if (m_pCurrActor->IsTurnEnd()	|| !m_pCurrActor->Get_Active())
+			//현재액터가 턴을 종료하면, 혹은 비활성화 상태, 혹은 마비상태면
+			if (m_pCurrActor->IsTurnEnd()	|| !m_pCurrActor->Get_Active()	|| m_pCurrActor->IsParalyzed())
 			{
 				//다음 액터를 셋팅
 				++objIndex;

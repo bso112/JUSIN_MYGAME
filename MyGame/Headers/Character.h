@@ -10,10 +10,12 @@ class CStat;
 class CClock_Delay;
 class CStateCon;
 class CShader;
+class CBuffController;
+class CBuff;
 class CCharacter abstract : public CGameObject
 {
 protected:
-	explicit CCharacter(PDIRECT3DDEVICE9 _pGraphic_Device) :CGameObject(_pGraphic_Device){};
+	explicit CCharacter(PDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CCharacter(CCharacter& _character);
 	virtual ~CCharacter() = default;
 
@@ -53,6 +55,8 @@ protected:
 	CCharacter*	m_pFocus = nullptr;
 	//상태머신
 	CStateCon*	m_pStateCon = nullptr;
+	//버프매니저
+	CBuffController*	m_pBuffCon = nullptr;
 	//턴이 끝났는지
 	bool		m_bTurnEnd = false;
 
@@ -65,7 +69,8 @@ protected:
 	STATS	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
 	
-	bool	m_bInvisible = false;
+	_bool	m_bInvisible = false;
+	_bool	m_bParalyze = false;
 	//이동할 목표지점
 	Vector4			m_vDst = {};
 
@@ -75,6 +80,7 @@ protected:
 	_uint	m_iRecogRange = 0;
 
 	const _tchar* m_pName = L"";
+
 
 public:
 	_int		StartAct();
@@ -87,11 +93,14 @@ public:
 
 public:
 	virtual void TakeDamage(float _fDamage);
-	void Heal(_float _healAmount);
-	void SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
-	bool IsAlive();
-	bool IsImmune(IMMUNE _eImmune);
+	void	Heal(_float _healAmount);
+	void	SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
+	void	Set_Paralyze(bool _bParalyze) { m_bParalyze = _bParalyze; }
+	_bool	IsParalyzed() { return m_bParalyze; }
+	_bool	IsAlive();
+	_bool	IsImmune(IMMUNE _eImmune);
 	const _tchar*	Get_Name() { return m_pName; }
+	void	Add_Buff(CBuff* pBuff);
 
 public:
 	virtual	_int	Interact(CGameObject* _pOther);

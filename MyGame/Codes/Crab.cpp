@@ -103,7 +103,7 @@ HRESULT CCrab::Initialize(void * _param)
 
 #pragma endregion
 
-
+	CMonster::Initialize(_param);
 
 
 

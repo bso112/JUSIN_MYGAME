@@ -73,8 +73,8 @@ void CPotion::OnThrowEnd()
 	desc.m_tBaseDesc.vPos = m_pTransform->Get_Position();
 	desc.m_pTextureTag = L"Blood";
 	desc.m_eTextureSceneID = SCENE_STAGE;
-	desc.m_dDuration = 0.2f;
-	desc.m_dLifeTime = 0.2f;
+	desc.m_dDuration = 0.2;
+	desc.m_dLifeTime = 0.2;
 	desc.m_fSpeed = 300.f;
 	desc.m_vParticleSize = Vector2(10.f, 10.f);
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
@@ -131,7 +131,7 @@ HRESULT CPotion::Render()
 
 	m_pTransform->Render_Collider();
 #endif // MYDEBUG
-
+	return S_OK;
 }
 
 

@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "Clock.h"
 #include "TurnMgr.h"
+#include "Burn.h"
 
 USING(MyGame)
 CFire::CFire(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -44,10 +45,11 @@ HRESULT CFire::Initialize(void * _pArg)
 		m_pTransform->Set_ColliderSize(m_tBaseDesc.vSize);
 	}
 
-	//이펙트 지속시간 설정
-	m_fDuration = DURATION_FIRE;
+	//이펙트 지속시간 설정(턴)
+	m_iDuration = 3;
 	//불 파티클시스템 생성
-	m_tParticleDesc.m_dDuration = m_fDuration;
+	//파티클지속시간은 Fire에서 턴기준으로 제어한다.
+	m_tParticleDesc.m_dDuration = FLT_MAX;
 	m_tParticleDesc.m_dLifeTime = 0.5f;
 	m_tParticleDesc.m_eTextureSceneID = SCENE_STAGE;
 	m_tParticleDesc.m_fSpeed = 50.f;
@@ -93,9 +95,6 @@ _int CFire::Update(_double _timeDelta)
 	if (!m_bPlaying)
 		return 0;
 
-	//지속시간이 다되면 죽음
-	if (0x80000000 & CEffect::Update(_timeDelta))
-		m_bDead = true;
 
 	if (nullptr == m_pParticleSystem)
 		return -1;
@@ -149,6 +148,12 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 		if (nullptr != pClone)
 		{
 			pCharacter->PlayEffect(pClone);
+			CBurn::STATEDESC desc;
+			CBurn::STATS stats;
+			stats.m_fAtt = CStat::Create(1.f, 5.f);
+			desc.m_iDuration = m_iDuration;
+			desc.m_tStats = stats;
+			pCharacter->Add_Buff(CBurn::Create(&desc));
 		}
 	}
 

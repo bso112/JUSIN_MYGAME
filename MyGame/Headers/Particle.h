@@ -30,6 +30,7 @@ protected:
 	CVIBuffer*		m_pVIBuffer = nullptr;
 	CTransform*		m_pTransform = nullptr;
 	STATEDESC		m_tDesc;
+	//파티클은 턴이 아닌 시간에 영향을 받음.
 	CClock_Delay*	m_pDeadClock = nullptr;
 
 private:

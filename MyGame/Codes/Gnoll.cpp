@@ -103,7 +103,7 @@ HRESULT CGnoll::Initialize(void * _param)
 
 
 
-
+	CMonster::Initialize(_param);
 
 	return S_OK;
 }

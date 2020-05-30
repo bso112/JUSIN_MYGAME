@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Clock.h"
 #include "DialogMgr.h"
+#include "HpBar.h"
 USING(MyGame)
 
 CMonster::CMonster(CMonster & _rhs)
@@ -13,9 +14,35 @@ CMonster::CMonster(CMonster & _rhs)
 {
 	SCENEID eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	m_pFocus = (CCharacter*)CObjMgr::Get_Instance()->Get_Player(eSceneID);
+
 	//멤버변수 셋팅
 	m_iRecogRange = 15;
 	m_iAttackRange = 1;
+	
+
+}
+
+HRESULT CMonster::Initialize(void * _param)
+{
+	if (nullptr == m_pTransform)
+		return E_FAIL;
+
+	
+
+	//Hp바 셋팅
+	m_pHpBar = CHpBar::Create(m_pGraphic_Device, m_pTransform->Get_Position(), Vector2(30.f, 5.f), L"hp_bar_monster", SCENE_STAGE);
+	m_pHpBar->Set_UI(false);
+	m_pHpBar->Set_Owner(this);
+	CTransform* pTransform = (CTransform*)m_pHpBar->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return E_FAIL;
+	pTransform->Set_Parent(m_pTransform);
+	pTransform->Set_Position(Vector2(0.f, -15.f));
+	CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, m_pHpBar);
+
+	//이거 하면 릭남
+	//Safe_AddRef(m_pHpBar);
+	return S_OK;
 }
 
 _int CMonster::Update(_double _timeDelta)
@@ -54,7 +81,7 @@ _int CMonster::LateUpate(_double _timeDelta)
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
 		return E_FAIL;
 
-	
+
 	return 0;
 }
 
@@ -145,6 +172,7 @@ void CMonster::OnAttack(CGameObject * _pOther)
 
 void CMonster::Free()
 {
+	//Safe_Release(m_pHpBar);
 	Safe_Release(m_pAnimator);
 	CCharacter::Free();
 }
