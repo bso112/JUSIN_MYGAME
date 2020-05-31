@@ -5,7 +5,7 @@
 #include "VIBuffer.h"
 #include "Character.h"
 #include "Shader.h"
-
+#include "SceneMgr.h"
 USING(MyGame)
 
 CTerrain::CTerrain(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -102,7 +102,6 @@ HRESULT CTerrain::Render()
 
 	ALPHATEST;
 
-
 	if (m_bUI)
 	{
 		if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
@@ -116,20 +115,24 @@ HRESULT CTerrain::Render()
 	}
 
 	int pass = 0;
-	//보이지 않으면
-	if (!m_bVisuable)
+	if (SCENE_EDITOR != CSceneMgr::Get_Instance()->Get_CurrScene())
 	{
-		if (m_bVisited)
+		//보이지 않으면
+		if (!m_bVisuable)
 		{
-			pass = 6; //반투명
+			if (m_bVisited)
+			{
+				pass = 6; //반투명
+			}
+			else
+				pass = 7; //불투명
 		}
+		//보이면
 		else
-			pass = 7; //불투명
-	}
-	//보이면
-	else
-	{
-		pass = 0;
+		{
+			pass = 0;
+		}
+
 	}
 
 

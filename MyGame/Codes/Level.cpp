@@ -895,7 +895,10 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 		, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MSG_BOX("로드 실패");
 		return E_FAIL;
+	}
 
 	////할 필요가 없음. 왜냐하면 타일을 미리 깔아두는게 아니기 때문에.
 	//Free();
@@ -990,7 +993,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 
 	}
 
-
+	MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
 
 	CloseHandle(hFile);
 
