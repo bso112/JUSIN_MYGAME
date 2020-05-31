@@ -44,7 +44,7 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 
 	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pTargetMgr);
-	LPDIRECT3DTEXTURE9 pPortrait = pTargetMgr->Get_Texture(L"fog");
+	LPDIRECT3DTEXTURE9 pPortrait = pTargetMgr->Get_Texture(L"Portrait");
 	RETURN_FAIL_IF_NULL(pPortrait);
 
 	//초상화버튼

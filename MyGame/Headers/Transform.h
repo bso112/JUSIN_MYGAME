@@ -110,7 +110,6 @@ public:
 	HRESULT	Set_Size(Vector3 _vSize);
 	HRESULT	Set_ColliderSize(Vector3 _vSize) { m_vColliderSize = _vSize; return S_OK; }
 	HRESULT	Set_Rotation(Vector3 _vRotation);
-	HRESULT	Set_Matrix(_matrix matrix) { m_StateMatrix = matrix; return S_OK; };
 public:
 	_matrix		Get_Matrix() { Update_Transform(); return m_StateMatrix; }
 	Vector3		Get_Position() { return m_vPosition; }

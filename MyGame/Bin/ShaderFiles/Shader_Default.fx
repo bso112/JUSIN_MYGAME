@@ -17,14 +17,13 @@ struct PS_OUT
 {
 	vector vColor : COLOR0;
 	vector vPortrait : COLOR1;
-	vector vFog : COLOR2;
 };
 
 PS_OUT PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
 {
 	PS_OUT Out = (PS_OUT)0.f;
 
-	Out.vColor = Out.vPortrait = Out.vFog = tex2D(BaseSampler, _vTexUV);
+	Out.vColor = Out.vPortrait = tex2D(BaseSampler, _vTexUV);
 
 	return Out;
 
@@ -110,6 +109,8 @@ vector PS_DARK(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 
 vColor.a = 1.f;
 return vColor;
 }
+
+
 
 technique DefaultTechnique
 {
