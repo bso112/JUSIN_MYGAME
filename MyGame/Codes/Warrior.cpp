@@ -222,10 +222,9 @@ _int CWarrior::Update(_double _timeDelta)
 		return 0;
 	m_pTransform->Update_Route(_timeDelta);
 
-	CLevel* pCurrLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
-	if (nullptr == pCurrLevel)
-		return -1;
-	pCurrLevel->Set_Visuable(m_pTransform->Get_Position(), 2);
+	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
+	if (nullptr == pLevelMgr)return -1;
+	pLevelMgr->Set_Visuable(m_pTransform->Get_Position(), 2);
 	return 0;
 }
 

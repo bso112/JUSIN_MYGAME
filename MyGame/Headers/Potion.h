@@ -20,7 +20,6 @@ public:
 	virtual HRESULT	Use(CHero* _pHero, const _tchar** _pAction) override;
 protected:
 	virtual	void OnThrowEnd() override;
-	virtual HRESULT	Render() override;
 	virtual	void OnShatter();
 	virtual	void OnDrink(CHero * _pHero);
 

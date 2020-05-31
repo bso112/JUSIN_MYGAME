@@ -30,7 +30,6 @@ protected:
 private:
 	STATEDESC	m_tDesc = {};
 	_bool		m_bDamagable = false;
-	virtual HRESULT	Render() override;
 public:
 	HRESULT Initialize(void * _param);
 

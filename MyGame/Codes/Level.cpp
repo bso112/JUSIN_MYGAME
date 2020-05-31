@@ -802,18 +802,18 @@ void CLevel::SetActive(_bool _bActive)
 
 }
 
-void CLevel::Set_Visuable(Vector3 _vPlayerPos, _uint _iRange)
+HRESULT CLevel::Set_Visuable(Vector3 _vPlayerPos, _int _iRange)
 {
-	_uint x = (_uint)_vPlayerPos.x / TILECX;
-	_uint y = (_uint)_vPlayerPos.y / TILECY;
+	_int x = (_uint)_vPlayerPos.x / TILECX;
+	_int y = (_uint)_vPlayerPos.y / TILECY;
 
 	if (x >= WORLDX || y >= WORLDY || x < 0 || y < 0)
-		return;
+		return E_FAIL;
 
-	_uint left = x - _iRange;
-	_uint top = y - _iRange;
-	_uint right = x + _iRange;
-	_uint bottom = y + _iRange;
+	_int left = x - _iRange;
+	_int top = y - _iRange;
+	_int right = x + _iRange;
+	_int bottom = y + _iRange;
 
 	for (int i = top; i <= bottom; ++i)
 	{
@@ -847,6 +847,8 @@ void CLevel::Set_Visuable(Vector3 _vPlayerPos, _uint _iRange)
 		}
 
 	}
+
+	return S_OK;
 
 
 

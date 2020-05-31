@@ -24,6 +24,7 @@ public:
 	CLevel*	Get_Level(_int index);
 	_int	Get_CurrDepth() { return m_iCurrLevel; }
 	void	Clear_DeadObjects();
+	HRESULT	Set_Visuable(Vector3 _vPos, _int _iRange);
 public:
 	HRESULT Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device);
 	HRESULT	Initialize();

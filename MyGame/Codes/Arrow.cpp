@@ -3,11 +3,7 @@
 #include "Character.h"
 #include "ObjMgr.h"
 USING(MyGame)
-HRESULT CArrow::Render()
-{
-	CItem::Render();
-	return S_OK;
-}
+
 HRESULT CArrow::Initialize(void * _param)
 {
 	CItem::Initialize(_param);

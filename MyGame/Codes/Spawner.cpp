@@ -241,6 +241,32 @@ HRESULT CSpawner::Add_Interact(CGameObject * _pInteractor, _uint _iDepth)
 	return S_OK;
 }
 
+HRESULT CSpawner::Set_Visuable(Vector3 _vPlayerPos, _int _iRange, _int _iDepth)
+{
+	if (MAX_DEPTH <= _iDepth)
+		return E_FAIL;
+	
+	for (auto& GO : m_listGO[_iDepth])
+	{
+		RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * ((_iRange << 1) + 1), TILECY * ((_iRange << 1) + 1)));
+		CTransform* pTransform = (CTransform*)GO->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			continue;
+		POINT pt;
+		pt.x = pTransform->Get_Position().x;
+		pt.y = pTransform->Get_Position().y;
+
+		if (PtInRect(&rc, pt))
+		{
+			GO->Set_Visuable(true);
+			GO->Set_Visited(true);
+		}
+
+	}
+
+	return S_OK;
+}
+
 CGameObject* CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 {
 	if (MAX_DEPTH <= _iLevel)

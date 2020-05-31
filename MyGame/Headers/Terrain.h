@@ -98,12 +98,7 @@ protected:
 	_bool			m_bMaskable = false;
 
 
-	//만약 visuable = false면 visited가 ture여도 그 위에 있는 아이템, 몬스터 안보임.
-	//visited가 true면 타일의 모습은 보이지만, 흐리게보임
-	//안개 속에서 보이는 타일인가
-	_bool			m_bVisuable = false;
-	//한번 보인 타일인가
-	_bool			m_bVisited = false;
+
 	//디버그용
 private:
 	bool			m_bMarked = false;
@@ -126,8 +121,6 @@ public:
 	bool		IsMovable(CTransform* _pTransform);
 	//에디터용
 	void		Set_UI() { m_bUI = true; }
-	void		Set_Visuable(_bool _bVisuable) { m_bVisuable = _bVisuable; }
-	void		Set_Visited(_bool _bVisited) { m_bVisited = _bVisited; }
 
 
 public:

@@ -140,6 +140,18 @@ void CLevelMgr::Clear_DeadObjects()
 	m_pSpawner->Clear_DeadObjects(m_iCurrLevel);
 }
 
+HRESULT CLevelMgr::Set_Visuable(Vector3 _vPos, _int _iRange)
+{
+	CLevel* pLevel = Get_CurrLevel();
+	RETURN_FAIL_IF_NULL(pLevel);
+	if (FAILED(pLevel->Set_Visuable(_vPos, _iRange)))
+		return E_FAIL;
+	if (FAILED(m_pSpawner->Set_Visuable(_vPos, _iRange, m_iCurrLevel)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 CTerrain * CLevelMgr::PickTile(POINT & pt)
 {

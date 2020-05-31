@@ -20,6 +20,7 @@ public:
 	HRESULT Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint _iLevel);
 	HRESULT Spawn(_uint _iLevel);
 	HRESULT	Add_Interact(CGameObject* _pInteractor, _uint _iDepth);
+	HRESULT	Set_Visuable(Vector3 _vPlayerPos, _int _iRange, _int _iDepth);
 
 public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);

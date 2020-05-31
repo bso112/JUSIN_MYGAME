@@ -25,6 +25,10 @@ protected:
 	bool	m_bActive = true;
 	//렌더 깊이 (작을수록 더 먼저그려진다)
 	_int	m_iDepth = 0;
+	//안개 속에서 보이는가
+	_bool			m_bVisuable = false;
+	//한번 보였는가
+	_bool			m_bVisited = false;
 
 private:
 	//충돌했나
@@ -54,6 +58,8 @@ public:
 	virtual _int		StartAct();
 	virtual _int		UpdateAct();
 	virtual	_int	Interact(CGameObject* _pOther);
+	void		Set_Visuable(_bool _bVisuable) { m_bVisuable = _bVisuable; }
+	void		Set_Visited(_bool _bVisited) { m_bVisited = _bVisited; }
 
 public:
 	virtual	void	SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }

@@ -5,7 +5,7 @@
 #include "InventoryUIMgr.h"
 #include "Shader.h"
 #include "DialogMgr.h"
-
+#include "SceneMgr.h"
 USING(MyGame)
 
 CItem::CItem(CItem & _rhs)
@@ -22,7 +22,8 @@ HRESULT CItem::Initialize(void * _param)
 	m_vecActions.push_back(AC_DROP);
 	m_vecActions.push_back(AC_THROW);
 	
-
+	if (FAILED(Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -167,7 +168,8 @@ HRESULT CItem::Render()
 	if (nullptr == m_pTexture ||
 		nullptr == m_pVIBuffer ||
 		nullptr == m_pTransform ||
-		nullptr == m_pPipline)
+		nullptr == m_pPipline	||
+		nullptr == m_pShader)
 		return E_FAIL;
 
 	_matrix matrix;
@@ -180,17 +182,52 @@ HRESULT CItem::Render()
 		matrix = m_pTransform->Get_Matrix();
 	}
 
-	ALPHATEST;
+	int pass = 0;
+	//에디터씬이 아니고, 드롭 아이템일때만
+	if (SCENE_EDITOR != CSceneMgr::Get_Instance()->Get_CurrScene() && m_bDrop)
+	{
+		//보이지 않으면
+		if (!m_bVisuable)
+		{
+			float alpha = 0.f;
+			if (FAILED(m_pShader->Set_Value("g_Alpha", &alpha, sizeof(float))))
+				return E_FAIL;
+
+			pass = 4;
+		}
+		//보이면
+		else
+		{
+			pass = 0;
+		}
+
+	}
 
 	if (FAILED(m_pVIBuffer->Set_Transform(matrix)))
 		return E_FAIL;
 
+	_int iTextureID = m_iTextureID - 1 < 0 ? 0 : m_iTextureID - 1;
 	//텍스쳐ID는 1부터 시작
-	if (FAILED(m_pTexture->Set_Texture(m_iTextureID - 1)))
+	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", iTextureID)))
+		return E_FAIL;
+
+	ALPHATEST;
+
+	if (FAILED(m_pShader->Begin()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+
+	if (FAILED(m_pShader->End_Pass()))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->End()))
+		return E_FAIL;
+
 
 
 	ALPHATEST_END;
@@ -200,6 +237,12 @@ HRESULT CItem::Render()
 	m_pTransform->Render_Collider();
 #endif // MYDEBUG
 
+	float alpha = 1.f;
+	if (FAILED(m_pShader->Set_Value("g_Alpha", &alpha, sizeof(float))))
+		return E_FAIL;
+
+
+	m_bVisuable = false;
 
 	return S_OK;
 }

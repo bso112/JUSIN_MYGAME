@@ -18,7 +18,7 @@ CMonster::CMonster(CMonster & _rhs)
 	//멤버변수 셋팅
 	m_iRecogRange = 15;
 	m_iAttackRange = 1;
-	
+
 
 }
 
@@ -27,12 +27,14 @@ HRESULT CMonster::Initialize(void * _param)
 	if (nullptr == m_pTransform)
 		return E_FAIL;
 
-	
+
 
 	//Hp바 셋팅
 	m_pHpBar = CHpBar::Create(m_pGraphic_Device, m_pTransform->Get_Position(), Vector2(30.f, 5.f), L"hp_bar_monster", SCENE_STAGE);
 	m_pHpBar->Set_UI(false);
 	m_pHpBar->Set_Owner(this);
+	//처음엔 안보이게
+	m_pHpBar->Set_Active(false);
 	CTransform* pTransform = (CTransform*)m_pHpBar->Get_Module(L"Transform");
 	if (nullptr == pTransform)
 		return E_FAIL;
@@ -63,6 +65,9 @@ _int CMonster::Update(_double _timeDelta)
 
 	m_pTransform->Update_Route(_timeDelta);
 
+	if (!m_bVisuable)
+		m_pHpBar->Set_Active(false);
+
 	return 0;
 }
 
@@ -81,6 +86,7 @@ _int CMonster::LateUpate(_double _timeDelta)
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
 		return E_FAIL;
 
+	
 
 	return 0;
 }
@@ -96,6 +102,26 @@ HRESULT CMonster::Render()
 	if (!m_bActive)
 		return 0;
 
+	int pass = m_iPass;
+	if (SCENE_EDITOR != CSceneMgr::Get_Instance()->Get_CurrScene())
+	{
+		//보이지 않으면
+		if (!m_bVisuable)
+		{
+			float alpha = 0.f;
+			if (FAILED(m_pShader->Set_Value("g_Alpha", &alpha, sizeof(float))))
+				return E_FAIL;
+
+			pass = 4;
+		}
+		//보이면
+		else
+		{
+			pass = m_iPass;
+		}
+
+	}
+
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
@@ -108,7 +134,7 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin_Pass(m_iPass)))
+	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
 
 	//반짝거리는 거였으면 원상복귀
@@ -133,7 +159,12 @@ HRESULT CMonster::Render()
 
 	ALPHABLEND_END;
 
+	float alpha = 1.f;
+	if (FAILED(m_pShader->Set_Value("g_Alpha", &alpha, sizeof(float))))
+		return E_FAIL;
 
+
+	m_bVisuable = false;
 
 	return S_OK;
 }
@@ -168,6 +199,12 @@ void CMonster::OnAttack(CGameObject * _pOther)
 		return;
 
 	//m_pAnimator->Play(L"attack");
+}
+
+void CMonster::OnTakeDamage()
+{
+	CCharacter::OnTakeDamage();
+	m_pHpBar->Set_Active(true);
 }
 
 void CMonster::Free()
