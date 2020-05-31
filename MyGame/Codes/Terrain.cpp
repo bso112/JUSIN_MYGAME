@@ -39,6 +39,7 @@ HRESULT CTerrain::Initialize_Prototype(TERRAIN _tData, const _tchar* _pTextureTa
 	Set_Module(L"Transform", SCENEID::SCENE_STATIC, (CModule**)&m_pTransform);
 	Set_Module(L"VIBuffer", SCENEID::SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Shader", SCENEID::SCENE_STATIC, (CModule**)&m_pShader);
+
 	m_tInfo = _tData;
 
 	ZeroMemory(&m_LayerTag, sizeof(m_LayerTag));
@@ -79,7 +80,7 @@ _int CTerrain::LateUpate(_double _timeDelta)
 	D3DXVec4Transform(&vPos, &vPos, &camMatrix);
 
 	//컬링
-	if (-100.f <= vPos.x && g_iWinCX + 100.f>= vPos.x)
+	if (-100.f <= vPos.x && g_iWinCX + 100.f >= vPos.x)
 	{
 		if (-100.f <= vPos.y && g_iWinCY + 100.f >= vPos.y)
 		{
@@ -101,7 +102,7 @@ HRESULT CTerrain::Render()
 
 	ALPHATEST;
 
-	
+
 	if (m_bUI)
 	{
 		if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
@@ -114,6 +115,23 @@ HRESULT CTerrain::Render()
 
 	}
 
+	int pass = 0;
+	//보이지 않으면
+	if (!m_bVisuable)
+	{
+		if (m_bVisited)
+		{
+			pass = 6; //반투명
+		}
+		else
+			pass = 7; //불투명
+	}
+	//보이면
+	else
+	{
+		pass = 0;
+	}
+
 
 	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iCurFrame)))
 		return E_FAIL;
@@ -121,15 +139,13 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
 
-	int pass = 0;
 	//if (m_bMarked || !m_tInfo.m_bMovable) pass = 2;
 	if (FAILED(m_pShader->Begin_Pass(pass)))
 		return E_FAIL;
 
-
-
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
+
 
 
 	if (FAILED(m_pShader->End_Pass()))
@@ -139,6 +155,9 @@ HRESULT CTerrain::Render()
 		return E_FAIL;
 
 	ALPHATEST_END;
+
+
+	m_bVisuable = false;
 
 	return S_OK;
 }

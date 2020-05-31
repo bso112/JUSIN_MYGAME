@@ -22,10 +22,11 @@ private:
 private:
 	CTransform*	m_pHeroTransform = nullptr;
 public:
-	HRESULT	Initiailzie();
-	_int	Upate();
-	_int	LateUpdate();
-	HRESULT	Render();
+	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
+	virtual HRESULT Initialize(void * _pArg = nullptr);
+	virtual _int	Update(_double _timeDelta);
+	virtual _int	LateUpate(_double _timeDelta);
+	virtual HRESULT	Render();
 
 public:
 	static	CFog* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

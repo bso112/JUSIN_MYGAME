@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "ParticleSystem.h"
 #include "BuffController.h"
+#include "Fog.h"
 
 USING(MyGame)
 
@@ -29,8 +30,8 @@ CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 HRESULT CStage::Initialize()
 {
 
-	/*if (FAILED(Initalize_Prototypes()))
-		return E_FAIL;*/
+	if (FAILED(Initalize_Prototypes()))
+		return E_FAIL;
 
 	if (FAILED(Initalize_Layers()))
 		return E_FAIL;
@@ -64,7 +65,10 @@ HRESULT CStage::Render()
 
 HRESULT CStage::Initalize_Prototypes()
 {
-	
+	if (nullptr == m_pObjMgr)
+		return E_FAIL;
+
+
 
 	return S_OK;
 }

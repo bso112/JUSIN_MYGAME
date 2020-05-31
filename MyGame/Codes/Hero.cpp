@@ -87,6 +87,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		//ÃÖ¼Ò 1ÅÏ
 		if (iTurnCnt == 0) iTurnCnt = 1;
 		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
+
+		
 #pragma endregion
 
 

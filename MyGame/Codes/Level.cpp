@@ -269,7 +269,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 
 
 	//검사에서 제외할 타일들
-	vector<pair<int,int>> closedTiles = CSpawner::Get_Instance()->Get_TileIndexs();
+	vector<pair<int, int>> closedTiles = CSpawner::Get_Instance()->Get_TileIndexs();
 	for (auto& tile : closedTiles)
 	{
 		if (tile.first >= WORLDX || tile.second >= WORLDY)
@@ -620,8 +620,8 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 					continue;
 				/*CTransform* pTileTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
 				if (nullptr != CSpawner::Get_Instance()->PickCharacter(pTileTransform->Get_Position(), CLevelMgr::Get_Instance()->Get_CurrDepth(), _pMover))
-					continue;*/
-					//이미 방문한 곳이면 제외
+				continue;*/
+				//이미 방문한 곳이면 제외
 				if (find(closed.begin(), closed.end(), m_pTerrains[i][j]) != closed.end())
 					continue;
 				//자기자신 제외
@@ -795,13 +795,62 @@ void CLevel::SetActive(_bool _bActive)
 	{
 		for (int j = 0; j < WORLDX; ++j)
 		{
-			if(m_pTerrains[i][j] != nullptr)
+			if (m_pTerrains[i][j] != nullptr)
 				m_pTerrains[i][j]->Set_Active(_bActive);
 		}
 	}
 
 }
 
+void CLevel::Set_Visuable(Vector3 _vPlayerPos, _uint _iRange)
+{
+	_uint x = (_uint)_vPlayerPos.x / TILECX;
+	_uint y = (_uint)_vPlayerPos.y / TILECY;
+
+	if (x >= WORLDX || y >= WORLDY || x < 0 || y < 0)
+		return;
+
+	_uint left = x - _iRange;
+	_uint top = y - _iRange;
+	_uint right = x + _iRange;
+	_uint bottom = y + _iRange;
+
+	for (int i = top; i <= bottom; ++i)
+	{
+		for (int j = left; j <= right; ++j)
+		{
+			if (j >= WORLDX || i >= WORLDY || j < 0 || i < 0)
+				continue;
+			if (nullptr != m_pTerrains[i][j])
+			{
+				m_pTerrains[i][j]->Set_Visuable(true);
+				m_pTerrains[i][j]->Set_Visited(true);
+			}
+
+		}
+	}
+
+	for (auto& mask : m_vecMask)
+	{
+		RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * ((_iRange << 1) + 1), TILECY * ((_iRange << 1) + 1)));
+		CTransform* pTransform = (CTransform*)mask->Get_Module(L"Transform");
+		if (nullptr == pTransform)
+			continue;
+		POINT pt;
+		pt.x = pTransform->Get_Position().x;
+		pt.y = pTransform->Get_Position().y;
+
+		if (PtInRect(&rc, pt))
+		{
+			mask->Set_Visuable(true);
+			mask->Set_Visited(true);
+		}
+
+	}
+
+
+
+}
 HRESULT CLevel::Save_World(const _tchar* _filePath)
 {
 	HANDLE hFile = CreateFile(_filePath, GENERIC_WRITE
@@ -894,8 +943,8 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 				m_pTerrains[y][x] = pTerrain;
 
 			if (0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_trap") ||
-				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_stair")	||
-				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_trap")	||
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_stair") ||
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_trap") ||
 				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_stair"))
 			{
 				m_listCollidable.push_back(pTerrain);
@@ -1006,4 +1055,3 @@ void CLevel::Free()
 
 
 }
-

@@ -38,6 +38,8 @@ HRESULT CRenderer::Render()
 	if (FAILED(Render_Effect()))
 		return E_FAIL;
 
+	if (FAILED(Render_Fog()))
+		return E_FAIL;
 
 	if (FAILED(Render_UI()))
 		return E_FAIL;
@@ -121,6 +123,23 @@ HRESULT CRenderer::Render_Effect()
 			MSG_BOX("GameObject Removed on Render_Effect");
 	}
 	m_listGO[RENDER_PARTICLE].clear();
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Fog()
+{
+	for (auto& GO : m_listGO[RENDER_FOG])
+	{
+		if (nullptr != GO)
+		{
+			if (FAILED(GO->Render()))
+				return E_FAIL;
+		}
+
+		if (0 == Safe_Release(GO))
+			MSG_BOX("GameObject Removed on Render_Fog");
+	}
+	m_listGO[RENDER_FOG].clear();
 	return S_OK;
 }
 

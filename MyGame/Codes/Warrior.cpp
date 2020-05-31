@@ -10,6 +10,7 @@
 #include "KeyMgr.h"
 #include "SceneMgr.h"
 #include "TargetMgr.h"
+#include "LevelMgr.h"
 USING(MyGame)
 
 
@@ -220,6 +221,11 @@ _int CWarrior::Update(_double _timeDelta)
 	if (!m_bActive)
 		return 0;
 	m_pTransform->Update_Route(_timeDelta);
+
+	CLevel* pCurrLevel = CLevelMgr::Get_Instance()->Get_CurrLevel();
+	if (nullptr == pCurrLevel)
+		return -1;
+	pCurrLevel->Set_Visuable(m_pTransform->Get_Position(), 2);
 	return 0;
 }
 
@@ -243,10 +249,10 @@ HRESULT CWarrior::Render()
 {
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pAnimator ||
-		nullptr == m_pTransform	||
+		nullptr == m_pTransform ||
 		nullptr == m_pPipline)
 		return E_FAIL;
-	
+
 	if (!m_bActive)
 		return S_OK;
 
@@ -271,7 +277,7 @@ HRESULT CWarrior::Render()
 
 	if (FAILED(m_pShader->Begin_Pass(m_iPass)))
 		return E_FAIL;
-	
+
 	//반짝거리는 거였으면 원상복귀
 	if (m_iPass == 3)
 		m_iPass = 0;
@@ -279,9 +285,9 @@ HRESULT CWarrior::Render()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-	
+
 	//초상화 렌더
-	
+
 
 
 

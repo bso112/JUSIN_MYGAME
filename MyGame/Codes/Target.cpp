@@ -50,7 +50,7 @@ HRESULT CTarget::Release_RederTarget()
 
 	if (GetKeyState(VK_RETURN) < 0)
 	{
-		D3DXSaveTextureToFile(L"../Bin/Gara.jpg", D3DXIFF_JPG, m_pTexture, nullptr);
+		D3DXSaveTextureToFile(L"../Bin/Gara.jpg", D3DXIFF_PNG, m_pTexture, nullptr);
 	}
 
 	return S_OK;

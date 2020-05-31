@@ -2,6 +2,7 @@
 
 
 texture g_BaseTexture;
+//±âº» 1
 float	g_Alpha;
 float	g_fMaxHp;
 float	g_fCurrHp;
@@ -16,13 +17,14 @@ struct PS_OUT
 {
 	vector vColor : COLOR0;
 	vector vPortrait : COLOR1;
+	vector vFog : COLOR2;
 };
 
 PS_OUT PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
 {
 	PS_OUT Out = (PS_OUT)0.f;
 
-	Out.vColor = Out.vPortrait = tex2D(BaseSampler, _vTexUV);
+	Out.vColor = Out.vPortrait = Out.vFog = tex2D(BaseSampler, _vTexUV);
 
 	return Out;
 
@@ -90,6 +92,25 @@ if (ratio < _vTexUV.x)
 return vColor;
 }
 
+vector PS_FOG(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+{
+	vector vColor = (vector)0.f;
+
+vColor = tex2D(BaseSampler, _vTexUV);
+
+vColor.rgb *= 0.2f;
+
+return vColor;
+}
+
+
+vector PS_DARK(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+{
+	vector vColor = (vector)0.f;
+vColor.a = 1.f;
+return vColor;
+}
+
 technique DefaultTechnique
 {
 
@@ -122,6 +143,16 @@ technique DefaultTechnique
 	{
 		VertexShader = NULL;
 		PixelShader = compile ps_3_0 PS_HPBAR();
+	}
+	pass FOG
+	{
+		VertexShader = NULL;
+		PixelShader = compile ps_3_0 PS_FOG();
+	}
+	pass DARK
+	{
+		VertexShader = NULL;
+		PixelShader = compile ps_3_0 PS_DARK();
 	}
 
 }

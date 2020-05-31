@@ -156,7 +156,7 @@ HRESULT CParticleSystem::Render()
 
 	ALPHABLEND_END;
 
-	_float OriginalAlpha = 1;
+	_float OriginalAlpha = 1.f;
 	//원래대로 돌려놓기
 	if (FAILED(m_pShader->Set_Value("g_Alpha", &OriginalAlpha, sizeof(_float))))
 		return E_FAIL;

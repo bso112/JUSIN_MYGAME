@@ -21,11 +21,11 @@ private:
 	//객체가 아닌 포인터로 지형을 구성한다. (지형이 있는 인덱스만 채워진다. 나머지는 nullptr)
 	CTerrain*	m_pTerrains[WORLDY][WORLDX];
 	CPipline*	m_pPipline = nullptr;
-	//마스크는 그냥 장식용이라 피킹할일도 없어서 벡터로 선언함.
-	vector<CTerrain*> m_vecMask;
 	//충돌처리를 위해 리스트로선언
 	list<CGameObject*> m_listCollidable;
-	//list<CGameObject*> m_listMovable;
+
+	vector<CTerrain*> m_vecMask;
+	list<CTerrain*> m_listVisited;
 private:
 
 	//로드 파일경로
@@ -67,6 +67,7 @@ public:
 	//list<CGameObject*>* Get_Movable() { return &m_listMovable; }
 
 	void	SetActive(_bool _bActive);
+	void	Set_Visuable(Vector3 _vPlayerPos, _uint _iRange);
 public:
 	HRESULT	Save_World(const _tchar* _filePath);
 	//지형의 프로토타입이 있다고 가정하고 로드한다.
