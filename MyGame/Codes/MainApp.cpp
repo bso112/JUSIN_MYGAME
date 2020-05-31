@@ -64,7 +64,6 @@ _int CMainApp::Update(_double _timeDelta)
 #if _DEBUG
 	m_dwTimeAcc += _timeDelta;
 #endif
-	m_pSceneMgr->Update(_timeDelta);
 
 	if (nullptr == m_pSceneMgr)
 		return -1;
@@ -78,6 +77,8 @@ _int CMainApp::Update(_double _timeDelta)
 	CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Update();
+
+	m_pSceneMgr->Update(_timeDelta);
 
 	return 0;
 }

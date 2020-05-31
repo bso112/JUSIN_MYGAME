@@ -91,7 +91,7 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 
 		//플레이어가 움직일 턴 이동
-		CTurnMgr::Get_Instance()->MoveTurn_sequentially2(iTurnCnt);
+		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
 
 		//턴 이동 후 인터렉트.
 		//타일피킹

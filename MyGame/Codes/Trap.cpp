@@ -50,8 +50,10 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 
 	//이펙트 재생
 	if (pEffect)
+	{
+		pEffect->Set_Collidable(true);
 		pEffect->Play();
-
+	}
 	//빈 함정으로 텍스쳐 바꾸기
 	m_iCurFrame = 0;
 	//사용했다고 표시

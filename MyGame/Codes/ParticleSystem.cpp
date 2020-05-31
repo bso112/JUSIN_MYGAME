@@ -55,22 +55,14 @@ HRESULT CParticleSystem::Initialize(void * _pArg)
 }
 _int CParticleSystem::Update(_double _timeDelta)
 {
+	if (m_bDead)
+		return -1;
 
 	if (nullptr == m_pDeadClock)
 		return -1;
 
-	//파티클시스템이 죽으면
-	if (m_bDead)
-	{
-		//파티클도 죽는다.
-		for (auto& particle : m_listParticle)
-		{
-			particle->Set_Dead();
-		}
-		return -1;
-	}
 
-	//이펙트에서 하긴 하지만, 일단 파티클시스템의 자체시계도 돌아간다.
+	//피 파티클의 경우, 턴에 영향을 받는게 아니라 시간에 영향을 받기 때문에 해야한다.
 	if (m_pDeadClock->isThreashHoldReached(m_tDesc.m_dDuration))
 	{
 		m_bDead = true;
@@ -124,6 +116,9 @@ _int CParticleSystem::LateUpate(_double _timeDelta)
 
 HRESULT CParticleSystem::Render()
 {
+	if (m_bDead)
+		return -1;
+
 
 	ALPHABLEND;
 
@@ -147,7 +142,7 @@ HRESULT CParticleSystem::Render()
 			return E_FAIL;
 
 		m_pShader->CommitChage();
-		
+
 		particle->Render();
 
 	}
@@ -173,6 +168,10 @@ HRESULT CParticleSystem::Render()
 
 void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticleCnt)
 {
+	if (m_bDead)
+		return;
+
+
 	/*
 	1.퍼져나갈 각도를 정한다.
 	2.파티클 갯수에 따라 그 각도로 퍼지기 위한 간격을 구한다.
@@ -246,6 +245,9 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticle
 //_rc안의 랜덤한 장소에 파티클을 스폰한다.
 void CParticleSystem::RollUp(RECT& _rc, _uint _iParticleCnt)
 {
+	if (m_bDead)
+		return;
+
 
 	if (nullptr == m_pObjMgr)
 		return;
@@ -308,6 +310,15 @@ CGameObject * CParticleSystem::Clone(void * _pArg)
 	}
 
 	return pInstance;
+}
+
+void CParticleSystem::OnDead()
+{
+	//파티클도 죽는다.
+	for (auto& particle : m_listParticle)
+	{
+		particle->Set_Dead();
+	}
 }
 
 CParticle::STATEDESC CParticleSystem::CreateParticleDesc()

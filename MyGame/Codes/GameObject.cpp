@@ -56,6 +56,16 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+_int CGameObject::StartAct()
+{
+	return _int();
+}
+
+_int CGameObject::UpdateAct()
+{
+	return _int();
+}
+
 _int CGameObject::Interact(CGameObject * _pOther)
 {
 	return _int();
@@ -74,6 +84,10 @@ void CGameObject::OnCollisionExit(CGameObject * _pOther)
 }
 
 void CGameObject::OnSetActive(_bool _bActive)
+{
+}
+
+void CGameObject::OnDead()
 {
 }
 

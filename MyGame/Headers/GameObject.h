@@ -34,6 +34,10 @@ private:
 
 protected:
 	SCENEID		m_eSceneID = SCENE_END;
+	//턴이 끝났는지
+	bool		m_bTurnEnd = false;
+	//마비되어서 턴을 그냥 넘기는지
+	_bool		m_bParalyze = false;
 
 private:
 	static _uint	m_iMaxInstanceID;
@@ -47,9 +51,14 @@ public:
 	virtual HRESULT	Render();
 
 public:
+	virtual _int		StartAct();
+	virtual _int		UpdateAct();
 	virtual	_int	Interact(CGameObject* _pOther);
 
-
+public:
+	virtual	void	SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
+	virtual	_bool	IsTurnEnd() { return m_bTurnEnd; }
+	virtual	_bool	IsParalyzed() { return m_bParalyze; }
 public:
 	map<const _tchar*, CModule*>* Get_Modules() { return &m_mapModule; }
 public:
@@ -71,7 +80,7 @@ public:
 		return m_setCollided.erase(_pCollided) ? true : false;
 
 	}
-	void Set_Dead() { m_bDead = true; }
+	void Set_Dead() { m_bDead = true; OnDead(); }
 	const bool& Get_Dead() const { return m_bDead; }
 
 
@@ -82,6 +91,7 @@ public:
 
 protected:
 	virtual	void OnSetActive(_bool _bActive);
+	virtual void OnDead();
 
 
 public:

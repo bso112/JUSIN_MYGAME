@@ -82,7 +82,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		return E_FAIL;
 
 	_float fSpeed = (_float)m_tStateDesc.speedPerSec;
-	//전의 방향과 현재 방향을 내적해서 음수가 나오면 목적지에 도착한것.
+
 	m_vDir = pTileTransform->Get_Position() - m_vPosition;
 	if (m_vDir.magnitude() > 5.f)
 	{

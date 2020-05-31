@@ -41,7 +41,7 @@ _int CCharacter::StartAct()
 		return 0;
 
 	m_pBuffCon->Act(this);
-	
+
 	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 }
 
@@ -54,17 +54,6 @@ _int CCharacter::UpdateAct()
 
 void CCharacter::PlayEffect(CEffect * _pEffect)
 {
-	
-	if (nullptr != m_pEffect)
-		Safe_Release(m_pEffect);
-	//교체
-	m_pEffect = _pEffect;
-	Safe_AddRef(m_pEffect);
-	//이펙트가 캐릭터를 따라다니게 한다.
-	m_pEffect->Set_Target(m_pTransform);
-	m_pEffect->Play();
-
-
 
 
 }
@@ -125,7 +114,7 @@ void CCharacter::Heal(_float _healAmount)
 		m_tStat.m_fHP = m_tStat.m_fMaxHp->GetValue();
 
 	//회복 파티클 생성
-	CObjMgr* pObjMgr =  CObjMgr::Get_Instance();
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr) return;
 
 	if (nullptr == m_pTransform)
@@ -139,13 +128,13 @@ void CCharacter::Heal(_float _healAmount)
 	desc.m_tBaseDesc = BASEDESC(vPos, Vector2(20.f, 20.f));
 	desc.m_iTextureID = 1;
 
-	CImage* pImage = (CImage*) pObjMgr->Add_GO_To_Layer(L"Effect", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+	CImage* pImage = (CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
 	if (nullptr == pImage)
 		return;
 	pImage->Set_UI(false);
 	CTransform* pImgTransform = (CTransform*)pImage->Get_Module(L"Transform");
 	pImgTransform->MoveToDirAuto(Vector3(0.f, -1.f));
-	
+
 }
 
 
@@ -276,9 +265,7 @@ void CCharacter::OnCollisionEnter(CGameObject * _pOther)
 
 
 
-void CCharacter::OnDead()
-{
-}
+
 
 void CCharacter::OnTakeDamage()
 {
@@ -295,7 +282,6 @@ void CCharacter::OnAttack(CGameObject * _pOther)
 
 void CCharacter::Free()
 {
-
 	Safe_Release(m_pEffect);
 	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);

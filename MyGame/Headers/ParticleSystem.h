@@ -71,6 +71,9 @@ public:
 	static CParticleSystem* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual CGameObject * Clone(void * _pArg = nullptr) override;
 
+protected:
+	void	OnDead()override;
+
 private:
 	CParticle::STATEDESC CreateParticleDesc();
 

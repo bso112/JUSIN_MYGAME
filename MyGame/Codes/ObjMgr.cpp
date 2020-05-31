@@ -224,6 +224,27 @@ CGameObject* CObjMgr::Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSc
 
 }
 
+HRESULT CObjMgr::Make_Layer(const _tchar * _eLayerID, SCENEID _eLayerSceneID)
+{
+	if (SCENE_END <= _eLayerSceneID)
+		return E_FAIL;
+
+	//레이어를 찾아 넣는다. 레이어가 없으면 새로 만든다.
+	CLayer* layer = Find_Layer(_eLayerID, _eLayerSceneID);
+	if (nullptr == layer)
+	{
+		layer = CLayer::Create();
+		if (nullptr == layer)
+			return E_FAIL;
+
+		m_mapLayer[_eLayerSceneID].emplace(_eLayerID, layer);
+
+	}
+
+
+	return S_OK;
+}
+
 CGameObject * CObjMgr::Find_Prototype(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID)
 {
 	if (SCENE_END <= _ePrototypeSceneID)

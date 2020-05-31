@@ -2,9 +2,9 @@
 #include "Base.h"
 
 BEGIN(MyGame)
-#define	MAX_LAYER_CNT 3
+#define	MAX_LAYER_CNT 4
 class CLayer;
-class CCharacter;
+class CGameObject;
 /*
 턴을 종료한다는 개념과 State를 변경한다는 개념을 분리했다.
 애초에 그걸 셋트로 생각하는게 잘못이었음.
@@ -27,33 +27,34 @@ private:
 	_bool	m_bActLock = false;
 
 private:
-	CLayer*	m_pActorLayers[MAX_LAYER_CNT];
+	CLayer*			m_pActorLayers[MAX_LAYER_CNT];
 
 	
 
 private:
-	CCharacter*				m_pCurrActor = nullptr;
-
+	CGameObject*		m_pCurrActor = nullptr;
 	_bool			m_bTurnStart = false;
 public:
 	HRESULT		Initialize();
 	_int		Update_sequentially();
-	_int		Update_sequentially2();
-	_int		Update_Simultaneously();
 	_int		Get_TurnCnt() {return m_iMaxTurn;}
 
 public:
 	HRESULT	MoveTurn_sequentially(_int _iTurnCnt);
-	HRESULT	MoveTurn_sequentially2(_int _iTurnCnt);
+
+public:
+	_int		Update_Simultaneously();
 	HRESULT	MoveTurn_Simultaneously(_int _iTurnCnt);
+#pragma region legacy
 
+	//_int		Update_sequentially();
+	//HRESULT	MoveTurn_sequentially(_int _iTurnCnt);
+	//_int	Get_NextActor(CCharacter** _pOutCharacter);
 
+#pragma endregion
 
 
 	
-
-private:
-	_int	Get_NextActor(CCharacter** _pOutCharacter);
 public:
 	virtual void Free() override;
 };

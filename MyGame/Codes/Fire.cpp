@@ -88,7 +88,11 @@ void CFire::Play()
 
 
 _int CFire::Update(_double _timeDelta)
-{	
+{
+	if (m_bDead)
+		return -1;
+
+
 	if (nullptr == m_pSpawnTimer)
 		return -1;
 
@@ -106,7 +110,7 @@ _int CFire::Update(_double _timeDelta)
 	}
 
 	//0.5초마다 생성
-	if(m_pSpawnTimer->isThreashHoldReached(0.2))
+	if (m_pSpawnTimer->isThreashHoldReached(0.2))
 		m_pParticleSystem->RollUp(m_pTransform->Get_RECT(), 5);
 
 	return 0;
@@ -114,20 +118,18 @@ _int CFire::Update(_double _timeDelta)
 
 _int CFire::LateUpate(_double _timeDelta)
 {
+	if (m_bDead)
+		return -1;
+
 	m_pTransform->Update_Transform();
 
-	//if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_PARTICLE)))
-	//	return -1;
 
 	return 0;
 }
 
 HRESULT CFire::Render()
 {
-#ifndef MYDEBUG
-	//m_pTransform->Render_Collider();
 
-#endif // !MYDEBUG
 
 	return S_OK;
 }
@@ -137,17 +139,25 @@ HRESULT CFire::Render()
 
 void CFire::OnCollisionEnter(CGameObject * _pOther)
 {
+	if (!m_bCollidable)
+		return;
+
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
 	if (nullptr != pCharacter)
 	{
 		//불붙는다.
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 		//클론이나 마찬가지
-		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STATIC, &m_tBaseDesc));
+		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &m_tBaseDesc));
 		//캐릭터에 이펙트를 셋팅한다.
 		if (nullptr != pClone)
 		{
-			pCharacter->PlayEffect(pClone);
+			pClone->Play();
+			pClone->Set_Collidable(false);
+			CTransform* pTargetTrasform = (CTransform*)_pOther->Get_Module(L"Transform");
+			if (nullptr == pTargetTrasform) return;
+			pClone->Set_Target(pTargetTrasform);
+
 			CBurn::STATEDESC desc;
 			CBurn::STATS stats;
 			stats.m_fAtt = CStat::Create(1.f, 5.f);

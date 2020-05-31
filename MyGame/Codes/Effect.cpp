@@ -9,24 +9,34 @@ CEffect::CEffect(PDIRECT3DDEVICE9 _pGraphic_Device)
 }
 
 CEffect::CEffect(CEffect & _rhs)
-	:CGameObject(_rhs)
+	: CGameObject(_rhs)
 {
 }
 
 
 
-//이펙트는 이펙트매니저를 따로 이용하지 않음. 따라서 리턴값이 딱히 의미는 없음.
-_int CEffect::Act()
+
+
+_int CEffect::StartAct()
 {
-	if (m_iDuration < m_iTurnCnt)
+	if (m_bDead)
 	{
-		m_bDead = true;
-		//파티클 시스템을 해제한다.
-		m_pParticleSystem->Set_Dead();
+		m_bTurnEnd = true;
 		return -1;
 	}
-
+	
+	//일단 턴 늘리고 (턴이 이동한 순간 사라질지말지 판단해야하기 때문) 
 	++m_iTurnCnt;
+
+	//늘어난 턴과 지속시간을 비교
+	if (m_iDuration <= m_iTurnCnt)
+	{
+		m_bDead = true;
+		OnDead();
+		m_pParticleSystem->Set_Dead();
+	}
+
+	m_bTurnEnd = true;
 
 	return 0;
 }

@@ -10,6 +10,9 @@ HRESULT CBuff::Initialize(void* _pArg)
 
 _int CBuff::Act(CCharacter* _pTarget)
 {
+	//일단 턴 늘리고
+	++m_iTurnCnt;
+	
 	//끝났으면 남은 턴수는 0, 아무것도 안함.
 	if (m_tStateDesc.m_iDuration < m_iTurnCnt)
 		return 0;
@@ -17,8 +20,7 @@ _int CBuff::Act(CCharacter* _pTarget)
 	//행동
 	OnAct(_pTarget);
 
-	++m_iTurnCnt;
-	return m_tStateDesc.m_iDuration - m_iTurnCnt;
+	return 1;
 }
 
 HRESULT CBuff::End_Buff()

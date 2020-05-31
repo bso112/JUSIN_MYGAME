@@ -18,6 +18,7 @@ public:
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render() override;
 
+
 private:
 	CClock_Trigger*				m_pSpawnTimer = nullptr;
 	BASEDESC					m_tBaseDesc;
@@ -25,8 +26,8 @@ private:
 	_bool						m_bPlaying = false;
 
 public:
-	virtual void Play() override;
-
+	void	Play()		override;
+	void	Set_Collidable(_bool _bCollidable) { m_bCollidable = _bCollidable; }
 
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);

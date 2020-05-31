@@ -33,6 +33,8 @@ public:
 	CGameObject*	Add_GO_To_Layer(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID, const _tchar* _eLayerID, SCENEID _eLayerSceneID, void* _pArg = nullptr);
 	//오브젝트를 레이어에 등록한다.
 	CGameObject*	Add_GO_To_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID, CGameObject* _pObj);
+	//레이어를 만들어둔다.
+	HRESULT			Make_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID);
 	CGameObject*	Find_Prototype(const _tchar* _ePrototypeID, SCENEID _ePrototypeSceneID);
 	CLayer*			Find_Layer(const _tchar* _eLayerID, SCENEID _eLayerSceneID);
 	CGameObject*	Get_Player(SCENEID _eLayerSceneID);

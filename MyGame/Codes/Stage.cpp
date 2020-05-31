@@ -46,7 +46,7 @@ HRESULT CStage::Initialize()
 
 _int CStage::Update(_double _timeDelta)
 {
-	m_pTurnMgr->Update_sequentially2();
+	m_pTurnMgr->Update_Simultaneously();
 	CScene::Update(_timeDelta);
 
 	return 0;

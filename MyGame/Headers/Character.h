@@ -57,8 +57,7 @@ protected:
 	CStateCon*	m_pStateCon = nullptr;
 	//버프매니저
 	CBuffController*	m_pBuffCon = nullptr;
-	//턴이 끝났는지
-	bool		m_bTurnEnd = false;
+
 
 	//현재 활성화된 이펙트
 	CEffect*	m_pEffect = nullptr;
@@ -70,7 +69,6 @@ protected:
 	vector<IMMUNE> m_vecImmune;
 	
 	_bool	m_bInvisible = false;
-	_bool	m_bParalyze = false;
 	//이동할 목표지점
 	Vector4			m_vDst = {};
 
@@ -81,14 +79,13 @@ protected:
 
 	const _tchar* m_pName = L"";
 
-
+	
 public:
-	_int		StartAct();
-	_int		UpdateAct();
+	_int		StartAct() override;
+	_int		UpdateAct() override;
 	CCharacter*	Get_Focus() { return m_pFocus; }
-	_bool		IsTurnEnd(){ return m_bTurnEnd; }
 	//턴 상태를 가져온다.
-	void		SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }
+	void		SetTurnState(_bool _bTurnEnd) override { m_bTurnEnd = _bTurnEnd; }
 	void		PlayEffect(CEffect* _pEffect);
 
 public:
@@ -96,7 +93,8 @@ public:
 	void	Heal(_float _healAmount);
 	void	SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
 	void	Set_Paralyze(bool _bParalyze) { m_bParalyze = _bParalyze; }
-	_bool	IsParalyzed() { return m_bParalyze; }
+	_bool	IsTurnEnd()		override { return m_bTurnEnd; }
+	_bool	IsParalyzed()	override { return m_bParalyze; }
 	_bool	IsAlive();
 	_bool	IsImmune(IMMUNE _eImmune);
 	const _tchar*	Get_Name() { return m_pName; }
@@ -116,7 +114,6 @@ public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 protected:
-	virtual void OnDead();
 	virtual void OnTakeDamage();
 	virtual	void OnAttack(CGameObject * _pOther);
 
