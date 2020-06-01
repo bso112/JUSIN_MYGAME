@@ -51,7 +51,7 @@ HRESULT CImage::Initialize_Prototype(void* _pArg)
 		return E_FAIL;
 
 	desc = *((STATEDESC*)_pArg);
-
+	m_tDesc = *((STATEDESC*)_pArg);
 	m_pDeadClock = CClock_Delay::Create();
 	m_dLifeTime = desc.m_dLifeTime;
 
@@ -125,6 +125,16 @@ _int CImage::Update(_double _timeDelta)
 	//이걸 내가 여기 넣었었나봄.. 메뉴만들때. 따라서 여기 있어야됨.
 	m_pTransform->Update_Transform();
 
+
+	if (m_bFadeOut)
+	{
+		//알파값 점점 줄이기
+		m_fAlpha -= (1 / m_tDesc.m_dLifeTime) * _timeDelta;
+		if (m_fAlpha <= 0)
+			m_fAlpha = 0;
+	}
+
+
 	return 0;
 }
 
@@ -171,11 +181,16 @@ HRESULT CImage::Render()
 	if (FAILED(m_pVIBuffer->Set_Transform(matrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))
+	_int iTextureID = m_iTextureID - 1 < 0 ? 0 : m_iTextureID - 1;
+	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", iTextureID)))
 		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_Value("g_Alpha", &m_fAlpha, sizeof(_float))))
+		return E_FAIL;
+
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
-	if (FAILED(m_pShader->Begin_Pass(0)))
+	if (FAILED(m_pShader->Begin_Pass(m_iShaderPass)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
@@ -209,6 +224,11 @@ HRESULT CImage::Render()
 
 	ALPHABLEND_END;
 
+	//되돌리기
+	float alpha = 1;
+	if (FAILED(m_pShader->Set_Value("g_Alpha", &alpha, sizeof(_float))))
+		return E_FAIL;
+
 
 
 	return S_OK;
@@ -230,6 +250,8 @@ void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENE
 	m_pTextureTag = pTextureTag;
 
 }
+
+
 
 CImage * CImage::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID)
 {

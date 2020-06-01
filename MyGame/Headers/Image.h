@@ -38,6 +38,11 @@ protected:
 	_bool			m_bUI = true;
 	_double			m_dLifeTime = FLT_MAX;
 
+	STATEDESC		m_tDesc;
+	_bool			m_bFadeOut = false;
+	_float			m_fAlpha = 1;
+	_uint			m_iShaderPass = 0;
+
 private:
 	CClock_Delay* m_pDeadClock = nullptr;
 
@@ -56,8 +61,11 @@ protected:
 public:
 	void	Set_Font(MYFONT _tFont) { m_tFont = _tFont; }
 	void	Set_UI(_bool _bUI) { m_bUI = _bUI; }
+	void	Set_ShaderPass(_uint _iPass) { m_iShaderPass = _iPass; }
 	void	Replace_Texture(const _tchar* pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID);
-	void	Set_TextureID(_uint _iTextureID) { m_iTextureID = _iTextureID; }
+	void	Set_TextureID(_uint _iTextureID) { m_iTextureID = _iTextureID; m_tDesc.m_iTextureID = _iTextureID; }
+	STATEDESC	Get_DESC() { return m_tDesc; }
+	void	Set_FadeOut() { m_bFadeOut = true; m_iShaderPass = 4; }
 public:
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, void* _desc);

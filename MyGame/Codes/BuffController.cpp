@@ -2,6 +2,7 @@
 #include "..\Headers\BuffController.h"
 #include "Image.h"
 #include "ObjMgr.h"
+#include "Transform.h"
 USING(MyGame)
 CBuffController::CBuffController(PDIRECT3DDEVICE9 _pGraphic_Device)
 	:m_pGraphic_Device(_pGraphic_Device)
@@ -34,6 +35,7 @@ _int CBuffController::Act(CCharacter* _pTarget)
 	if (m_listBuff.size() <= 0)
 		return 0;
 
+	int iIconIndex = 0;
 	auto& iter = m_listBuff.begin();
 	while (iter != m_listBuff.end())
 	{
@@ -41,6 +43,20 @@ _int CBuffController::Act(CCharacter* _pTarget)
 		//남은턴이 0턴이면
 		if (iDuration == 0)
 		{
+			if (iIconIndex >= MAX_BUFFICON)
+				continue;
+			//안나옴
+			CImage::STATEDESC desc = m_pBuffIcons[iIconIndex]->Get_DESC();
+			desc.m_dLifeTime = 0.8f;
+			CImage* pImage = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+			if (nullptr == pImage) continue;
+			pImage->Set_UI(true);
+			pImage->Set_FadeOut();
+			CTransform* pTransform = (CTransform*)pImage->Get_Module(L"Transform");
+			if (nullptr == pTransform) continue;
+			pTransform->Expand_Auto(Vector2(200.f, 200.f));
+
+
 			//삭제
 			Safe_Release(*iter);
 			iter = m_listBuff.erase(iter);

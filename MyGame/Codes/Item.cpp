@@ -271,7 +271,7 @@ _int CItem::Interact(CGameObject * _pOther)
 		if (nullptr == pHeroTransform) return -1;
 		if (nullptr == m_pTransform) return -1;
 		_float dist = (pHeroTransform->Get_Position() - m_pTransform->Get_Position()).magnitude();
-		if (dist > 30)
+		if (dist > 50)
 			return -1;
 		
 		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
