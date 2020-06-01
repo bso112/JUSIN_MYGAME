@@ -82,7 +82,7 @@ HRESULT CRat::Initialize(void * _param)
 	m_pAnimator->Add_Animation(L"idle", pIdleAnim);
 
 	Set_Module(L"rat_dead", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pDeadAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pDeadAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
 
 	Set_Module(L"rat_jump", SCENE_STAGE, (CModule**)&pTexture);

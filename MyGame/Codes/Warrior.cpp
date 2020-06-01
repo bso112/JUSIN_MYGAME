@@ -327,6 +327,7 @@ HRESULT CWarrior::Render()
 
 	ALPHABLEND_END;
 
+	
 	pTargetMgr->Release_RenderTarget(L"Portrait");
 
 

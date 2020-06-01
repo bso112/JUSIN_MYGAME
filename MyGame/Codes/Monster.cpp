@@ -60,6 +60,7 @@ _int CMonster::Update(_double _timeDelta)
 
 		return 0;
 	}
+
 	if (!m_bActive)
 		return 0;
 

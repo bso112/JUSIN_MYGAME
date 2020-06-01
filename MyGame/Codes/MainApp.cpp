@@ -77,6 +77,18 @@ _int CMainApp::Update(_double _timeDelta)
 	CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Update();
+	
+
+	//이거 비트로하면 하나로 할 수 있을거 같은데?
+	CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT);
+	CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT);
+	CKeyMgr::Get_Instance()->Key_Pressing(VK_UP);
+	CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN);
+
+
+	CKeyMgr::Get_Instance()->Key_Pressing('Z');
+	CKeyMgr::Get_Instance()->Key_Pressing('X');
+
 
 	m_pSceneMgr->Update(_timeDelta);
 
@@ -101,7 +113,13 @@ HRESULT CMainApp::Render()
 		nullptr == m_pSceneMgr)
 		return E_FAIL;
 
-	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 0.f, 1.f), 1.f, 0);
+	//초상화도 함께 클리어
+	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pTargetMgr);
+	pTargetMgr->Set_RenderTarget(L"Portrait", 1);
+	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 0.f, 0.f), 1.f, 0);
+	pTargetMgr->Release_RenderTarget(L"Portrait");
+
 	m_pGraphic_Device->BeginScene();
 	//그림을 그린다.
 
@@ -165,7 +183,7 @@ HRESULT CMainApp::Initalize_Scene()
 	if (m_pSceneMgr == nullptr)
 		return E_FAIL;
 
-	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_MENU, m_pGraphic_Device)))
+	if (FAILED(m_pSceneMgr->Scene_Change(SCENE_LOADING, m_pGraphic_Device)))
 		return E_FAIL;
 
 	return S_OK;

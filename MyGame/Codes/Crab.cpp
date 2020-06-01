@@ -88,7 +88,7 @@ HRESULT CCrab::Initialize(void * _param)
 	m_pAnimator->Add_Animation(L"idle", pIdleAnim);
 
 	Set_Module(L"crab_dead", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pDeadAnim = CAnimation::Create(pTexture, 0.2, false);
+	CAnimation* pDeadAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
 
 	Set_Module(L"crab_walk", SCENE_STAGE, (CModule**)&pTexture);

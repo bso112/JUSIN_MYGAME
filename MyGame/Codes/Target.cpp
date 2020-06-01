@@ -4,7 +4,7 @@
 USING(MyGame)
 
 CTarget::CTarget(PDIRECT3DDEVICE9 _pGraphic_Device)
-	:m_pGraphic_Device(_pGraphic_Device) 
+	:m_pGraphic_Device(_pGraphic_Device)
 {
 	Safe_AddRef(m_pGraphic_Device);
 }
@@ -14,9 +14,9 @@ HRESULT CTarget::Initialize(_int iCX, _int iCY, D3DFORMAT _eFormat)
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
-	if(FAILED(D3DXCreateTexture(m_pGraphic_Device,iCX, iCY, 1, D3DUSAGE_RENDERTARGET, _eFormat, D3DPOOL_DEFAULT, &m_pTexture)))
+	if (FAILED(D3DXCreateTexture(m_pGraphic_Device, iCX, iCY, 1, D3DUSAGE_RENDERTARGET, _eFormat, D3DPOOL_DEFAULT, &m_pTexture)))
 		return E_FAIL;
-	
+
 	//·»´õÅ¸°ÙÀ» ¾ò¾î¿Â´Ù.
 	m_pTexture->GetSurfaceLevel(0, &m_pSurface);
 
@@ -61,8 +61,12 @@ HRESULT CTarget::Clear_RenderTarget()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
+
 	//·»´õÅ¸°ÙÀ» ¸ðµÎ Å¬¸®¾îÇÑ´Ù.
-	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 1.f, 0);
+	if (FAILED(m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DXCOLOR(0.f, 0.f, 0.f, 0.f), 1.f, 0)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 

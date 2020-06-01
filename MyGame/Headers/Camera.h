@@ -1,6 +1,10 @@
 #pragma once
 #include "GameObject.h"
 BEGIN(MyGame)
+#define CAMERA_MOVE_SPEED 5.f
+#define CAMERA_SCAILING_SPEED 0.1f
+#define CAMERA_ORIGINAL_SCALE Vector3(2.f,2.f,1.f);
+
 class CTransform;
 class CCamera final : public CGameObject
 {
@@ -14,7 +18,9 @@ private:
 	CTransform*	m_pTransform = nullptr;
 	//따라다닐 타겟
 	CTransform*	m_pTarget = nullptr;
-
+	Vector3		m_vTranslation;
+	//기본 스케일
+	Vector3		m_vScale = CAMERA_ORIGINAL_SCALE;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _pArg = nullptr);
@@ -24,6 +30,8 @@ public:
 public:
 	void	Set_Target(CTransform* _pTargetTransform) { m_pTarget = _pTargetTransform; }
 
+public:
+	virtual HRESULT OnKeyPressing(_int KeyCode);
 public:
 	static CCamera* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	virtual CGameObject* Clone(void * _pArg = nullptr);

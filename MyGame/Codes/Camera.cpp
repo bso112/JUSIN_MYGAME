@@ -2,6 +2,7 @@
 #include "..\Headers\Camera.h"
 #include "Transform.h"
 #include "TimerMgr.h"
+#include "KeyMgr.h"
 
 USING(MyGame)
 
@@ -22,6 +23,7 @@ HRESULT CCamera::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CCamera::Initialize(void * _pArg)
 {
+	CKeyMgr::Get_Instance()->RegisterObserver(SCENE_STAGE, this);
 	CTransform::STATEDESC transformDesc;
 	transformDesc.speedPerSec = 100.f;
 	transformDesc.radianPerSec = 100.f;
@@ -35,6 +37,7 @@ HRESULT CCamera::Initialize(void * _pArg)
 	}
 
 	return S_OK;
+
 }
 
 _int CCamera::Update(_double _timeDelta)
@@ -45,17 +48,24 @@ _int CCamera::Update(_double _timeDelta)
 	_matrix matrix;
 	if (nullptr != m_pTarget)
 	{
+		if (m_pTarget->Is_Moving())
+		{
+			m_vTranslation = Vector3(0.f, 0.f, 0.f);
+			m_vScale = CAMERA_ORIGINAL_SCALE;
+		}
+
 		Vector3 vTargetPos = m_pTarget->Get_Position();
 		m_pTransform->Set_Position(Vector3(vTargetPos.x - (g_iWinCX >> 1), vTargetPos.y - (g_iWinCY >> 1)));
-		_matrix scalingMatrix, translationMatrix, offsetMatrix, offsetMatrix2;
-
-		D3DXMatrixTranslation(&translationMatrix, -1.f * vTargetPos.x, -1.f * vTargetPos.y, -1.f * vTargetPos.z);
-		D3DXMatrixScaling(&scalingMatrix, 2.f, 2.f, 1.f);
+		_matrix scalingMatrix, playertranslationMatrix, offsetMatrix, offsetMatrix2, translationMatrix;
+		
+		D3DXMatrixTranslation(&playertranslationMatrix, -1.f * vTargetPos.x, -1.f * vTargetPos.y, -1.f * vTargetPos.z);
+		D3DXMatrixScaling(&scalingMatrix, m_vScale.x, m_vScale.y, 1.f);
 		D3DXMatrixTranslation(&offsetMatrix, float(g_iWinCX >> 1), float(g_iWinCY >> 1), 1);
-		D3DXMatrixTranslation(&offsetMatrix2, -float(g_iWinCX >> 1), -float(g_iWinCY >> 1), 1);
+		D3DXMatrixTranslation(&translationMatrix, -m_vTranslation.x, -m_vTranslation.y, 0.f);
 
-
-		matrix = translationMatrix * offsetMatrix * scalingMatrix * offsetMatrix2;
+		//오프셋을 곱하는 이유는 Initialize에서 포지션에 (g_iWinCX >> 1) 와 (g_iWinCY >> 1)를 빼는 이유와 같다.
+		//스크롤을 화면 중앙을 기준으로 하고 싶어서 그런 것. (화면 중앙을 스크롤값을 0으로 하는 것)
+		matrix = playertranslationMatrix * translationMatrix * scalingMatrix * offsetMatrix;
 	}
 	//에디터에서의 조작
 	else
@@ -81,6 +91,37 @@ _int CCamera::Update(_double _timeDelta)
 _int CCamera::LateUpate(_double _timeDelta)
 {
 	return _int();
+}
+
+HRESULT CCamera::OnKeyPressing(_int KeyCode)
+{
+	if (KeyCode == VK_LEFT)
+	{
+		m_vTranslation += Vector2(-CAMERA_MOVE_SPEED, 0.f);
+	}
+	else if (KeyCode == VK_RIGHT)
+	{
+		m_vTranslation += Vector2(CAMERA_MOVE_SPEED, 0.f);
+	}
+	else if (KeyCode == VK_UP)
+	{
+
+		m_vTranslation += Vector2(0.f, -CAMERA_MOVE_SPEED);
+	}
+	else if (KeyCode == VK_DOWN)
+	{
+		m_vTranslation += Vector2(0.f, CAMERA_MOVE_SPEED);
+	}
+	else if (KeyCode == 'Z')
+	{
+		m_vScale -= Vector3(CAMERA_SCAILING_SPEED, CAMERA_SCAILING_SPEED, 0.f);
+	}
+	else if (KeyCode == 'X')
+	{
+		m_vScale += Vector3(CAMERA_SCAILING_SPEED, CAMERA_SCAILING_SPEED, 0.f);
+	}
+
+	return S_OK;
 }
 
 CCamera * CCamera::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -111,6 +152,8 @@ CGameObject * CCamera::Clone(void * _pArg)
 
 void CCamera::Free()
 {
+	CKeyMgr::Get_Instance()->UnRegisterObserver(SCENE_STAGE, this);
+
 	Safe_Release(m_pTransform);
 
 	CGameObject::Free();

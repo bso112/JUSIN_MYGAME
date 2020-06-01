@@ -33,6 +33,8 @@ CCharacter::CCharacter(CCharacter & _character)
 
 _int CCharacter::StartAct()
 {
+	if (m_bDying || m_bDead)
+		return -1;
 	if (!m_bActive)
 		return 0;
 
@@ -47,6 +49,9 @@ _int CCharacter::StartAct()
 
 _int CCharacter::UpdateAct()
 {
+	if (m_bDying || m_bDead)
+		return -1;
+
 	if (!m_bActive)
 		return 0;
 	return m_pStateCon->Update(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
