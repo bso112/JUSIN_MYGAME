@@ -138,7 +138,7 @@ _int CFire::Update(_double _timeDelta)
 
 	//0.5段原陥 持失
 	if (m_pSpawnTimer->isThreashHoldReached(0.2))
-		m_pParticleSystem->FireUp(m_pTransform->Get_RECT(), 5);
+		m_pParticleSystem->FireUp(m_pTransform->Get_RECT(), 10);
 
 	return 0;
 }

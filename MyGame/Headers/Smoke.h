@@ -26,7 +26,7 @@ private:
 	_bool						m_bPlaying = false;
 
 private:
-	CBuff::STATEDESC	m_DamageDesc;
+	CBuff::STATEDESC	m_BuffDesc;
 
 public:
 	void	Play()		override;

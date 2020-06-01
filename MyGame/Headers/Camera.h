@@ -3,7 +3,7 @@
 BEGIN(MyGame)
 #define CAMERA_MOVE_SPEED 5.f
 #define CAMERA_SCAILING_SPEED 0.1f
-#define CAMERA_ORIGINAL_SCALE Vector3(1.5f,1.5f,1.f);
+#define CAMERA_ORIGINAL_SCALE Vector3(1.7f,1.7f,1.f);
 
 class CTransform;
 class CCamera final : public CGameObject

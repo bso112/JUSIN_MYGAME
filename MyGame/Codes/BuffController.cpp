@@ -86,7 +86,7 @@ HRESULT CBuffController::Update_BuffIcon()
 			m_pBuffIcons[i]->Set_TextureID(2);
 			break;
 		case CBuff::TYPE_PARALIZE:
-			m_pBuffIcons[i]->Set_TextureID(2);
+			m_pBuffIcons[i]->Set_TextureID(4);
 			break;
 		}
 		++i;

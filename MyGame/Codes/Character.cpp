@@ -63,10 +63,40 @@ void CCharacter::PlayEffect(CEffect * _pEffect)
 
 }
 
+HRESULT CCharacter::ShowText(const _tchar * _pText)
+{
+	CImage::STATEDESC desc;
+	desc.m_eTextureSceneID = SCENE_STATIC;
+	desc.m_pTextureTag = L"empty";
+	desc.m_fSpeed = 100.f;
+	desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(100.f, 30.f));
+	desc.m_dLifeTime = 0.3f;
+	CImage* pDamageText = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+	if (nullptr != pDamageText)
+	{
+		//카메라 영향받도록 지정
+		pDamageText->Set_UI(false);
+		//폰트지정
+		MYFONT font;
+		font.m_pFont = g_pFontX2;
+		font.m_Color = 0xFFF6F258;
+		memcpy(font.m_pTextArr, _pText, sizeof(_tchar) * MAX_PATH);
+		pDamageText->Set_Font(font);
+		//위로 올리기
+		CTransform* pTransform = (CTransform*)pDamageText->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+			pTransform->MoveToDirAuto(Vector2(0.f, -1.f));
+	}
+	return S_OK;
+}
+
 void CCharacter::TakeDamage(float _fDamage)
 {
 	if (m_bDying || m_bDead)
 		return;
+
+
+
 	m_tStat.m_fHP -= _fDamage;
 
 	if (m_tStat.m_fHP < 0)
@@ -165,6 +195,29 @@ void CCharacter::Add_Buff(CBuff * pBuff)
 		return;
 
 	m_pBuffCon->Add_Buff(pBuff);
+
+	const _tchar* pBuffText = L"";
+	switch (pBuff->Get_Type())
+	{
+	case CBuff::TYPE_BURN:
+		pBuffText = L"화상";
+		break;
+	case CBuff::TYPE_FREEZE:
+		pBuffText = L"동상";
+		break;
+	case CBuff::TYPE_PARALIZE:
+		pBuffText = L"마비됨";
+		break;
+	case CBuff::TYPE_POISION:
+		pBuffText = L"중독됨";
+		break;
+	default:
+		break;
+	} 
+
+	ShowText(pBuffText);
+
+
 }
 
 _int CCharacter::Interact(CGameObject * _pOther)
@@ -182,6 +235,14 @@ _int CCharacter::Interact(CGameObject * _pOther)
 
 		if (IsTargetInRange(pCharacter, m_iAttackRange))
 		{
+
+			_int chance = rand() % 100;
+			if (chance < 25)
+			{
+				ShowText(L"회피");
+				return 0;
+			}
+
 			_float Damage = m_tStat.m_fAtt->GetValue();
 			pCharacter->TakeDamage(Damage);
 			OnAttack(_pOther);

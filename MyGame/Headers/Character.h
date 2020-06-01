@@ -63,7 +63,7 @@ protected:
 	CEffect*	m_pEffect = nullptr;
 
 	CClock_Delay*	m_pDeadClock = nullptr;
-
+	
 protected:
 	STATS	m_tStat = {};
 	vector<IMMUNE> m_vecImmune;
@@ -78,7 +78,6 @@ protected:
 	_uint	m_iRecogRange = 0;
 
 	const _tchar* m_pName = L"";
-
 	
 public:
 	_int		StartAct() override;
@@ -87,6 +86,8 @@ public:
 	//턴 상태를 가져온다.
 	void		SetTurnState(_bool _bTurnEnd) override { m_bTurnEnd = _bTurnEnd; }
 	void		PlayEffect(CEffect* _pEffect);
+	//캐릭터 위로 텍스트를 띄운다.
+	HRESULT		ShowText(const _tchar* _pText);
 
 public:
 	virtual void TakeDamage(float _fDamage);

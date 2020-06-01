@@ -5,6 +5,7 @@
 #include "Clock.h"
 #include "TurnMgr.h"
 #include "Damage.h"
+#include "Paralyze.h"
 
 USING(MyGame)
 CSmoke::CSmoke(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -91,11 +92,14 @@ HRESULT CSmoke::Initialize(void * _pArg)
 	m_pSpawnTimer = CClock_Trigger::Create();
 
 
-	CDamage::STATS stats;
+	CBuff::STATS stats;
 	stats.m_fAtt = CStat::Create(1.f, 5.f);
-	m_DamageDesc.m_iDuration = 8;
-	m_DamageDesc.m_tStats = stats;
-	m_DamageDesc.m_eType = m_tDesc.m_tBuffType;
+	if(m_tDesc.m_tBuffType == CBuff::TYPE_POISION)
+		m_BuffDesc.m_iDuration = 8;
+	else if(m_tDesc.m_tBuffType == CBuff::TYPE_PARALIZE)
+		m_BuffDesc.m_iDuration = 5;
+	m_BuffDesc.m_tStats = stats;
+	m_BuffDesc.m_eType = m_tDesc.m_tBuffType;
 
 	return S_OK;
 }
@@ -114,8 +118,15 @@ HRESULT CSmoke::EffectOn(CCharacter * _pTarget)
 	if (nullptr == _pTarget)
 		return E_FAIL;
 
-	//화상입히기
-	_pTarget->Add_Buff(CDamage::Create(&m_DamageDesc));
+	switch (m_BuffDesc.m_eType)
+	{
+	case CBuff::TYPE_PARALIZE:
+		_pTarget->Add_Buff(CParalyze::Create(&m_BuffDesc));
+		break;
+	default:
+		_pTarget->Add_Buff(CDamage::Create(&m_BuffDesc));
+		break;
+	}
 	return S_OK;
 }
 
@@ -202,7 +213,7 @@ CGameObject * CSmoke::Clone(void * _param)
 
 void CSmoke::Free()
 {
-	
+
 	Safe_Release(m_pSpawnTimer);
 	CEffect::Free();
 }

@@ -89,7 +89,8 @@ HRESULT CInventory::Initialize(void * _pArg)
 	}
 
 #ifndef DEBUG
-	Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_FIREPOTION, 0));
+	Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
+	Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
 #endif // !DEBUG
 
 
