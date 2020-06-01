@@ -57,6 +57,7 @@ public:
 	void	Set_Font(MYFONT _tFont) { m_tFont = _tFont; }
 	void	Set_UI(_bool _bUI) { m_bUI = _bUI; }
 	void	Replace_Texture(const _tchar* pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID);
+	void	Set_TextureID(_uint _iTextureID) { m_iTextureID = _iTextureID; }
 public:
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, void* _desc);

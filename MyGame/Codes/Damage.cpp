@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "..\Headers\Burn.h"
+#include "Damage.h"
 #include "Stat.h"
 #include "Character.h"
 USING(MyGame)
 
 
-HRESULT CBurn::Initialize(void* _pArg)
+HRESULT CDamage::Initialize(void* _pArg)
 {
 	if (nullptr != _pArg)
 		memcpy(&m_tStateDesc, _pArg, sizeof(STATEDESC));
@@ -14,7 +14,7 @@ HRESULT CBurn::Initialize(void* _pArg)
 	return S_OK;
 }
 
-void CBurn::OnAct(CCharacter* _pTarget)
+void CDamage::OnAct(CCharacter* _pTarget)
 {
 	if (nullptr == _pTarget)
 		return;
@@ -23,9 +23,9 @@ void CBurn::OnAct(CCharacter* _pTarget)
 
 }
 
-CBurn * CBurn::Create(void* _pArg)
+CDamage * CDamage::Create(void* _pArg)
 {
-	CBurn* pInstance = new CBurn();
+	CDamage* pInstance = new CDamage();
 	if (FAILED(pInstance->Initialize(_pArg)))
 	{
 		MSG_BOX("Fail to create CBurn");
@@ -35,7 +35,7 @@ CBurn * CBurn::Create(void* _pArg)
 	return pInstance;
 }
 
-void CBurn::Free()
+void CDamage::Free()
 {
 	CBuff::Free();
 }

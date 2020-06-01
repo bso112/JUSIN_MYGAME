@@ -65,7 +65,8 @@ void CCharacter::PlayEffect(CEffect * _pEffect)
 
 void CCharacter::TakeDamage(float _fDamage)
 {
-
+	if (m_bDying || m_bDead)
+		return;
 	m_tStat.m_fHP -= _fDamage;
 
 	if (m_tStat.m_fHP < 0)

@@ -63,8 +63,9 @@ public:
 public:
 	//랜덤한 부채꼴모양으로 퍼짐
 	void Spread(Vector2 _dir, _double _timeDelta, _uint _iParticleCnt);
-	//한 자리에서 피어오름 (불, 연기..). _rc는 피어오를 영역
-	void RollUp(RECT& _rc, _uint _iParticleCnt);
+	//한 자리에서 피어오름
+	void FireUp(RECT& _rc, _uint _iParticleCnt);
+	void SmokeUp(RECT& _rc, _uint _iParticleCnt);
 
 public:
 	void	Set_FadeOut() { m_bFadeOut = true; }

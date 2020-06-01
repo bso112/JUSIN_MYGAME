@@ -1,6 +1,6 @@
 #pragma once
 #include "Effect.h"
-#include "Burn.h"
+#include "Buff.h"
 
 BEGIN(MyGame)
 #define PARTICLE_CNT_FIRE 10
@@ -22,12 +22,11 @@ public:
 
 private:
 	CClock_Trigger*				m_pSpawnTimer = nullptr;
-	BASEDESC					m_tBaseDesc;
 	CParticleSystem::STATEDESC	m_tParticleDesc;
 	_bool						m_bPlaying = false;
 
 private:
-	CBurn::STATEDESC	m_BurnDesc;
+	CBuff::STATEDESC	m_BurnDesc;
 
 public:
 	void	Play()		override;

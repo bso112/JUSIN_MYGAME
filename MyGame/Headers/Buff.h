@@ -6,6 +6,15 @@ class CCharacter;
 class CBuff abstract : public CBase
 {
 public:
+	enum TYPE
+	{
+		TYPE_POISION,
+		TYPE_BURN,
+		TYPE_FREEZE,
+		TYPE_PARALIZE,
+		TYPE_END
+	};
+public:
 	typedef struct tagStats
 	{
 		float	m_fHP = 0.f;
@@ -23,7 +32,8 @@ public:
 		//캐릭터 스텟에 영향을 주는 값들
 		STATS	m_tStats = {};
 		//지속 턴
-		_int				m_iDuration = 1;
+		_int	m_iDuration = 1;
+		TYPE	m_eType = TYPE_END;
 
 	}STATEDESC;
 
@@ -42,6 +52,9 @@ public:
 	virtual _int	Act(CCharacter* _pTarget);
 	//버프를 끝낸다.
 	virtual	HRESULT	End_Buff();
+
+public:
+	TYPE	Get_Type() { return m_tStateDesc.m_eType; }
 
 protected:
 	virtual void	OnAct(CCharacter* _pTarget) = 0;

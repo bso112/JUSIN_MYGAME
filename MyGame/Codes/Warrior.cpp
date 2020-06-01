@@ -11,6 +11,7 @@
 #include "SceneMgr.h"
 #include "TargetMgr.h"
 #include "LevelMgr.h"
+#include "BuffController.h"
 USING(MyGame)
 
 
@@ -225,6 +226,11 @@ _int CWarrior::Update(_double _timeDelta)
 	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
 	if (nullptr == pLevelMgr)return -1;
 	pLevelMgr->Set_Visuable(m_pTransform->Get_Position(), 2);
+
+	//버프 아이콘 렌더
+	if (FAILED(m_pBuffCon->Update_BuffIcon()))
+		return -1;
+
 	return 0;
 }
 
@@ -304,7 +310,6 @@ HRESULT CWarrior::Render()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
 
 
 

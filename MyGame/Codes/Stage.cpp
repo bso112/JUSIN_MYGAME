@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "ParticleSystem.h"
 #include "BuffController.h"
-#include "Fog.h"
+
 
 USING(MyGame)
 

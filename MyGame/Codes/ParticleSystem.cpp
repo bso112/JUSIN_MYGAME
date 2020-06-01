@@ -252,7 +252,7 @@ void CParticleSystem::Spread(Vector2 _vDir, _double _timeDelta, _uint _iParticle
 }
 
 //_rc안의 랜덤한 장소에 파티클을 스폰한다.
-void CParticleSystem::RollUp(RECT& _rc, _uint _iParticleCnt)
+void CParticleSystem::FireUp(RECT& _rc, _uint _iParticleCnt)
 {
 	if (m_bDead)
 		return;
@@ -288,8 +288,54 @@ void CParticleSystem::RollUp(RECT& _rc, _uint _iParticleCnt)
 		if (nullptr == pParticleTransform) return;
 
 		pParticleTransform->Set_Parent(m_pTransform);
+		//상승한다.
 		pParticleTransform->MoveToDirAuto(Vector3(0.f, -1.f));
+		//점점 크키가 줄어든다.
 		pParticleTransform->Shrink_Auto(m_tDesc.m_vParticleSize);
+		((CParticle*)particle)->Set_FadeOut();
+	}
+
+}
+
+void CParticleSystem::SmokeUp(RECT & _rc, _uint _iParticleCnt)
+{
+	if (m_bDead)
+		return;
+
+
+	if (nullptr == m_pObjMgr)
+		return;
+
+	//해당 범위 내에서 랜덤한 위치에 스폰한다. 파티클은 lifetime이 지나면 죽는다. 
+	LONG SizeX = _rc.right - _rc.left;
+	LONG SizeY = _rc.bottom - _rc.top;
+	if (SizeX <= 0 || SizeY <= 0)
+		return;
+
+
+	for (_uint i = 0; i < _iParticleCnt; ++i)
+	{
+
+		_float randX = (_float)_rc.left + (rand() % SizeX);
+		_float randY = (_float)_rc.top + (rand() % SizeY);
+		CParticle::STATEDESC tParticleDesc = CreateParticleDesc();
+		tParticleDesc.m_tBaseDesc.vPos = Vector2(randX, randY);
+		tParticleDesc.m_tBaseDesc.vSize = Vector2(1.f, 1.f, 1.f);
+
+		m_listParticle.push_back(CParticle::Create(m_pGraphic_Device, tParticleDesc));
+	}
+
+	////파티클의 부모를 파티클시스템으로 한다.
+	for (auto& particle : m_listParticle)
+	{
+		if (nullptr == particle) return;
+		CTransform* pParticleTransform = (CTransform*)particle->Get_Module(L"Transform");
+		if (nullptr == pParticleTransform) return;
+
+		pParticleTransform->Set_Parent(m_pTransform);
+		pParticleTransform->Expand_Auto(m_tDesc.m_vParticleSize);
+		//안됨.. 왜?
+		pParticleTransform->Set_Rotation(Vector3(0.f, 0.f, 30.f));
 		((CParticle*)particle)->Set_FadeOut();
 	}
 

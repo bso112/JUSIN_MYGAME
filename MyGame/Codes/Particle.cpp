@@ -29,6 +29,7 @@ HRESULT CParticle::Initialize(void * _pArg)
 
 	CTransform::STATEDESC transformDesc;
 	transformDesc.speedPerSec = m_tDesc.m_fSpeed;
+	transformDesc.radianPerSec = m_tDesc.m_dRadianPerSec;
 
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &transformDesc)))
 		return E_FAIL;
@@ -59,7 +60,7 @@ _int CParticle::Update(_double _timeDelta)
 	if (m_bFadeOut)
 	{
 		//알파값 점점 줄이기
-		m_fAlpha -= 1 * _timeDelta;
+		m_fAlpha -= (1 / m_tDesc.m_dLifeTime) * _timeDelta;
 		if (m_fAlpha <= 0)
 			m_fAlpha = 0;
 	}

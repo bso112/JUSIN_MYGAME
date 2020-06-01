@@ -319,9 +319,6 @@
     <Filter Include="06.Utility\11.RenderTarget\Target">
       <UniqueIdentifier>{4b134d3b-22b4-47d9-af6a-951259d54739}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Fog">
-      <UniqueIdentifier>{7f7f50f5-60af-4cb2-a2dc-bbbbf26e8817}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.GameObject\GameObject\Item\Potion">
       <UniqueIdentifier>{b6e20e3d-a50a-4426-a591-edde9ddb5cf5}</UniqueIdentifier>
     </Filter>
@@ -346,20 +343,17 @@
     <Filter Include="09.Buff\Buff\00.Invisible">
       <UniqueIdentifier>{2ef471cb-7f49-40c1-841d-4db75cdbea50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="09.Buff\Buff\01.Burn">
-      <UniqueIdentifier>{b98cd68f-1468-409a-ae05-18eb002d6d87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09.Buff\Buff\02.Freeze">
-      <UniqueIdentifier>{da337ed6-661d-4384-8e34-903b6f74503b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09.Buff\Buff\03.Poision">
-      <UniqueIdentifier>{cc4a02f3-cd7f-4921-b1e9-2865dd26e7a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="09.Buff\Buff\04.Paralyze">
       <UniqueIdentifier>{50c71969-b3d7-4a15-b8ff-20e4d08da590}</UniqueIdentifier>
     </Filter>
     <Filter Include="09.Buff\Manager">
       <UniqueIdentifier>{b4f38ad5-3b09-4be7-b0b0-2f8628d7d4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Effect\Smoke">
+      <UniqueIdentifier>{7f7f50f5-60af-4cb2-a2dc-bbbbf26e8817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Buff\Buff\01.Damage">
+      <UniqueIdentifier>{b98cd68f-1468-409a-ae05-18eb002d6d87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -669,9 +663,6 @@
     <ClInclude Include="..\Headers\TargetMgr.h">
       <Filter>06.Utility\11.RenderTarget\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Fog.h">
-      <Filter>04.GameObject\GameObject\Fog</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Potion.h">
       <Filter>04.GameObject\GameObject\Item\Potion</Filter>
     </ClInclude>
@@ -690,9 +681,6 @@
     <ClInclude Include="..\Headers\HpBar.h">
       <Filter>04.GameObject\GameObject\Image\HpBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Burn.h">
-      <Filter>09.Buff\Buff\01.Burn</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Paralyze.h">
       <Filter>09.Buff\Buff\04.Paralyze</Filter>
     </ClInclude>
@@ -701,6 +689,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\BuffController.h">
       <Filter>09.Buff\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Smoke.h">
+      <Filter>04.GameObject\GameObject\Effect\Smoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Damage.h">
+      <Filter>09.Buff\Buff\01.Damage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -986,9 +980,6 @@
     <ClCompile Include="..\Codes\TargetMgr.cpp">
       <Filter>06.Utility\11.RenderTarget\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Fog.cpp">
-      <Filter>04.GameObject\GameObject\Fog</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Potion.cpp">
       <Filter>04.GameObject\GameObject\Item\Potion</Filter>
     </ClCompile>
@@ -1007,9 +998,6 @@
     <ClCompile Include="..\Codes\HpBar.cpp">
       <Filter>04.GameObject\GameObject\Image\HpBar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Burn.cpp">
-      <Filter>09.Buff\Buff\01.Burn</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Paralyze.cpp">
       <Filter>09.Buff\Buff\04.Paralyze</Filter>
     </ClCompile>
@@ -1018,6 +1006,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\BuffController.cpp">
       <Filter>09.Buff\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Smoke.cpp">
+      <Filter>04.GameObject\GameObject\Effect\Smoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Damage.cpp">
+      <Filter>09.Buff\Buff\01.Damage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

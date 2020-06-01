@@ -19,6 +19,7 @@ public:
 		SCENEID			m_eTextureSceneID = SCENE_END;
 		_double			m_dLifeTime = 10.f;
 		_float			m_fSpeed = 1.f;
+		_double			m_dRadianPerSec = 1.f;
 		_uint			m_iTextureID = 1;
 	}STATEDESC;
 protected:

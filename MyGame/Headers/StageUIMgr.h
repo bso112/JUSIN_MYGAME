@@ -18,6 +18,7 @@ private:
 	CInventoryUIMgr*	m_pInventoryUIMgr	= nullptr;
 	CStatsPanel*		m_pStatsPanel = nullptr;
 	vector<RECT>		m_vecUIRect;
+	
 public:
 	HRESULT	Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHero);
 	vector<RECT>	GetUIRect();

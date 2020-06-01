@@ -19,6 +19,7 @@
 #include "TextureLoader.h"
 #include "Key.h"
 #include "ItemFactory.h"
+#include "Smoke.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -74,6 +75,8 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 
 	//이펙트 프로토타입
 	pObjMgr->Add_Prototype(L"Effect_Fire", SCENE_STAGE, CFire::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Effect_Smoke", SCENE_STAGE, CSmoke::Create(_pGraphic_Device));
+
 
 
 

@@ -154,12 +154,16 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 	return S_OK;
 }
 
+//Auto 쓸려면 Update_Nomal이랑 Update_Transform이랑 둘다써야되는 거네 어차피
 HRESULT CTransform::Update_Normal(_double _timeDelta)
 {
+	
 	m_vPosition += m_vDir_Normal * float(m_tStateDesc.speedPerSec * _timeDelta);
 
 	m_vSize -= m_dShrinkSpeed * _timeDelta;
 	m_vSize += m_dExpandSpeed * _timeDelta;
+	//m_vRotation.z += m_tStateDesc.radianPerSec * _timeDelta;
+
 	return S_OK;
 }
 
@@ -169,13 +173,13 @@ _int CTransform::Update_Transform()
 		revolveXMatrix, revolveYMatrix, revolveZMatrix, parentMatrix;
 
 	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
-	D3DXMatrixRotationX(&rotationXMatrix, m_vRotation.x);
-	D3DXMatrixRotationX(&rotationYMatrix, m_vRotation.y);
-	D3DXMatrixRotationX(&rotationZMatrix, m_vRotation.z);
+	D3DXMatrixRotationX(&rotationXMatrix, D3DXToRadian(m_vRotation.x));
+	D3DXMatrixRotationX(&rotationYMatrix, D3DXToRadian(m_vRotation.y));
+	D3DXMatrixRotationX(&rotationZMatrix, D3DXToRadian(m_vRotation.z));
 	D3DXMatrixTranslation(&translationMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	D3DXMatrixRotationX(&revolveXMatrix, m_vRevolveAngle.x);
-	D3DXMatrixRotationX(&revolveYMatrix, m_vRevolveAngle.y);
-	D3DXMatrixRotationX(&revolveZMatrix, m_vRevolveAngle.z);
+	D3DXMatrixRotationX(&revolveXMatrix, D3DXToRadian(m_vRevolveAngle.x));
+	D3DXMatrixRotationX(&revolveYMatrix, D3DXToRadian(m_vRevolveAngle.y));
+	D3DXMatrixRotationX(&revolveZMatrix, D3DXToRadian(m_vRevolveAngle.z));
 
 	//부모 행렬셋팅
 	if (nullptr != m_pParent)
@@ -387,6 +391,12 @@ HRESULT CTransform::Shrink_Auto(Vector2 _vShrink)
 HRESULT CTransform::Expand_Auto(Vector2 _vExpand)
 {
 	m_dExpandSpeed = _vExpand;
+	return S_OK;
+}
+
+HRESULT CTransform::Rotate_Auto(_double	radianPerSec)
+{
+	m_tStateDesc.radianPerSec = radianPerSec;
 	return S_OK;
 }
 

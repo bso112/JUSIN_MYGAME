@@ -4,4 +4,5 @@
 USING(MyGame)
 void CStat::Free()
 {
+
 }

@@ -51,7 +51,7 @@ _int CCamera::Update(_double _timeDelta)
 		if (m_pTarget->Is_Moving())
 		{
 			m_vTranslation = Vector3(0.f, 0.f, 0.f);
-			m_vScale = CAMERA_ORIGINAL_SCALE;
+			//m_vScale = CAMERA_ORIGINAL_SCALE;
 		}
 
 		Vector3 vTargetPos = m_pTarget->Get_Position();

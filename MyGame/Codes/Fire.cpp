@@ -4,19 +4,19 @@
 #include "Character.h"
 #include "Clock.h"
 #include "TurnMgr.h"
-#include "Burn.h"
+#include "Damage.h"
 
 USING(MyGame)
 CFire::CFire(PDIRECT3DDEVICE9 _pGraphic_Device)
 	:CEffect(_pGraphic_Device)
 {
-	ZeroMemory(&m_tBaseDesc, sizeof(BASEDESC));
+	ZeroMemory(&m_tDesc, sizeof(m_tDesc));
 }
 
 CFire::CFire(CFire & _rhs)
 	: CEffect(_rhs)
 {
-	ZeroMemory(&m_tBaseDesc, sizeof(BASEDESC));
+	ZeroMemory(&m_tDesc, sizeof(m_tDesc));
 
 }
 
@@ -40,9 +40,8 @@ HRESULT CFire::Initialize(void * _pArg)
 	//Fire의 위치 정함.
 	if (nullptr != _pArg)
 	{
-		m_tBaseDesc = *((BASEDESC*)_pArg);
-		m_pTransform->Set_Position(m_tBaseDesc.vPos);
-
+		m_tDesc = *((STATEDESC*)_pArg);
+		m_pTransform->Set_Position(m_tDesc.m_tBaseDesc.vPos);
 	}
 
 	m_pTransform->Set_Size(Vector3(TILECX, TILECY, 1.f));
@@ -54,9 +53,9 @@ HRESULT CFire::Initialize(void * _pArg)
 	//불 파티클시스템 생성
 	//파티클지속시간은 Fire에서 턴기준으로 제어한다.
 	m_tParticleDesc.m_dDuration = FLT_MAX;
-	m_tParticleDesc.m_dLifeTime = 0.5f;
+	m_tParticleDesc.m_dLifeTime = 0.7f;
 	m_tParticleDesc.m_eTextureSceneID = SCENE_STAGE;
-	m_tParticleDesc.m_fSpeed = 50.f;
+	m_tParticleDesc.m_fSpeed = 80.f;
 	m_tParticleDesc.m_pTextureTag = L"Fire";
 	m_tParticleDesc.m_tBaseDesc.vPos = m_pTransform->Get_Position();
 	m_tParticleDesc.m_tBaseDesc.vSize = m_pTransform->Get_Size();
@@ -79,10 +78,11 @@ HRESULT CFire::Initialize(void * _pArg)
 	m_pSpawnTimer = CClock_Trigger::Create();
 
 
-	CBurn::STATS stats;
+	CDamage::STATS stats;
 	stats.m_fAtt = CStat::Create(1.f, 5.f);
 	m_BurnDesc.m_iDuration = m_iDuration;
 	m_BurnDesc.m_tStats = stats;
+	m_BurnDesc.m_eType = m_tDesc.m_tBuffType;
 
 	return S_OK;
 }
@@ -109,7 +109,7 @@ HRESULT CFire::EffectOn(CCharacter * _pTarget)
 	if (nullptr == pTargetTrasform) return E_FAIL;
 	Set_Target(pTargetTrasform);
 	//화상입히기
-	_pTarget->Add_Buff(CBurn::Create(&m_BurnDesc));
+	_pTarget->Add_Buff(CDamage::Create(&m_BurnDesc));
 	return S_OK;
 }
 
@@ -138,7 +138,7 @@ _int CFire::Update(_double _timeDelta)
 
 	//0.5초마다 생성
 	if (m_pSpawnTimer->isThreashHoldReached(0.2))
-		m_pParticleSystem->RollUp(m_pTransform->Get_RECT(), 5);
+		m_pParticleSystem->FireUp(m_pTransform->Get_RECT(), 5);
 
 	return 0;
 }
@@ -175,7 +175,7 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 		//불붙는다.
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 		//클론이나 마찬가지
-		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &m_tBaseDesc));
+		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &m_tDesc));
 		//캐릭터에 이펙트를 셋팅한다.
 		if (nullptr != pClone)
 		{

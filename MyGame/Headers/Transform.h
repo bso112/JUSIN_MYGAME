@@ -11,7 +11,7 @@ public:
 	typedef struct tagStateDesc
 	{
 		_double speedPerSec = 1.0;
-		_double	radianPerSec = 1.0;
+		_double	radianPerSec = 0.0;
 		//한턴에 몇 타일 움직이는가
 		_uint	movePerTurn = 1;
 		tagStateDesc() {}
@@ -145,6 +145,8 @@ public:
 	HRESULT	Shrink_Auto(Vector2 _vShrink);
 	//크기가 커진다.
 	HRESULT	Expand_Auto(Vector2 _vExpand);
+	//회전한다.
+	HRESULT	Rotate_Auto(_double	radianPerSec);
 
 
 public:
