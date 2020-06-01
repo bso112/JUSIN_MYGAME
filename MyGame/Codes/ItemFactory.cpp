@@ -195,6 +195,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fHp = 20.f;
 		tDesc.m_tStats = tStats;
+		tDesc.m_Color = 0xffff0026;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"HealPotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_FIREPOTION:
@@ -204,6 +205,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tStats.m_fAtt = 3.f;
 		tDesc.m_tBaseDesc = _tDesc;
 		tDesc.m_tStats = tStats;
+		tDesc.m_Color = 0xffff8c09;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"FirePotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_PARALYZEPOTION:
@@ -212,6 +214,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_pDescription = L"유독한 마비가스가 담겨져있다.";
 		tDesc.m_tBaseDesc = _tDesc;
 		tDesc.m_tStats = tStats;
+		tDesc.m_Color = 0xffd9ac00;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"ParalyzePotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_POSIONPOTION:
@@ -221,6 +224,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 3.f;
 		tDesc.m_tStats = tStats;
+		tDesc.m_Color = 0xff00b43e;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"PosionPotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	default:

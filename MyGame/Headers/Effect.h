@@ -4,6 +4,7 @@
 #include "ParticleSystem.h"
 BEGIN(MyGame)
 class CClock_Delay;
+class CCharacter;
 class CEffect abstract : public CGameObject
 {
 protected:
@@ -34,6 +35,8 @@ public:
 public:
 	void	Set_Target(CTransform* _pTarget) { if (nullptr == _pTarget) return; m_pTarget = _pTarget; }
 
+public:
+	virtual HRESULT	EffectOn(CCharacter* _pTarget);
 
 	virtual void Free() override;
 };

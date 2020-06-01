@@ -72,18 +72,17 @@ _int CMainApp::Update(_double _timeDelta)
 	CKeyMgr* pKeyMgr = CKeyMgr::Get_Instance();
 	if (nullptr == pKeyMgr)
 		return -1;
-
 	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Update();
 	
 
-	//이거 비트로하면 하나로 할 수 있을거 같은데?
-	CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT);
-	CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT);
-	CKeyMgr::Get_Instance()->Key_Pressing(VK_UP);
-	CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN);
+
+	CKeyMgr::Get_Instance()->Key_Pressing('D');
+	CKeyMgr::Get_Instance()->Key_Pressing('A');
+	CKeyMgr::Get_Instance()->Key_Pressing('W');
+	CKeyMgr::Get_Instance()->Key_Pressing('S');
 
 
 	CKeyMgr::Get_Instance()->Key_Pressing('Z');

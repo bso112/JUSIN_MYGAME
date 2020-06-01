@@ -95,20 +95,20 @@ _int CCamera::LateUpate(_double _timeDelta)
 
 HRESULT CCamera::OnKeyPressing(_int KeyCode)
 {
-	if (KeyCode == VK_LEFT)
+	if (KeyCode == 'A')
 	{
 		m_vTranslation += Vector2(-CAMERA_MOVE_SPEED, 0.f);
 	}
-	else if (KeyCode == VK_RIGHT)
+	else if (KeyCode == 'D')
 	{
 		m_vTranslation += Vector2(CAMERA_MOVE_SPEED, 0.f);
 	}
-	else if (KeyCode == VK_UP)
+	else if (KeyCode == 'W')
 	{
 
 		m_vTranslation += Vector2(0.f, -CAMERA_MOVE_SPEED);
 	}
-	else if (KeyCode == VK_DOWN)
+	else if (KeyCode == 'S')
 	{
 		m_vTranslation += Vector2(0.f, CAMERA_MOVE_SPEED);
 	}

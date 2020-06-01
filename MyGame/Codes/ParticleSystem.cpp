@@ -122,16 +122,21 @@ HRESULT CParticleSystem::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", 0)))
+	_int textureID = m_tDesc.m_iTextureID - 1;
+	if (m_tDesc.m_iTextureID - 1 < 0)
+		textureID = 0;
+	if (FAILED(m_pTexture->Set_TextureOnShader(m_pShader, "g_BaseTexture", textureID)))
 		return E_FAIL;
 
 
+	if (FAILED(m_pShader->Set_Value("g_vColor", &m_tDesc.m_Color, sizeof(D3DXCOLOR))))
+		return E_FAIL;
 
 
 
 	if (FAILED(m_pShader->Begin()))
 		return E_FAIL;
-	if (FAILED(m_pShader->Begin_Pass(m_iShaderPass)))
+	if (FAILED(m_pShader->Begin_Pass(m_tDesc.m_iShaderPass)))
 		return E_FAIL;
 
 	for (auto& particle : m_listParticle)
@@ -159,6 +164,10 @@ HRESULT CParticleSystem::Render()
 	_float OriginalAlpha = 1.f;
 	//원래대로 돌려놓기
 	if (FAILED(m_pShader->Set_Value("g_Alpha", &OriginalAlpha, sizeof(_float))))
+		return E_FAIL;
+
+	D3DXCOLOR color = 0xffffffff;
+	if (FAILED(m_pShader->Set_Value("g_vColor", &color, sizeof(D3DXCOLOR))))
 		return E_FAIL;
 
 

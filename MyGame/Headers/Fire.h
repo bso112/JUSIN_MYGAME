@@ -1,5 +1,6 @@
 #pragma once
 #include "Effect.h"
+#include "Burn.h"
 
 BEGIN(MyGame)
 #define PARTICLE_CNT_FIRE 10
@@ -25,9 +26,13 @@ private:
 	CParticleSystem::STATEDESC	m_tParticleDesc;
 	_bool						m_bPlaying = false;
 
+private:
+	CBurn::STATEDESC	m_BurnDesc;
+
 public:
 	void	Play()		override;
 	void	Set_Collidable(_bool _bCollidable) { m_bCollidable = _bCollidable; }
+	HRESULT	EffectOn(CCharacter* _pTarget) override;
 
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);

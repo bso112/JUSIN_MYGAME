@@ -6,7 +6,7 @@ texture g_BaseTexture;
 float	g_Alpha;
 float	g_fMaxHp;
 float	g_fCurrHp;
-
+vector	g_vColor = (vector)0.f;
 sampler BaseSampler = sampler_state
 {
 	texture = g_BaseTexture;
@@ -110,6 +110,11 @@ vColor.a = 1.f;
 return vColor;
 }
 
+vector PS_COLOR(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+{
+return g_vColor;
+}
+
 
 
 technique DefaultTechnique
@@ -155,5 +160,9 @@ technique DefaultTechnique
 		VertexShader = NULL;
 		PixelShader = compile ps_3_0 PS_DARK();
 	}
-
+	pass COLOR
+	{
+		VertexShader = NULL;
+		PixelShader = compile ps_3_0 PS_COLOR();
+	}
 }

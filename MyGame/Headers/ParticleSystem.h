@@ -21,7 +21,9 @@ public:
 		_float			m_fSpeed = 0.f;
 		const _tchar*	m_pTextureTag = L"";
 		SCENEID			m_eTextureSceneID = SCENE_END;
-		
+		_int			m_iTextureID = 1;
+		_uint			m_iShaderPass = 0;
+		D3DXCOLOR		m_Color = 0xffffffff;
 	}STATEDESC;
 
 	
@@ -65,7 +67,6 @@ public:
 	void RollUp(RECT& _rc, _uint _iParticleCnt);
 
 public:
-	void	Set_ShaderPass(_uint _iPass) { m_iShaderPass = _iPass; }
 	void	Set_FadeOut() { m_bFadeOut = true; }
 public:
 	static CParticleSystem* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

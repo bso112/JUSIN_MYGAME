@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Effect.h"
 #include "Clock.h"
+#include "Character.h"
 USING(MyGame)
 
 CEffect::CEffect(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -46,6 +47,11 @@ _int CEffect::Update(_double _timeDelta)
 
 
 	return 0;
+}
+
+HRESULT CEffect::EffectOn(CCharacter * _pTarget)
+{
+	return S_OK;
 }
 
 void CEffect::Free()

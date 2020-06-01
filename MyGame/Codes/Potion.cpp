@@ -71,8 +71,12 @@ void CPotion::OnThrowEnd()
 	Vector3 vPos = m_pTransform->Get_Position();
 	CParticleSystem::STATEDESC desc;
 	desc.m_tBaseDesc.vPos = m_pTransform->Get_Position();
-	desc.m_pTextureTag = L"Blood";
-	desc.m_eTextureSceneID = SCENE_STAGE;
+	desc.m_pTextureTag = L"empty";
+	desc.m_eTextureSceneID = SCENE_STATIC;
+	desc.m_iTextureID = 1;
+	//컬러로 조정하는 패스
+	desc.m_iShaderPass = 8;
+	desc.m_Color = m_tDesc.m_Color;
 	desc.m_dDuration = 0.2;
 	desc.m_dLifeTime = 0.2;
 	desc.m_fSpeed = 300.f;

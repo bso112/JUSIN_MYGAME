@@ -35,15 +35,19 @@ HRESULT CFire::Initialize(void * _pArg)
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pObjMgr);
 
+	Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform");
+
 	//Fire의 위치 정함.
 	if (nullptr != _pArg)
 	{
 		m_tBaseDesc = *((BASEDESC*)_pArg);
-		Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform");
 		m_pTransform->Set_Position(m_tBaseDesc.vPos);
-		m_pTransform->Set_Size(m_tBaseDesc.vSize);
-		m_pTransform->Set_ColliderSize(m_tBaseDesc.vSize);
+
 	}
+
+	m_pTransform->Set_Size(Vector3(TILECX, TILECY, 1.f));
+	m_pTransform->Set_ColliderSize(Vector3(TILECX, TILECY, 1.f));
+
 
 	//이펙트 지속시간 설정(턴)
 	m_iDuration = 3;
@@ -54,15 +58,15 @@ HRESULT CFire::Initialize(void * _pArg)
 	m_tParticleDesc.m_eTextureSceneID = SCENE_STAGE;
 	m_tParticleDesc.m_fSpeed = 50.f;
 	m_tParticleDesc.m_pTextureTag = L"Fire";
-	m_tParticleDesc.m_tBaseDesc.vPos = m_tBaseDesc.vPos;
-	m_tParticleDesc.m_tBaseDesc.vSize = m_tBaseDesc.vSize;
+	m_tParticleDesc.m_tBaseDesc.vPos = m_pTransform->Get_Position();
+	m_tParticleDesc.m_tBaseDesc.vSize = m_pTransform->Get_Size();
 	m_tParticleDesc.m_vParticleSize = Vector2(5.f, 5.f);
+	m_tParticleDesc.m_iShaderPass = 4;
 
 	m_pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &m_tParticleDesc));
 	RETURN_FAIL_IF_NULL(m_pParticleSystem);
 	//맞지? 레이어에도 있고 멤버변수에도 있으니까.
 	Safe_AddRef(m_pParticleSystem);
-	m_pParticleSystem->Set_ShaderPass(4);
 	m_pParticleSystem->Set_FadeOut();
 
 	//파티클 시스템의 부모를 fire로 지정
@@ -74,6 +78,12 @@ HRESULT CFire::Initialize(void * _pArg)
 
 	m_pSpawnTimer = CClock_Trigger::Create();
 
+
+	CBurn::STATS stats;
+	stats.m_fAtt = CStat::Create(1.f, 5.f);
+	m_BurnDesc.m_iDuration = m_iDuration;
+	m_BurnDesc.m_tStats = stats;
+
 	return S_OK;
 }
 
@@ -84,6 +94,23 @@ void CFire::Play()
 		return;
 
 	m_bPlaying = true;
+}
+
+HRESULT CFire::EffectOn(CCharacter * _pTarget)
+{
+	if (nullptr == _pTarget)
+		return E_FAIL;
+	//플레이
+	Play();
+	//옮겨붙지 않음(무한대로 옮겨붙는것 방지)
+	Set_Collidable(false);
+	//따라가기
+	CTransform* pTargetTrasform = (CTransform*)_pTarget->Get_Module(L"Transform");
+	if (nullptr == pTargetTrasform) return E_FAIL;
+	Set_Target(pTargetTrasform);
+	//화상입히기
+	_pTarget->Add_Buff(CBurn::Create(&m_BurnDesc));
+	return S_OK;
 }
 
 
@@ -152,18 +179,7 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 		//캐릭터에 이펙트를 셋팅한다.
 		if (nullptr != pClone)
 		{
-			pClone->Play();
-			pClone->Set_Collidable(false);
-			CTransform* pTargetTrasform = (CTransform*)_pOther->Get_Module(L"Transform");
-			if (nullptr == pTargetTrasform) return;
-			pClone->Set_Target(pTargetTrasform);
-
-			CBurn::STATEDESC desc;
-			CBurn::STATS stats;
-			stats.m_fAtt = CStat::Create(1.f, 5.f);
-			desc.m_iDuration = m_iDuration;
-			desc.m_tStats = stats;
-			pCharacter->Add_Buff(CBurn::Create(&desc));
+			pClone->EffectOn(pCharacter);
 		}
 	}
 

@@ -28,7 +28,7 @@ public:
 		_uint			m_iTextureID = 1;
 		const _tchar*	m_pDescription;
 		const _tchar*	m_pItemName;
-
+		D3DXCOLOR		m_Color = 0xffffffff;
 	}STATEDESC;
 	friend class CItemFactory;
 protected:
