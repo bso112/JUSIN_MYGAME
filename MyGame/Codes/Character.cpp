@@ -107,11 +107,21 @@ HRESULT CCharacter::ShowBuffImg(CImage * _pImage)
 	return S_OK;
 }
 
-void CCharacter::TakeDamage(float _fDamage)
+_bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 {
 	if (m_bDying || m_bDead)
-		return;
+		return false;
 
+	if (_bDodgable)
+	{
+		_float chance = rand() / (float)RAND_MAX * 100.0f;
+		if (chance < m_tStat.m_fAvoidability)
+		{
+			ShowText(L"회피");
+			return false;
+		}
+
+	}
 
 
 	m_tStat.m_fHP -= _fDamage;
@@ -125,7 +135,7 @@ void CCharacter::TakeDamage(float _fDamage)
 	else
 	{
 		if (nullptr == m_pTransform)
-			return;
+			return false;
 
 #pragma region 데미지폰트
 
@@ -158,7 +168,10 @@ void CCharacter::TakeDamage(float _fDamage)
 		OnTakeDamage();
 	}
 
+	return true;
+
 }
+
 
 void CCharacter::Heal(_float _healAmount)
 {

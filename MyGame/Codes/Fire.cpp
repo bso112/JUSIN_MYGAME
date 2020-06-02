@@ -79,7 +79,6 @@ HRESULT CFire::Initialize(void * _pArg)
 
 
 	CDamage::STATS stats;
-	stats.m_fAtt = CStat::Create(1.f, 5.f);
 	m_BurnDesc.m_iDuration = m_iDuration;
 	m_BurnDesc.m_tStats = stats;
 	m_BurnDesc.m_eType = m_tDesc.m_tBuffType;

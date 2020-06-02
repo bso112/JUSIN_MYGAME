@@ -93,7 +93,6 @@ HRESULT CSmoke::Initialize(void * _pArg)
 
 
 	CBuff::STATS stats;
-	stats.m_fAtt = CStat::Create(1.f, 5.f);
 	if(m_tDesc.m_tBuffType == CBuff::TYPE_POISION)
 		m_BuffDesc.m_iDuration = 8;
 	else if(m_tDesc.m_tBuffType == CBuff::TYPE_PARALIZE)

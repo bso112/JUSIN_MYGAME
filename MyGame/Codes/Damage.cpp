@@ -8,8 +8,9 @@ USING(MyGame)
 HRESULT CDamage::Initialize(void* _pArg)
 {
 	if (nullptr != _pArg)
-		memcpy(&m_tStateDesc, _pArg, sizeof(STATEDESC));
+		m_tStateDesc = *((STATEDESC*)_pArg);
 
+	m_tStateDesc.m_tStats.m_fAtt = CStat::Create(1.f, 5.f);
 	
 	return S_OK;
 }

@@ -51,6 +51,6 @@ void CBuff::OnBuffEnd(CCharacter * _pTarget)
 
 void CBuff::Free()
 {
-	m_tStateDesc.m_tStats.Free();
+	m_tStateDesc.Free();
 }
 

@@ -31,6 +31,7 @@ public:
 		int		m_iGold		= 0;
 		float	m_fExp		= 0.f;
 		float	m_fMaxExp	= 0.f;
+		float	m_fAvoidability = 25.f;
 
 		void Free()
 		{
@@ -93,7 +94,7 @@ public:
 	HRESULT		ShowBuffImg(CImage* _pImage);
 
 public:
-	virtual void TakeDamage(float _fDamage);
+	virtual _bool TakeDamage(float _fDamage, _bool _bDodgable = false);
 	void	Heal(_float _healAmount);
 	void	SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
 	void	Set_Paralyze(bool _bParalyze) { m_bParalyze = _bParalyze; }

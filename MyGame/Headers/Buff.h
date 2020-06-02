@@ -34,7 +34,11 @@ public:
 		//Áö¼Ó ÅÏ
 		_int	m_iDuration = 1;
 		TYPE	m_eType = TYPE_END;
-
+		
+		void Free()
+		{
+			m_tStats.Free();
+		}
 	}STATEDESC;
 
 protected:

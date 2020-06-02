@@ -91,6 +91,15 @@ public:
 		stat->m_bRandom = true;
 		return stat;
 	}
+	CStat*	Clone()
+	{
+		CStat* stat = new CStat;
+		stat->m_bRandom = m_bRandom;
+		stat->m_fBaseValue = m_fBaseValue;
+		stat->m_fMinValue = m_fMinValue;
+		stat->m_listModifier = m_listModifier;
+		return stat;
+	}
 
 
 public:
