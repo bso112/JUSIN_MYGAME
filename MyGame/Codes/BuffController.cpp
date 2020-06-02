@@ -117,7 +117,6 @@ HRESULT CBuffController::Add_Buff(CBuff * _pBuff)
 		m_listBuff.erase(iter);
 	}
 
-
 	m_listBuff.push_back(_pBuff); 
 
 	return S_OK;

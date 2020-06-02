@@ -43,13 +43,19 @@ _int CCharacter::StartAct()
 		return 0;
 
 	m_pBuffCon->Act(this);
+	
 
-	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
+	//마비면 버프만 start하고 행동은 못함
+	if (m_bParalyze)
+		return 0;
+
+	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));;
+
 }
 
 _int CCharacter::UpdateAct()
 {
-	if (m_bDying || m_bDead)
+	if (m_bDying || m_bDead || m_bParalyze)
 		return -1;
 
 	if (!m_bActive)
@@ -205,6 +211,7 @@ void CCharacter::Add_Buff(CBuff * pBuff)
 	if (nullptr == pBuff)
 		return;
 
+	pBuff->Act(this);
 	m_pBuffCon->Add_Buff(pBuff);
 
 	const _tchar* pBuffText = L"";
@@ -241,6 +248,9 @@ _int CCharacter::Interact(CGameObject * _pOther)
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
 	if (nullptr != pCharacter)
 	{
+		if (pCharacter->Get_Dying() || pCharacter->Get_Dead())
+			return 0;
+
 		CTransform* pOtherTransform = (CTransform*)_pOther->Get_Module(L"Transform");
 		if (nullptr == pOtherTransform)return -1;
 

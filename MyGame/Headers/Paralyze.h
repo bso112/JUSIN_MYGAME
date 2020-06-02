@@ -13,6 +13,8 @@ public:
 
 protected:
 	virtual void OnAct(CCharacter* _pTarget) override;
+	virtual void OnBuffStart(CCharacter* _pTarget) override;
+	virtual void OnBuffEnd(CCharacter* _pTarget) override;
 
 public:
 	static CParalyze* Create(void* _pArg);

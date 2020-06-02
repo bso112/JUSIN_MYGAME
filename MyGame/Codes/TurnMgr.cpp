@@ -67,114 +67,116 @@ HRESULT CTurnMgr::Initialize()
 
 
 
-_int CTurnMgr::Update_sequentially()
-{
-	if (!m_bTurnStart)
-		return 0;
+//_int CTurnMgr::Update_sequentially()
+//{
+//	if (!m_bTurnStart)
+//		return 0;
+//
+//
+//	//모든 엑터를 순서대로 행동시킨다.
+//	static int layerIndex = 0;
+//	static int objIndex = 0;
+//
+//	//초기화
+//	m_pCurrActor = nullptr;
+//	if (m_iCurrTurn < m_iMaxTurn)
+//	{
+//		if (layerIndex < MAX_LAYER_CNT)
+//		{
+//			list<CGameObject*> actorList = m_pActorLayers[layerIndex]->Get_List();
+//
+//			auto& iter = actorList.begin();
+//			if (actorList.size() > objIndex)
+//			{
+//
+//				//인덱스만큼 이터레터 이동
+//				for (int i = 0; i < objIndex; ++i)
+//					++iter;
+//
+//				m_pCurrActor = *iter;
+//				if (nullptr == m_pCurrActor)
+//					return -1;
+//
+//				//현재액터가 턴을 종료하면, 혹은 비활성화 상태, 혹은 마비상태면
+//				if (nullptr == m_pCurrActor || m_pCurrActor->Get_Dead() ||
+//					m_pCurrActor->IsTurnEnd() || !m_pCurrActor->Get_Active() || m_pCurrActor->IsParalyzed())
+//				{
+//					//다음 액터를 셋팅
+//					++objIndex;
+//					m_bActLock = false;
+//					//한번 턴이 끝난 액터는 다음번을 위해 턴 상태 초기화
+//					m_pCurrActor->SetTurnState(false);
+//				}
+//				else
+//				{
+//					//현재 액터를 한번만 동작시키기 위한 락
+//					if (!m_bActLock)
+//					{
+//						m_pCurrActor->StartAct();
+//						m_bActLock = true;
+//					}
+//				}
+//
+//			}
+//			else
+//			{
+//				++layerIndex;
+//				objIndex = 0;
+//			}
+//		}
+//		else
+//		{
+//			//모든 액터의 턴이 모두 끝남. 
+//			layerIndex = 0;
+//			objIndex = 0;
+//			//턴 종료
+//			++m_iCurrTurn;
+//		}
+//
+//	}
+//	else
+//	{
+//		//모든 턴 종료
+//		layerIndex = 0;
+//		objIndex = 0;
+//		m_iCurrTurn = 0;
+//		m_bTurnStart = false;
+//	}
+//	
+//
+//	//업데이트로 각 액터의 턴종료시점을 판단한다.
+//	if (nullptr != m_pCurrActor)
+//	{
+//		m_pCurrActor->UpdateAct();
+//	}
+//
+//
+//
+//	return 0;
+//}
 
-
-	//모든 엑터를 순서대로 행동시킨다.
-	static int layerIndex = 0;
-	static int objIndex = 0;
-
-	//초기화
-	m_pCurrActor = nullptr;
-	if (m_iCurrTurn < m_iMaxTurn)
-	{
-		if (layerIndex < MAX_LAYER_CNT)
-		{
-			list<CGameObject*> actorList = m_pActorLayers[layerIndex]->Get_List();
-
-			auto& iter = actorList.begin();
-			if (actorList.size() > objIndex)
-			{
-
-				//인덱스만큼 이터레터 이동
-				for (int i = 0; i < objIndex; ++i)
-					++iter;
-
-				m_pCurrActor = *iter;
-				if (nullptr == m_pCurrActor)
-					return -1;
-
-				//현재액터가 턴을 종료하면, 혹은 비활성화 상태, 혹은 마비상태면
-				if (nullptr == m_pCurrActor || m_pCurrActor->Get_Dead() ||
-					m_pCurrActor->IsTurnEnd() || !m_pCurrActor->Get_Active() || m_pCurrActor->IsParalyzed())
-				{
-					//다음 액터를 셋팅
-					++objIndex;
-					m_bActLock = false;
-					//한번 턴이 끝난 액터는 다음번을 위해 턴 상태 초기화
-					m_pCurrActor->SetTurnState(false);
-				}
-				else
-				{
-					//현재 액터를 한번만 동작시키기 위한 락
-					if (!m_bActLock)
-					{
-						m_pCurrActor->StartAct();
-						m_bActLock = true;
-					}
-				}
-
-			}
-			else
-			{
-				++layerIndex;
-				objIndex = 0;
-			}
-		}
-		else
-		{
-			//모든 액터의 턴이 모두 끝남. 
-			layerIndex = 0;
-			objIndex = 0;
-			//턴 종료
-			++m_iCurrTurn;
-		}
-
-	}
-	else
-	{
-		//모든 턴 종료
-		layerIndex = 0;
-		objIndex = 0;
-		m_iCurrTurn = 0;
-		m_bTurnStart = false;
-	}
-	
-
-	//업데이트로 각 액터의 턴종료시점을 판단한다.
-	if (nullptr != m_pCurrActor)
-		m_pCurrActor->UpdateAct();
-
-
-
-	return 0;
-}
-
-
-HRESULT CTurnMgr::MoveTurn_sequentially(_int _iTurnCnt)
-{
-	m_iMaxTurn = _iTurnCnt;
-	m_bTurnStart = true;
-	for (auto& layer : m_pActorLayers)
-	{
-		if (nullptr == layer)
-			continue;
-
-		for (auto& actor : layer->Get_List())
-		{
-			if (!actor->Get_Active())
-				continue;
-			actor->SetTurnState(false);
-			m_bActLock = false;
-		}
-	}
-
-
-	return S_OK;
-}
+//
+//HRESULT CTurnMgr::MoveTurn_sequentially(_int _iTurnCnt)
+//{
+//	m_iMaxTurn = _iTurnCnt;
+//	m_bTurnStart = true;
+//	for (auto& layer : m_pActorLayers)
+//	{
+//		if (nullptr == layer)
+//			continue;
+//
+//		for (auto& actor : layer->Get_List())
+//		{
+//			if (!actor->Get_Active())
+//				continue;
+//			actor->SetTurnState(false);
+//			m_bActLock = false;
+//		}
+//	}
+//
+//
+//	return S_OK;
+//}
 
 #pragma region legacy
 //
@@ -236,6 +238,7 @@ _int CTurnMgr::Update_Simultaneously()
 			MSG_BOX("레이어가 null입니다");
 		for (auto& GO : layer->Get_List())
 		{
+
 			//행동한 액터의 수 세기
 			++iGOCnt;
 			((CCharacter*)GO)->UpdateAct();
@@ -269,6 +272,8 @@ _int CTurnMgr::Update_Simultaneously()
 
 				for (auto& GO : layer->Get_List())
 				{
+					if (GO->IsParalyzed())
+						continue;
 					//턴을 시작함
 					((CCharacter*)GO)->SetTurnState(false);
 					((CCharacter*)GO)->StartAct();

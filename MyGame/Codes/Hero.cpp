@@ -60,7 +60,7 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 
 #pragma region 발사모드일때
-	
+
 		//발사모드고, 발사할 아이템이 있으면
 		if (m_bThrowMode && m_pItemToThrow)
 		{
@@ -86,31 +86,37 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 		_int iTurnCnt = (_int)route.size() / m_pTransform->Get_Desc().movePerTurn;
 		//최소 1턴
 		if (iTurnCnt == 0) iTurnCnt = 1;
-		m_pTransform->Go_Route(route, 1.f, iTurnCnt);
 
-		
+		if (!m_bParalyze)
+			m_pTransform->Go_Route(route, 1.f, iTurnCnt);
+
+
 #pragma endregion
 
 
 		//플레이어가 움직일 턴 이동
 		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(iTurnCnt);
 
-		//턴 이동 후 인터렉트.
-		//타일피킹
-		CTerrain* pTerrain = pLevel->Pick_Tile(pt);
-		//인터렉트한다.
-		if (nullptr != pTerrain)
-			pTerrain->Interact(this);
-
-		//그외 오브젝트 피킹
-		CGameObject* pObj = pLevelMgr->PickObject(pt);
-		if (nullptr != pObj)
+		if (!m_bParalyze)
 		{
+			//턴 이동 후 인터렉트.
+			//타일피킹
+			CTerrain* pTerrain = pLevel->Pick_Tile(pt);
 			//인터렉트한다.
-			Interact(pObj);
-			//인터렉트 당한다. (몬스터와의 인터렉트는 턴으로 제어한다)
-			if(nullptr == dynamic_cast<CMonster*>(pObj))
-				pObj->Interact(this);
+			if (nullptr != pTerrain)
+				pTerrain->Interact(this);
+
+			//그외 오브젝트 피킹
+			CGameObject* pObj = pLevelMgr->PickObject(pt);
+			if (nullptr != pObj)
+			{
+				//인터렉트한다.
+				Interact(pObj);
+				//인터렉트 당한다. (몬스터와의 인터렉트는 턴으로 제어한다)
+				if (nullptr == dynamic_cast<CMonster*>(pObj))
+					pObj->Interact(this);
+			}
+
 		}
 
 	}
@@ -167,7 +173,7 @@ HRESULT CHero::PlayAnimation(const _tchar * _pTag)
 
 bool CHero::Has_Key()
 {
- 	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
+	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
 	return pInventory->Use_Key();
 }
 
@@ -205,7 +211,7 @@ HRESULT CHero::Equip(CEquipment * _pItem, BODYPART _eBodyPart)
 
 HRESULT CHero::UnEquip(BODYPART _eBodyPart)
 {
-	if (_eBodyPart >= BODY_END	||
+	if (_eBodyPart >= BODY_END ||
 		nullptr == m_pEquipments[_eBodyPart])
 		return E_FAIL;
 

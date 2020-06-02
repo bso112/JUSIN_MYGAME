@@ -13,7 +13,7 @@ CStair::CStair(PDIRECT3DDEVICE9 _pGraphic_Device)
 }
 
 CStair::CStair(CStair & _rhs)
-	:CTerrain(_rhs),
+	: CTerrain(_rhs),
 	m_eType(_rhs.m_eType)
 {
 }
@@ -51,7 +51,7 @@ HRESULT CStair::OnMoveFrame()
 		return E_FAIL;
 
 	m_eType = (TYPE)m_iCurFrame;
-	
+
 	return S_OK;
 }
 
@@ -71,18 +71,27 @@ void CStair::OnCollisionEnterTerrain(CGameObject * _pOther)
 
 	if (nullptr != dynamic_cast<CHero*>(_pOther))
 	{
-		//플레이어와 닿은 적이 있으면
-		if (m_bContacted)
-		{
-			CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
-			RETURN_IF_NULL(pLevelMgr);
-			//다음 층으로
-			if (m_eType == TYPE_DOWN)
-				pLevelMgr->Next_Level();
-			//이전 층으로
-			else
-				pLevelMgr->Prv_Level();
+		CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
 
+		if (m_eType == TYPE_UP)
+		{
+			//플레이어와 닿은 적이 있으면
+			if (m_bContacted)
+			{
+				RETURN_IF_NULL(pLevelMgr);
+				//다음 층으로
+				if (m_eType == TYPE_DOWN)
+					pLevelMgr->Next_Level();
+				//이전 층으로
+				else
+					pLevelMgr->Prv_Level();
+			}
+
+		}
+		else
+		{
+			//내려갈때는 무조건 다음 층으로
+			pLevelMgr->Next_Level();
 		}
 
 		m_bContacted = true;

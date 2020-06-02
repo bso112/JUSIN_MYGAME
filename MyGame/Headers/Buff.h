@@ -45,7 +45,8 @@ protected:
 	STATEDESC	m_tStateDesc;
 	//진행한 턴 수
 	_int		m_iTurnCnt = 0;
-
+	//버프 시작시점인가
+	_bool		m_bBuffStart = true;
 public:
 	virtual	HRESULT	Initialize(void* _pArg);
 	//남은 턴 수를 리턴한다.
@@ -58,6 +59,8 @@ public:
 
 protected:
 	virtual void	OnAct(CCharacter* _pTarget) = 0;
+	virtual	void	OnBuffStart(CCharacter* _pTarget);
+	virtual void	OnBuffEnd(CCharacter* _pTarget);
 public:
 	_int	Get_Durarion() { return m_tStateDesc.m_iDuration; }
 	void	Set_Duration(_int _iDuration) { m_tStateDesc.m_iDuration = _iDuration; }

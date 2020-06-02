@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Paralyze.h"
 #include "Character.h"
+#include "TurnMgr.h"
 USING(MyGame)
 
 
@@ -18,6 +19,18 @@ void CParalyze::OnAct(CCharacter* _pTarget)
 
 	_pTarget->Set_Paralyze(true);
 
+}
+
+void CParalyze::OnBuffStart(CCharacter * _pTarget)
+{
+	//CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(m_tStateDesc.m_iDuration);
+}
+
+void CParalyze::OnBuffEnd(CCharacter * _pTarget)
+{
+	if (nullptr == _pTarget)
+		return;
+	_pTarget->Set_Paralyze(false);
 }
 
 CParalyze * CParalyze::Create(void* _pArg)

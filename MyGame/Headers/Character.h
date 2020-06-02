@@ -113,7 +113,7 @@ public:
 	//타겟이 이 객체를 중심으로 해당 범위에 있는가?
 	bool	IsTargetInRange(CCharacter* pTarget, _int _iRange);
 	const STATS&	Get_Stat() { return m_tStat; }
-
+	_bool	Get_Dying() { return m_bDying; }
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
