@@ -39,6 +39,7 @@ _int CBuffController::Act(CCharacter* _pTarget)
 	auto& iter = m_listBuff.begin();
 	while (iter != m_listBuff.end())
 	{
+		//지워진걸 부르네?
 		_int iDuration = (*iter)->Act(_pTarget);
 		//남은턴이 0턴이면
 		if (iDuration == 0)

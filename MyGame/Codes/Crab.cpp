@@ -110,6 +110,16 @@ HRESULT CCrab::Initialize(void * _param)
 	return S_OK;
 }
 
+void CCrab::OnDead()
+{
+	CMonster::OnDead();
+	if (nullptr == m_pAnimator)
+		return;
+	m_pAnimator->Play(L"dead");
+}
+
+
+
 CCrab * CCrab::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	CCrab* pInstance = new CCrab(_pGraphic_Device);

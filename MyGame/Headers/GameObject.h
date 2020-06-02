@@ -57,9 +57,9 @@ public:
 public:
 	virtual _int		StartAct();
 	virtual _int		UpdateAct();
-	virtual	_int	Interact(CGameObject* _pOther);
-	void		Set_Visuable(_bool _bVisuable) { m_bVisuable = _bVisuable; }
-	void		Set_Visited(_bool _bVisited) { m_bVisited = _bVisited; }
+	virtual	_int		Interact(CGameObject* _pOther);
+	void				Set_Visuable(_bool _bVisuable) { m_bVisuable = _bVisuable; }
+	void				Set_Visited(_bool _bVisited) { m_bVisited = _bVisited; }
 
 public:
 	virtual	void	SetTurnState(_bool _bTurnEnd) { m_bTurnEnd = _bTurnEnd; }

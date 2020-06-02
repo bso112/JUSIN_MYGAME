@@ -24,6 +24,7 @@ protected:
 
 protected:
 	STATEDESC	m_tDesc;
+	
 public:
 	virtual HRESULT Initialize(void * _param = nullptr) override;
 

@@ -108,6 +108,14 @@ HRESULT CGnoll::Initialize(void * _param)
 	return S_OK;
 }
 
+void CGnoll::OnDead()
+{
+	CMonster::OnDead();
+	if (nullptr == m_pAnimator)
+		return;
+	m_pAnimator->Play(L"dead");
+}
+
 
 
 CGnoll * CGnoll::Create(PDIRECT3DDEVICE9 _pGraphic_Device)

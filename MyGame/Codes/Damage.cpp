@@ -19,7 +19,8 @@ void CDamage::OnAct(CCharacter* _pTarget)
 	if (nullptr == _pTarget)
 		return;
 
-	_pTarget->TakeDamage(m_tStateDesc.m_tStats.m_fAtt->GetValue());
+	//½ºÅÈÀÌ Áö¿öÁü
+	_pTarget->TakeDamage(5);
 
 }
 

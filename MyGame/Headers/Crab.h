@@ -21,7 +21,8 @@ public:
 	// CMonster을(를) 통해 상속됨
 	virtual CGameObject * Clone(void * _param = nullptr) override;
 
-
+public:
+	void OnDead() override;
 
 
 public:

@@ -90,6 +90,17 @@ HRESULT CCharacter::ShowText(const _tchar * _pText)
 	return S_OK;
 }
 
+HRESULT CCharacter::ShowBuffImg(CImage * _pImage)
+{
+	CImage* pImage = _pImage;
+	if (nullptr == pImage)
+		return E_FAIL;
+	pImage->Set_UI(false);
+	CTransform* pImgTransform = (CTransform*)pImage->Get_Module(L"Transform");
+	pImgTransform->MoveToDirAuto(Vector3(0.f, -1.f));
+	return S_OK;
+}
+
 void CCharacter::TakeDamage(float _fDamage)
 {
 	if (m_bDying || m_bDead)

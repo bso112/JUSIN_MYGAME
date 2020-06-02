@@ -2,6 +2,9 @@
 #include "..\Headers\Food.h"
 #include "Hero.h"
 #include "InventoryUIMgr.h"
+#include "DialogMgr.h"
+#include "ObjMgr.h"
+#include "Image.h"
 USING(MyGame)
 
 
@@ -40,9 +43,31 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar ** _pAction)
 	if (0 == lstrcmp(*_pAction, AC_EAT))
 	{
 		//먹기
-		_pHero->Heal(m_tDesc.fHealAmount);
+		//_pHero->Heal(m_tDesc.fHealAmount);
+
+		//음식 파티클 생성
+		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+		if (nullptr == pObjMgr) return E_FAIL;
+		if (nullptr == m_pTransform)return E_FAIL;
+		CTransform* pHeroTransform = (CTransform*)_pHero->Get_Module(L"Transform");
+		Vector3 vPos = pHeroTransform->Get_Position();
+		CImage::STATEDESC desc;
+		desc.m_dLifeTime = 0.5f;
+		desc.m_eTextureSceneID = SCENE_STAGE;
+		desc.m_fSpeed = 70.f;
+		desc.m_pTextureTag = L"specks";
+		desc.m_tBaseDesc = BASEDESC(vPos, Vector2(20.f, 20.f));
+		desc.m_iTextureID = 5;
+
+		CImage* pImage = (CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+		if (nullptr == pImage)
+			return E_FAIL;
+
+		_pHero->ShowBuffImg(pImage);
+
 		m_bUsed = true;
 		m_bDead = true;
+		CDialogMgr::Get_Instance()->Log_Main(MSG_EAT(m_pItemName));
 	}
 
 	return CItem::Use(_pHero, _pAction);

@@ -12,6 +12,7 @@ class CStateCon;
 class CShader;
 class CBuffController;
 class CBuff;
+class CImage;
 class CCharacter abstract : public CGameObject
 {
 protected:
@@ -88,6 +89,8 @@ public:
 	void		PlayEffect(CEffect* _pEffect);
 	//캐릭터 위로 텍스트를 띄운다.
 	HRESULT		ShowText(const _tchar* _pText);
+	//캐릭터 위로 이미지를 띄운다.
+	HRESULT		ShowBuffImg(CImage* _pImage);
 
 public:
 	virtual void TakeDamage(float _fDamage);
