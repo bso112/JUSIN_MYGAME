@@ -152,6 +152,10 @@ HRESULT CStageUIMgr::Initialize(LPDIRECT3DDEVICE9 _pGraphic_Device, CHero* _pHer
 
 vector<RECT> CStageUIMgr::GetUIRect()
 {
+	if (nullptr == m_pStatsPanel ||
+		nullptr == m_pDialogPanel)
+		return vector<RECT>();
+
 	vector<RECT> rc = m_pInventoryUIMgr->GetUIRect();
 	for (auto& uiRect : m_vecUIRect)
 	{
@@ -163,6 +167,11 @@ vector<RECT> CStageUIMgr::GetUIRect()
 		CTransform* pTrasform = (CTransform*)m_pStatsPanel->Get_Module(L"Transform");
 		rc.push_back(pTrasform->Get_RECT());
 	}
+	//활성화상태면
+	if (m_pDialogPanel->Get_Active())
+	{
+		rc.push_back(m_pDialogPanel->Get_Rect());
+	}
 	return rc;
 }
 
@@ -171,6 +180,14 @@ HRESULT CStageUIMgr::SetActiveDialogPanel(_bool _bActive)
 	RETURN_FAIL_IF_NULL(m_pDialogPanel);
 	m_pDialogPanel->Set_Active(_bActive);
 	return S_OK;
+}
+
+HRESULT CStageUIMgr::SetDialogInfo(const _tchar * _pIconTextureTag, SCENEID _eTextureSceneID, const _tchar * _pSpeakerName, const _tchar * _pDialog)
+{
+	if (nullptr == m_pDialogPanel)
+		return E_FAIL;
+
+	return m_pDialogPanel->Set_Speacker(_pIconTextureTag, _eTextureSceneID, _pSpeakerName, _pDialog);
 }
 
 void CStageUIMgr::Free()

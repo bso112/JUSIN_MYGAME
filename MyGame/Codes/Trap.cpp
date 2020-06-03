@@ -44,7 +44,7 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 		m_iCurFrame = (_int)m_eType;
 		CDialogMgr* pDialogMgr = CDialogMgr::Get_Instance();
 		if (nullptr != pDialogMgr)
-			pDialogMgr->Log_Main(new wstring(L"숨겨져 있던 함정이 모습을 드러냈다."), 0xffcf0000);
+			pDialogMgr->Log_Main(new wstring(L"숨겨져 있던 함정이 모습을 드러냈다."), COLOT_YELLOW);
 
 	}
 

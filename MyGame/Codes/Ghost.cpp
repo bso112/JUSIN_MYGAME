@@ -7,6 +7,7 @@
 #include "Clock.h"
 #include "AIStateCon.h"
 #include "Shader.h"
+#include "StageUIMgr.h"
 USING(MyGame)
 
 CGhost::CGhost(CGhost & _rhs)
@@ -92,7 +93,7 @@ HRESULT CGhost::Initialize(void * _param)
 
 	CMonster::Initialize(_param);
 
-	m_pDialogue = L"나는 전에 이 던전을 탐사하다가 죽은 영혼이오. 만약 내 원한을 풀어준다면 생전에 발견한 보물을 주겠소. 구(Goo)를 퇴치해주시오.";
+	m_pDialogue = L"반갑네 전사여... 한때 난 당신처럼 자신감 넘치고 강한 모험가였다네... 하지만 난 비겁한 적에게 죽어버렸네.. 그래서 난 이 곳을 떠날 수 없지... 복수를 하기 전까진 말야.. 검은 슬라임을 죽여줘.. 놈이 내 목숨을 앗아갔으니..";
 
 	return S_OK;
 }
@@ -100,6 +101,11 @@ HRESULT CGhost::Initialize(void * _param)
 
 _int CGhost::Interact(CGameObject * _pOther)
 {
+	CStageUIMgr* m_pUIMgr = CStageUIMgr::Get_Instance();
+	if (nullptr == m_pUIMgr) return -1;
+	m_pUIMgr->SetActiveDialogPanel(true);
+	m_pUIMgr->SetDialogInfo(L"ghost", SCENE_STAGE, L"슬픈 유령", m_pDialogue);
+
 	return 0;
 }
 
