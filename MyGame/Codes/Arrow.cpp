@@ -80,10 +80,29 @@ void CArrow::OnCollisionEnter(CGameObject * _pOther)
 void CArrow::OnThrowStart()
 {
 	m_bDamagable = true;
+
+
+	if (nullptr != m_pTransform)
+	{
+		//회전각 구하기
+		float fCosTheta = D3DXVec4Dot(&m_vDest.Nomalize(), &Vector4(1.f, 0.f, 0.f));
+		float fRadian = 0.f;
+
+		if (m_vDest.y >= m_pTransform->Get_Position().y)
+			fRadian = acosf(fCosTheta);
+		else
+			fRadian = D3DXToRadian(360.0f) - acosf(fCosTheta);
+
+		//fRadian += D3DXToRadian(20.f);
+
+		m_pTransform->Set_Rotation(Vector3(0.f, 0.f, fRadian));
+
+	}
 }
 
 void CArrow::OnThrowEnd()
 {
+	m_pTransform->Set_Rotation(Vector3(0.f, 0.f, 0.f));
 	m_bDamagable = false;
 	
 }

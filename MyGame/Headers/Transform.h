@@ -71,10 +71,11 @@ private:
 	_bool				m_bTurnEnd = false;
 	_bool				m_bPlayer = false;
 
-	//for Update_Noaml
+	//for Update_Noaml(auto 붙은 함수들에서 쓰임)
 private:
 	//이동할 방향
 	Vector3				m_vDir_Normal;
+	_float				m_fRotationZ_Noaml = 0.f;
 	Vector3				m_dShrinkSpeed;
 	Vector3				m_dExpandSpeed;
 
@@ -148,7 +149,7 @@ public:
 	//크기가 커진다.
 	HRESULT	Expand_Auto(Vector2 _vExpand);
 	//회전한다.
-	HRESULT	Rotate_Auto(_double	radianPerSec);
+	HRESULT	Rotate_Auto(_float	radianPerSec);
 
 
 public:

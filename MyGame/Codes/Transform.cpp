@@ -162,7 +162,7 @@ HRESULT CTransform::Update_Normal(_double _timeDelta)
 
 	m_vSize -= m_dShrinkSpeed * _timeDelta;
 	m_vSize += m_dExpandSpeed * _timeDelta;
-	m_vRotation.z += m_tStateDesc.radianPerSec * _timeDelta;
+	m_vRotation.z += m_fRotationZ_Noaml * _timeDelta;
 
 	return S_OK;
 }
@@ -402,9 +402,9 @@ HRESULT CTransform::Expand_Auto(Vector2 _vExpand)
 	return S_OK;
 }
 
-HRESULT CTransform::Rotate_Auto(_double	radianPerSec)
+HRESULT CTransform::Rotate_Auto(_float	radianPerSec)
 {
-	m_tStateDesc.radianPerSec = radianPerSec;
+	m_fRotationZ_Noaml = radianPerSec;
 	return S_OK;
 }
 
