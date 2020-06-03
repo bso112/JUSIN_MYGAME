@@ -108,7 +108,7 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar ** _pAction)
 		m_bUsed = true;
 		m_bDrop = true;
 		//주인에게 던져달라고 함.
-		_pHero->Shoot_Item(this);
+		_pHero->ThrowItem(this);
 
 	}
 	return S_OK;

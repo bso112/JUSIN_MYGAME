@@ -164,6 +164,18 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+
 
 		for (auto& GO : m_listGO[_iLevel])
 		{
@@ -224,6 +236,16 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+
 
 		for (auto& GO : m_listGO[_iLevel])
 		{
@@ -340,7 +362,6 @@ CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform *
 		return nullptr;
 
 
-	//좌표 변환
 	POINT pt;
 	pt.x = (LONG)_vPos.x;
 	pt.y = (LONG)_vPos.y;
@@ -374,6 +395,47 @@ CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform *
 
 }
 
+CGameObject * CSpawner::PickCharacter(POINT& _pt, _uint _iLevel, CTransform * pSelfTransform)
+{
+
+	if (MAX_DEPTH <= _iLevel)
+		return nullptr;
+
+
+	//마우스 좌표 변환
+	Vector4 dst = Vector4((float)_pt.x, (float)_pt.y, 0.f, 1.f);
+	D3DXVec4Transform(&dst, &dst, &CPipline::Get_Instance()->Get_CameraMatrix_inverse());
+	POINT pt;
+	pt.x = (LONG)dst.x;
+	pt.y = (LONG)dst.y;
+
+	auto& iter = m_listCharacter[_iLevel].begin();
+	while (iter != m_listCharacter[_iLevel].end())
+	{
+		//만약 지워진 오브젝트면 리스트에 지운다.
+		if (nullptr == *iter)
+		{
+			Safe_Release(*iter);
+			iter = m_listGO[_iLevel].erase(iter);
+		}
+		else
+		{
+			//오브젝트를 피킹한다.
+			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
+			if (nullptr != pTransform && pSelfTransform != pTransform)
+			{
+				if (PtInRect(&pTransform->Get_Collider(), pt))
+					return *iter;
+			}
+
+			++iter;
+		}
+
+	}
+
+	return nullptr;
+
+}
 
 
 

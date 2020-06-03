@@ -45,7 +45,7 @@ _int CObjMgr::Update(_double _timeDelta)
 	}
 
 #pragma region Collision
-	
+
 	CLevelMgr*	pLevelMgr = CLevelMgr::Get_Instance();
 	if (nullptr == pLevelMgr) return -1;
 	_int iCurrDepth = pLevelMgr->Get_CurrDepth();
@@ -124,6 +124,14 @@ _int CObjMgr::Update(_double _timeDelta)
 		//CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
 		CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
 		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pItemLayer->Get_List());
+
+		//饭捞历 面倒贸府
+		CLayer* pLaserLayer = Find_Layer(L"Laser", SCENE_STAGE);
+		if (nullptr != pLaserLayer)
+		{
+			CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pLaserLayer->Get_List());
+			CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pLaserLayer->Get_List());
+		}
 	}
 
 

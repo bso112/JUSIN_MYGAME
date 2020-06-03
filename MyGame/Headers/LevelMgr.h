@@ -5,6 +5,7 @@ BEGIN(MyGame)
 
 //레벨(층수)가 넘어가도 이전층의 정보는 저장되어야한다. 다시 돌아올 수 있기 때문에.
 class CSpawner;
+class CCharacter;
 class CLevelMgr final: public CBase
 {
 	DECLARE_SINGLETON(CLevelMgr)
@@ -22,7 +23,7 @@ public:
 	HRESULT	Prv_Level();
 	CLevel*	Get_CurrLevel();
 	CLevel*	Get_Level(_int index);
-	_int	Get_CurrDepth() { return m_iCurrLevel; }
+	_int	Get_CurrDepth();
 	void	Clear_DeadObjects();
 	HRESULT	Set_Visuable(Vector3 _vPos, _int _iRange);
 public:
@@ -30,6 +31,7 @@ public:
 	HRESULT	Initialize();
 	CTerrain*		PickTile(POINT& pt);
 	CGameObject*	PickObject(POINT& pt);
+	CCharacter*		PickCharacter(POINT& pt);
 	_bool			IsMovable(Vector3& _vPos);
 public:
 	// CBase을(를) 통해 상속됨

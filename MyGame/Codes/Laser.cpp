@@ -7,7 +7,8 @@
 #include "Shader.h"
 #include "ObjMgr.h"
 #include "Camera.h"
-
+#include "Character.h"
+#include "LevelMgr.h"
 USING(MyGame)
 
 
@@ -44,8 +45,7 @@ HRESULT CLaser::Initialize(void * _pArg)
 	if (FAILED(Set_Module(L"Transform", SCENE_STATIC, (CModule**)&m_pTransform, L"Transform", &transformDesc)))
 		return E_FAIL;
 
-	m_pTransform->Set_Position(m_tDesc.m_tBaseDesc.vPos);
-	m_pTransform->Set_Size(m_tDesc.m_tBaseDesc.vSize);
+	
 
 
 
@@ -101,7 +101,7 @@ HRESULT CLaser::Render()
 		return 0;
 
 	if (nullptr == m_pVIBuffer ||
-		nullptr == m_pTransform	||
+		nullptr == m_pTransform ||
 		nullptr == m_pPipline)
 		return E_FAIL;
 
@@ -134,6 +134,11 @@ HRESULT CLaser::Render()
 
 	ALPHABLEND_END;
 
+#ifdef MYDEBUG
+	m_pTransform->Render_Collider();
+#endif // DEBUG
+
+
 
 	return S_OK;
 }
@@ -142,6 +147,7 @@ HRESULT CLaser::Beam(Vector2 _vOrigin, POINT _pt)
 {
 	if (nullptr == m_pTransform)
 		return E_FAIL;
+
 
 	//마우스 좌표 변환
 	Vector4 vDst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
@@ -168,6 +174,7 @@ HRESULT CLaser::Beam(Vector2 _vOrigin, POINT _pt)
 	m_pTransform->Set_Pivot(Vector2(vSizeX * 0.5f, 0.f));
 	m_pTransform->Set_Position(Vector2(_vOrigin.x, _vOrigin.y));
 	m_pTransform->Set_Size(Vector2(vSizeX, LASER_SIZEY, 1.f));
+	m_pTransform->Set_ColliderSize(Vector2(vSizeX, LASER_SIZEY, 1.f));
 	m_pTransform->Set_Rotation(Vector3(0.f, 0.f, fRadian));
 
 	//카메라 흔들기
@@ -176,7 +183,13 @@ HRESULT CLaser::Beam(Vector2 _vOrigin, POINT _pt)
 	CCamera* pMainCam = dynamic_cast<CCamera*>(pObjMgr->Get_ObjectOnFront(L"Camera", SCENE_STAGE));
 	RETURN_FAIL_IF_NULL(pMainCam);
 	pMainCam->Shake_Camera(0.2f);
-
+	
+	//데미지주기(가라)
+	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pLevelMgr);
+	CCharacter* pCharacter = pLevelMgr->PickCharacter(_pt);
+	if(pCharacter != nullptr)
+		pCharacter->TakeDamage((_float)m_tDesc.m_iDamage, true);
 	return S_OK;
 }
 
@@ -202,9 +215,30 @@ HRESULT CLaser::Beam(Vector2 _vOrigin, Vector2 _vDst)
 	m_pTransform->Set_Position(Vector2(_vOrigin.x + vSizeX, _vOrigin.y));
 	m_pTransform->Set_Size(Vector2(vSizeX, m_tDesc.m_tBaseDesc.vSize.y));
 	m_pTransform->Set_Rotation(Vector3(0.f, 0.f, fRadian));
+
+	//카메라 흔들기
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pObjMgr);
+	CCamera* pMainCam = dynamic_cast<CCamera*>(pObjMgr->Get_ObjectOnFront(L"Camera", SCENE_STAGE));
+	RETURN_FAIL_IF_NULL(pMainCam);
+	pMainCam->Shake_Camera(0.2f);
+
+
+	//데미지주기(가라)
+	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pLevelMgr);
+	POINT pt;
+	pt.x = _vDst.x;
+	pt.y = _vDst.y;
+	CCharacter* pCharacter = pLevelMgr->PickCharacter(pt);
+	if (pCharacter != nullptr)
+		pCharacter->TakeDamage((_float)m_tDesc.m_iDamage, true);
 	
+
 	return S_OK;
 }
+
+
 
 
 CLaser * CLaser::Create(PDIRECT3DDEVICE9 _pGraphic_Device, STATEDESC& _tDesc)

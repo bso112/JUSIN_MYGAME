@@ -13,6 +13,7 @@
 #include "Equipment.h"
 #include "InventoryUIMgr.h"
 #include "Laser.h"
+#include "wand.h"
 USING(MyGame)
 
 
@@ -60,10 +61,15 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 #pragma endregion
 
 
-#pragma region 발사모드일때
+#pragma region 발사모드일때, 레이저모드일때
 		//발사모드고, 발사할 아이템이 있으면
 		if (m_bThrowMode && m_pItemToThrow)
 		{
+			if (nullptr == m_pItemToThrow)
+			{
+				m_bThrowMode = false;
+				return E_FAIL;
+			}
 			//아이템을 던진다.
 			m_pItemToThrow->Throw(pt);
 			m_bThrowMode = false;
@@ -71,16 +77,16 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			//끝낸다.
 			return S_OK;
 		}
-#pragma endregion
-
-		Zap(pt);
-		return S_OK;
-#pragma region 레이저모드일때
-
-		if (m_bZap)
+		else if (m_bZapMode)
 		{
-			Zap(pt);
-			m_bZap = false;
+			if (nullptr == m_pWandToZap)
+			{
+				m_bZapMode = false;
+				return E_FAIL;
+			}
+			m_pWandToZap->Zap(m_pTransform->Get_Position(), pt);
+			m_bZapMode = false;
+			return S_OK;
 		}
 #pragma endregion
 
@@ -190,7 +196,7 @@ bool CHero::Has_Key()
 	return pInventory->Use_Key();
 }
 
-HRESULT CHero::Shoot_Item(CItem * _pItem)
+HRESULT CHero::ThrowItem(CItem * _pItem)
 {
 	m_bThrowMode = true;
 	m_pItemToThrow = _pItem;
@@ -241,6 +247,14 @@ HRESULT CHero::UnEquip(BODYPART _eBodyPart)
 	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
 	pInventory->UnEquip(_eBodyPart);
 
+	return S_OK;
+}
+
+HRESULT CHero::Zap(CWand * _pWand)
+{
+	//레퍼런스카운트 안셌네.. 귀찮아서
+	m_bZapMode = true;
+	m_pWandToZap = _pWand;
 	return S_OK;
 }
 

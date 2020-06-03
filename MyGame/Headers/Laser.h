@@ -23,6 +23,7 @@ public:
 		_double			m_dRadianPerSec = 1.f;
 		_uint			m_iTextureID = 1;
 		_uint			m_iShaderPass = 0;
+		_int			m_iDamage = 8;
 	}STATEDESC;
 protected:
 	explicit CLaser(PDIRECT3DDEVICE9 _pGraphic_Device) : CGameObject(_pGraphic_Device) {};
@@ -56,7 +57,6 @@ public:
 	void	Set_FadeOut() { m_bFadeOut = true; }
 public:
 	_float	Get_Alpha() { return m_fAlpha; }
-
 
 
 public:

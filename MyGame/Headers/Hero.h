@@ -6,6 +6,7 @@ class CKeyMgr;
 class CItem;
 class CEquipment;
 class CHpBar;
+class CWand;
 class CHero abstract : public CCharacter
 {
 protected:
@@ -19,17 +20,18 @@ protected:
 	//무언가를 던지려는 상태인가
 	_bool			m_bThrowMode = false;
 	//레이저를 쏘는 상태인가
-	_bool			m_bZap = false;
+	_bool			m_bZapMode = false;
 	//발사되는 아이템
 	CItem*			m_pItemToThrow = nullptr;
+	CWand*			m_pWandToZap = nullptr;
 	CEquipment*		m_pEquipments[BODY_END];
 
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
-	HRESULT	Shoot_Item(CItem* _pItem);
+	HRESULT	ThrowItem(CItem* _pItem);
 	HRESULT	Equip(CEquipment* _pItem, BODYPART _eBodyPart);
 	HRESULT	UnEquip(BODYPART _eBodyPart);
-
+	HRESULT	Zap(CWand* _pWand);
 
 public:
 	_bool	Has_Key();

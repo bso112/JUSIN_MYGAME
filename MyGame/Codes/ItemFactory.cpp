@@ -11,6 +11,7 @@
 #include "PoisionPotion.h"
 #include "ParalyzePotion.h"
 #include "FirePotion.h"
+#include "wand.h"
 USING(MyGame)
 
 HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -32,12 +33,13 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 
 
+
 	return S_OK;
 }
 
 
 
-CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
+CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 {
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr)
@@ -152,7 +154,7 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fArmor = 2.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE,layerTag, SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Armor", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_CHAINARMOR:
 		tDesc.m_iTextureID = 6;
@@ -227,8 +229,21 @@ CItem* CItemFactory::Make_Item( BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_Color = 0xff00b43e;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"PosionPotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
-	default:
+	case MyGame::CItemFactory::ITEM_LIGHTNINGWAND:
+	{
+		tDesc.m_iTextureID = 5;
+		tDesc.m_pItemName = L"라이트닝완드";
+		tDesc.m_pDescription = L"번개의 기운이 깃든 완드이다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		tStats.m_fAtt = 10.f;
+		tDesc.m_tStats = tStats;
+		CWand::STATEDESC tWandDesc;
+		tWandDesc.m_tItemDesc = tDesc;
+		tWandDesc.m_eType = CWand::TYPE_LIGHTING;
+		tWandDesc.m_iMaxZapCnt = 7;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Wand", SCENE_STAGE, layerTag, SCENE_STAGE, &tWandDesc);
 		break;
+	}
 	}
 
 	return pItem;

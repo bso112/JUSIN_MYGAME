@@ -135,6 +135,16 @@ CLevel * CLevelMgr::Get_Level(_int index)
 	return m_aLevel[index];
 }
 
+_int CLevelMgr::Get_CurrDepth()
+{
+	if (m_iCurrLevel < 0)
+		return  0;
+	if (m_iCurrLevel >= MAX_DEPTH)
+		return MAX_DEPTH - 1;
+
+	return m_iCurrLevel;
+}
+
 void CLevelMgr::Clear_DeadObjects()
 {
 	m_pSpawner->Clear_DeadObjects(m_iCurrLevel);
@@ -165,6 +175,11 @@ CTerrain * CLevelMgr::PickTile(POINT & pt)
 CGameObject * CLevelMgr::PickObject(POINT & pt)
 {
 	return m_pSpawner->PickObject(pt, m_iCurrLevel);
+}
+
+CCharacter * CLevelMgr::PickCharacter(POINT & pt)
+{
+	return dynamic_cast<CCharacter*>(m_pSpawner->PickCharacter(pt, Get_CurrDepth(), nullptr));
 }
 
 _bool CLevelMgr::IsMovable(Vector3 & _vPos)
