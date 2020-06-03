@@ -269,7 +269,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, Vector3 _dst, vector<CTerrain*>& _out, C
 
 
 	//검사에서 제외할 타일들
-	vector<pair<int, int>> closedTiles = CSpawner::Get_Instance()->Get_TileIndexs();
+	vector<pair<int, int>> closedTiles = CSpawner::Get_Instance()->Get_CharacterTileIndexs();
 	for (auto& tile : closedTiles)
 	{
 		if (tile.first >= WORLDX || tile.second >= WORLDY)
@@ -521,7 +521,7 @@ HRESULT CLevel::Get_Route(Vector3 _src, POINT & _dst, vector<CTerrain*>& _out, C
 
 
 	//검사에서 제외할 타일들
-	vector<pair<int, int>> closedTiles = CSpawner::Get_Instance()->Get_TileIndexs();
+	vector<pair<int, int>> closedTiles = CSpawner::Get_Instance()->Get_CharacterTileIndexs();
 	for (auto& tile : closedTiles)
 	{
 		if (tile.first >= WORLDX || tile.second >= WORLDY)

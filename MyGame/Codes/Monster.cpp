@@ -202,9 +202,9 @@ void CMonster::OnAttack(CGameObject * _pOther)
 	//m_pAnimator->Play(L"attack");
 }
 
-void CMonster::OnTakeDamage()
+void CMonster::OnTakeDamage(float _fDamage)
 {
-	CCharacter::OnTakeDamage();
+	CCharacter::OnTakeDamage(_fDamage);
 	m_pHpBar->Set_Active(true);
 }
 

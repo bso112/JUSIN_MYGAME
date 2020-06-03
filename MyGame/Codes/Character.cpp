@@ -123,6 +123,7 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 
 	}
 
+	OnTakeDamage(_fDamage);
 
 	m_tStat.m_fHP -= _fDamage;
 
@@ -131,41 +132,6 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 		OnDead();
 		m_tStat.m_fHP = 0.f;
 		m_bDying = true;
-	}
-	else
-	{
-		if (nullptr == m_pTransform)
-			return false;
-
-#pragma region 데미지폰트
-
-		CImage::STATEDESC desc;
-		desc.m_eTextureSceneID = SCENE_STATIC;
-		desc.m_pTextureTag = L"empty";
-		desc.m_fSpeed = 100.f;
-		desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(30.f, 30.f));
-		desc.m_dLifeTime = 0.3f;
-		CImage* pDamageText = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
-		if (nullptr != pDamageText)
-		{
-			//카메라 영향받도록 지정
-			pDamageText->Set_UI(false);
-			//폰트지정
-			MYFONT font;
-			font.m_pFont = g_pFontX2;
-			font.m_Color = 0xFFFF7F00;
-			_tchar szBuff[MAX_PATH] = L"";
-			wsprintf(szBuff, L"%d", (_int)_fDamage);
-			memcpy(font.m_pTextArr, szBuff, sizeof(_tchar) * MAX_PATH);
-			pDamageText->Set_Font(font);
-			//위로 올리기
-			CTransform* pTransform = (CTransform*)pDamageText->Get_Module(L"Transform");
-			if (nullptr != pTransform)
-				pTransform->MoveToDirAuto(Vector2(0.f, -1.f));
-		}
-#pragma endregion
-
-		OnTakeDamage();
 	}
 
 	return true;
@@ -270,20 +236,15 @@ _int CCharacter::Interact(CGameObject * _pOther)
 		if (IsTargetInRange(pCharacter, m_iAttackRange))
 		{
 
-			_int chance = rand() % 100;
-			if (chance < 25)
-			{
-				ShowText(L"회피");
-				return 0;
-			}
-
 			_float Damage = m_tStat.m_fAtt->GetValue();
-			pCharacter->TakeDamage(Damage);
+			//공격에 성공했으면
+			if (pCharacter->TakeDamage(Damage))
+			{
+				_tchar szBuff[20] = L"";
+				wsprintf(szBuff, L"%d", (_int)Damage);
+				CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(pCharacter->Get_Name(), m_pName, szBuff));
+			}
 			OnAttack(_pOther);
-
-			_tchar szBuff[20] = L"";
-			wsprintf(szBuff, L"%d", (_int)Damage);
-			CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(pCharacter->Get_Name(), m_pName, szBuff));
 
 
 
@@ -368,11 +329,43 @@ void CCharacter::OnCollisionEnter(CGameObject * _pOther)
 
 
 
-void CCharacter::OnTakeDamage()
+void CCharacter::OnTakeDamage(float _fDamage)
 {
 
 	//반짝거림
 	m_iPass = 3;
+#pragma region 데미지폰트
+
+
+	if (nullptr == m_pTransform)
+		return;
+
+
+	CImage::STATEDESC desc;
+	desc.m_eTextureSceneID = SCENE_STATIC;
+	desc.m_pTextureTag = L"empty";
+	desc.m_fSpeed = 100.f;
+	desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(30.f, 30.f));
+	desc.m_dLifeTime = 0.3f;
+	CImage* pDamageText = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+	if (nullptr != pDamageText)
+	{
+		//카메라 영향받도록 지정
+		pDamageText->Set_UI(false);
+		//폰트지정
+		MYFONT font;
+		font.m_pFont = g_pFontX2;
+		font.m_Color = 0xFFFF7F00;
+		_tchar szBuff[MAX_PATH] = L"";
+		wsprintf(szBuff, L"%d", (_int)_fDamage);
+		memcpy(font.m_pTextArr, szBuff, sizeof(_tchar) * MAX_PATH);
+		pDamageText->Set_Font(font);
+		//위로 올리기
+		CTransform* pTransform = (CTransform*)pDamageText->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+			pTransform->MoveToDirAuto(Vector2(0.f, -1.f));
+	}
+#pragma endregion
 
 
 }

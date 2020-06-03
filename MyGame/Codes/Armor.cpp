@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Armor.h"
-
+#include "Hero.h"
 
 USING(MyGame)
 CArmor::CArmor(PDIRECT3DDEVICE9 _pGrahic_Device)
@@ -22,6 +22,23 @@ HRESULT CArmor::Initialize(void * _param)
 
 	m_pTextureTag = L"cloth";
 	m_eBodyPart = BODY_TORSO;
+	return S_OK;
+}
+
+HRESULT CArmor::OnEquip(CHero * _pHero)
+{
+	switch (m_iTextureID)
+	{
+	case 2:
+		_pHero->Set_Cloth(CHero::CLOTH_LEATHER);
+	}
+
+	return S_OK;
+}
+
+HRESULT CArmor::OnUnEquip(CHero * _pHero)
+{
+	_pHero->Set_Cloth(CHero::CLOTH_BASIC);
 	return S_OK;
 }
 

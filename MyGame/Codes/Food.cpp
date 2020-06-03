@@ -68,6 +68,9 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar ** _pAction)
 		m_bUsed = true;
 		m_bDead = true;
 		CDialogMgr::Get_Instance()->Log_Main(MSG_EAT(m_pItemName));
+	
+	
+		_pHero->PlayAnimation(L"eat");
 	}
 
 	return CItem::Use(_pHero, _pAction);

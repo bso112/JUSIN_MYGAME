@@ -47,29 +47,29 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	Safe_AddRef(pLoader);
 
 #pragma region legacy
-		//몬스터 프로토타입을 만든다.
-		pObjMgr->Add_Prototype(L"Rat", SCENE_STAGE, CRat::Create(_pGraphic_Device));
-		pObjMgr->Add_Prototype(L"Gnoll", SCENE_STAGE, CGnoll::Create(_pGraphic_Device));
-		pObjMgr->Add_Prototype(L"Crab", SCENE_STAGE, CCrab::Create(_pGraphic_Device));
+	//몬스터 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"Rat", SCENE_STAGE, CRat::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Gnoll", SCENE_STAGE, CGnoll::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Crab", SCENE_STAGE, CCrab::Create(_pGraphic_Device));
 
-		//레벨에 필요한 텍스쳐를 생성한다.
-		if (FAILED(pModuleMgr->Add_Module(L"Texture_Food", SCENE_STAGE, CTexture::Create(_pGraphic_Device, L"../Bin/Resources/Textures/Item/Food/%d.png", 1))))
-			return E_FAIL;
+	//레벨에 필요한 텍스쳐를 생성한다.
+	if (FAILED(pModuleMgr->Add_Module(L"Texture_Food", SCENE_STAGE, CTexture::Create(_pGraphic_Device, L"../Bin/Resources/Textures/Item/Food/%d.png", 1))))
+		return E_FAIL;
 
-		pLoader->Create_Textrues_From_Folder_Anim(_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Item/");
+	pLoader->Create_Textrues_From_Folder_Anim(_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Item/");
 
-		//음식 프로토타입을 만든다.
-		pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
-		//씨앗 프로토타입을 만든다.
-		pObjMgr->Add_Prototype(L"FireFlower", SCENE_STAGE, CFireFlower::Create(_pGraphic_Device));
-		pObjMgr->Add_Prototype(L"IceFlower", SCENE_STAGE, CIceFlower::Create(_pGraphic_Device));
-		pObjMgr->Add_Prototype(L"ShieldFlower", SCENE_STAGE, CShieldFlower::Create(_pGraphic_Device));
-		//열쇠 프로토타입을 만든다.
-		pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
+	//음식 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
+	//씨앗 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"FireFlower", SCENE_STAGE, CFireFlower::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"IceFlower", SCENE_STAGE, CIceFlower::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"ShieldFlower", SCENE_STAGE, CShieldFlower::Create(_pGraphic_Device));
+	//열쇠 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
 
 #pragma endregion
 
-		CItemFactory::Make_Prototpyes(_pGraphic_Device);
+	CItemFactory::Make_Prototpyes(_pGraphic_Device);
 
 
 
@@ -99,9 +99,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 
 
-		m_listCharacter[_iLevel].push_back(pObjMgr->Get_Player(SCENE_STAGE));
+	m_listCharacter[_iLevel].push_back(pObjMgr->Get_Player(SCENE_STAGE));
 
-		//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
+	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
 	if (0 == _iLevel)
 	{
 
@@ -144,6 +144,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD, _iLevel);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LETHERARMOR, _iLevel);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
@@ -281,7 +284,7 @@ HRESULT CSpawner::Set_Visuable(Vector3 _vPlayerPos, _int _iRange, _int _iDepth)
 {
 	if (MAX_DEPTH <= _iDepth)
 		return E_FAIL;
-	
+
 	for (auto& GO : m_listGO[_iDepth])
 	{
 		RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * ((_iRange << 1) + 1), TILECY * ((_iRange << 1) + 1)));
@@ -348,7 +351,7 @@ CGameObject* CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 			++iter;
 		}
 
-		
+
 	}
 
 
@@ -370,6 +373,14 @@ CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform *
 	auto& iter = m_listCharacter[_iLevel].begin();
 	while (iter != m_listCharacter[_iLevel].end())
 	{
+		//죽은 몬스터는 피킹안함
+		CMonster* pMonster = dynamic_cast<CMonster*>(*iter);
+		if (nullptr != pMonster)
+		{
+			if (pMonster->Get_Dying() || pMonster->Get_Dead())
+				return nullptr;
+		}
+
 		//만약 지워진 오브젝트면 리스트에 지운다.
 		if (nullptr == *iter)
 		{
@@ -382,8 +393,11 @@ CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform *
 			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
 			if (nullptr != pTransform && pSelfTransform != pTransform)
 			{
+				
 				if (PtInRect(&pTransform->Get_Collider(), pt))
+				{
 					return *iter;
+				}
 			}
 
 			++iter;
@@ -412,6 +426,13 @@ CGameObject * CSpawner::PickCharacter(POINT& _pt, _uint _iLevel, CTransform * pS
 	auto& iter = m_listCharacter[_iLevel].begin();
 	while (iter != m_listCharacter[_iLevel].end())
 	{
+		//죽은 몬스터는 피킹안함
+		CMonster* pMonster = dynamic_cast<CMonster*>(*iter);
+		if (nullptr != pMonster)
+		{
+			if (pMonster->Get_Dying() || pMonster->Get_Dead())
+				return nullptr;
+		}
 		//만약 지워진 오브젝트면 리스트에 지운다.
 		if (nullptr == *iter)
 		{
@@ -425,7 +446,9 @@ CGameObject * CSpawner::PickCharacter(POINT& _pt, _uint _iLevel, CTransform * pS
 			if (nullptr != pTransform && pSelfTransform != pTransform)
 			{
 				if (PtInRect(&pTransform->Get_Collider(), pt))
+				{
 					return *iter;
+				}
 			}
 
 			++iter;
@@ -439,11 +462,17 @@ CGameObject * CSpawner::PickCharacter(POINT& _pt, _uint _iLevel, CTransform * pS
 
 
 
-vector<pair<int,int>> CSpawner::Get_TileIndexs()
+vector<pair<int, int>> CSpawner::Get_CharacterTileIndexs()
 {
 	vector<pair<int, int>> indexs;
 	for (auto& character : m_listCharacter[CLevelMgr::Get_Instance()->Get_CurrDepth()])
 	{
+		CMonster* pMonster = dynamic_cast<CMonster*>(character);
+		if (nullptr != pMonster)
+		{
+			if (pMonster->Get_Dying() || pMonster->Get_Dead())
+				continue;
+		}
 		CTransform* pTransform = (CTransform*)character->Get_Module(L"Transform");
 		if (nullptr != pTransform)
 		{

@@ -3,6 +3,7 @@
 #include "Laser.h"
 #include "Hero.h"
 #include "ObjMgr.h"
+#include "DialogMgr.h"
 USING(MyGame)
 CWand::CWand(PDIRECT3DDEVICE9 _pGrahic_Device)
 	:CItem(_pGrahic_Device)
@@ -61,7 +62,11 @@ HRESULT CWand::Use(CHero * _pHero, const _tchar ** _pAction)
 
 		//´Ù¾²¸é 
 		if (m_iUseCnt >= m_tStateDesc.m_iMaxZapCnt)
+		{
+			CDialogMgr::Get_Instance()->Log_Main(MSG_EXHAUST(m_pItemName), 0xffded716);
 			m_bRunOut = true;
+			return S_OK;
+		}
 		
 		_pHero->Zap(this);
 		++m_iUseCnt;

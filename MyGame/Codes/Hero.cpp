@@ -258,6 +258,14 @@ HRESULT CHero::Zap(CWand * _pWand)
 	return S_OK;
 }
 
+void CHero::Set_Cloth(CLOTH _eCloth)
+{
+	if (CLOTH_END <= _eCloth) 
+		return; 
+	m_eCurrCloth = _eCloth;
+	m_pAnimator[m_eCurrCloth]->Play(L"idle");
+}
+
 void CHero::Free()
 {
 	for (int i = 0; i < BODY_END; ++i)

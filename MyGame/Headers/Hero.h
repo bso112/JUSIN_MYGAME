@@ -9,7 +9,7 @@ class CHpBar;
 class CWand;
 class CHero abstract : public CCharacter
 {
-protected:
+public:
 	enum CLOTH { CLOTH_NAKED, CLOTH_BASIC, CLOTH_LEATHER, CLOTH_END };
 protected:
 	CLOTH		m_eCurrCloth = CLOTH_BASIC;
@@ -32,6 +32,7 @@ public:
 	HRESULT	Equip(CEquipment* _pItem, BODYPART _eBodyPart);
 	HRESULT	UnEquip(BODYPART _eBodyPart);
 	HRESULT	Zap(CWand* _pWand);
+	void	Set_Cloth(CLOTH _eCloth);
 
 public:
 	_bool	Has_Key();

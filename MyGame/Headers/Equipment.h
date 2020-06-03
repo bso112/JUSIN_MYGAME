@@ -17,6 +17,10 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 public:
 	virtual HRESULT	Use(CHero* _pHero, const _tchar** _pAction) override;
+
+protected:
+	virtual HRESULT	OnEquip(CHero* _pHero);
+	virtual HRESULT OnUnEquip(CHero* _pHero);
 public:
 	STATS Get_Stats() { return m_tDesc.m_tStats; }
 protected:

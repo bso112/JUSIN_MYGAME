@@ -162,7 +162,7 @@ HRESULT CTransform::Update_Normal(_double _timeDelta)
 
 	m_vSize -= m_dShrinkSpeed * _timeDelta;
 	m_vSize += m_dExpandSpeed * _timeDelta;
-	//m_vRotation.z += m_tStateDesc.radianPerSec * _timeDelta;
+	m_vRotation.z += m_tStateDesc.radianPerSec * _timeDelta;
 
 	return S_OK;
 }

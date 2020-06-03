@@ -49,15 +49,25 @@ HRESULT CEquipment::Use(CHero * _pHero, const _tchar** _pAction)
 	{
 		_pHero->Equip(this, m_eBodyPart);
 		*_pAction = AC_UNEQUIP;
+		OnEquip(_pHero);
 	}
 	else if (0 == lstrcmp(*_pAction, AC_UNEQUIP))
 	{
 		_pHero->UnEquip(m_eBodyPart);
 		*_pAction = AC_EQUIP;
+		OnUnEquip(_pHero);
 	}
 
+	return S_OK;
+}
 
+HRESULT CEquipment::OnEquip(CHero * _pHero)
+{
+	return S_OK;
+}
 
+HRESULT CEquipment::OnUnEquip(CHero * _pHero)
+{
 	return S_OK;
 }
 

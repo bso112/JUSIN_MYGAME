@@ -4,6 +4,7 @@
 #include "ObjMgr.h"
 #include "Effect.h"
 #include "Transform.h"
+#include "DialogMgr.h"
 
 USING(MyGame)
 
@@ -33,14 +34,17 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 {
 	if (!m_bActive)
 		return;
-	
+
 	//이미 쓴 함정이 아닐때만 
-	if (m_bUsed)
+	if (!m_bUsed && m_bHidden)
 	{
 		//충돌시 발각
 		m_bHidden = false;
 		//모습을 드러낸다.
-		m_iCurFrame = m_eType;
+		m_iCurFrame = (_int)m_eType;
+		CDialogMgr* pDialogMgr = CDialogMgr::Get_Instance();
+		if (nullptr != pDialogMgr)
+			pDialogMgr->Log_Main(new wstring(L"숨겨져 있던 함정이 모습을 드러냈다."), 0xffcf0000);
 
 	}
 

@@ -119,7 +119,7 @@ public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 protected:
-	virtual void OnTakeDamage();
+	virtual void OnTakeDamage(float _fDamage);
 	virtual	void OnAttack(CGameObject * _pOther);
 
 

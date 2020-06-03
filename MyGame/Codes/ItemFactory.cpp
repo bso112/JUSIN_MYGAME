@@ -129,7 +129,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_tStats = tStats;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
-	case MyGame::CItemFactory::ITEM_TRIDENT:
+	/*case MyGame::CItemFactory::ITEM_TRIDENT:
 		tDesc.m_iTextureID = 10;
 		tDesc.m_pItemName = L"»ïÁöÃ¢";
 		tDesc.m_pDescription = L"²Ï³ª ¸ÚÀÖ´Ù.";
@@ -146,7 +146,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tStats.m_fAtt = 4.f;
 		tDesc.m_tStats = tStats;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"MeleeWeapon", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
-		break;
+		break;*/
 	case MyGame::CItemFactory::ITEM_LETHERARMOR:
 		tDesc.m_iTextureID = 2;
 		tDesc.m_pItemName = L"°¡Á×°©¿Ê";
@@ -244,6 +244,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Wand", SCENE_STAGE, layerTag, SCENE_STAGE, &tWandDesc);
 		break;
 	}
+
 	}
 
 	return pItem;

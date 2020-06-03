@@ -31,7 +31,7 @@ protected:
 	virtual	HRESULT	OnRender();
 	virtual void OnDead();
 	virtual	void OnAttack(CGameObject * _pOther);
-	virtual void OnTakeDamage();
+	virtual void OnTakeDamage(float _fDamage) override;
 
 
 public:

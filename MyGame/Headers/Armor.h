@@ -12,6 +12,10 @@ protected:
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 
+protected:
+	virtual HRESULT	OnEquip(CHero* _pHero);
+	virtual HRESULT OnUnEquip(CHero* _pHero);
+
 public:
 	static CArmor * Create(PDIRECT3DDEVICE9 _pGrahic_Device, _tchar* _pFilePath = nullptr);
 	CGameObject * Clone(void * _param = nullptr);

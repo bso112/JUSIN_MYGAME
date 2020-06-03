@@ -26,9 +26,9 @@ public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);
 	CGameObject*	PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform* pSelfTransform);
 	CGameObject *	PickCharacter(POINT& _pt, _uint _iLevel, CTransform * pSelfTransform);
-	//캐릭터들이 서있는 타일 인덱스를 가져온다.
 	_int			Clear_DeadObjects(_uint _iLevel);
-	vector<pair<int, int>> Get_TileIndexs();
+	//캐릭터들이 서있는 타일 인덱스를 가져온다.
+	vector<pair<int, int>> Get_CharacterTileIndexs();
 
 public:
 	void	SetActive(_bool _bActive, _uint _iLevel);
