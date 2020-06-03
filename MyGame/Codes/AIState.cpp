@@ -172,13 +172,40 @@ void CAIHunting::Free()
 
 CAIState::STATE CAIWandering::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
+	//CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	//if (nullptr == pTransform)
+	//	return STATE_END;
+	////만약 이동력만큼 다 움직였으면
+	//if (pTransform->Is_TurnEnd())
+	//{
+	//	//턴종료
+	//	m_pActor->SetTurnState(true);
+	//	//트랜스폼도 턴종료
+	//	pTransform->NextTurn();
+	//}
+
+	m_pActor->SetTurnState(true);
 
 	return STATE_END;
 }
 
 CAIState::STATE CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	//랜덤하게 움직이기
+	////랜덤하게 움직이기
+	//CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	//if (nullptr == pTransform)
+	//	return STATE_END;
+
+	//CCharacter* pFocus = m_pActor->Get_Focus();
+	//if (nullptr == pFocus)
+	//	return STATE_END;
+
+	//CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
+	//if (nullptr == pTargetTransform)
+	//	return STATE_END;
+
+	////타깃을 향해 간다.
+	//pTransform->Go_Target(pTargetTransform, 1.f);
 	return STATE_END;
 }
 

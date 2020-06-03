@@ -92,9 +92,16 @@ HRESULT CGhost::Initialize(void * _param)
 
 	CMonster::Initialize(_param);
 
+	m_pDialogue = L"나는 전에 이 던전을 탐사하다가 죽은 영혼이오. 만약 내 원한을 풀어준다면 생전에 발견한 보물을 주겠소. 구(Goo)를 퇴치해주시오.";
+
 	return S_OK;
 }
 
+
+_int CGhost::Interact(CGameObject * _pOther)
+{
+	return 0;
+}
 
 CGhost * CGhost::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {

@@ -361,6 +361,9 @@
     <Filter Include="04.GameObject\GameObject\Item\Wand">
       <UniqueIdentifier>{ef9161ea-7b0c-4d7d-ab82-b04cd076bf8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Scene\Scene\Stage\UI\DialogPanel">
+      <UniqueIdentifier>{2dcdb2b6-bb4f-4f33-8e8b-898973a5fd82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -708,6 +711,9 @@
     <ClInclude Include="..\Headers\Laser.h">
       <Filter>04.GameObject\GameObject\Laser</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\DialogPanel.h">
+      <Filter>03.Scene\Scene\Stage\UI\DialogPanel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -1030,6 +1036,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Laser.cpp">
       <Filter>04.GameObject\GameObject\Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\DialogPanel.cpp">
+      <Filter>03.Scene\Scene\Stage\UI\DialogPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

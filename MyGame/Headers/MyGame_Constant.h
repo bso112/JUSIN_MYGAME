@@ -39,5 +39,5 @@ enum BODYPART { BODY_HAND, BODY_TORSO, BODY_FINGER, BODY_ARTEFACT, BODY_END };
 #define MSG_EXHAUST(OTHER) new wstring(L"아무일도 일어나지 않았다. " + wstring(OTHER) + L" 을(를) 다 써버린듯 하다.")
 
 
-
+#define COLOR_ORANGE 0xFFFF7F00
 END

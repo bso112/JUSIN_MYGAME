@@ -10,6 +10,7 @@
 #include "Texture.h"
 #include "TargetMgr.h"
 #include "HpBar.h"
+#include "DialogPanel.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CStageUIMgr)
@@ -95,7 +96,12 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	vecUI.push_back(pBtn);
 
 	
-	
+	//다이어로그판넬
+	m_pDialogPanel = (CDialogPanel*)m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CDialogPanel::Create(_pGraphic_Device));
+	RETURN_FAIL_IF_NULL(m_pDialogPanel);
+	m_pDialogPanel->Set_Active(true);
+	Safe_AddRef(m_pDialogPanel);
+
 	//스크롤 표시
 	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), (float)(g_iWinCY >> 1), 0.f, 1.f), Vector2(g_iWinCX - 100.f, 200.f), L"scroll", SCENE_STAGE);
 	//m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
@@ -160,12 +166,19 @@ vector<RECT> CStageUIMgr::GetUIRect()
 	return rc;
 }
 
+HRESULT CStageUIMgr::SetActiveDialogPanel(_bool _bActive)
+{
+	RETURN_FAIL_IF_NULL(m_pDialogPanel);
+	m_pDialogPanel->Set_Active(_bActive);
+	return S_OK;
+}
+
 void CStageUIMgr::Free()
 {
 	Safe_Release(m_pStatsPanel);
 	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pInventoryUIMgr);
-
+	Safe_Release(m_pDialogPanel);
 	//다른 씬에서도 쓰려나?
 	if (0 != CInventoryUIMgr::Destroy_Instance())
 	{

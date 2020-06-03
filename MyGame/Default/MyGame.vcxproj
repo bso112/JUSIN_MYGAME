@@ -199,6 +199,7 @@
     <ClInclude Include="..\Headers\Cheese.h" />
     <ClInclude Include="..\Headers\Crab.h" />
     <ClInclude Include="..\Headers\DialogMgr.h" />
+    <ClInclude Include="..\Headers\DialogPanel.h" />
     <ClInclude Include="..\Headers\Effect.h" />
     <ClInclude Include="..\Headers\Equipment.h" />
     <ClInclude Include="..\Headers\Fire.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="..\Codes\Cheese.cpp" />
     <ClCompile Include="..\Codes\Crab.cpp" />
     <ClCompile Include="..\Codes\DialogMgr.cpp" />
+    <ClCompile Include="..\Codes\DialogPanel.cpp" />
     <ClCompile Include="..\Codes\Effect.cpp" />
     <ClCompile Include="..\Codes\Equipment.cpp" />
     <ClCompile Include="..\Codes\Fire.cpp" />

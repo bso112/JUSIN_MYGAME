@@ -15,7 +15,10 @@ public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
 
-
+private:
+	const _tchar* m_pDialogue;
+public:
+	virtual	_int	Interact(CGameObject* _pOther);
 public:
 	static CGhost* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	// CMonster을(를) 통해 상속됨
