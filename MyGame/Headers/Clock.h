@@ -14,6 +14,7 @@ protected:
 public:
 	virtual bool isThreashHoldReached(_double _time, const _tchar* _pTimerKey = L"Timer_100") = 0;
 	_bool isUsing() { return m_bUsing; }
+	virtual	void Reset() { m_TimeAcc = 0.0; m_bUsing = false; }
 };
 
 //주어진 시간간격으로 true를 반환하는 시계
@@ -41,7 +42,7 @@ public:
 	virtual void Free() override;
 };
 
-//주어진 시간이 되면 한번 true를 반환하고 false가 되는 시계
+//주어진 시간이 지나면 계속 false가 되는 시계
 class CClock_Single final : public CClock
 {
 private:

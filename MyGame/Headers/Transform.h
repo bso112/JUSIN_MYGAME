@@ -42,6 +42,7 @@ private:
 	Vector3		m_vSize;
 	Vector3		m_vRotation;
 	Vector3		m_vRevolveAngle;
+	Vector3		m_vPivot;
 	//회전이 기준이될 x축방향
 	Vector3		m_vLook;
 
@@ -107,9 +108,10 @@ public:
 
 public:
 	HRESULT	Set_Position(Vector3 _vPosition);
+	HRESULT	Set_Pivot(Vector3 _vPivot);
 	HRESULT	Set_Size(Vector3 _vSize);
 	HRESULT	Set_ColliderSize(Vector3 _vSize) { m_vColliderSize = _vSize; return S_OK; }
-	HRESULT	Set_Rotation(Vector3 _vRotation);
+	HRESULT	Set_Rotation(Vector3 _vRadian);
 public:
 	_matrix		Get_Matrix() { Update_Transform(); return m_StateMatrix; }
 	Vector3		Get_Position() { return m_vPosition; }

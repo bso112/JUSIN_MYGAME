@@ -170,16 +170,18 @@ HRESULT CTransform::Update_Normal(_double _timeDelta)
 _int CTransform::Update_Transform()
 {
 	_matrix scalingMatrix, rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix,
-		revolveXMatrix, revolveYMatrix, revolveZMatrix, parentMatrix;
+		revolveXMatrix, revolveYMatrix, revolveZMatrix, parentMatrix, pivotMatrix;
 
 	D3DXMatrixScaling(&scalingMatrix, m_vSize.x, m_vSize.y, m_vSize.z);
-	D3DXMatrixRotationX(&rotationXMatrix, D3DXToRadian(m_vRotation.x));
-	D3DXMatrixRotationX(&rotationYMatrix, D3DXToRadian(m_vRotation.y));
-	D3DXMatrixRotationX(&rotationZMatrix, D3DXToRadian(m_vRotation.z));
+	D3DXMatrixRotationX(&rotationXMatrix, m_vRotation.x);
+	D3DXMatrixRotationY(&rotationYMatrix, m_vRotation.y);
+	D3DXMatrixRotationZ(&rotationZMatrix, m_vRotation.z);
 	D3DXMatrixTranslation(&translationMatrix, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	D3DXMatrixRotationX(&revolveXMatrix, D3DXToRadian(m_vRevolveAngle.x));
-	D3DXMatrixRotationX(&revolveYMatrix, D3DXToRadian(m_vRevolveAngle.y));
-	D3DXMatrixRotationX(&revolveZMatrix, D3DXToRadian(m_vRevolveAngle.z));
+	D3DXMatrixRotationX(&revolveXMatrix, m_vRevolveAngle.x);
+	D3DXMatrixRotationY(&revolveYMatrix, m_vRevolveAngle.y);
+	D3DXMatrixRotationZ(&revolveZMatrix, m_vRevolveAngle.z);
+	D3DXMatrixTranslation(&pivotMatrix, m_vPivot.x, m_vPivot.y, m_vPivot.z);
+
 
 	//부모 행렬셋팅
 	if (nullptr != m_pParent)
@@ -191,7 +193,7 @@ _int CTransform::Update_Transform()
 		D3DXMatrixIdentity(&parentMatrix);
 
 
-	m_StateMatrix = scalingMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix
+	m_StateMatrix = scalingMatrix * pivotMatrix * rotationXMatrix * rotationYMatrix * rotationZMatrix * translationMatrix
 		* parentMatrix;
 
 	return 0;
@@ -225,6 +227,12 @@ HRESULT CTransform::Set_Position(Vector3 _vPosition)
 {
 	m_vPosition = _vPosition;
 	m_vPosition.w = 1;
+	return S_OK;
+}
+
+HRESULT CTransform::Set_Pivot(Vector3 _vPivot)
+{
+	m_vPivot = _vPivot;
 	return S_OK;
 }
 

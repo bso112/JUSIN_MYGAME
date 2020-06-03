@@ -172,11 +172,13 @@ void CAIHunting::Free()
 
 CAIState::STATE CAIWandering::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
+
 	return STATE_END;
 }
 
 CAIState::STATE CAIWandering::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
+	//랜덤하게 움직이기
 	return STATE_END;
 }
 

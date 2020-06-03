@@ -12,6 +12,7 @@
 #include "Item.h"
 #include "Equipment.h"
 #include "InventoryUIMgr.h"
+#include "Laser.h"
 USING(MyGame)
 
 
@@ -60,7 +61,6 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 
 #pragma region 발사모드일때
-
 		//발사모드고, 발사할 아이템이 있으면
 		if (m_bThrowMode && m_pItemToThrow)
 		{
@@ -72,6 +72,18 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			return S_OK;
 		}
 #pragma endregion
+
+		Zap(pt);
+		return S_OK;
+#pragma region 레이저모드일때
+
+		if (m_bZap)
+		{
+			Zap(pt);
+			m_bZap = false;
+		}
+#pragma endregion
+
 
 		CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
 
@@ -118,6 +130,7 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			}
 
 		}
+
 
 	}
 
@@ -177,12 +190,13 @@ bool CHero::Has_Key()
 	return pInventory->Use_Key();
 }
 
-HRESULT CHero::ThrowItem(CItem * _pItem)
+HRESULT CHero::Shoot_Item(CItem * _pItem)
 {
 	m_bThrowMode = true;
 	m_pItemToThrow = _pItem;
 	return S_OK;
 }
+
 
 HRESULT CHero::Equip(CEquipment * _pItem, BODYPART _eBodyPart)
 {

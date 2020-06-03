@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "TimerMgr.h"
 #include "KeyMgr.h"
+#include "Clock.h"
 
 USING(MyGame)
 
@@ -14,6 +15,7 @@ CCamera::CCamera(PDIRECT3DDEVICE9 _pGraphic_Device)
 CCamera::CCamera(CCamera & _rhs)
 	: CGameObject(_rhs)
 {
+
 }
 
 HRESULT CCamera::Initialize_Prototype(_tchar * _pFilePath)
@@ -23,6 +25,8 @@ HRESULT CCamera::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CCamera::Initialize(void * _pArg)
 {
+	m_pShakeTimer = CClock_Delay::Create();
+
 	CKeyMgr::Get_Instance()->RegisterObserver(SCENE_STAGE, this);
 	CTransform::STATEDESC transformDesc;
 	transformDesc.speedPerSec = 100.f;
@@ -44,6 +48,19 @@ _int CCamera::Update(_double _timeDelta)
 {
 	if (nullptr == m_pTransform)
 		return -1;
+
+	if (nullptr == m_pShakeTimer)
+		return -1;
+
+	//m_dShakeDuration이 지나지 않은 동안만 카메라를 흔든다. 
+	if (!m_pShakeTimer->isThreashHoldReached(m_dShakeDuration))
+	{
+		float randX = rand() % CAMERA_SHAKE_INTENCITY;
+		float randY = rand() % CAMERA_SHAKE_INTENCITY;
+		m_vTranslation.x = randX;
+		m_vTranslation.y = randY;
+	}
+
 
 	_matrix matrix;
 	if (nullptr != m_pTarget)
@@ -85,12 +102,21 @@ _int CCamera::Update(_double _timeDelta)
 
 	m_pTransform->Update_Transform();
 	m_pPipline->Set_CameraMatrix(matrix);
+
+
+
 	return 0;
 }
 
 _int CCamera::LateUpate(_double _timeDelta)
 {
 	return _int();
+}
+
+void CCamera::Shake_Camera(_double _dTime)
+{
+	m_dShakeDuration = _dTime;
+	m_pShakeTimer->Reset();
 }
 
 HRESULT CCamera::OnKeyPressing(_int KeyCode)
@@ -153,7 +179,7 @@ CGameObject * CCamera::Clone(void * _pArg)
 void CCamera::Free()
 {
 	CKeyMgr::Get_Instance()->UnRegisterObserver(SCENE_STAGE, this);
-
+	Safe_Release(m_pShakeTimer);
 	Safe_Release(m_pTransform);
 
 	CGameObject::Free();

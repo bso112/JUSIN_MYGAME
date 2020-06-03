@@ -18,13 +18,15 @@ protected:
 	Vector3			m_vDst = {};
 	//무언가를 던지려는 상태인가
 	_bool			m_bThrowMode = false;
+	//레이저를 쏘는 상태인가
+	_bool			m_bZap = false;
 	//발사되는 아이템
 	CItem*			m_pItemToThrow = nullptr;
 	CEquipment*		m_pEquipments[BODY_END];
 
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
-	HRESULT	ThrowItem(CItem* _pItem);
+	HRESULT	Shoot_Item(CItem* _pItem);
 	HRESULT	Equip(CEquipment* _pItem, BODYPART _eBodyPart);
 	HRESULT	UnEquip(BODYPART _eBodyPart);
 

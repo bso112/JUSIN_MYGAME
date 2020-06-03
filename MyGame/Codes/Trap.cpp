@@ -10,12 +10,15 @@ USING(MyGame)
 CTrap::CTrap(PDIRECT3DDEVICE9 _pGraphic_Device)
 	: CTerrain(_pGraphic_Device)
 {
+	m_bHidden = true;
 }
 
 CTrap::CTrap(CTrap & _rhs)
 	: CTerrain(_rhs)
 {
-
+	//랜덤하게 숨기기
+	int ranNum = rand() % 2;
+	m_bHidden = ranNum;
 };
 
 _int CTrap::Interact(CGameObject * _pOther)
@@ -30,6 +33,17 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 {
 	if (!m_bActive)
 		return;
+	
+	//이미 쓴 함정이 아닐때만 
+	if (m_bUsed)
+	{
+		//충돌시 발각
+		m_bHidden = false;
+		//모습을 드러낸다.
+		m_iCurFrame = m_eType;
+
+	}
+
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 
 	//사용한 상태면 무시
@@ -61,6 +75,11 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 	m_iCurFrame = 0;
 	//사용했다고 표시
 	m_bUsed = true;
+}
+
+void CTrap::OnHidden()
+{
+	m_iCurFrame = 5;
 }
 
 HRESULT CTrap::OnLoadData()

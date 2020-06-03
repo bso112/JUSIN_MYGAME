@@ -91,7 +91,7 @@ protected:
 
 public:
 	void	Drop(Vector3 _vDropPos);
-	void	Throw(POINT& _pt);
+	virtual void	Throw(POINT& _pt);
 
 protected:
 	virtual	void OnThrowStart();

@@ -13,9 +13,9 @@ private:
 
 private:
 	TYPE		m_eType = TYPE_END;
-
 public:
 	virtual	_int	Interact(CGameObject* _pOther);
+
 
 protected:
 	//여기서 함정의 타입을 정한다.
@@ -48,6 +48,7 @@ public:
 
 protected:
 	virtual void OnCollisionEnterTerrain(CGameObject* _pOther);
+	virtual	void	OnHidden();
 
 
 };

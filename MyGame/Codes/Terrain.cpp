@@ -98,6 +98,12 @@ HRESULT CTerrain::Render()
 	if (!m_bActive)
 		return 0;
 
+	//¼û°ÜÁ³À¸¸é 
+	if (m_bHidden)
+	{
+		OnHidden();
+	}
+
 	m_pTransform->Update_Transform();
 
 	ALPHATEST;
@@ -304,6 +310,10 @@ HRESULT CTerrain::OnMoveFrame()
 HRESULT CTerrain::OnLoadData()
 {
 	return S_OK;
+}
+
+void CTerrain::OnHidden()
+{
 }
 
 

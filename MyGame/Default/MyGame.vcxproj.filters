@@ -280,9 +280,6 @@
     <Filter Include="04.GameObject\GameObject\Item\Equipment\Weapon\MeleeWeapon">
       <UniqueIdentifier>{a8e2f339-5a33-44b1-b1f4-962e2b4f904d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.GameObject\GameObject\Item\Equipment\Weapon\Wand">
-      <UniqueIdentifier>{ef9161ea-7b0c-4d7d-ab82-b04cd076bf8e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Utility\10.ItemFactory">
       <UniqueIdentifier>{5198dc1b-fa92-469a-9b89-755826039d0d}</UniqueIdentifier>
     </Filter>
@@ -354,6 +351,15 @@
     </Filter>
     <Filter Include="09.Buff\Buff\01.Damage">
       <UniqueIdentifier>{b98cd68f-1468-409a-ae05-18eb002d6d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Character\Monster\03.Ghost">
+      <UniqueIdentifier>{66cd89d6-a1c8-4886-84d1-fd7c72f11ceb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Laser">
+      <UniqueIdentifier>{534f5a1c-5b39-405c-8ecf-ebdddf675f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Item\Wand">
+      <UniqueIdentifier>{ef9161ea-7b0c-4d7d-ab82-b04cd076bf8e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -640,7 +646,7 @@
       <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\MeleeWeapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\wand.h">
-      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\Wand</Filter>
+      <Filter>04.GameObject\GameObject\Item\Wand</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Arrow.h">
       <Filter>04.GameObject\GameObject\Item\Arrow</Filter>
@@ -695,6 +701,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Damage.h">
       <Filter>09.Buff\Buff\01.Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Ghost.h">
+      <Filter>04.GameObject\GameObject\Character\Monster\03.Ghost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Laser.h">
+      <Filter>04.GameObject\GameObject\Laser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -957,7 +969,7 @@
       <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\MeleeWeapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\wand.cpp">
-      <Filter>04.GameObject\GameObject\Item\Equipment\Weapon\Wand</Filter>
+      <Filter>04.GameObject\GameObject\Item\Wand</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Arrow.cpp">
       <Filter>04.GameObject\GameObject\Item\Arrow</Filter>
@@ -1012,6 +1024,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Damage.cpp">
       <Filter>09.Buff\Buff\01.Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Ghost.cpp">
+      <Filter>04.GameObject\GameObject\Character\Monster\03.Ghost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Laser.cpp">
+      <Filter>04.GameObject\GameObject\Laser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

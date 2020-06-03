@@ -279,6 +279,14 @@ CGameObject * CObjMgr::Get_Player(SCENEID _eLayerSceneID)
 	return pPlayerLayer->Get_Front();
 }
 
+CGameObject * CObjMgr::Get_ObjectOnFront(const _tchar * _pLayerID, SCENEID _eLayerSceneID)
+{
+	CLayer* pLayer = Find_Layer(_pLayerID, _eLayerSceneID);
+	if (nullptr == pLayer)
+		return nullptr;
+	return pLayer->Get_Front();
+}
+
 HRESULT CObjMgr::Clear_Scene(SCENEID _eSceneID)
 {
 	if (SCENEID::SCENE_END <= _eSceneID)

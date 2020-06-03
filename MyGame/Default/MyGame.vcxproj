@@ -205,6 +205,7 @@
     <ClInclude Include="..\Headers\FireFlower.h" />
     <ClInclude Include="..\Headers\FirePotion.h" />
     <ClInclude Include="..\Headers\Food.h" />
+    <ClInclude Include="..\Headers\Ghost.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
     <ClInclude Include="..\Headers\HealPotion.h" />
     <ClInclude Include="..\Headers\HpBar.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="..\headers\ItemInfoPanel.h" />
     <ClInclude Include="..\Headers\ItemSlot.h" />
     <ClInclude Include="..\Headers\Key.h" />
+    <ClInclude Include="..\Headers\Laser.h" />
     <ClInclude Include="..\Headers\LevelMgr.h" />
     <ClInclude Include="..\Headers\Loading.h" />
     <ClInclude Include="..\Headers\MeleeWeapon.h" />
@@ -320,6 +322,7 @@
     <ClCompile Include="..\Codes\FireFlower.cpp" />
     <ClCompile Include="..\Codes\FirePotion.cpp" />
     <ClCompile Include="..\Codes\Food.cpp" />
+    <ClCompile Include="..\Codes\Ghost.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
     <ClCompile Include="..\Codes\HealPotion.cpp" />
     <ClCompile Include="..\Codes\HpBar.cpp" />
@@ -330,6 +333,7 @@
     <ClCompile Include="..\Codes\ItemInfoPanel.cpp" />
     <ClCompile Include="..\Codes\ItemSlot.cpp" />
     <ClCompile Include="..\Codes\Key.cpp" />
+    <ClCompile Include="..\Codes\Laser.cpp" />
     <ClCompile Include="..\Codes\LevelMgr.cpp" />
     <ClCompile Include="..\Codes\Loading.cpp" />
     <ClCompile Include="..\Codes\MeleeWeapon.cpp" />
