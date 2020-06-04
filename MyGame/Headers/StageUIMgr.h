@@ -26,7 +26,7 @@ public:
 	vector<RECT>	GetUIRect();
 
 public:
-	HRESULT	SetActiveDialogPanel(_bool _bActive);
+	HRESULT	SetActiveDialogPanel();
 	HRESULT	SetDialogInfo(const _tchar* _pIconTextureTag, SCENEID _eTextureSceneID, const _tchar* _pSpeakerName, const _tchar* _pDialog);
 
 private:

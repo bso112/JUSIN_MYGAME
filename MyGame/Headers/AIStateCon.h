@@ -8,7 +8,7 @@ class CAIStateCon final : public CStateCon
 	
 private:
 	explicit CAIStateCon(PDIRECT3DDEVICE9 _pGraphic_Device);
-	explicit CAIStateCon(CAIStateCon& _rhs) : CStateCon(_rhs) {};
+	explicit CAIStateCon(CAIStateCon& _rhs) : CStateCon(_rhs) { ZeroMemory(m_pStateArr, sizeof(m_pStateArr)); };
 	virtual ~CAIStateCon() = default;
 
 private:

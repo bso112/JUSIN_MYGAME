@@ -25,7 +25,7 @@ HRESULT CGhost::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CGhost::Initialize(void * _param)
 {
-
+	m_bNPC = true;
 	m_pName = L"유령";
 #pragma region 스텟셋팅
 
@@ -62,7 +62,7 @@ HRESULT CGhost::Initialize(void * _param)
 
 #pragma region 상태셋팅
 	CAIStateCon* pStateCon = dynamic_cast<CAIStateCon*>(m_pStateCon);
-	pStateCon->Set_State(CAIState::STATE_IDLE, new CAIWandering(this));
+	pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
 	pStateCon->Set_Default_State(CAIState::STATE_WADERING);
 
 #pragma endregion
@@ -103,7 +103,7 @@ _int CGhost::Interact(CGameObject * _pOther)
 {
 	CStageUIMgr* m_pUIMgr = CStageUIMgr::Get_Instance();
 	if (nullptr == m_pUIMgr) return -1;
-	m_pUIMgr->SetActiveDialogPanel(true);
+	m_pUIMgr->SetActiveDialogPanel();
 	m_pUIMgr->SetDialogInfo(L"ghost", SCENE_STAGE, L"슬픈 유령", m_pDialogue);
 
 	return 0;

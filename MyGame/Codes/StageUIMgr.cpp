@@ -99,7 +99,7 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	//다이어로그판넬
 	m_pDialogPanel = (CDialogPanel*)m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CDialogPanel::Create(_pGraphic_Device));
 	RETURN_FAIL_IF_NULL(m_pDialogPanel);
-	m_pDialogPanel->Set_Active(true);
+	m_pDialogPanel->Set_Active(false);
 	Safe_AddRef(m_pDialogPanel);
 
 	//스크롤 표시
@@ -175,10 +175,10 @@ vector<RECT> CStageUIMgr::GetUIRect()
 	return rc;
 }
 
-HRESULT CStageUIMgr::SetActiveDialogPanel(_bool _bActive)
+HRESULT CStageUIMgr::SetActiveDialogPanel()
 {
 	RETURN_FAIL_IF_NULL(m_pDialogPanel);
-	m_pDialogPanel->Set_Active(_bActive);
+	m_pDialogPanel->Set_Active(m_pDialogPanel->Get_Active());
 	return S_OK;
 }
 

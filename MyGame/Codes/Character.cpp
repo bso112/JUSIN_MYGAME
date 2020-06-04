@@ -43,11 +43,13 @@ _int CCharacter::StartAct()
 		return 0;
 
 	m_pBuffCon->Act(this);
-	
+
 
 	//마비면 버프만 start하고 행동은 못함
 	if (m_bParalyze)
 		return 0;
+
+
 
 	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));;
 
@@ -63,11 +65,6 @@ _int CCharacter::UpdateAct()
 	return m_pStateCon->Update(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 }
 
-void CCharacter::PlayEffect(CEffect * _pEffect)
-{
-
-
-}
 
 HRESULT CCharacter::ShowText(const _tchar * _pText)
 {
@@ -127,7 +124,7 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 
 	m_tStat.m_fHP -= _fDamage;
 
-	if (m_tStat.m_fHP < 0)
+	if (m_tStat.m_fHP <= 0)
 	{
 		OnDead();
 		m_tStat.m_fHP = 0.f;
@@ -210,7 +207,7 @@ void CCharacter::Add_Buff(CBuff * pBuff)
 		break;
 	default:
 		break;
-	} 
+	}
 
 	ShowText(pBuffText);
 
@@ -225,7 +222,7 @@ _int CCharacter::Interact(CGameObject * _pOther)
 
 	//상대방이 캐릭터면 상대방에게 데미지를 줌
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
-	if (nullptr != pCharacter)
+	if (nullptr != pCharacter && !pCharacter->Is_NPC())
 	{
 		if (pCharacter->Get_Dying() || pCharacter->Get_Dead())
 			return 0;

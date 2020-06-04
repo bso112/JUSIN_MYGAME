@@ -101,8 +101,6 @@ HRESULT CFire::EffectOn(CCharacter * _pTarget)
 		return E_FAIL;
 	//플레이
 	Play();
-	//옮겨붙지 않음(무한대로 옮겨붙는것 방지)
-	Set_Collidable(false);
 	//따라가기
 	CTransform* pTargetTrasform = (CTransform*)_pTarget->Get_Module(L"Transform");
 	if (nullptr == pTargetTrasform) return E_FAIL;
@@ -173,13 +171,10 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 	{
 		//불붙는다.
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
-		//클론이나 마찬가지
-		CEffect* pClone = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &m_tDesc));
-		//캐릭터에 이펙트를 셋팅한다.
-		if (nullptr != pClone)
-		{
-			pClone->EffectOn(pCharacter);
-		}
+		
+		EffectOn(pCharacter);
+		m_bCollidable = false;
+
 	}
 
 }

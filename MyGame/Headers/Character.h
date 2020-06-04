@@ -51,7 +51,7 @@ protected:
 	CShader*	m_pShader = nullptr;
 	//쉐이더에서 쓸 pass
 	_uint		m_iPass = 0;
-
+	_bool		m_bNPC = false;
 
 	//포커스하고 있는 대상
 	CCharacter*	m_pFocus = nullptr;
@@ -59,10 +59,6 @@ protected:
 	CStateCon*	m_pStateCon = nullptr;
 	//버프매니저
 	CBuffController*	m_pBuffCon = nullptr;
-
-
-	//현재 활성화된 이펙트
-	CEffect*	m_pEffect = nullptr;
 
 	CClock_Delay*	m_pDeadClock = nullptr;
 	
@@ -80,6 +76,7 @@ protected:
 	_uint	m_iRecogRange = 0;
 
 	const _tchar* m_pName = L"";
+
 	
 public:
 	_int		StartAct() override;
@@ -87,7 +84,6 @@ public:
 	CCharacter*	Get_Focus() { return m_pFocus; }
 	//턴 상태를 가져온다.
 	void		SetTurnState(_bool _bTurnEnd) override { m_bTurnEnd = _bTurnEnd; }
-	void		PlayEffect(CEffect* _pEffect);
 	//캐릭터 위로 텍스트를 띄운다.
 	HRESULT		ShowText(const _tchar* _pText);
 	//캐릭터 위로 이미지를 띄운다.
@@ -115,6 +111,7 @@ public:
 	bool	IsTargetInRange(CCharacter* pTarget, _int _iRange);
 	const STATS&	Get_Stat() { return m_tStat; }
 	_bool	Get_Dying() { return m_bDying; }
+	_bool	Is_NPC() { return m_bNPC; }
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 

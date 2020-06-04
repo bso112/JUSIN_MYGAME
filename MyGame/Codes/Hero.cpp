@@ -130,8 +130,10 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			{
 				//인터렉트한다.
 				Interact(pObj);
-				//인터렉트 당한다. (몬스터와의 인터렉트는 턴으로 제어한다)
-				if (nullptr == dynamic_cast<CMonster*>(pObj))
+				//인터렉트 당한다. (몬스터는 제외. 몬스터와의 인터렉트는 턴으로 제어한다)
+				CMonster* pMonster = dynamic_cast<CMonster*>(pObj);
+				//NPC이거나 몬스터가 아니면 인터렉트
+				if ((pMonster != nullptr && pMonster->Is_NPC()) || nullptr == pMonster)
 					pObj->Interact(this);
 			}
 

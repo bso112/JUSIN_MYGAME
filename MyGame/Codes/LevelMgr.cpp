@@ -67,10 +67,19 @@ HRESULT CLevelMgr::Initialize()
 	if (FAILED(m_pSpawner->Spawn(1)))
 		return E_FAIL;
 
-	//안보이게 한다.
-	m_aLevel[1]->SetActive(false);
-	m_pSpawner->SetActive(false, 1);
+	m_iCurrLevel = 0;
 
+	for (int i = 0; i < MAX_DEPTH; ++i)
+	{
+		if (i == m_iCurrLevel)
+			continue;
+
+		m_aLevel[i]->SetActive(false);
+		m_pSpawner->SetActive(false, i);
+	}
+	
+	m_aLevel[m_iCurrLevel]->SetActive(true);
+	m_pSpawner->SetActive(true, m_iCurrLevel);
 
 
 

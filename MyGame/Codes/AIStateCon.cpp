@@ -23,6 +23,14 @@ HRESULT CAIStateCon::Initialize(void * _pArg)
 
 _int CAIStateCon::Start(_bool _canAttack, _bool _isAlerted)
 {
+	if (nullptr == m_pCurrState)
+	{
+#ifdef MYDEBUG
+		MSG_BOX("CurrState가 nullptr입니다.");
+#endif
+		return -1;
+	}
+
 	CAIState::STATE	eNextState = m_pCurrState->Act(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	
 	if (CAIState::STATE_END != eNextState)
@@ -36,6 +44,13 @@ _int CAIStateCon::Start(_bool _canAttack, _bool _isAlerted)
 
 _int CAIStateCon::Update(_bool _canAttack, _bool _isAlerted)
 {
+	if (nullptr == m_pCurrState)
+	{
+#ifdef MYDEBUG
+		MSG_BOX("CurrState가 nullptr입니다.");
+#endif
+		return -1;
+	}
 	CAIState::STATE	eNextState = m_pCurrState->LateUpdate(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 
 	if (CAIState::STATE_END != eNextState)
