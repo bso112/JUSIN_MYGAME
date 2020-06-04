@@ -29,6 +29,8 @@ HRESULT CFood::Initialize(void * _param)
 	m_pTextureTag = L"Texture_Food";
 
 	m_pTransform->Set_ColliderSize(COLLIDER_SIZE);
+
+	m_bStackable = true;
 	return S_OK;
 }
 

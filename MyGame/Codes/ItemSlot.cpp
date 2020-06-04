@@ -122,7 +122,7 @@ _bool CItemSlot::Has_Item(CItem * _pItem)
 }
 
 
-HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID)
+HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureTag, SCENEID _eTextureSceneID, _uint _iTextureID)
 {
 	m_bActive = false;
 
@@ -134,12 +134,21 @@ HRESULT CItemSlot::Initialize(Vector4 _vPos, Vector2 _vSize, _tchar * _pTextureT
 	Set_Module(L"VIBuffer", SCENE_STATIC, (CModule**)&m_pVIBuffer);
 	Set_Module(L"Shader", SCENE_STATIC, (CModule**)&m_pShader);
 
+	m_iTextureID = _iTextureID;
+
 
 	if (FAILED(Set_Module(_pTextureTag, SCENE_STAGE, (CModule**)&m_pTexture)))
 		return E_FAIL;
 
 	m_pTransform->Set_Position(_vPos);
 	m_pTransform->Set_Size(_vSize);
+
+
+	RECT rc = m_pTransform->Get_RECT();
+	_float fHolderCX = 50.f;
+	_float fHolderCY = 36.f;
+	m_tItemCntPlaceHolder = Make_Rect(Vector2(rc.left + fHolderCX * 0.5f, rc.top + fHolderCY * 0.5f), Vector2(fHolderCX, fHolderCY));
+
 	return S_OK;
 }
 
@@ -194,7 +203,7 @@ HRESULT CItemSlot::Render()
 
 	ALPHABLEND;
 
-	if (FAILED(m_pTexture->Set_Texture(0)))
+	if (FAILED(m_pTexture->Set_Texture(m_iTextureID)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
@@ -204,6 +213,14 @@ HRESULT CItemSlot::Render()
 	{
 		if (FAILED(m_listItem.front()->Render()))
 			return E_FAIL;
+	}
+
+	if (!m_bEquipmentslot)
+	{
+		_tchar szBuff[MAX_PATH] = L"";
+		wsprintf(szBuff, L"%d", (_int)m_listItem.size());
+		g_pFontX2->DrawText(NULL, szBuff, -1, &m_tItemCntPlaceHolder, DT_LEFT, 0xffffffff);
+
 	}
 
 	ALPHABLEND_END;
@@ -263,10 +280,10 @@ HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 	return S_OK;
 }
 
-CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID)
+CItemSlot * CItemSlot::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID, _uint _iTextureID)
 {
 	CItemSlot* pInstance = new CItemSlot(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize(_vPos, _vSize, _pTextureTag, _eTextureSceneID)))
+	if (FAILED(pInstance->Initialize(_vPos, _vSize, _pTextureTag, _eTextureSceneID, _iTextureID)))
 	{
 		MSG_BOX("Fail to create CMyButton");
 		Safe_Release(pInstance);

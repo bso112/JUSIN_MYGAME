@@ -7,8 +7,8 @@ class CVIBuffer;
 class CItemInfoPanel;
 
 //내용물 크기
-#define CONTENTX 100.f
-#define CONTENTY 100.f
+#define CONTENTX 70.f
+#define CONTENTY 70.f
 class CItemSlot final: public CMyButton
 {
 private:
@@ -18,13 +18,16 @@ private:
 
 
 private:
-	function<void(CItem*)> m_pSlotListener = nullptr;
-	list<CItem*>	m_listItem;
+	function<void(CItem*)>	m_pSlotListener = nullptr;
+	list<CItem*>			m_listItem;
+	_uint					m_iTextureID = 0;
+	RECT					m_tItemCntPlaceHolder;
+	_bool					m_bEquipmentslot = false;
 
 	
 	
 public:
-	virtual HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
+	virtual HRESULT Initialize(Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID, _uint _iTextureID);
 	virtual _int	Update(_double _timeDelta)	override;
 	virtual _int	LateUpate(_double _timeDelta)override;
 	virtual HRESULT	Render() override;
@@ -41,11 +44,12 @@ public:
 	//장비 슬롯은 하나의 아이템만을 가진다.
 	void	Equip(CItem* _pItem);
 	CItem*	UnEquip();
+	void	Set_Equipmentslot() { m_bEquipmentslot = true; }
 public:
 	_bool	IsEmpty(){ return m_listItem.empty(); }
 	_bool	Has_Item(CItem* _pItem);
 	size_t	Get_ItemCnt() { return m_listItem.size(); }
-	CItem*	Get_Item() { return m_listItem.back(); }
+	CItem*	Get_Item() { if (m_listItem.size() <= 0) return nullptr; return m_listItem.back(); }
 	void	Clear();
 protected:
 	virtual	void OnSetActive(_bool _bActive);
@@ -55,7 +59,7 @@ protected:
 	
 
 public:
-	static CItemSlot*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag, SCENEID _eTextureSceneID);
+	static CItemSlot*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag,SCENEID _eTextureSceneID ,_uint _iTextureID =0 );
 	virtual void Free() override;
 };
 END

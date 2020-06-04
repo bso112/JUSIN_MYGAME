@@ -208,6 +208,7 @@
     <ClInclude Include="..\Headers\Food.h" />
     <ClInclude Include="..\Headers\Ghost.h" />
     <ClInclude Include="..\Headers\Gnoll.h" />
+    <ClInclude Include="..\Headers\Goo.h" />
     <ClInclude Include="..\Headers\HealPotion.h" />
     <ClInclude Include="..\Headers\HpBar.h" />
     <ClInclude Include="..\Headers\IceFlower.h" />
@@ -327,6 +328,7 @@
     <ClCompile Include="..\Codes\Food.cpp" />
     <ClCompile Include="..\Codes\Ghost.cpp" />
     <ClCompile Include="..\Codes\Gnoll.cpp" />
+    <ClCompile Include="..\Codes\Goo.cpp" />
     <ClCompile Include="..\Codes\HealPotion.cpp" />
     <ClCompile Include="..\Codes\HpBar.cpp" />
     <ClCompile Include="..\Codes\IceFlower.cpp" />

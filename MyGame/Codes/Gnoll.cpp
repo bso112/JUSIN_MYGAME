@@ -31,7 +31,7 @@ HRESULT CGnoll::Initialize(void * _param)
 	//½ºÅÝ¼ÂÆÃ
 	m_tStat.m_fExp = 20.f;
 	m_tStat.m_fMaxHp = CStat::Create(30.f);
-	m_tStat.m_fAtt = CStat::Create(10.f);
+	m_tStat.m_fAtt = CStat::Create(2.f, 6.f);
 	m_tStat.m_iGold = 10;
 	m_tStat.m_fArmor = CStat::Create(4.f);
 	m_tStat.m_fHP = 30.f;

@@ -21,6 +21,7 @@
 #include "ItemFactory.h"
 #include "Smoke.h"
 #include "Ghost.h"
+#include "Goo.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -53,6 +54,8 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	pObjMgr->Add_Prototype(L"Gnoll", SCENE_STAGE, CGnoll::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Crab", SCENE_STAGE, CCrab::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Ghost", SCENE_STAGE, CGhost::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Goo", SCENE_STAGE, CGoo::Create(_pGraphic_Device));
+	
 
 
 	//레벨에 필요한 텍스쳐를 생성한다.
@@ -229,6 +232,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
@@ -510,6 +516,14 @@ void CSpawner::SetActive(_bool _bActive, _uint _iLevel)
 {
 	for (auto& GO : m_listGO[_iLevel])
 	{
+		//인벤토리에 들어간 아이템은 영향받지 않음.
+		CItem* pItem = dynamic_cast<CItem*>(GO);
+		if (nullptr != pItem)
+		{
+			if (!pItem->IsDrop())
+				continue;
+		}
+
 		GO->Set_Active(_bActive);
 	}
 }

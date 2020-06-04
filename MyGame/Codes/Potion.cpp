@@ -42,6 +42,7 @@ HRESULT CPotion::Initialize(void * _param)
 	m_iTextureID = m_tDesc.m_iTextureID;
 	m_pItemName = m_tDesc.m_pItemName;
 
+	m_bStackable = true;
 
 	return S_OK;
 }

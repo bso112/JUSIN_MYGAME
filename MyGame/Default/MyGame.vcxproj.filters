@@ -136,9 +136,6 @@
     <Filter Include="06.Utility\03.KeyMgr">
       <UniqueIdentifier>{fe25f361-67eb-4c4b-90ac-0d6e4440f336}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Default">
-      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Utility\02.Module\Module\StateController">
       <UniqueIdentifier>{97520fc8-91b8-4c32-9958-02288aaf3217}</UniqueIdentifier>
     </Filter>
@@ -366,6 +363,12 @@
     </Filter>
     <Filter Include="06.Utility\12.QuestMgr">
       <UniqueIdentifier>{5531970d-1a27-4519-a22b-af1f79880954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.GameObject\GameObject\Character\Monster\04.Goo">
+      <UniqueIdentifier>{4e4264e4-5772-4124-bbf5-8d3a61bbc91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -717,7 +720,12 @@
     <ClInclude Include="..\Headers\DialogPanel.h">
       <Filter>03.Scene\Scene\Stage\UI\DialogPanel</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\QuestMgr.h" />
+    <ClInclude Include="..\Headers\Goo.h">
+      <Filter>04.GameObject\GameObject\Character\Monster\04.Goo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\QuestMgr.h">
+      <Filter>06.Utility\12.QuestMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -1044,7 +1052,12 @@
     <ClCompile Include="..\Codes\DialogPanel.cpp">
       <Filter>03.Scene\Scene\Stage\UI\DialogPanel</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\QuestMgr.cpp" />
+    <ClCompile Include="..\Codes\Goo.cpp">
+      <Filter>04.GameObject\GameObject\Character\Monster\04.Goo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\QuestMgr.cpp">
+      <Filter>06.Utility\12.QuestMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="MyGame.ico">

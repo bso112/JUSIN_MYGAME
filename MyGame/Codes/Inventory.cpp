@@ -7,6 +7,7 @@
 #include "ItemSlot.h"
 #include "ItemInfoPanel.h"
 #include "ItemFactory.h"
+#include "ModuleMgr.h"
 
 USING(MyGame)
 
@@ -23,6 +24,8 @@ CInventory::CInventory(CInventory & _rhs)
 
 HRESULT CInventory::Initialize(void * _pArg)
 {
+
+	
 
 	m_iDepth = 0;
 	m_vecEquipSlot.reserve(4);
@@ -56,6 +59,9 @@ HRESULT CInventory::Initialize(void * _pArg)
 	if (nullptr == pObjMgr)
 		return E_FAIL;
 
+	CModuleMgr::Get_Instance()->Add_Module(L"Texture_EquipSlot", SCENE_STAGE, CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/Stage/equipSlot%d.png", 4));
+		
+
 	for (int i = 0; i < SLOTY; ++i)
 	{
 		for (int j = 0; j < SLOTX; ++j)
@@ -69,7 +75,10 @@ HRESULT CInventory::Initialize(void * _pArg)
 			//렌더러가 슬롯을 지워버린다. 원래 렌더러는 한프레임 그리고 다 지우니까.
 			CItemSlot* pSlot;
 			if (i == 0 && j < 4)
-				pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"equipSlot", SCENE_STAGE);
+			{
+				pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"Texture_EquipSlot", SCENE_STAGE, j);
+				pSlot->Set_Equipmentslot();
+			}
 			else
 				pSlot = CItemSlot::Create(m_pGraphic_Device, vPos, Vector2(slotCX, slotCY), L"slot", SCENE_STAGE);
 
@@ -210,8 +219,12 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 
 	for (auto& pSlot : m_vecItemSlot)
 	{
-		if (pSlot->IsEmpty())
+		CItem* pSlotItem = pSlot->Get_Item();
+
+		//슬롯이 완전히 비어있거나, 비어있지 않아도 같은 종류의 아이템이고 스택가능하면
+		if (pSlot->IsEmpty() || (pSlotItem != nullptr && pSlotItem->CanStackWith(_pItem)))
 		{
+			//그 슬롯에 넣는다.
 			pSlot->Add_Item(_pItem);
 			break;
 		}

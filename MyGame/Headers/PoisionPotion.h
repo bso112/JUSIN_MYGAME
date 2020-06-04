@@ -4,7 +4,7 @@ BEGIN(MyGame)
 class CPoisionPotion final : public CPotion
 {
 protected:
-	explicit CPoisionPotion(PDIRECT3DDEVICE9 _pGrahic_Device) :CPotion(_pGrahic_Device) {};
+	explicit CPoisionPotion(PDIRECT3DDEVICE9 _pGrahic_Device) :CPotion(_pGrahic_Device) { };
 	explicit CPoisionPotion(CPoisionPotion& _rhs) : CPotion(_rhs) {};
 	virtual ~CPoisionPotion() = default;
 

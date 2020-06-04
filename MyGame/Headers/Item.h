@@ -57,6 +57,7 @@ protected:
 	const _tchar*			m_pItemName = nullptr;
 	//던져졌을때 도착지점
 	Vector3					m_vDest;
+	_bool					m_bStackable = false;
 
 
 public:
@@ -92,7 +93,7 @@ protected:
 public:
 	void	Drop(Vector3 _vDropPos);
 	virtual void	Throw(POINT& _pt);
-
+	_bool	CanStackWith(CItem* pItem);
 protected:
 	virtual	void OnThrowStart();
 	virtual	void OnThrowEnd();

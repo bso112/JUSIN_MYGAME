@@ -142,6 +142,20 @@ void CItem::Throw(POINT & _pt)
 	OnThrowStart();
 }
 
+_bool CItem::CanStackWith(CItem * pItem)
+{
+	if (nullptr == pItem)
+		return false;
+
+	//아이템 태그와 아이디가 같고, 스택커블이면 트루
+	if (0 == lstrcmp(m_pTextureTag, pItem->m_pTextureTag))
+	{
+		if (m_iTextureID == pItem->m_iTextureID && m_bStackable)
+			return true;
+	}
+	return false;
+}
+
 void CItem::OnThrowStart()
 {
 }

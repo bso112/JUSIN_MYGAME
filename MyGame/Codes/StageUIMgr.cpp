@@ -194,7 +194,7 @@ vector<RECT> CStageUIMgr::GetUIRect()
 HRESULT CStageUIMgr::SetActiveDialogPanel()
 {
 	RETURN_FAIL_IF_NULL(m_pDialogPanel);
-	m_pDialogPanel->Set_Active(m_pDialogPanel->Get_Active());
+	m_pDialogPanel->Set_Active(!m_pDialogPanel->Get_Active());
 	return S_OK;
 }
 

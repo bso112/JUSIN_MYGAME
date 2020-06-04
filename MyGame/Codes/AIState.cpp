@@ -46,6 +46,9 @@ CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _dou
 	{
 		return STATE_HUNTING;
 	}
+
+	m_pActor->SetTurnState(true);
+
 	return STATE_END;
 }
 
@@ -56,8 +59,8 @@ CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _double _ti
 	if (nullptr == pAnimator)
 		return STATE_END;
 
-	pAnimator->Play(L"Sleep");
-
+	m_pActor->SetTurnState(true);
+	pAnimator->Play(L"idle");
 
 	return STATE_END;
 }
