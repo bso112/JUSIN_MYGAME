@@ -8,7 +8,7 @@ class CRenderer final :public CBase
 	DECLARE_SINGLETON(CRenderer)
 
 public:
-	enum RENDER_GROUP { RENDER_PRIOR, RENDER_YSORT, RENDER_PARTICLE, RENDER_FOG, RENDER_UI, RENDER_END};
+	enum RENDER_GROUP { RENDER_PRIOR, RENDER_BACKEFFECT, RENDER_YSORT, RENDER_PARTICLE, RENDER_FOG, RENDER_UI, RENDER_END};
 private:
 	CRenderer();
 	virtual ~CRenderer();
@@ -24,6 +24,7 @@ public:
 
 private:
 	HRESULT Render_Prior();
+	HRESULT Render_BackEffect();
 	HRESULT Render_YSort();
 	HRESULT Render_Effect();
 	HRESULT	Render_Fog();

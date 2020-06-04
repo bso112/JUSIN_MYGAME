@@ -271,6 +271,7 @@ HRESULT CHero::Explore()
 {
 	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pLevelMgr);
+	ShowText(L"Å½»ç", 0xffffffff);
 	return pLevelMgr->Explore(m_pTransform->Get_Position());
 }
 

@@ -43,6 +43,8 @@ protected:
 	_float			m_fAlpha = 1;
 	_uint			m_iShaderPass = 0;
 
+	CRenderer::RENDER_GROUP m_eRenderGroup = CRenderer::RENDER_UI;
+
 private:
 	CClock_Delay* m_pDeadClock = nullptr;
 
@@ -66,6 +68,7 @@ public:
 	void	Set_TextureID(_uint _iTextureID) { m_iTextureID = _iTextureID; m_tDesc.m_iTextureID = _iTextureID; }
 	STATEDESC	Get_DESC() { return m_tDesc; }
 	void	Set_FadeOut() { m_bFadeOut = true; m_iShaderPass = 4; }
+	void	Set_RenderGroup(CRenderer::RENDER_GROUP _eRenderGroup) { m_eRenderGroup = _eRenderGroup; }
 public:
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID);
 	static CImage* Create(PDIRECT3DDEVICE9 _pGraphic_Device, void* _desc);

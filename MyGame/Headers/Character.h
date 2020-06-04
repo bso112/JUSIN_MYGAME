@@ -85,7 +85,7 @@ public:
 	//턴 상태를 가져온다.
 	void		SetTurnState(_bool _bTurnEnd) override { m_bTurnEnd = _bTurnEnd; }
 	//캐릭터 위로 텍스트를 띄운다.
-	HRESULT		ShowText(const _tchar* _pText);
+	HRESULT		ShowText(const _tchar* _pText, D3DXCOLOR _Color = 0xFFF6F258, ID3DXFont* _pFont = g_pFontX2);
 	//캐릭터 위로 이미지를 띄운다.
 	HRESULT		ShowBuffImg(CImage* _pImage);
 

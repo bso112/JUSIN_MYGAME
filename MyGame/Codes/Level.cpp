@@ -861,27 +861,28 @@ HRESULT CLevel::Explore(Vector3 _vPos)
 
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pObjMgr);
-	for (int i = tileY - 1; i < tileY + 1; ++i)
+	for (int i = tileY - 1; i <= tileY + 1; ++i)
 	{
-		for (int j = tileX - 1; j < tileX + 1; ++j)
+		for (int j = tileX - 1; j <= tileX + 1; ++j)
 		{
 			if (nullptr != m_pTerrains[i][j])
 			{
-				//m_pTerrains[i][j]->Reveal();
-				////Å½»ç ÀÌÆåÆ®
-				//CTransform* pTerrainTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
-				//RETURN_FAIL_IF_NULL(pTerrainTransform);
-				//CImage::STATEDESC desc;
-				//desc.m_dLifeTime = 0.5;
-				//desc.m_eTextureSceneID = SCENE_STAGE;
-				//desc.m_pTextureTag = L"explore";
-				//desc.m_tBaseDesc = BASEDESC(pTerrainTransform->Get_Position(), Vector2(TILECX, TILECY));
-				//CImage* pImge =(CImage*) pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, CImage::Create(m_pGraphic_Device, &desc));
-				//pImge->Set_FadeOut();
-				//pImge->Set_UI(false);
-				//if (nullptr == pImge) return E_FAIL;
-				//CTransform* pImgTransform = (CTransform*)pImge->Get_Module(L"Transform"); RETURN_FAIL_IF_NULL(pImgTransform);
-				//pImgTransform->Shrink_Auto(Vector2(TILECX, TILECY));
+				m_pTerrains[i][j]->Reveal();
+				//Å½»ç ÀÌÆåÆ®
+				CTransform* pTerrainTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
+				RETURN_FAIL_IF_NULL(pTerrainTransform);
+				CImage::STATEDESC desc;
+				desc.m_dLifeTime = 0.5;
+				desc.m_eTextureSceneID = SCENE_STAGE;
+				desc.m_pTextureTag = L"explore";
+				desc.m_tBaseDesc = BASEDESC(pTerrainTransform->Get_Position(), Vector2(TILECX, TILECY));
+				CImage* pImge =(CImage*) pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, CImage::Create(m_pGraphic_Device, &desc));
+				pImge->Set_FadeOut();
+				pImge->Set_UI(false);
+				pImge->Set_RenderGroup(CRenderer::RENDER_BACKEFFECT);
+				if (nullptr == pImge) return E_FAIL;
+				CTransform* pImgTransform = (CTransform*)pImge->Get_Module(L"Transform"); RETURN_FAIL_IF_NULL(pImgTransform);
+				pImgTransform->Shrink_Auto(Vector2(TILECX, TILECY));
 
 
 			}

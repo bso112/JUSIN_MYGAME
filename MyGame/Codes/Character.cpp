@@ -65,12 +65,12 @@ _int CCharacter::UpdateAct()
 }
 
 
-HRESULT CCharacter::ShowText(const _tchar * _pText)
+HRESULT CCharacter::ShowText(const _tchar * _pText, D3DXCOLOR _Color, ID3DXFont* _pFont)
 {
 	CImage::STATEDESC desc;
 	desc.m_eTextureSceneID = SCENE_STATIC;
 	desc.m_pTextureTag = L"empty";
-	desc.m_fSpeed = 100.f;
+	desc.m_fSpeed = 70.f;
 	desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(100.f, 30.f));
 	desc.m_dLifeTime = 0.3f;
 	CImage* pDamageText = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
@@ -80,8 +80,8 @@ HRESULT CCharacter::ShowText(const _tchar * _pText)
 		pDamageText->Set_UI(false);
 		//폰트지정
 		MYFONT font;
-		font.m_pFont = g_pFontX2;
-		font.m_Color = 0xFFF6F258;
+		font.m_pFont = _pFont;
+		font.m_Color = _Color;
 		memcpy(font.m_pTextArr, _pText, sizeof(_tchar) * MAX_PATH);
 		pDamageText->Set_Font(font);
 		//위로 올리기

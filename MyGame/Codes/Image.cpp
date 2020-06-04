@@ -153,7 +153,7 @@ _int CImage::LateUpate(_double _timeDelta)
 	m_pTransform->Update_Transform();
 
 	//여러번 호출되지 않음
-	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_UI)))
+	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, m_eRenderGroup)))
 		return -1;
 
 	return 0;

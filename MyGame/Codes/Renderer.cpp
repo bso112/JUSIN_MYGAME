@@ -31,6 +31,9 @@ HRESULT CRenderer::Render()
 	if (FAILED(Render_Prior()))
 		return E_FAIL;
 
+	if (FAILED(Render_BackEffect()))
+		return E_FAIL;
+
 	if (FAILED(Render_YSort()))
 		return E_FAIL;
 
@@ -91,9 +94,25 @@ HRESULT CRenderer::Render_Prior()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_BackEffect()
+{
+	for (auto& GO : m_listGO[RENDER_BACKEFFECT])
+	{
+		if (nullptr != GO)
+		{
+			if (FAILED(GO->Render()))
+				return E_FAIL;
+		}
+
+		if (0 == Safe_Release(GO))
+			MSG_BOX("GameObject Removed on RENDER_BACKEFFECT");
+	}
+	m_listGO[RENDER_BACKEFFECT].clear();
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_YSort()
 {
-//	m_listGO[RENDER_YSORT].sort([](CGameObject* a, CGameObject* b)->bool { return a->Get_Depth() < b->Get_Depth(); });
 	for (auto& GO : m_listGO[RENDER_YSORT])
 	{
 		if (nullptr != GO)
