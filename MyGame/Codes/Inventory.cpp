@@ -8,7 +8,7 @@
 #include "ItemInfoPanel.h"
 #include "ItemFactory.h"
 #include "ModuleMgr.h"
-
+#include "Spawner.h"
 USING(MyGame)
 
 
@@ -101,6 +101,10 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 	RECT rc = m_pTransform->Get_RECT();
 	m_tTitlePlaceHolder = Make_Rect(Vector2(rc.left + 50.f + 37.f, rc.top +37.f), Vector2(100.f, 40.f, 1.f));
+	
+	CSpawner* pSpawner = CSpawner::Get_Instance();
+	pSpawner->Ready_BasicItem(this);
+
 	return S_OK;
 }
 

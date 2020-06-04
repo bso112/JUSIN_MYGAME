@@ -35,6 +35,9 @@ public:
 	CGameObject*	PickObject(POINT& pt);
 	CCharacter*		PickCharacter(POINT& pt);
 	_bool			IsMovable(Vector3& _vPos);
+
+protected:
+	virtual HRESULT	OnKeyDown(_int KeyCode);
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

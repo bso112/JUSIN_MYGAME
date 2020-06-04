@@ -7,6 +7,7 @@ BEGIN(MyGame)
 */
 class CGameObject;
 class CTransform;
+class CInventory;
 //스포너에 등록해야 전장의 안개할때 피킹해서 visuable 체크할 수 있음.
 class CSpawner : public CBase
 {
@@ -22,7 +23,8 @@ public:
 	HRESULT Spawn(_uint _iLevel);
 	HRESULT	Add_Interact(CGameObject* _pInteractor, _uint _iDepth);
 	HRESULT	Set_Visuable(Vector3 _vPlayerPos, _int _iRange, _int _iDepth);
-
+	//기본템 셋팅
+	HRESULT	Ready_BasicItem(CInventory* _pInventory);
 public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);
 	CGameObject*	PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform* pSelfTransform);

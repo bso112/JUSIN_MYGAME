@@ -115,6 +115,8 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar ** _pAction)
 }
 
 
+
+
 void CItem::Drop(Vector3 _vDropPos)
 {
 	//떨어지면 맵상에 보이게

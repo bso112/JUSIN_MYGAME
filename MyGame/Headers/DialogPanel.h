@@ -19,7 +19,7 @@ private:
 	CImage*	m_pPanel = nullptr;
 	CImage*	m_pIcon = nullptr;
 	MYFONT	m_tFont[2];
-
+	_int	m_iClickCnt = 0;
 public:
 	virtual HRESULT Initialize(void * _pArg = nullptr);
 	virtual _int	LateUpate(_double _timeDelta);

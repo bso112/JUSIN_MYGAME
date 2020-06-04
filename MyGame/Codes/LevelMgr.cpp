@@ -6,6 +6,7 @@
 #include "Warrior.h"
 #include "Terrain.h"
 #include "TileLoader.h"
+#include "KeyMgr.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CLevelMgr)
@@ -39,6 +40,8 @@ HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	//캐릭터를 준비한다. 이부분 캐릭터 선택 반영하게 변경
 	if (FAILED(CObjMgr::Get_Instance()->Add_Prototype(L"Player", SCENE_STAGE, CWarrior::Create(_pGraphic_Device))))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -82,7 +85,7 @@ HRESULT CLevelMgr::Initialize()
 	m_pSpawner->SetActive(true, m_iCurrLevel);
 
 
-
+	CKeyMgr::Get_Instance()->RegisterObserver(SCENE_STAGE, this);
 	return S_OK;
 }
 HRESULT CLevelMgr::Next_Level()
@@ -209,8 +212,19 @@ _bool CLevelMgr::IsMovable(Vector3 & _vPos)
 	return pTerrain->IsMovable(nullptr);
 }
 
+HRESULT CLevelMgr::OnKeyDown(_int KeyCode)
+{
+ 	if (KeyCode == VK_RBUTTON)
+	{
+		Next_Level();
+	}
+	return S_OK;
+}
+
 void CLevelMgr::Free()
 {
+	CKeyMgr::Get_Instance()->UnRegisterObserver(SCENE_STAGE, this);
+
 	Safe_Release(m_pSpawner);
 
 	if (0 != CSpawner::Destroy_Instance())

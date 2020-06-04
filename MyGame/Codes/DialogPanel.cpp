@@ -127,9 +127,13 @@ HRESULT CDialogPanel::OnKeyDown(_int KeyCode)
 	if (!m_bActive)
 		return S_OK;
 
+	++m_iClickCnt;
 
 	if (KeyCode == VK_LBUTTON)
 	{
+		if (m_iClickCnt < 2)
+			return S_OK;
+
 		POINT pt;
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
@@ -139,8 +143,10 @@ HRESULT CDialogPanel::OnKeyDown(_int KeyCode)
 		if (PtInRect(&pTransform->Get_RECT(), pt))
 		{
 			Set_Active(false);
+			m_iClickCnt = 0;
 		}
 	}
+
 	return S_OK;
 }
 

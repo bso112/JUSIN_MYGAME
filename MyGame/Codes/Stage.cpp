@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "ParticleSystem.h"
 #include "BuffController.h"
+#include "QuestMgr.h"
 
 
 USING(MyGame)
@@ -29,7 +30,6 @@ CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 HRESULT CStage::Initialize()
 {
-
 	if (FAILED(Initalize_Prototypes()))
 		return E_FAIL;
 
@@ -41,6 +41,8 @@ HRESULT CStage::Initialize()
 
 	m_pStageUIMgr->Initialize(m_pGraphic_Device, (CHero*)m_pObjMgr->Get_Player(SCENE_STAGE));
 	m_pTurnMgr->Initialize();
+
+
 
 	return S_OK;
 }
@@ -113,6 +115,9 @@ void CStage::Free()
 	Safe_Release(m_pLevelMgr);
 	Safe_Release(m_pStageUIMgr);
 	Safe_Release(m_pTurnMgr);
+
+	if (0 != CQuestMgr::Destroy_Instance())
+		MSG_BOX("Fail to release CQuestMgr");
 
 
 	if (0 != CStageUIMgr::Destroy_Instance())

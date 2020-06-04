@@ -56,7 +56,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	pObjMgr->Add_Prototype(L"Crab", SCENE_STAGE, CCrab::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Ghost", SCENE_STAGE, CGhost::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Goo", SCENE_STAGE, CGoo::Create(_pGraphic_Device));
-	
+
 
 
 	//레벨에 필요한 텍스쳐를 생성한다.
@@ -108,14 +108,6 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 	m_listCharacter[_iLevel].push_back(pObjMgr->Get_Player(SCENE_STAGE));
 
-	////기본템 생성
-	//CInventoryUIMgr* pInvenMgr = CInventoryUIMgr::Get_Instance(); RETURN_FAIL_IF_NULL(pInvenMgr);
-	//CInventory* pInven = pInvenMgr->GetInventory(); RETURN_FAIL_IF_NULL(pInven);
-	//m_listGO[]
-	//pInven->Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
-	//pInven->Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
-	//for (int i = 0; i<10; ++i)
-	//	pInven->Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, 0));
 
 	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
 	if (0 == _iLevel)
@@ -323,23 +315,53 @@ HRESULT CSpawner::Set_Visuable(Vector3 _vPlayerPos, _int _iRange, _int _iDepth)
 	if (MAX_DEPTH <= _iDepth)
 		return E_FAIL;
 
-	for (auto& GO : m_listGO[_iDepth])
+	for (int i = 0; i < MAX_DEPTH; ++i)
 	{
-		RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * ((_iRange << 1) + 1), TILECY * ((_iRange << 1) + 1)));
-		CTransform* pTransform = (CTransform*)GO->Get_Module(L"Transform");
-		if (nullptr == pTransform)
-			continue;
-		POINT pt;
-		pt.x = pTransform->Get_Position().x;
-		pt.y = pTransform->Get_Position().y;
-
-		if (PtInRect(&rc, pt))
+		for (auto& GO : m_listGO[i])
 		{
-			GO->Set_Visuable(true);
-			GO->Set_Visited(true);
+			//액티브가 안되있으면 무시
+			if (!GO->Get_Active())
+				continue;
+
+			RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * ((_iRange << 1) + 1), TILECY * ((_iRange << 1) + 1)));
+			CTransform* pTransform = (CTransform*)GO->Get_Module(L"Transform");
+			if (nullptr == pTransform)
+				continue;
+			POINT pt;
+			pt.x = pTransform->Get_Position().x;
+			pt.y = pTransform->Get_Position().y;
+
+			if (PtInRect(&rc, pt))
+			{
+				GO->Set_Visuable(true);
+				GO->Set_Visited(true);
+			}
+
 		}
 
+
 	}
+	return S_OK;
+}
+
+HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
+{
+	if (nullptr == _pInventory)
+		return E_FAIL;
+
+	//CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
+	//CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
+	//RETURN_FAIL_IF_NULL(pPlayer);
+	////기본템 생성
+	//m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
+	//m_listGO[0].back()->Interact(pPlayer);
+	//m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
+	//m_listGO[0].back()->Interact(pPlayer);
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, 0));
+	//	m_listGO[0].back()->Interact(pPlayer);
+	//}
 
 	return S_OK;
 }
@@ -366,29 +388,39 @@ CGameObject* CSpawner::PickObject(POINT& _pt, _uint _iLevel)
 	pt.x = (LONG)dst.x;
 	pt.y = (LONG)dst.y;
 
-
-	auto& iter = m_listGO[_iLevel].begin();
-	while (iter != m_listGO[_iLevel].end())
+	for (int i = 0; i < MAX_DEPTH; ++i)
 	{
-		//만약 지워진 오브젝트면 리스트에 지운다.
-		if (nullptr == *iter)
+		auto& iter = m_listGO[i].begin();
+		while (iter != m_listGO[i].end())
 		{
-			Safe_Release(*iter);
-			iter = m_listGO[_iLevel].erase(iter);
-		}
-		else
-		{
-			//오브젝트를 피킹한다.
-			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
-			if (nullptr != pTransform)
+			//만약 지워진 오브젝트면 리스트에 지운다.
+			if (nullptr == *iter)
 			{
-				if (PtInRect(&pTransform->Get_Collider(), pt))
-					return *iter;
+				Safe_Release(*iter);
+				iter = m_listGO[i].erase(iter);
+			}
+			else
+			{
+				//액티브 안된거면 피킹안함
+				if (!(*iter)->Get_Active())
+				{
+					++iter;
+					continue;
+				}
+
+				//오브젝트를 피킹한다.
+				CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
+				if (nullptr != pTransform)
+				{
+					if (PtInRect(&pTransform->Get_Collider(), pt))
+						return *iter;
+				}
+
+				++iter;
 			}
 
-			++iter;
-		}
 
+		}
 
 	}
 
@@ -431,7 +463,7 @@ CGameObject * CSpawner::PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform *
 			CTransform* pTransform = dynamic_cast<CTransform*>((*iter)->Get_Module(L"Transform"));
 			if (nullptr != pTransform && pSelfTransform != pTransform)
 			{
-				
+
 				if (PtInRect(&pTransform->Get_Collider(), pt))
 				{
 					return *iter;

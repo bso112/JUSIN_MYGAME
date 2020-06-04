@@ -7,6 +7,7 @@
 #include "Clock.h"
 #include "AIStateCon.h"
 #include "Shader.h"
+#include "QuestMgr.h"
 
 USING(MyGame)
 
@@ -89,7 +90,7 @@ HRESULT CGoo::Initialize(void * _param)
 	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
 
 	//idle애니메이션을 빠르게 한 것
-	Set_Module(L"gnoll_idle", SCENE_STAGE, (CModule**)&pTexture);
+	Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture);
 	CAnimation* pJumpAnim = CAnimation::Create(pTexture, 0.1, true);
 	m_pAnimator->Add_Animation(L"walk", pJumpAnim);
 
@@ -119,6 +120,7 @@ void CGoo::OnDead()
 	if (nullptr == m_pAnimator)
 		return;
 	m_pAnimator->Play(L"dead");
+	CQuestMgr::Get_Instance()->SetQuestEnd();
 }
 
 

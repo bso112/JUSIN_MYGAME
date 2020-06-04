@@ -77,8 +77,7 @@ _int CMainApp::Update(_double _timeDelta)
 	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
 	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
-	CKeyMgr::Get_Instance()->Key_Update();
-	
+	CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON);
 
 
 	CKeyMgr::Get_Instance()->Key_Pressing('D');
@@ -90,6 +89,7 @@ _int CMainApp::Update(_double _timeDelta)
 	CKeyMgr::Get_Instance()->Key_Pressing('Z');
 	CKeyMgr::Get_Instance()->Key_Pressing('X');
 
+	CKeyMgr::Get_Instance()->Key_Update();
 
 	m_pSceneMgr->Update(_timeDelta);
 
