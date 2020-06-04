@@ -119,13 +119,13 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 
 	}
 
-	OnTakeDamage(_fDamage);
 
 	_float fDamage = _fDamage - m_tStat.m_fArmor->GetValue();
-	m_tStat.m_fHP -= fDamage;
 
 	if (fDamage < 0)
 		fDamage = 0;
+	m_tStat.m_fHP -= fDamage;
+
 
 	if (m_tStat.m_fHP <= 0)
 	{
@@ -134,6 +134,7 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 		m_bDying = true;
 	}
 
+	OnTakeDamage(_fDamage);
 	return true;
 
 }

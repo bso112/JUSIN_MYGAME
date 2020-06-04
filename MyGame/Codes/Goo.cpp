@@ -31,9 +31,9 @@ HRESULT CGoo::Initialize(void * _param)
 
 	//스텟셋팅
 	m_tStat.m_fExp = 20.f;
-	m_tStat.m_fMaxHp = CStat::Create(400.f);
-	m_tStat.m_fHP = 400.f;
-	m_tStat.m_fAtt = CStat::Create(2.f, 10.f);
+	m_tStat.m_fMaxHp = CStat::Create(100.f);
+	m_tStat.m_fHP = 100.f;
+	m_tStat.m_fAtt = CStat::Create(5.f, 15.f);
 	m_tStat.m_iGold = 100;
 	m_tStat.m_fArmor = CStat::Create(5.f);
 #pragma endregion
@@ -91,11 +91,11 @@ HRESULT CGoo::Initialize(void * _param)
 
 	//idle애니메이션을 빠르게 한 것
 	Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pJumpAnim = CAnimation::Create(pTexture, 0.1, true);
-	m_pAnimator->Add_Animation(L"walk", pJumpAnim);
+	CAnimation* pWalkAnim = CAnimation::Create(pTexture, 0.1, true);
+	m_pAnimator->Add_Animation(L"walk", pWalkAnim);
 
 	//애니메이션의 관계설정
-	pAttackAnim->Set_NextAnim(pIdleAnim);
+	pAttackAnim->Set_NextAnim(pWalkAnim);
 
 	//기본 애니메이션 설정
 	m_pAnimator->Play(L"idle");

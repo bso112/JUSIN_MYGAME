@@ -235,7 +235,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 		tDesc.m_pItemName = L"라이트닝완드";
 		tDesc.m_pDescription = L"번개의 기운이 깃든 완드이다.";
 		tDesc.m_tBaseDesc = _tDesc;
-		tStats.m_fAtt = 10.f;
+		tStats.m_fAtt = 45.f;
 		tDesc.m_tStats = tStats;
 		CWand::STATEDESC tWandDesc;
 		tWandDesc.m_tItemDesc = tDesc;

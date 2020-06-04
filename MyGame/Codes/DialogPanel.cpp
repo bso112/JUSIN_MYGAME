@@ -127,6 +127,7 @@ HRESULT CDialogPanel::OnKeyDown(_int KeyCode)
 	if (!m_bActive)
 		return S_OK;
 
+	//유령을 클릭한 순간 판넬도 클릭으로 판정되서 바로 active false되버림. 따라서 카운트셈
 	++m_iClickCnt;
 
 	if (KeyCode == VK_LBUTTON)

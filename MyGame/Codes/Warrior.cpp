@@ -75,7 +75,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	m_tStat.m_fExp = 0.f;
 	m_tStat.m_fMaxHp = CStat::Create(1000.f);
 	m_tStat.m_fHP = m_tStat.m_fMaxHp->GetValue();
-	m_tStat.m_fAtt = CStat::Create(1.f, 5.f);
+	m_tStat.m_fAtt = CStat::Create(1.f, 12.f);
 	m_tStat.m_iGold = 0;
 	m_tStat.m_fArmor = CStat::Create(5.f);
 
@@ -320,7 +320,7 @@ HRESULT CWarrior::Render()
 	_tchar szBuff[MAX_PATH] = L"";
 	wsprintf(szBuff, L"X: %d, Y: %d", (_int)m_pTransform->Get_Position().x, (_int)m_pTransform->Get_Position().y);
 
-	g_pFont->DrawText(NULL, szBuff, -1, &m_pTransform->Get_RECT(), DT_CENTER | DT_VCENTER, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	g_pFont->DrawText(NULL, szBuff, -1, &Make_Rect(Vector2(300.f, 300.f), Vector2(300.f, 30.f)), DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 #endif // MYDEBUG
 
 
