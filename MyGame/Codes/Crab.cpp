@@ -32,7 +32,7 @@ HRESULT CCrab::Initialize(void * _param)
 	m_tStat.m_fMaxHp = CStat::Create(30.f);
 	m_tStat.m_fAtt = CStat::Create(2.f, 6.f);
 	m_tStat.m_iGold = 15;
-	m_tStat.m_fArmor = CStat::Create(3.f);
+	m_tStat.m_fArmor = CStat::Create(0.f);
 	m_tStat.m_fHP = 20.f;
 #pragma endregion
 

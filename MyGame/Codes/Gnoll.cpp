@@ -33,7 +33,7 @@ HRESULT CGnoll::Initialize(void * _param)
 	m_tStat.m_fMaxHp = CStat::Create(30.f);
 	m_tStat.m_fAtt = CStat::Create(2.f, 6.f);
 	m_tStat.m_iGold = 10;
-	m_tStat.m_fArmor = CStat::Create(4.f);
+	m_tStat.m_fArmor = CStat::Create(0.f);
 	m_tStat.m_fHP = 30.f;
 #pragma endregion
 

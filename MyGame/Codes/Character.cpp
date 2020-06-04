@@ -124,6 +124,9 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 	_float fDamage = _fDamage - m_tStat.m_fArmor->GetValue();
 	m_tStat.m_fHP -= fDamage;
 
+	if (fDamage < 0)
+		fDamage = 0;
+
 	if (m_tStat.m_fHP <= 0)
 	{
 		OnDead();

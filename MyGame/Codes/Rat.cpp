@@ -33,7 +33,7 @@ HRESULT CRat::Initialize(void * _param)
 	m_tStat.m_fHP = 25.f;
 	m_tStat.m_fAtt = CStat::Create(1.f, 5.f);
 	m_tStat.m_iGold = 5;
-	m_tStat.m_fArmor = CStat::Create(2.f);
+	m_tStat.m_fArmor = CStat::Create(0.f);
 #pragma endregion
 
 #pragma region 모듈셋팅

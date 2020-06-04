@@ -97,13 +97,10 @@ HRESULT CInventory::Initialize(void * _pArg)
 		}
 	}
 
-#ifndef DEBUG
-	Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
-	Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
-#endif // !DEBUG
 
 
-
+	RECT rc = m_pTransform->Get_RECT();
+	m_tTitlePlaceHolder = Make_Rect(Vector2(rc.left + 50.f + 37.f, rc.top +37.f), Vector2(100.f, 40.f, 1.f));
 	return S_OK;
 }
 
@@ -141,6 +138,7 @@ HRESULT CInventory::Render()
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
 
+	g_pFontX3->DrawText(NULL, L"¹è³¶", -1,&m_tTitlePlaceHolder, DT_LEFT, COLOT_YELLOW);
 	ALPHABLEND_END;
 	return S_OK;
 
@@ -226,9 +224,11 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 		{
 			//±× ½½·Ô¿¡ ³Ö´Â´Ù.
 			pSlot->Add_Item(_pItem);
+			_pItem->SetDrop(false);
 			break;
 		}
 	}
+
 	return S_OK;
 }
 

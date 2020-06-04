@@ -209,13 +209,14 @@ HRESULT CItemSlot::Render()
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
 
-	if (m_listItem.size() > 0)
-	{
-		if (FAILED(m_listItem.front()->Render()))
-			return E_FAIL;
-	}
+	//if (m_listItem.size() > 0)
+	//{
+	//	if (FAILED(m_listItem.front()->Render()))
+	//		return E_FAIL;
+	//}
 
-	if (!m_bEquipmentslot)
+	//장비슬롯이 아니고, 아이템이 하나이상이며, stackable이면 갯수 출력
+	if (!m_bEquipmentslot && m_listItem.size() > 0 && m_listItem.back()->IsStackable())
 	{
 		_tchar szBuff[MAX_PATH] = L"";
 		wsprintf(szBuff, L"%d", (_int)m_listItem.size());

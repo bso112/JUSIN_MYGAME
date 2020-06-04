@@ -23,6 +23,8 @@ USING(MyGame)
 ID3DXFont* g_pFont = nullptr;
 //사이즈 2배
 ID3DXFont* g_pFontX2 = nullptr;
+ID3DXFont* g_pFontX3 = nullptr;
+
 
 CMainApp::CMainApp()
 	:m_pSceneMgr(CSceneMgr::Get_Instance())
@@ -161,6 +163,7 @@ HRESULT CMainApp::Initalize_Default_Setting()
 	//폰트셋팅
 	D3DXCreateFont(m_pGraphic_Device, 0, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFont);
 	D3DXCreateFont(m_pGraphic_Device, 35, 13, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFontX2);
+	D3DXCreateFont(m_pGraphic_Device, 45, 18, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"pixel", &g_pFontX3);
 
 
 	return S_OK;
@@ -254,6 +257,7 @@ void CMainApp::Free()
 
 	Safe_Release(g_pFont);
 	Safe_Release(g_pFontX2);
+	Safe_Release(g_pFontX3);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pSceneMgr);
 

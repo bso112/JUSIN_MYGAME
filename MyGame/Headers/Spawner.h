@@ -7,6 +7,7 @@ BEGIN(MyGame)
 */
 class CGameObject;
 class CTransform;
+//스포너에 등록해야 전장의 안개할때 피킹해서 visuable 체크할 수 있음.
 class CSpawner : public CBase
 {
 	DECLARE_SINGLETON(CSpawner)

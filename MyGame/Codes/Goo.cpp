@@ -34,7 +34,7 @@ HRESULT CGoo::Initialize(void * _param)
 	m_tStat.m_fHP = 400.f;
 	m_tStat.m_fAtt = CStat::Create(2.f, 10.f);
 	m_tStat.m_iGold = 100;
-	m_tStat.m_fArmor = CStat::Create(4.f);
+	m_tStat.m_fArmor = CStat::Create(5.f);
 #pragma endregion
 
 #pragma region 모듈셋팅

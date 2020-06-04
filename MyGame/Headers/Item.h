@@ -82,6 +82,7 @@ public:
 	const _tchar*	Get_Name(){ return m_pItemName; }
 	_bool	IsDrop() { return m_bDrop; }
 	_bool	IsUsed() { return m_bUsed; }
+	void	SetDrop(_bool _bDrop) { m_bDrop = _bDrop; }
 	
 public:
 	virtual	_int	Interact(CGameObject* _pOther) override;
@@ -94,6 +95,7 @@ public:
 	void	Drop(Vector3 _vDropPos);
 	virtual void	Throw(POINT& _pt);
 	_bool	CanStackWith(CItem* pItem);
+	_bool	IsStackable() { return m_bStackable; }
 protected:
 	virtual	void OnThrowStart();
 	virtual	void OnThrowEnd();

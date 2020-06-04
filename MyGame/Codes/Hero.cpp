@@ -74,6 +74,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			m_pItemToThrow->Throw(pt);
 			m_bThrowMode = false;
 			m_pItemToThrow = nullptr;
+			//턴이동
+			CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
 			//끝낸다.
 			return S_OK;
 		}
@@ -86,6 +88,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			}
 			m_pWandToZap->Zap(m_pTransform->Get_Position(), pt);
 			m_bZapMode = false;
+			//턴이동
+			CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
 			return S_OK;
 		}
 #pragma endregion

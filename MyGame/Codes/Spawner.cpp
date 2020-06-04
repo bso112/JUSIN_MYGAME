@@ -22,6 +22,7 @@
 #include "Smoke.h"
 #include "Ghost.h"
 #include "Goo.h"
+#include "InventoryUIMgr.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -106,6 +107,15 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 
 	m_listCharacter[_iLevel].push_back(pObjMgr->Get_Player(SCENE_STAGE));
+
+	////기본템 생성
+	//CInventoryUIMgr* pInvenMgr = CInventoryUIMgr::Get_Instance(); RETURN_FAIL_IF_NULL(pInvenMgr);
+	//CInventory* pInven = pInvenMgr->GetInventory(); RETURN_FAIL_IF_NULL(pInven);
+	//m_listGO[]
+	//pInven->Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
+	//pInven->Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
+	//for (int i = 0; i<10; ++i)
+	//	pInven->Put_Item(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, 0));
 
 	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
 	if (0 == _iLevel)

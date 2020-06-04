@@ -38,6 +38,7 @@ private:
 	vector<CItemSlot*>	m_vecItemSlot;
 	//열쇠는 자주검색되기 때문에 따로 갖고있는다.
 	vector<CKey*>		m_vecKey;
+	RECT				m_tTitlePlaceHolder;
 public:
 	HRESULT	Initialize_Prototype();
 	HRESULT	Initialize(void* _pArg);
