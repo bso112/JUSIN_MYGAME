@@ -334,7 +334,6 @@ void CParticleSystem::SmokeUp(RECT & _rc, _uint _iParticleCnt)
 
 		pParticleTransform->Set_Parent(m_pTransform);
 		pParticleTransform->Expand_Auto(m_tDesc.m_vParticleSize);
-		//¾ÈµÊ.. ¿Ö?
 		pParticleTransform->Rotate_Auto(D3DXToRadian(60.f));
 		((CParticle*)particle)->Set_FadeOut();
 	}

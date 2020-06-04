@@ -11,6 +11,7 @@
 #include "TileLoader.h"
 #include "Spawner.h"
 #include "LevelMgr.h"
+#include "Image.h"
 USING(MyGame)
 
 
@@ -188,8 +189,8 @@ HRESULT CLevel::Erase_Mask(POINT & _pt)
 	D3DXVec4Transform(&vPos, &vPos, &CPipline::Get_Instance()->Get_CameraMatrix());
 
 	POINT pt;
-	pt.x = vPos.x;
-	pt.y = vPos.y;
+	pt.x = (LONG)vPos.x;
+	pt.y = (LONG)vPos.y;
 
 	auto& iter = m_vecMask.begin();
 	while (iter != m_vecMask.end())
@@ -737,7 +738,7 @@ CTerrain * CLevel::Pick_Tile(POINT & _pt)
 	}
 
 	//¸¶¿ì½º ÁÂÇ¥ º¯È¯
-	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
+	Vector4 dst = Vector4((_float)_pt.x, (_float)_pt.y, 0.f, 1.f);
 	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix_inverse());
 
 	_uint x = (_uint)dst.x / TILECX;
@@ -832,13 +833,13 @@ HRESULT CLevel::Set_Visuable(Vector3 _vPlayerPos, _int _iRange)
 
 	for (auto& mask : m_vecMask)
 	{
-		RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * ((_iRange << 1) + 1), TILECY * ((_iRange << 1) + 1)));
+		RECT rc = Make_Rect(_vPlayerPos, Vector2(TILECX * (_float)((_iRange << 1) + 1), TILECY * (_float)((_iRange << 1) + 1)));
 		CTransform* pTransform = (CTransform*)mask->Get_Module(L"Transform");
 		if (nullptr == pTransform)
 			continue;
 		POINT pt;
-		pt.x = pTransform->Get_Position().x;
-		pt.y = pTransform->Get_Position().y;
+		pt.x = (LONG)pTransform->Get_Position().x;
+		pt.y = (LONG)pTransform->Get_Position().y;
 
 		if (PtInRect(&rc, pt))
 		{
@@ -852,6 +853,42 @@ HRESULT CLevel::Set_Visuable(Vector3 _vPlayerPos, _int _iRange)
 
 
 
+}
+HRESULT CLevel::Explore(Vector3 _vPos)
+{
+	_int tileX = _vPos.x / TILECX;
+	_int tileY = _vPos.y / TILECY;
+
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pObjMgr);
+	for (int i = tileY - 1; i < tileY + 1; ++i)
+	{
+		for (int j = tileX - 1; j < tileX + 1; ++j)
+		{
+			if (nullptr != m_pTerrains[i][j])
+			{
+				//m_pTerrains[i][j]->Reveal();
+				////Å½»ç ÀÌÆåÆ®
+				//CTransform* pTerrainTransform = (CTransform*)m_pTerrains[i][j]->Get_Module(L"Transform");
+				//RETURN_FAIL_IF_NULL(pTerrainTransform);
+				//CImage::STATEDESC desc;
+				//desc.m_dLifeTime = 0.5;
+				//desc.m_eTextureSceneID = SCENE_STAGE;
+				//desc.m_pTextureTag = L"explore";
+				//desc.m_tBaseDesc = BASEDESC(pTerrainTransform->Get_Position(), Vector2(TILECX, TILECY));
+				//CImage* pImge =(CImage*) pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, CImage::Create(m_pGraphic_Device, &desc));
+				//pImge->Set_FadeOut();
+				//pImge->Set_UI(false);
+				//if (nullptr == pImge) return E_FAIL;
+				//CTransform* pImgTransform = (CTransform*)pImge->Get_Module(L"Transform"); RETURN_FAIL_IF_NULL(pImgTransform);
+				//pImgTransform->Shrink_Auto(Vector2(TILECX, TILECY));
+
+
+			}
+		}
+	}
+
+	return S_OK;
 }
 HRESULT CLevel::Save_World(const _tchar* _filePath)
 {

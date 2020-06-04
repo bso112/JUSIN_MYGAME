@@ -232,6 +232,7 @@
     <ClInclude Include="..\Headers\PlayerStateCon.h" />
     <ClInclude Include="..\Headers\PoisionPotion.h" />
     <ClInclude Include="..\Headers\Potion.h" />
+    <ClInclude Include="..\Headers\QuestMgr.h" />
     <ClInclude Include="..\Headers\Scene_Loading.h" />
     <ClInclude Include="..\Headers\Smoke.h" />
     <ClInclude Include="..\Headers\StatsPanel.h" />
@@ -349,6 +350,7 @@
     <ClCompile Include="..\Codes\PlayerStateCon.cpp" />
     <ClCompile Include="..\Codes\PoisionPotion.cpp" />
     <ClCompile Include="..\Codes\Potion.cpp" />
+    <ClCompile Include="..\Codes\QuestMgr.cpp" />
     <ClCompile Include="..\Codes\Scene_Loading.cpp" />
     <ClCompile Include="..\Codes\Smoke.cpp" />
     <ClCompile Include="..\Codes\StatsPanel.cpp" />

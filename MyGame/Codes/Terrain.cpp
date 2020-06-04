@@ -104,6 +104,7 @@ HRESULT CTerrain::Render()
 		OnHidden();
 	}
 
+
 	m_pTransform->Update_Transform();
 
 	ALPHATEST;
@@ -313,6 +314,10 @@ HRESULT CTerrain::OnLoadData()
 }
 
 void CTerrain::OnHidden()
+{
+}
+
+void CTerrain::OnReveal()
 {
 }
 

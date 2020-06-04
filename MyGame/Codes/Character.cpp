@@ -26,7 +26,6 @@ CCharacter::CCharacter(CCharacter & _character)
 	m_tStat(_character.m_tStat),
 	m_vecImmune(_character.m_vecImmune)
 {
-	m_pEffect = nullptr;
 	m_pDeadClock = CClock_Delay::Create();
 	m_pBuffCon = CBuffController::Create(m_pGraphic_Device);
 }
@@ -373,7 +372,6 @@ void CCharacter::OnAttack(CGameObject * _pOther)
 
 void CCharacter::Free()
 {
-	Safe_Release(m_pEffect);
 	Safe_Release(m_pDeadClock);
 	Safe_Release(m_pTransform);
 	Safe_Release(m_pVIBuffer);

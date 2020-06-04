@@ -33,6 +33,7 @@ public:
 	HRESULT	UnEquip(BODYPART _eBodyPart);
 	HRESULT	Zap(CWand* _pWand);
 	void	Set_Cloth(CLOTH _eCloth);
+	HRESULT	Explore();
 
 public:
 	_bool	Has_Key();

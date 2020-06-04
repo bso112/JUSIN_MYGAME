@@ -49,6 +49,7 @@ public:
 protected:
 	virtual void OnCollisionEnterTerrain(CGameObject* _pOther);
 	virtual	void	OnHidden();
+	virtual void	OnReveal();
 
 
 };

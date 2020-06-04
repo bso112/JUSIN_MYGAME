@@ -139,7 +139,6 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 		}
 
-
 	}
 
 	return S_OK;
@@ -262,10 +261,17 @@ HRESULT CHero::Zap(CWand * _pWand)
 
 void CHero::Set_Cloth(CLOTH _eCloth)
 {
-	if (CLOTH_END <= _eCloth) 
-		return; 
+	if (CLOTH_END <= _eCloth)
+		return;
 	m_eCurrCloth = _eCloth;
 	m_pAnimator[m_eCurrCloth]->Play(L"idle");
+}
+
+HRESULT CHero::Explore()
+{
+	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pLevelMgr);
+	return pLevelMgr->Explore(m_pTransform->Get_Position());
 }
 
 void CHero::Free()

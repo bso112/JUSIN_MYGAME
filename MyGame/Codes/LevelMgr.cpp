@@ -171,6 +171,11 @@ HRESULT CLevelMgr::Set_Visuable(Vector3 _vPos, _int _iRange)
 	return S_OK;
 }
 
+HRESULT CLevelMgr::Explore(Vector3 _vPos)
+{
+	return m_aLevel[Get_CurrDepth()]->Explore(_vPos);
+}
+
 
 CTerrain * CLevelMgr::PickTile(POINT & pt)
 {

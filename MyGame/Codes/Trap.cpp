@@ -86,6 +86,15 @@ void CTrap::OnHidden()
 	m_iCurFrame = 5;
 }
 
+void CTrap::OnReveal()
+{
+	//타입 정하기
+	if (TYPE_END <= m_eType)
+		return;
+
+	m_iCurFrame = (_int)m_eType;
+}
+
 HRESULT CTrap::OnLoadData()
 {
 	//타입 정하기

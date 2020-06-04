@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 class CTexture;
 class CAIStateCon;
+class CItem;
 class CGhost final : public CMonster
 {
 private:
@@ -16,9 +17,13 @@ public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 
 private:
-	const _tchar* m_pDialogue;
+	vector<CItem*>	m_vecReward;
+	const _tchar* m_pDialogueForStart;
+	const _tchar* m_pDialogueForEnd;
+
 public:
 	virtual	_int	Interact(CGameObject* _pOther);
+
 public:
 	static CGhost* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	// CMonster을(를) 통해 상속됨

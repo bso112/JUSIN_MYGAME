@@ -115,7 +115,7 @@ public:
 	SAVE_DATA	Get_SaveData();
 	HRESULT		Load_Data(SAVE_DATA& _eSaveData);
 	void		Hide() { m_bHidden = true; }
-	void		Reveal() { m_bHidden = false; }
+	void		Reveal() { m_bHidden = false; OnReveal(); }
 	bool		IsHidden() { return m_bHidden; }
 	//원래부터 movable이고, _pTransform 이외의 누군가 서있지 않으면 갈 수 있다.
 	bool		IsMovable(CTransform* _pTransform);
@@ -149,6 +149,7 @@ protected:
 	//Terrain을 로드할때 하위클래스에 맞는 데이터로 셋팅함.
 	virtual HRESULT	OnLoadData();
 	virtual	void	OnHidden();
+	virtual void	OnReveal();
 public:
 	static CTerrain*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, TERRAIN _tData, const _tchar* _pTextureTag, SCENEID _eTextureScene, const _tchar* _pLayerTag = nullptr, _tchar* _pFilePath = nullptr);
 	virtual CGameObject* Clone(void * _param = nullptr);

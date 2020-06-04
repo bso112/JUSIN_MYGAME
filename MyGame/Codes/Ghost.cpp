@@ -8,6 +8,8 @@
 #include "AIStateCon.h"
 #include "Shader.h"
 #include "StageUIMgr.h"
+#include "QuestMgr.h"
+#include "ItemFactory.h"
 USING(MyGame)
 
 CGhost::CGhost(CGhost & _rhs)
@@ -93,7 +95,11 @@ HRESULT CGhost::Initialize(void * _param)
 
 	CMonster::Initialize(_param);
 
-	m_pDialogue = L"반갑네 전사여... 한때 난 당신처럼 자신감 넘치고 강한 모험가였다네... 하지만 난 비겁한 적에게 죽어버렸네.. 그래서 난 이 곳을 떠날 수 없지... 복수를 하기 전까진 말야.. 검은 슬라임을 죽여줘.. 놈이 내 목숨을 앗아갔으니..";
+	m_pDialogueForStart = L"반갑네 전사여... 한때 난 당신처럼 자신감 넘치고 강한 모험가였다네... 하지만 난 비겁한 적에게 죽어버렸네.. 그래서 난 이 곳을 떠날 수 없지... 복수를 하기 전까진 말야.. 검은 슬라임을 죽여줘.. 놈이 내 목숨을 앗아갔으니..";
+	m_pDialogueForEnd = L"고맙네.. 여기 내가 간직해둔 보물이네. 이제 자네의 것이네...";
+
+	m_vecReward.push_back(CItemFactory::Make_Item(BASEDESC(Vector3(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, 1));
+	//마비저항의 옷도 
 
 	return S_OK;
 }
@@ -101,11 +107,20 @@ HRESULT CGhost::Initialize(void * _param)
 
 _int CGhost::Interact(CGameObject * _pOther)
 {
+	CQuestMgr* pQuestMgr = CQuestMgr::Get_Instance();
+	if (nullptr == pQuestMgr) return -1;
+	//퀘스트 시작안했으면 시작
+	if(!pQuestMgr->IsQuestStart())
+		pQuestMgr->SetQuestStart();
+
+	//다이어로그 패널 셋팅
 	CStageUIMgr* m_pUIMgr = CStageUIMgr::Get_Instance();
 	if (nullptr == m_pUIMgr) return -1;
 	m_pUIMgr->SetActiveDialogPanel();
-	m_pUIMgr->SetDialogInfo(L"ghost", SCENE_STAGE, L"슬픈 유령", m_pDialogue);
-
+	const _tchar* _pDialogue = pQuestMgr->IsQuestEnd() ? m_pDialogueForEnd : m_pDialogueForStart;
+	m_pUIMgr->SetDialogInfo(L"ghost", SCENE_STAGE, L"슬픈 유령", _pDialogue);
+	if (pQuestMgr->IsQuestEnd())
+		pQuestMgr->Reward(&m_vecReward);
 	return 0;
 }
 

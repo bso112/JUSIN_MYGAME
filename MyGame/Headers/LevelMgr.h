@@ -26,6 +26,8 @@ public:
 	_int	Get_CurrDepth();
 	void	Clear_DeadObjects();
 	HRESULT	Set_Visuable(Vector3 _vPos, _int _iRange);
+	HRESULT	Explore(Vector3 _vPos);
+
 public:
 	HRESULT Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device);
 	HRESULT	Initialize();

@@ -144,11 +144,11 @@ public:
 public:
 	HRESULT MoveToDirAuto(Vector3 _vDir);
 	HRESULT	MoveToDirAuto(Vector3 _vDir, _double _timeDelta, _double _Speed);
-	//크기가 작아진다.
+	//크기가 작아진다. _vShrink : 초당 작아지는 정도
 	HRESULT	Shrink_Auto(Vector2 _vShrink);
-	//크기가 커진다.
+	//크기가 커진다.	_vExpand : 초당 커지는 정도
 	HRESULT	Expand_Auto(Vector2 _vExpand);
-	//회전한다.
+	//회전한다.		radianPerSec : 초당 회전하는 정도
 	HRESULT	Rotate_Auto(_float	radianPerSec);
 
 

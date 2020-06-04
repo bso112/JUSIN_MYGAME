@@ -68,6 +68,7 @@ public:
 
 	void	SetActive(_bool _bActive);
 	HRESULT	Set_Visuable(Vector3 _vPlayerPos, _int _iRange);
+	HRESULT	Explore(Vector3 _vPos);
 public:
 	HRESULT	Save_World(const _tchar* _filePath);
 	//지형의 프로토타입이 있다고 가정하고 로드한다.
