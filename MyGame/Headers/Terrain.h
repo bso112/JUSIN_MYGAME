@@ -115,7 +115,7 @@ public:
 	SAVE_DATA	Get_SaveData();
 	HRESULT		Load_Data(SAVE_DATA& _eSaveData);
 	void		Hide() { m_bHidden = true; }
-	void		Reveal() { m_bHidden = false; OnReveal(); }
+	void		Reveal();
 	bool		IsHidden() { return m_bHidden; }
 	//원래부터 movable이고, _pTransform 이외의 누군가 서있지 않으면 갈 수 있다.
 	bool		IsMovable(CTransform* _pTransform);

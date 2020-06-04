@@ -5,7 +5,8 @@
 #include "Effect.h"
 #include "Transform.h"
 #include "DialogMgr.h"
-
+#include "Texture.h"
+#include "ParticleSystem.h"
 USING(MyGame)
 
 CTrap::CTrap(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -92,7 +93,26 @@ void CTrap::OnReveal()
 	if (TYPE_END <= m_eType)
 		return;
 
+	//원래 모습으로 
 	m_iCurFrame = (_int)m_eType;
+	//예외처리
+	if (m_pTexture->Get_TextureSize() <= m_iCurFrame)
+		m_iCurFrame = m_pTexture->Get_TextureSize() - 1;
+
+	//반짝반짝
+	CParticleSystem::STATEDESC desc;
+	desc.m_tBaseDesc.vPos = m_pTransform->Get_Position();
+	desc.m_pTextureTag = L"shine";
+	desc.m_eTextureSceneID = SCENE_STAGE;
+	desc.m_dDuration = 0.5f;
+	desc.m_dLifeTime = 0.5f;
+	desc.m_fSpeed = 300.f;
+	desc.m_vParticleSize = Vector2(20.f, 20.f);
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	CParticleSystem* pParticleSystem = dynamic_cast<CParticleSystem*>(pObjMgr->Add_GO_To_Layer(L"ParticleSystem", SCENE_STATIC, L"ParticleSystem", SCENE_STAGE, &desc));
+	//피가 튀긴다.
+	pParticleSystem->SmokeUp(m_pTransform->Get_RECT(), 5);
+
 }
 
 HRESULT CTrap::OnLoadData()

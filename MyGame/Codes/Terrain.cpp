@@ -207,6 +207,15 @@ HRESULT CTerrain::Load_Data(SAVE_DATA& _eSaveData)
 	return S_OK;
 }
 
+void CTerrain::Reveal()
+{
+	//이미 밝혀져있으면 리턴
+	if (!m_bHidden)
+		return; 
+	m_bHidden = false; 
+	OnReveal();
+}
+
 
 
 
