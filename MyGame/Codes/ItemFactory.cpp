@@ -39,7 +39,7 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 
 
-CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
+CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID)
 {
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr)
@@ -52,17 +52,6 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level)
 	CItem::STATEDESC tDesc;
 	CItem::STATS tStats;
 	const _tchar* layerTag = L"Item";
-	switch (_level)
-	{
-	case 1:
-		layerTag = L"Item";
-	case 2:
-		layerTag = L"Item_lv2";
-	case 3:
-		layerTag = L"Item_lv3";
-	default:
-		break;
-	}
 
 	switch (_eID)
 	{

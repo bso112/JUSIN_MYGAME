@@ -17,6 +17,10 @@ bool CCollisionMgr::Collision_Rect(list<CGameObject*> _Dst, list<CGameObject*> _
 	
 	for (auto& Dst : _Dst)
 	{	
+		if (nullptr == Dst ||
+			(nullptr != Dst && !Dst->Get_Active()))
+			continue;
+
 		CTransform* pDstTransform = (CTransform*)Dst->Get_Module(L"Transform");
 		
 		if (nullptr == pDstTransform)
@@ -24,6 +28,10 @@ bool CCollisionMgr::Collision_Rect(list<CGameObject*> _Dst, list<CGameObject*> _
 
 		for (auto& Src : _Src)
 		{	
+
+			if (nullptr == Src ||
+				(nullptr != Src && !Src->Get_Active()))
+				continue;
 
 			CTransform* pSrcTransform = (CTransform*)Src->Get_Module(L"Transform");
 			
@@ -90,6 +98,11 @@ bool CCollisionMgr::GameObjectInTile(list<CGameObject*> _listObj, list<CGameObje
 
 	for (auto& pObj : _listObj)
 	{
+
+		if (nullptr == pObj ||
+			(nullptr != pObj && !pObj->Get_Active()))
+			continue;
+
 		CTransform* pObjTransform = (CTransform*)pObj->Get_Module(L"Transform");
 
 		if (nullptr == pObjTransform)
@@ -97,6 +110,11 @@ bool CCollisionMgr::GameObjectInTile(list<CGameObject*> _listObj, list<CGameObje
 
 		for (auto& pTile : _listTerrain)
 		{
+
+
+			if (nullptr == pTile ||
+				(nullptr != pTile && !pTile->Get_Active()))
+				continue;
 
 			CTransform* pTileTransform = (CTransform*)pTile->Get_Module(L"Transform");
 

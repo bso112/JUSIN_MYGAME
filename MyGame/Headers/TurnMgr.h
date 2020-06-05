@@ -2,7 +2,7 @@
 #include "Base.h"
 
 BEGIN(MyGame)
-#define	MAX_LAYER_CNT 4
+#define	MAX_LAYER_CNT 3
 class CLayer;
 class CGameObject;
 /*

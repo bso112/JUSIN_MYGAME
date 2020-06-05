@@ -39,7 +39,7 @@ private:
 
 public:
 	static HRESULT	Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device);
-	static CItem*	Make_Item(BASEDESC _tDesc, ITEM_ID _eID, _int _level);
+	static CItem*	Make_Item(BASEDESC _tDesc, ITEM_ID _eID);
 
 
 };

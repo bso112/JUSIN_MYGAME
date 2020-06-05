@@ -50,17 +50,6 @@ HRESULT CTurnMgr::Initialize()
 	m_pActorLayers[2] = pLayer;
 	Safe_AddRef(m_pActorLayers[2]);
 
-	pLayer = pObjMgr->Find_Layer(L"Monster_lv2", SCENE_STAGE);
-	if (nullptr == pLayer)
-		MSG_BOX("몬스터 레이어가 없습니다.");
-
-	m_pActorLayers[3] = pLayer;
-	Safe_AddRef(m_pActorLayers[3]);
-
-
-
-
-
 
 	return S_OK;
 }

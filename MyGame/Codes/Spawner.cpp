@@ -109,7 +109,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	m_listCharacter[_iLevel].push_back(pObjMgr->Get_Player(SCENE_STAGE));
 
 
-	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
+	//레벨마다 액티브 제어하기 위해 분리
 	if (0 == _iLevel)
 	{
 
@@ -146,61 +146,61 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 
 		////아이템 만들기
 		ranPos = pWorld->Get_RandomPos();
-		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD, _iLevel);
+		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LETHERARMOR, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LETHERARMOR);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_FIREPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_FIREPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 
 
@@ -213,69 +213,69 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 			Safe_AddRef(GO);
 		}
 	}
-	//레벨마다 다른 몬스터를 피킹할 수 있어야한다.
+	
 	if (1 == _iLevel)
 	{
 
 		Vector3 ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Rat", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &Vector3(5263.f, 5235.f, 1.f)));
-		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
-		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5263.f, 5235.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
+		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item_lv2", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &ranPos));
 
 
 		////아이템 만들기
 		ranPos = pWorld->Get_RandomPos();
-		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD, _iLevel);
+		CItem* pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_SHORTSWORD);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_BATTLEAXE);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LONGSWORD);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION, _iLevel);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, _iLevel);
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
+		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+		ranPos = pWorld->Get_RandomPos();
+		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 
 
@@ -354,18 +354,18 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	RETURN_FAIL_IF_NULL(pPlayer);
 
 	//기본템 생성
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION));
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 	_pInventory->Put_Item(pItem);
 
 
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION));
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 	_pInventory->Put_Item(pItem);
 
 	for (int i = 0; i < 10; ++i)
 	{
-		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, 0));
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 		_pInventory->Put_Item(pItem);
 	}

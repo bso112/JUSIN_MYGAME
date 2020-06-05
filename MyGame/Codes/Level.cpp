@@ -1051,6 +1051,9 @@ HRESULT CLevel::Initalize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, SCENEID 
 
 HRESULT CLevel::Collision_Terrain(CGameObject* _pObj)
 {
+	if (nullptr == _pObj ||
+		(nullptr != _pObj && !_pObj->Get_Active()))
+		return E_FAIL;
 
 	CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, _pObj), m_listCollidable);
 	return S_OK;

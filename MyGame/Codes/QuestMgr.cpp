@@ -13,7 +13,7 @@ HRESULT CQuestMgr::Reward(vector<CItem*>* _pItem)
 	
 	while (!_pItem->empty())
 	{
-		pInven->Put_Item(_pItem->back());
+		pInven->Put_Item(_pItem->back(), true);
 		_pItem->pop_back();
 	}
 

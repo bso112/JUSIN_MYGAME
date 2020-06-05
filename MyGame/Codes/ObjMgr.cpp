@@ -49,96 +49,36 @@ _int CObjMgr::Update(_double _timeDelta)
 	CLevelMgr*	pLevelMgr = CLevelMgr::Get_Instance();
 	if (nullptr == pLevelMgr) return -1;
 	_int iCurrDepth = pLevelMgr->Get_CurrDepth();
-	if (0 == iCurrDepth)
+
+	CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
+	if (nullptr == pWorld)
+		return -1;
+
+	CLayer* pItemLayer = Find_Layer(L"Item", SCENE_STAGE);
+
+	CGameObject* pPlayer = Get_Player(SCENE_STAGE);
+	if (nullptr == pPlayer)
+		return -1;
+
+	CLayer* pMonsterLayer = Find_Layer(L"Monster", SCENE_STAGE);
+	if (nullptr == pMonsterLayer)
+		return -1;
+
+	////鸥老苞 面倒贸府
+	pWorld->Collision_Terrain(pPlayer);
+	pWorld->Collision_Terrain(pMonsterLayer->Get_List());
+	pWorld->Collision_Terrain(pItemLayer->Get_List());
+
+	//捞棋飘 面倒贸府
+	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
+	if (nullptr != pEffectLayer)
 	{
-		CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
-		if (nullptr == pWorld)
-			return -1;
-
-		CGameObject* pPlayer = Get_Player(SCENE_STAGE);
-		if (nullptr == pPlayer)
-			return -1;
-
-		CLayer* pMonsterLayer = Find_Layer(L"Monster", SCENE_STAGE);
-		if (nullptr == pMonsterLayer)
-			return -1;
-
-		//CLayer* pPlayerLayer = Find_Layer(L"Player", SCENE_STAGE);
-		//if (nullptr == pPlayerLayer) return -1;
-		CLayer* pItemLayer = Find_Layer(L"Item", SCENE_STAGE);
-		if (nullptr == pItemLayer) return -1;
-
-		////鸥老苞 面倒贸府
-		pWorld->Collision_Terrain(pPlayer);
-		pWorld->Collision_Terrain(pMonsterLayer->Get_List());
-		pWorld->Collision_Terrain(pItemLayer->Get_List());
-
-
-		//捞棋飘 面倒贸府
-		CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
-		if (nullptr != pEffectLayer)
-		{
-			CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pEffectLayer->Get_List());
-			CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
-		}
-
-		//CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
-		CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
-		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pItemLayer->Get_List());
-
-
-	}
-	else if (1 == iCurrDepth)
-	{
-		CLevel* pWorld = CLevelMgr::Get_Instance()->Get_CurrLevel();
-		if (nullptr == pWorld)
-			return -1;
-
-		CGameObject* pPlayer = Get_Player(SCENE_STAGE);
-		if (nullptr == pPlayer)
-			return -1;
-
-		CLayer* pMonsterLayer = Find_Layer(L"Monster_lv2", SCENE_STAGE);
-		if (nullptr == pMonsterLayer)
-			return -1;
-
-		//CLayer* pPlayerLayer = Find_Layer(L"Player", SCENE_STAGE);
-		//if (nullptr == pPlayerLayer) return -1;
-		CLayer* pItemLayer = Find_Layer(L"Item_lv2", SCENE_STAGE);
-		if (nullptr == pItemLayer) return -1;
-
-		////鸥老苞 面倒贸府
-		pWorld->Collision_Terrain(pPlayer);
-		pWorld->Collision_Terrain(pMonsterLayer->Get_List());
-		pWorld->Collision_Terrain(pItemLayer->Get_List());
-
-
-		//捞棋飘 面倒贸府
-		CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
-		if (nullptr != pEffectLayer)
-		{
-			CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pEffectLayer->Get_List());
-			CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
-		}
-
-		//CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pMonsterLayer->Get_List());
-		CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
-		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pItemLayer->Get_List());
-
-		//饭捞历 面倒贸府
-		CLayer* pLaserLayer = Find_Layer(L"Laser", SCENE_STAGE);
-		if (nullptr != pLaserLayer)
-		{
-			CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pLaserLayer->Get_List());
-			CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pLaserLayer->Get_List());
-		}
+		CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pEffectLayer->Get_List());
+		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
 	}
 
-
-
-
-
-
+	CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
+	CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pItemLayer->Get_List());
 
 
 

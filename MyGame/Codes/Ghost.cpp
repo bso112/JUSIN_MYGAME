@@ -100,7 +100,7 @@ HRESULT CGhost::Initialize(void * _param)
 	m_pDialogueForStart = L"반갑네 전사여... 한때 난 당신처럼 자신감 넘치고 강한 모험가였다네... 하지만 난 비겁한 적에게 죽어버렸네.. 그래서 난 이 곳을 떠날 수 없지... 복수를 하기 전까진 말야.. 검은 슬라임을 죽여줘.. 놈이 내 목숨을 앗아갔으니..";
 	m_pDialogueForEnd = L"고맙네.. 여기 내가 간직해둔 보물이네. 이제 자네의 것이네...";
 
-	m_vecReward.push_back(CItemFactory::Make_Item(BASEDESC(Vector3(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, 1));
+	m_vecReward.push_back(CItemFactory::Make_Item(BASEDESC(Vector3(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND));
 	//마비저항의 옷도 
 
 
