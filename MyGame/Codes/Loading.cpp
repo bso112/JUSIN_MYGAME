@@ -110,7 +110,7 @@ HRESULT CLoading::Initialize_Stage()
 	pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
 
 
-
+	
 	//·»´õÅ¸°Ù »ý¼º
 	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pTargetMgr);

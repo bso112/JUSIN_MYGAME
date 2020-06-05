@@ -49,7 +49,8 @@ public:
 public:
 	HRESULT	Equip(CItem* _pEquipment, BODYPART _eBodyPart);
 	HRESULT	UnEquip(BODYPART _eBodyPart);
-	HRESULT	Put_Item(CItem* _pItem, _bool _bReward = false);
+	//_bPickUp : 플레이어의 의지로 획득한 아이템인가 (아이템 해제시에 얻는걸로 판정되서 필요)
+	HRESULT	Put_Item(CItem* _pItem, _bool _bPickUp = true);
 	void	Put_Key(CKey* _pKey);
 	_bool	Use_Key();
 public:

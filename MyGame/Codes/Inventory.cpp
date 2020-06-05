@@ -60,7 +60,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 		return E_FAIL;
 
 	CModuleMgr::Get_Instance()->Add_Module(L"Texture_EquipSlot", SCENE_STAGE, CTexture::Create(m_pGraphic_Device, L"../Bin/Resources/Textures/UI/Stage/equipSlot%d.png", 4));
-		
+
 
 	for (int i = 0; i < SLOTY; ++i)
 	{
@@ -100,7 +100,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 
 	RECT rc = m_pTransform->Get_RECT();
-	m_tTitlePlaceHolder = Make_Rect(Vector2(rc.left + 50.f + 37.f, rc.top +37.f), Vector2(100.f, 40.f, 1.f));
+	m_tTitlePlaceHolder = Make_Rect(Vector2(rc.left + 50.f + 37.f, rc.top + 37.f), Vector2(100.f, 40.f, 1.f));
 
 
 	return S_OK;
@@ -140,7 +140,7 @@ HRESULT CInventory::Render()
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
 
-	g_pFontX3->DrawText(NULL, L"¹è³¶", -1,&m_tTitlePlaceHolder, DT_LEFT, COLOR_YELLOW);
+	g_pFontX3->DrawText(NULL, L"¹è³¶", -1, &m_tTitlePlaceHolder, DT_LEFT, COLOR_YELLOW);
 	ALPHABLEND_END;
 	return S_OK;
 
@@ -209,7 +209,7 @@ HRESULT CInventory::UnEquip(BODYPART _eBodyPart)
 	return S_OK;
 }
 
-HRESULT CInventory::Put_Item(CItem * _pItem, _bool _bReward)
+HRESULT CInventory::Put_Item(CItem * _pItem, _bool _bPickUp)
 {
 	if (nullptr == _pItem)
 		return E_FAIL;
@@ -227,10 +227,8 @@ HRESULT CInventory::Put_Item(CItem * _pItem, _bool _bReward)
 			//±× ½½·Ô¿¡ ³Ö´Â´Ù.
 			pSlot->Add_Item(_pItem);
 			_pItem->SetDrop(false);
-			if(_bReward)
+			if(_bPickUp)
 				CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(_pItem->Get_Name()), 0xff00ff1a);
-			else
-				CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(_pItem->Get_Name()), 0xffffffff);
 			break;
 		}
 	}
