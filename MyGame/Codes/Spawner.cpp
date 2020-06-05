@@ -232,7 +232,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &Vector3(5263.f, 5235.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster_lv2", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
@@ -348,19 +348,27 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	if (nullptr == _pInventory)
 		return E_FAIL;
 
-	//CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
-	//CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
-	//RETURN_FAIL_IF_NULL(pPlayer);
-	////기본템 생성
-	//m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
-	//m_listGO[0].back()->Interact(pPlayer);
-	//m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
-	//m_listGO[0].back()->Interact(pPlayer);
-	//for (int i = 0; i < 10; ++i)
-	//{
-	//	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, 0));
-	//	m_listGO[0].back()->Interact(pPlayer);
-	//}
+	CItem* pItem = nullptr;
+	CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
+	CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
+	RETURN_FAIL_IF_NULL(pPlayer);
+
+	//기본템 생성
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION, 0));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	_pInventory->Put_Item(pItem);
+
+
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION, 0));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	_pInventory->Put_Item(pItem);
+
+	for (int i = 0; i < 10; ++i)
+	{
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW, 0));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
+	}
 
 	return S_OK;
 }
@@ -574,29 +582,33 @@ _int CSpawner::Clear_DeadObjects(_uint _iLevel)
 	if (MAX_DEPTH <= _iLevel)
 		return -1;
 
-	auto& iter = m_listGO[_iLevel].begin();
-	while (iter != m_listGO[_iLevel].end())
+	for (int i = 0; i < MAX_DEPTH; ++i)
 	{
-		if ((*iter)->Get_Dead())
+		auto& iter = m_listGO[i].begin();
+		while (iter != m_listGO[i].end())
 		{
-			Safe_Release(*iter);
-			iter = m_listGO[_iLevel].erase(iter);
+			if ((*iter)->Get_Dead())
+			{
+				Safe_Release(*iter);
+				iter = m_listGO[i].erase(iter);
+			}
+			else
+				++iter;
 		}
-		else
-			++iter;
-	}
 
 
-	auto& iter2 = m_listCharacter[_iLevel].begin();
-	while (iter2 != m_listCharacter[_iLevel].end())
-	{
-		if ((*iter2)->Get_Dead())
+		auto& iter2 = m_listCharacter[i].begin();
+		while (iter2 != m_listCharacter[i].end())
 		{
-			Safe_Release(*iter2);
-			iter2 = m_listCharacter[_iLevel].erase(iter2);
+			if ((*iter2)->Get_Dead())
+			{
+				Safe_Release(*iter2);
+				iter2 = m_listCharacter[i].erase(iter2);
+			}
+			else
+				++iter2;
 		}
-		else
-			++iter2;
+
 	}
 
 	return 0;

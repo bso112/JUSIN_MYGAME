@@ -83,7 +83,7 @@ public:
 	_bool	IsDrop() { return m_bDrop; }
 	_bool	IsUsed() { return m_bUsed; }
 	void	SetDrop(_bool _bDrop) { m_bDrop = _bDrop; }
-	
+	void	PutItemToInventory();
 public:
 	virtual	_int	Interact(CGameObject* _pOther) override;
 	virtual	void	OnPickUp(CHero*	_pHero, CInventory* _pInventory);

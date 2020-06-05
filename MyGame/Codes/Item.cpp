@@ -266,6 +266,20 @@ HRESULT CItem::Render()
 
 
 
+void CItem::PutItemToInventory()
+{
+	CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
+	if (nullptr == pInventoryUIMgr) return;
+	CInventory* pInven = pInventoryUIMgr->GetInventory();
+	if (nullptr == pInven) return;
+	//습득
+	//드롭되지 않음
+	m_bDrop = false;
+	pInven->Put_Item(this);
+	//하위클래스에서 습득할때 할일 하기.
+	OnPickUp(nullptr, pInven);
+}
+
 _int CItem::Interact(CGameObject * _pOther)
 {
 	if (!m_bActive)
@@ -302,8 +316,6 @@ _int CItem::Interact(CGameObject * _pOther)
 		//하위클래스에서 습득할때 할일 하기.
 		OnPickUp(pHero, pInven);
 		
-
-		CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(m_pItemName), 0xffffffff);
 
 	}
 	return 0;

@@ -43,5 +43,8 @@ HRESULT CKey::Initialize(void * _param)
 
 void CKey::OnPickUp(CHero * _pHero, CInventory * _pInventory)
 {
+	if (nullptr == _pInventory)
+		return;
+
 	_pInventory->Put_Key(this);
 }

@@ -33,12 +33,13 @@ enum BODYPART { BODY_HAND, BODY_TORSO, BODY_FINGER, BODY_ARTEFACT, BODY_END };
 #define AC_READ			L"읽는다"
 #define AC_ZAP			L"사용한다"
 #define MSG_WIN(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L" 을(를) 쓰려뜨렸다!")
-#define MSG_DAMAGE(VICTIME, ATTACKER, DAMAGE) new wstring(wstring(VICTIME) + L"은 " + wstring(ATTACKER) + L" 에게 " + wstring(DAMAGE) + L"데미지를 받았다.")
-#define MSG_PICK(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L" 을(를) 주웠다.")
+#define MSG_DAMAGE(OTHER, DAMAGE) new wstring(wstring(OTHER) + L"은 " + wstring(DAMAGE) + L"데미지를 받았다.")
+#define MSG_PICK(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L" 을(를) 얻었다.")
 #define MSG_EAT(OTHER)	 new wstring(L"당신은 " + wstring(OTHER) + L" 을(를) 먹었다. 아주 맛있었다!")
 #define MSG_EXHAUST(OTHER) new wstring(L"아무일도 일어나지 않았다. " + wstring(OTHER) + L" 을(를) 다 써버린듯 하다.")
 
 
-#define COLOR_ORANGE 0xFFFF7F00
-#define COLOT_YELLOW 0xFFF5E942
+#define COLOR_ORANGE	0xFFFF7F00
+#define COLOR_YELLOW	0xFFF5E942
+#define COLOR_GREEN		0xFF00FF1A
 END

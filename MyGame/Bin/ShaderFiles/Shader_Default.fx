@@ -19,7 +19,7 @@ struct PS_OUT
 	vector vPortrait : COLOR1;
 };
 
-PS_OUT PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1) : COLOR0
+PS_OUT PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1)
 {
 	PS_OUT Out = (PS_OUT)0.f;
 

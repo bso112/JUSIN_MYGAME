@@ -9,6 +9,7 @@
 #include "ItemFactory.h"
 #include "ModuleMgr.h"
 #include "Spawner.h"
+#include "DialogMgr.h"
 USING(MyGame)
 
 
@@ -20,12 +21,11 @@ CInventory::CInventory(PDIRECT3DDEVICE9 _pGraphic_Device)
 CInventory::CInventory(CInventory & _rhs)
 	: CGameObject(_rhs)
 {
+	m_vecItemSlot.reserve(SLOTX * SLOTY);
 }
 
 HRESULT CInventory::Initialize(void * _pArg)
 {
-
-	
 
 	m_iDepth = 0;
 	m_vecEquipSlot.reserve(4);
@@ -101,9 +101,7 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 	RECT rc = m_pTransform->Get_RECT();
 	m_tTitlePlaceHolder = Make_Rect(Vector2(rc.left + 50.f + 37.f, rc.top +37.f), Vector2(100.f, 40.f, 1.f));
-	
-	CSpawner* pSpawner = CSpawner::Get_Instance();
-	pSpawner->Ready_BasicItem(this);
+
 
 	return S_OK;
 }
@@ -142,7 +140,7 @@ HRESULT CInventory::Render()
 	m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix());
 	m_pVIBuffer->Render();
 
-	g_pFontX3->DrawText(NULL, L"¹è³¶", -1,&m_tTitlePlaceHolder, DT_LEFT, COLOT_YELLOW);
+	g_pFontX3->DrawText(NULL, L"¹è³¶", -1,&m_tTitlePlaceHolder, DT_LEFT, COLOR_YELLOW);
 	ALPHABLEND_END;
 	return S_OK;
 
@@ -211,7 +209,7 @@ HRESULT CInventory::UnEquip(BODYPART _eBodyPart)
 	return S_OK;
 }
 
-HRESULT CInventory::Put_Item(CItem * _pItem)
+HRESULT CInventory::Put_Item(CItem * _pItem, _bool _bReward)
 {
 	if (nullptr == _pItem)
 		return E_FAIL;
@@ -229,6 +227,10 @@ HRESULT CInventory::Put_Item(CItem * _pItem)
 			//±× ½½·Ô¿¡ ³Ö´Â´Ù.
 			pSlot->Add_Item(_pItem);
 			_pItem->SetDrop(false);
+			if(_bReward)
+				CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(_pItem->Get_Name()), 0xff00ff1a);
+			else
+				CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(_pItem->Get_Name()), 0xffffffff);
 			break;
 		}
 	}
@@ -312,6 +314,7 @@ void CInventory::Free()
 CInventory * CInventory::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	CInventory* pInstance = new CInventory(_pGraphic_Device);
+
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX("Fail to create CMyButton");

@@ -238,13 +238,7 @@ _int CCharacter::Interact(CGameObject * _pOther)
 		{
 
 			_float Damage = m_tStat.m_fAtt->GetValue();
-			//공격에 성공했으면
-			if (pCharacter->TakeDamage(Damage))
-			{
-				_tchar szBuff[20] = L"";
-				wsprintf(szBuff, L"%d", (_int)Damage);
-				CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(pCharacter->Get_Name(), m_pName, szBuff));
-			}
+			pCharacter->TakeDamage(Damage);
 			OnAttack(_pOther);
 
 
@@ -368,7 +362,10 @@ void CCharacter::OnTakeDamage(float _fDamage)
 	}
 #pragma endregion
 
-
+	//데미지 로그
+	_tchar szBuff[20] = L"";
+	wsprintf(szBuff, L"%d", (_int)_fDamage);
+	CDialogMgr::Get_Instance()->Log_Main(MSG_DAMAGE(m_pName, szBuff));
 }
 
 void CCharacter::OnAttack(CGameObject * _pOther)

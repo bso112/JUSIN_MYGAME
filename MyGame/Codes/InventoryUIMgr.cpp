@@ -12,7 +12,6 @@ IMPLEMENT_SINGLETON(CInventoryUIMgr)
 
 HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 {
-
 	m_pInventory = CInventory::Create(_pGraphicDevice);
 	m_pItemInfoPanel = CItemInfoPanel::Create(_pGraphicDevice);
 
@@ -27,7 +26,7 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 	m_pInventory = dynamic_cast<CInventory*>(pObjMgr->Add_GO_To_Layer(L"Inventory", SCENE_STAGE, L"UI", SCENE_STAGE));
 	RETURN_FAIL_IF_NULL(m_pInventory);
 	Safe_AddRef(m_pInventory);
-	m_pItemInfoPanel = dynamic_cast<CItemInfoPanel*>(pObjMgr->Add_GO_To_Layer(L"Inventory", SCENE_STAGE, m_pItemInfoPanel));
+	m_pItemInfoPanel = dynamic_cast<CItemInfoPanel*>(pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, m_pItemInfoPanel));
 	RETURN_FAIL_IF_NULL(m_pItemInfoPanel);
 	Safe_AddRef(m_pItemInfoPanel);
 
@@ -41,10 +40,6 @@ HRESULT CInventoryUIMgr::Initialize(PDIRECT3DDEVICE9 _pGraphicDevice)
 
 	//아이템 정보 판넬의 버튼을 클릭하면 인벤토리를 닫는다. (아이템 판넬도 닫힌다)
 	m_pItemInfoPanel->Add_ButtonListener([&] { m_pInventory->Set_Active(false);});
-
-
-
-
 
 	return S_OK;
 }

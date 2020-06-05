@@ -10,6 +10,8 @@
 #include "StageUIMgr.h"
 #include "QuestMgr.h"
 #include "ItemFactory.h"
+#include "Spawner.h"
+#include "Item.h"
 USING(MyGame)
 
 CGhost::CGhost(CGhost & _rhs)
@@ -101,6 +103,11 @@ HRESULT CGhost::Initialize(void * _param)
 	m_vecReward.push_back(CItemFactory::Make_Item(BASEDESC(Vector3(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND, 1));
 	//마비저항의 옷도 
 
+
+	for (auto& item : m_vecReward)
+	{
+		CSpawner::Get_Instance()->Add_Interact(item, 1);
+	}
 	return S_OK;
 }
 
@@ -152,5 +159,8 @@ CGameObject * CGhost::Clone(void * _param)
 
 void CGhost::Free()
 {
+	for (auto& item : m_vecReward)
+		Safe_Release(item);
+
 	CMonster::Free();
 }

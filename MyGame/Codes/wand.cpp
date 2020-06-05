@@ -95,7 +95,7 @@ HRESULT CWand::Zap_Lighting(Vector2 _vOrigin, POINT _pt)
 	desc.m_eTextureSceneID = SCENE_STAGE;
 	desc.m_iTextureID = 1;
 	desc.m_pTextureTag = L"laser";
-	desc.m_iDamage = 10;
+	desc.m_iDamage = m_tStateDesc.m_tItemDesc.m_tStats.m_fAtt;
 
 	//충돌처리를 위해 레이어를 따로 뺀다.
 	CLaser* pLaser = (CLaser*)pObjMgr->Add_GO_To_Layer(L"Laser", SCENE_STAGE, CLaser::Create(m_pGraphic_Device, desc));

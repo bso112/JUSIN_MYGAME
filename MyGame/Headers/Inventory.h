@@ -49,7 +49,7 @@ public:
 public:
 	HRESULT	Equip(CItem* _pEquipment, BODYPART _eBodyPart);
 	HRESULT	UnEquip(BODYPART _eBodyPart);
-	HRESULT	Put_Item(CItem* _pItem);
+	HRESULT	Put_Item(CItem* _pItem, _bool _bReward = false);
 	void	Put_Key(CKey* _pKey);
 	_bool	Use_Key();
 public:

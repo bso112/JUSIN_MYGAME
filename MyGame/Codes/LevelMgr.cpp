@@ -7,6 +7,7 @@
 #include "Terrain.h"
 #include "TileLoader.h"
 #include "KeyMgr.h"
+#include "InventoryUIMgr.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CLevelMgr)
@@ -86,6 +87,8 @@ HRESULT CLevelMgr::Initialize()
 
 
 	CKeyMgr::Get_Instance()->RegisterObserver(SCENE_STAGE, this);
+
+
 	return S_OK;
 }
 HRESULT CLevelMgr::Next_Level()
@@ -217,7 +220,14 @@ HRESULT CLevelMgr::OnKeyDown(_int KeyCode)
  	if (KeyCode == VK_RBUTTON)
 	{
 		Next_Level();
+
+		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
+		if (nullptr == pInventoryUIMgr) return -1;
+		CInventory* pInven = pInventoryUIMgr->GetInventory();
+		if (nullptr == pInven) return -1;
+		m_pSpawner->Ready_BasicItem(pInven);
 	}
+
 	return S_OK;
 }
 
