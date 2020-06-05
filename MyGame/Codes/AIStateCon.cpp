@@ -37,6 +37,7 @@ _int CAIStateCon::Start(_bool _canAttack, _bool _isAlerted)
 	{
 		//상태를 바꾼다.
 		m_pCurrState = m_pStateArr[eNextState];
+		m_pCurrState->OnStateEnter(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	}
 
 	return 0;
@@ -56,6 +57,7 @@ _int CAIStateCon::Update(_bool _canAttack, _bool _isAlerted)
 	if (CAIState::STATE_END != eNextState)
 	{
 		m_pCurrState = m_pStateArr[eNextState];
+		m_pCurrState->OnStateEnter(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	}
 
 	return 0;

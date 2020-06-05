@@ -12,6 +12,12 @@
 #include "ParalyzePotion.h"
 #include "FirePotion.h"
 #include "wand.h"
+#include "FireFlower.h"
+#include "IceFlower.h"
+#include "ShieldFlower.h"
+#include "Cheese.h"
+#include "Key.h"
+#include "TextureLoader.h"
 USING(MyGame)
 
 HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -19,6 +25,23 @@ HRESULT CItemFactory::Make_Prototpyes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	if (nullptr == pObjMgr)
 		return E_FAIL;
+
+
+	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
+	if (nullptr == pLoader)
+		return E_FAIL;
+
+
+	pLoader->Create_Textrues_From_Folder_Anim(_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Item/");
+
+	//음식 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
+	//씨앗 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"FireFlower", SCENE_STAGE, CFireFlower::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"IceFlower", SCENE_STAGE, CIceFlower::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"ShieldFlower", SCENE_STAGE, CShieldFlower::Create(_pGraphic_Device));
+	//열쇠 프로토타입을 만든다.
+	pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
 
 	pObjMgr->Add_Prototype(L"MeleeWeapon", SCENE_STAGE, CMeleeWeapon::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Wand", SCENE_STAGE, CWand::Create(_pGraphic_Device));
@@ -233,7 +256,30 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID)
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Wand", SCENE_STAGE, layerTag, SCENE_STAGE, &tWandDesc);
 		break;
 	}
-
+	case MyGame::CItemFactory::ITEM_FIRESEED:
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"FireFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &_tDesc.vPos);
+		break;
+	case MyGame::CItemFactory::ITEM_ICESEED:
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"IceFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &_tDesc.vPos);
+		break;
+	case MyGame::CItemFactory::ITEM_SHIELDSEED:
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"ShieldFlower", SCENE_STAGE, L"Item", SCENE_STAGE, &_tDesc.vPos);
+		break;
+	case MyGame::CItemFactory::ITEM_KEY:
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Key", SCENE_STAGE, L"Item", SCENE_STAGE, &_tDesc.vPos);
+		break;
+	case MyGame::CItemFactory::ITEM_CHEESE:
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(_tDesc, 10.f));
+		break;
+	case MyGame::CItemFactory::ITEM_RINGOFPARALYSIS:
+		tDesc.m_iTextureID = 2;
+		tDesc.m_pItemName = L"마비저항의 반지";
+		tDesc.m_pDescription = L"끼고 있으면 마비에 걸리지 않는다.";
+		tDesc.m_tBaseDesc = _tDesc;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Ring", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
+		CEquipment* pEquipment = dynamic_cast<CEquipment*>(pItem); if (nullptr == pEquipment)return nullptr;
+		pEquipment->Set_Immune(CBuff::TYPE_PARALIZE);
+		break;
 	}
 
 	return pItem;

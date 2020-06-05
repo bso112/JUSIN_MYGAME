@@ -92,6 +92,15 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 			CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
 			return S_OK;
 		}
+		else if (m_bEnchantMode)
+		{
+			//CInventoryUIMgr* pInvenMgr = CInventoryUIMgr::Get_Instance();
+			//RETURN_FAIL_IF_NULL(pInvenMgr);
+			//CInventory* pInventory = pInvenMgr->GetInventory();
+			//RETURN_FAIL_IF_NULL(pInventory);
+			//pInventory->GetItem(pt);
+
+		}
 #pragma endregion
 
 
@@ -227,6 +236,22 @@ HRESULT CHero::Equip(CEquipment * _pItem, BODYPART _eBodyPart)
 	m_tStat.m_fAtt->AddModifier(itemStats.m_fAtt);
 	m_tStat.m_fMaxHp->AddModifier(itemStats.m_fMaxHP);
 
+	_bool isDuplicated = false;
+	CBuff::TYPE eItemImuune = _pItem->Get_Immune();
+	//저항속성
+	if (eItemImuune != CBuff::TYPE_END)
+	{
+		for (auto& immune : m_listImmune)
+		{
+			//중복이 있으면 무시
+			if (immune == eItemImuune)
+				isDuplicated = true;
+		}
+	}
+
+	if(!isDuplicated)
+		m_listImmune.push_back(_pItem->Get_Immune());
+
 	//인벤토리 갱신
 	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();
 	pInventory->Equip(_pItem, _eBodyPart);
@@ -246,7 +271,25 @@ HRESULT CHero::UnEquip(BODYPART _eBodyPart)
 	m_tStat.m_fAtt->RemoveModifire(itemStats.m_fAtt);
 	m_tStat.m_fMaxHp->RemoveModifire(itemStats.m_fMaxHP);
 
+	CBuff::TYPE eItemImuune = m_pEquipments[_eBodyPart]->Get_Immune();
+
+	//아이템에 붙어있던 저항속성 제거
+	if (eItemImuune != CBuff::TYPE_END)
+	{
+		auto& iter = m_listImmune.begin();
+		while (iter != m_listImmune.end())
+		{
+			if (*iter == eItemImuune)
+				iter = m_listImmune.erase(iter);
+			else
+				++iter;
+		}
+	}
+
 	Safe_Release(m_pEquipments[_eBodyPart]);
+
+
+
 
 	//인벤토리 갱신
 	CInventory* pInventory = CInventoryUIMgr::Get_Instance()->GetInventory();

@@ -5,6 +5,8 @@
 #include "Animator.h"
 #include "Stat.h"
 #include "Effect.h"
+#include "Image.h"
+#include "Buff.h"
 BEGIN(MyGame)
 class CStat;
 class CClock_Delay;
@@ -41,8 +43,6 @@ public:
 		}
 	}STATS;
 
-	//저항
-	enum IMMUNE {IMMUNE_FIRE, IMMUNE_ICE, IMMUNE_END};
 
 protected:
 	//모듈
@@ -64,7 +64,7 @@ protected:
 	
 protected:
 	STATS	m_tStat = {};
-	vector<IMMUNE> m_vecImmune;
+	list<CBuff::TYPE> m_listImmune;
 	
 	_bool	m_bInvisible = false;
 	//이동할 목표지점
@@ -88,19 +88,23 @@ public:
 	HRESULT		ShowText(const _tchar* _pText, D3DXCOLOR _Color = 0xFFF6F258, ID3DXFont* _pFont = g_pFontX2);
 	//캐릭터 위로 이미지를 띄운다.
 	HRESULT		ShowBuffImg(CImage* _pImage);
+	HRESULT		ShowBuffImg(SCENEID _eTextureSceneID, const _tchar* _pTextureTag, _uint _iTextureID, BASEDESC _tBaseDesc);
+	HRESULT		ShowStateIcon(SCENEID _eTextureSceneID, const _tchar* _pTextureTag, _uint _iTextureID, BASEDESC _tBaseDesc);
+
 
 public:
 	virtual _bool TakeDamage(float _fDamage, _bool _bDodgable = false);
+	HRESULT	Attack(CCharacter* _pOther);
 	void	Heal(_float _healAmount);
 	void	SetInvisible(bool _bInvisible) { m_bInvisible = _bInvisible; }
-	void	Set_Paralyze(bool _bParalyze) { m_bParalyze = _bParalyze; }
+	void	Set_Paralyze(bool _bParalyze);
 	_bool	IsTurnEnd()		override { return m_bTurnEnd; }
 	_bool	IsParalyzed()	override { return m_bParalyze; }
 	_bool	IsAlive();
-	_bool	IsImmune(IMMUNE _eImmune);
+	_bool	IsImmune(CBuff::TYPE _eType);
 	const _tchar*	Get_Name() { return m_pName; }
 	void	Add_Buff(CBuff* pBuff);
-
+	HRESULT	Add_Immune(CBuff::TYPE _eType);
 public:
 	virtual	_int	Interact(CGameObject* _pOther);
 

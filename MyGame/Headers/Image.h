@@ -20,6 +20,7 @@ public:
 		_int			m_iTextureID = 1;
 		_float			m_fSpeed = 1.f;
 		_double			m_dLifeTime = FLT_MAX;
+		_int			m_iLifeTimeInTurn = INT_MAX;
 	}STATEDESC;
 protected:
 	explicit CImage(PDIRECT3DDEVICE9 _pGraphic_Device) : CGameObject(_pGraphic_Device) {};
@@ -42,6 +43,8 @@ protected:
 	_bool			m_bFadeOut = false;
 	_float			m_fAlpha = 1;
 	_uint			m_iShaderPass = 0;
+	//지난 턴 수를 세는 변수
+	_int			m_iTurnCnt = 0;
 
 	CRenderer::RENDER_GROUP m_eRenderGroup = CRenderer::RENDER_UI;
 
@@ -57,6 +60,8 @@ public:
 	virtual _int LateUpate(_double _timeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	virtual	HRESULT OnMoveTurn();
 protected:
 	virtual HRESULT	OnRender();
 

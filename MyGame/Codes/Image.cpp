@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Clock.h"
+#include "TurnMgr.h"
 USING(MyGame)
 
 
@@ -39,7 +40,7 @@ HRESULT CImage::Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, 
 	m_pTransform->Set_Position(Vector4(_vPos.x, _vPos.y, 0, 1));
 	m_pTransform->Set_Size(Vector4(_vSize.x, _vSize.y));
 
-
+	CTurnMgr::Get_Instance()->RegisterObserver(this);
 	return S_OK;
 }
 
@@ -74,6 +75,7 @@ HRESULT CImage::Initialize_Prototype(void* _pArg)
 	m_pTransform->Set_Position(desc.m_tBaseDesc.vPos);
 	m_pTransform->Set_Size(Vector4(desc.m_tBaseDesc.vSize));
 
+	CTurnMgr::Get_Instance()->RegisterObserver(this);
 
 	return S_OK;
 }
@@ -101,6 +103,7 @@ HRESULT CImage::Initialize(void * _pArg)
 		m_pTransform->Set_Size(desc.vSize);
 	}
 
+	CTurnMgr::Get_Instance()->RegisterObserver(this);
 
 	return S_OK;
 }
@@ -239,6 +242,19 @@ HRESULT CImage::OnRender()
 	return S_OK;
 }
 
+HRESULT CImage::OnMoveTurn()
+{
+	if (m_tDesc.m_iLifeTimeInTurn == INT_MAX)
+		return S_OK;
+
+	if (m_iTurnCnt >= m_tDesc.m_iLifeTimeInTurn)
+	{
+		m_bDead = true;
+	}
+	++m_iTurnCnt;
+	return S_OK;
+}
+
 
 void CImage::Replace_Texture(const _tchar * pTextureTag, _int _iTextureID, SCENEID _eTextureSceneID)
 {
@@ -294,6 +310,7 @@ CGameObject* CImage::Clone(void* _param)
 
 void CImage::Free()
 {
+	CTurnMgr::Get_Instance()->UnRegisterObserver(this);
 	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pTextrue);

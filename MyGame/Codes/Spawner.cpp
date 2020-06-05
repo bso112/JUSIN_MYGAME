@@ -13,9 +13,7 @@
 #include "Image.h"
 #include "Pipline.h"
 #include "Fire.h"
-#include "FireFlower.h"
-#include "IceFlower.h"
-#include "ShieldFlower.h"
+
 #include "TextureLoader.h"
 #include "Key.h"
 #include "ItemFactory.h"
@@ -44,12 +42,6 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 		return E_FAIL;
 	Safe_AddRef(pModuleMgr);
 
-	CTextureLoader* pLoader = CTextureLoader::Get_Instance();
-	if (nullptr == pLoader)
-		return E_FAIL;
-	Safe_AddRef(pLoader);
-
-#pragma region legacy
 	//몬스터 프로토타입을 만든다.
 	pObjMgr->Add_Prototype(L"Rat", SCENE_STAGE, CRat::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Gnoll", SCENE_STAGE, CGnoll::Create(_pGraphic_Device));
@@ -63,18 +55,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	if (FAILED(pModuleMgr->Add_Module(L"Texture_Food", SCENE_STAGE, CTexture::Create(_pGraphic_Device, L"../Bin/Resources/Textures/Item/Food/%d.png", 1))))
 		return E_FAIL;
 
-	pLoader->Create_Textrues_From_Folder_Anim(_pGraphic_Device, SCENE_STAGE, L"../Bin/Resources/Textures/Item/");
 
-	//음식 프로토타입을 만든다.
-	pObjMgr->Add_Prototype(L"Cheese", SCENE_STAGE, CCheese::Create(_pGraphic_Device));
-	//씨앗 프로토타입을 만든다.
-	pObjMgr->Add_Prototype(L"FireFlower", SCENE_STAGE, CFireFlower::Create(_pGraphic_Device));
-	pObjMgr->Add_Prototype(L"IceFlower", SCENE_STAGE, CIceFlower::Create(_pGraphic_Device));
-	pObjMgr->Add_Prototype(L"ShieldFlower", SCENE_STAGE, CShieldFlower::Create(_pGraphic_Device));
-	//열쇠 프로토타입을 만든다.
-	pObjMgr->Add_Prototype(L"Key", SCENE_STAGE, CKey::Create(_pGraphic_Device));
-
-#pragma endregion
 
 	CItemFactory::Make_Prototpyes(_pGraphic_Device);
 
@@ -86,8 +67,6 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 
 
 
-
-	Safe_Release(pLoader);
 	Safe_Release(pObjMgr);
 	Safe_Release(pModuleMgr);
 	return S_OK;
@@ -213,7 +192,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 			Safe_AddRef(GO);
 		}
 	}
-	
+
 	if (1 == _iLevel)
 	{
 
@@ -363,12 +342,46 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 	_pInventory->Put_Item(pItem);
 
+
+
 	for (int i = 0; i < 10; ++i)
 	{
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 		_pInventory->Put_Item(pItem);
 	}
+
+	for (int i = 0; i < 5; ++i)
+	{
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_CHEESE));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
+	}
+
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_SHIELDSEED));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	_pInventory->Put_Item(pItem);
+
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_FIRESEED));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	_pInventory->Put_Item(pItem);
+
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ICESEED));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	_pInventory->Put_Item(pItem);
+
+	for (int i = 0; i < 2; ++i)
+	{
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_KEY));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
+	}
+
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_RINGOFPARALYSIS));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	_pInventory->Put_Item(pItem);
+
+
 
 	return S_OK;
 }

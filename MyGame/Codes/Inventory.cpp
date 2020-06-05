@@ -260,6 +260,7 @@ _bool CInventory::Use_Key()
 
 
 
+
 HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 {
 	for (auto& slot : m_vecItemSlot)

@@ -38,6 +38,7 @@ HRESULT CKey::Initialize(void * _param)
 	m_pDescription = L"잠긴 문을 열 수 있다.";
 	m_iTextureID = 1;
 
+	m_bStackable = true;
 	return S_OK;
 }
 

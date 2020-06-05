@@ -126,8 +126,6 @@ void CStage::Free()
 	if (0 != CLevelMgr::Destroy_Instance())
 		MSG_BOX("Fail to release CLevelMgr");
 
-	if (0 != CTurnMgr::Destroy_Instance())
-		MSG_BOX("Fail to release CTurnMgr");
 
 	//스테이지 씬의 프로토타입과 레이어(게임오브젝트)들을 완전히 지움.
 	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_STAGE)))
@@ -141,6 +139,9 @@ void CStage::Free()
 	//별 의미없음
 	if (FAILED(CRenderer::Get_Instance()->Clear_RenderGroup()))
 		MSG_BOX("Fail to Clear Renderer");
+
+	if (0 != CTurnMgr::Destroy_Instance())
+		MSG_BOX("Fail to release CTurnMgr");
 
 	if (FAILED(CKeyMgr::Get_Instance()->ClearObservers(SCENEID::SCENE_STAGE)))
 		MSG_BOX("Fail to Clear Module Prototypes");

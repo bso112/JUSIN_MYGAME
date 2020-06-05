@@ -7,6 +7,7 @@ class CItem;
 class CEquipment;
 class CHpBar;
 class CWand;
+class CScroll;
 class CHero abstract : public CCharacter
 {
 public:
@@ -26,6 +27,8 @@ protected:
 	CWand*			m_pWandToZap = nullptr;
 	CEquipment*		m_pEquipments[BODY_END];
 
+	//아이템을 인첸트하려는 상태인가
+	_bool			m_bEnchantMode = false;
 public:
 	HRESULT	PlayAnimation(const _tchar* _pTag);
 	HRESULT	ThrowItem(CItem* _pItem);
@@ -34,7 +37,7 @@ public:
 	HRESULT	Zap(CWand* _pWand);
 	void	Set_Cloth(CLOTH _eCloth);
 	HRESULT	Explore();
-
+	void	SelectItemToEnchant(CScroll* pScroll) { m_bEnchantMode = true; }
 public:
 	_bool	Has_Key();
 

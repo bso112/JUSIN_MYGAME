@@ -61,7 +61,7 @@ HRESULT CRat::Initialize(void * _param)
 #pragma region 상태셋팅
 	CAIStateCon* pStateCon = dynamic_cast<CAIStateCon*>(m_pStateCon);
 	pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
-	pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting_Jump(this));
+	pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting(this));
 	pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
 	pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
 	pStateCon->Set_Default_State(CAIState::STATE_IDLE);

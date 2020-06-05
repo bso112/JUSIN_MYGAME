@@ -12,7 +12,8 @@
 USING(MyGame)
 
 CGoo::CGoo(CGoo & _rhs)
-	:CMonster(_rhs)
+	:CMonster(_rhs),
+	m_iHitCnt(0)
 {
 	m_tStat = _rhs.m_tStat;
 }
@@ -56,8 +57,8 @@ HRESULT CGoo::Initialize(void * _param)
 	if (nullptr != _param)
 		m_pTransform->Set_Position(*((Vector3*)_param));
 
-	m_pTransform->Set_Size(Vector2(20.f, 25.f));
-	m_pTransform->Set_ColliderSize(Vector2(25.f, 30.f));
+	m_pTransform->Set_Size(Vector2(30.f, 30.f));
+	m_pTransform->Set_ColliderSize(Vector2(25.f, 25.f));
 
 
 
@@ -77,22 +78,27 @@ HRESULT CGoo::Initialize(void * _param)
 	//애니메이션 셋팅
 	CTexture* pTexture = nullptr;
 
-	Set_Module(L"goo_attack", SCENE_STAGE, (CModule**)&pTexture);
+	if (FAILED(Set_Module(L"goo_attack", SCENE_STAGE, (CModule**)&pTexture)))
+		return E_FAIL;
 	CAnimation* pAttackAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator->Add_Animation(L"attack", pAttackAnim);
 
-	Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pIdleAnim = CAnimation::Create(pTexture, 0.5, true);
+	if (FAILED(Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture)))
+		return E_FAIL;
+	CAnimation* pIdleAnim = CAnimation::Create(pTexture, 0.3, true);
 	m_pAnimator->Add_Animation(L"idle", pIdleAnim);
+	m_pAnimator->Add_Animation(L"walk", pIdleAnim);
 
-	Set_Module(L"goo_dead", SCENE_STAGE, (CModule**)&pTexture);
+	if (FAILED(Set_Module(L"goo_dead", SCENE_STAGE, (CModule**)&pTexture)))
+		return E_FAIL;
 	CAnimation* pDeadAnim = CAnimation::Create(pTexture, 0.1, false);
 	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
 
 	//idle애니메이션을 빠르게 한 것
-	Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture);
-	CAnimation* pWalkAnim = CAnimation::Create(pTexture, 0.1, true);
-	m_pAnimator->Add_Animation(L"walk", pWalkAnim);
+	if(FAILED(Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture, L"goo_walk")))
+		return E_FAIL;
+	CAnimation* pWalkAnim = CAnimation::Create(pTexture, 0.05, true);
+	m_pAnimator->Add_Animation(L"rage", pWalkAnim);
 
 	//애니메이션의 관계설정
 	pAttackAnim->Set_NextAnim(pWalkAnim);
@@ -123,6 +129,19 @@ void CGoo::OnDead()
 	CQuestMgr::Get_Instance()->SetQuestEnd();
 }
 
+void CGoo::OnTakeDamage(float _fDamage)
+{
+	CMonster::OnTakeDamage(_fDamage);
+	
+	++m_iHitCnt;
+	if (m_iHitCnt == 3)
+	{
+		//분노
+		ShowText(L"!!!", COLOR_RED);
+		m_tStat.m_fAtt->AddModifier(10.f);
+		m_pAnimator->Play(L"rage");
+	}
+}
 
 
 CGoo * CGoo::Create(PDIRECT3DDEVICE9 _pGraphic_Device)

@@ -27,32 +27,26 @@ private:
 	_bool	m_bActLock = false;
 
 private:
-	CLayer*			m_pActorLayers[MAX_LAYER_CNT];
-
-	
+	CLayer*				m_pActorLayers[MAX_LAYER_CNT];
+	list<CBase*>	m_listObservers;
 
 private:
 	CGameObject*		m_pCurrActor = nullptr;
 	_bool			m_bTurnStart = false;
 public:
 	HRESULT		Initialize();
-	//_int		Update_sequentially();
 	_int		Get_TurnCnt() {return m_iMaxTurn;}
 
 public:
-	//HRESULT	MoveTurn_sequentially(_int _iTurnCnt);
 
 public:
 	_int		Update_Simultaneously();
 	HRESULT	MoveTurn_Simultaneously(_int _iTurnCnt);
-#pragma region legacy
 
-	//_int		Update_sequentially();
-	//HRESULT	MoveTurn_sequentially(_int _iTurnCnt);
-	//_int	Get_NextActor(CCharacter** _pOutCharacter);
-
-#pragma endregion
-
+public:
+	HRESULT RegisterObserver(CBase* _pObserver);
+	HRESULT UnRegisterObserver(CBase* _pObserver);
+	HRESULT	ClearObservers();
 
 	
 public:

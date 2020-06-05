@@ -12,6 +12,9 @@ private:
 	virtual ~CGoo() = default;
 
 
+private:
+	//공격받은 수
+	_int	m_iHitCnt = 0;
 
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
@@ -22,10 +25,10 @@ public:
 	// CMonster을(를) 통해 상속됨
 	virtual CGameObject * Clone(void * _param = nullptr) override;
 
-
+	
 public:
 	void OnDead() override;
-
+	virtual void OnTakeDamage(float _fDamage) override;
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;

@@ -311,6 +311,43 @@ HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
 			((CCharacter*)GO)->StartAct();
 		}
 	}
+
+	for (auto& observer : m_listObservers)
+		observer->OnMoveTurn();
+
+	return S_OK;
+}
+
+HRESULT CTurnMgr::RegisterObserver(CBase * _pObserver)
+{
+	if (nullptr == _pObserver)
+		return E_FAIL;
+
+	m_listObservers.push_back(_pObserver);
+	return S_OK;
+}
+
+HRESULT CTurnMgr::UnRegisterObserver(CBase * _pObserver)
+{
+	if (nullptr == _pObserver)
+		return E_FAIL;
+
+	auto& iter = m_listObservers.begin();
+	for (;iter != m_listObservers.end(); ++iter)
+	{
+		if (*iter == _pObserver)
+		{
+			m_listObservers.erase(iter);
+			return S_OK;
+		}
+	}
+	return E_FAIL;
+}
+
+HRESULT CTurnMgr::ClearObservers()
+{
+
+	m_listObservers.clear();
 	return S_OK;
 }
 
@@ -355,6 +392,8 @@ HRESULT CTurnMgr::MoveTurn_Simultaneously(_int _iTurnCnt)
 
 void CTurnMgr::Free()
 {
+	m_listObservers.clear();
+
 	for (auto& layer : m_pActorLayers)
 	{
 		Safe_Release(layer);

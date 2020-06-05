@@ -95,10 +95,12 @@ public:
 	virtual void OnCollisionStay(CGameObject* _pOther);
 	virtual void OnCollisionExit(CGameObject* _pOther);
 
+
 protected:
 	virtual	void OnSetActive(_bool _bActive);
 	virtual void OnDead();
 
+	
 
 public:
 	HRESULT		Set_Module(const _tchar* _pModulePrototypeTag, SCENEID _eSceneID, CModule** _ppModule, const _tchar* _pModuleTag = nullptr, void* _pArg = nullptr);
