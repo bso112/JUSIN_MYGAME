@@ -111,7 +111,6 @@ CStage * CStage::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 void CStage::Free()
 {
-
 	Safe_Release(m_pLevelMgr);
 	Safe_Release(m_pStageUIMgr);
 	Safe_Release(m_pTurnMgr);

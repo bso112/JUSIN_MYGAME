@@ -370,6 +370,9 @@
     <Filter Include="99.Default">
       <UniqueIdentifier>{81b02fbc-573a-4d45-8d4b-02ef4b78651d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Light">
+      <UniqueIdentifier>{b00396ec-7b64-4c96-8a2a-2d6f92276412}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -726,6 +729,9 @@
     <ClInclude Include="..\Headers\QuestMgr.h">
       <Filter>06.Utility\12.QuestMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Light.h">
+      <Filter>04.GameObject\GameObject\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -1057,6 +1063,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\QuestMgr.cpp">
       <Filter>06.Utility\12.QuestMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Light.cpp">
+      <Filter>04.GameObject\GameObject\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

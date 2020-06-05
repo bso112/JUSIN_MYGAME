@@ -6,7 +6,7 @@ class CLevelMgr;
 class CStageUIMgr;
 class CHero;
 class CTurnMgr;
-
+class CTexture;
 class CStage final : public CScene
 {
 private:
@@ -20,9 +20,9 @@ public:
 
 
 private:
-	CLevelMgr*		m_pLevelMgr;
-	CStageUIMgr*	m_pStageUIMgr;
-	CTurnMgr*		m_pTurnMgr;
+	CLevelMgr*		m_pLevelMgr = nullptr;
+	CStageUIMgr*	m_pStageUIMgr = nullptr;
+	CTurnMgr*		m_pTurnMgr = nullptr;
 
 
 private:

@@ -118,7 +118,7 @@ HRESULT CMainApp::Render()
 	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pTargetMgr);
 	pTargetMgr->Set_RenderTarget(L"Portrait", 1);
-	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 0.f, 0.f), 1.f, 0);
+	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(1.f, 0.f, 1.f, 0.f), 1.f, 0);
 	pTargetMgr->Release_RenderTarget(L"Portrait");
 
 	m_pGraphic_Device->BeginScene();

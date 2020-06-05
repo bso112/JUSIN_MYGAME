@@ -17,6 +17,8 @@ struct PS_OUT
 {
 	vector vColor : COLOR0;
 	vector vPortrait : COLOR1;
+	vector vFogLv1 : COLOR2;
+	vector vFogLv2 : COLOR3;
 };
 
 PS_OUT PS_Default(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1)
@@ -61,7 +63,7 @@ vector PS_BLINK(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4
 vColor = tex2D(BaseSampler, _vTexUV);
 
 	vColor.rgb = 1.f;
-	
+
 	return vColor;
 }
 
@@ -115,6 +117,19 @@ vector PS_COLOR(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4
 return g_vColor;
 }
 
+PS_OUT PS_FOG2(float4 _vPosition : POSITION, float2 _vTexUV : TEXCOORD0, float4 _vWinPos : TEXCOORD1)
+{
+	PS_OUT vOut = (PS_OUT)0.f;
+
+	vector vColor = tex2D(BaseSampler, _vTexUV);
+
+	vOut.vFogLv1 = (vector)0.f;
+	vOut.vFogLv1.a = vColor.a / 1;
+	//vColor.vFogLv2 = (vector)0.f;
+	//vColor.vFogLv2.a = vColor.a / 1 + 0.2f;
+	return vOut;
+}
+
 
 
 technique DefaultTechnique
@@ -164,5 +179,10 @@ technique DefaultTechnique
 	{
 		VertexShader = NULL;
 		PixelShader = compile ps_3_0 PS_COLOR();
+	}
+	pass FOG_LV1
+	{
+		VertexShader = NULL;
+		PixelShader = compile ps_3_0 PS_FOG2();
 	}
 }
