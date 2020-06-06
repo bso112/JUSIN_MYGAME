@@ -11,8 +11,12 @@ CBuffController::CBuffController(PDIRECT3DDEVICE9 _pGraphic_Device)
 	ZeroMemory(&m_pBuffIcons, sizeof(m_pBuffIcons));
 }
 
-HRESULT CBuffController::Initialize()
+HRESULT CBuffController::Initialize(_bool _isPlayer)
 {
+
+	if (!_isPlayer)
+		return S_OK;
+
 	_float margin = 30.f;
 	Vector3 vBasePos = Vector3(110.f, 45.f);
 	Vector3 vBaseSize = Vector3(25.f, 25.f, 1.f);
@@ -46,17 +50,21 @@ _int CBuffController::Act(CCharacter* _pTarget)
 		{
 			if (iIconIndex >= MAX_BUFFICON)
 				continue;
-			//안나옴
-			CImage::STATEDESC desc = m_pBuffIcons[iIconIndex]->Get_DESC();
-			desc.m_dLifeTime = 0.8f;
-			CImage* pImage = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
-			if (nullptr == pImage) continue;
-			pImage->Set_UI(true);
-			pImage->Set_FadeOut();
-			CTransform* pTransform = (CTransform*)pImage->Get_Module(L"Transform");
-			if (nullptr == pTransform) continue;
-			pTransform->Expand_Auto(Vector2(200.f, 200.f));
 
+			if (m_isPlayer)
+			{
+
+				CImage::STATEDESC desc = m_pBuffIcons[iIconIndex]->Get_DESC();
+				desc.m_dLifeTime = 0.8f;
+				CImage* pImage = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+				if (nullptr == pImage) continue;
+				pImage->Set_UI(true);
+				pImage->Set_FadeOut();
+				CTransform* pTransform = (CTransform*)pImage->Get_Module(L"Transform");
+				if (nullptr == pTransform) continue;
+				pTransform->Expand_Auto(Vector2(200.f, 200.f));
+
+			}
 
 			//삭제
 			Safe_Release(*iter);
@@ -97,7 +105,7 @@ HRESULT CBuffController::Update_BuffIcon()
 	if (iStart < 0)
 		iStart = 0;
 	//클리어
-	for (int j = iStart; j< MAX_BUFFICON; ++j)
+	for (int j = iStart; j < MAX_BUFFICON; ++j)
 	{
 		m_pBuffIcons[j]->Set_TextureID(1);
 	}
@@ -117,15 +125,15 @@ HRESULT CBuffController::Add_Buff(CBuff * _pBuff)
 		m_listBuff.erase(iter);
 	}
 
-	m_listBuff.push_back(_pBuff); 
+	m_listBuff.push_back(_pBuff);
 
 	return S_OK;
 }
 
-CBuffController * CBuffController::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
+CBuffController * CBuffController::Create(PDIRECT3DDEVICE9 _pGraphic_Device, _bool _isPlayer)
 {
 	CBuffController* pInstance = new CBuffController(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize()))
+	if (FAILED(pInstance->Initialize(_isPlayer)))
 	{
 		MSG_BOX("Fail to create CBuffController");
 		Safe_Release(pInstance);

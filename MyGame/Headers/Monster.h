@@ -5,6 +5,7 @@ BEGIN(MyGame)
 
 class CAnimator;
 class CHpBar;
+class CItem;
 class CMonster abstract : public CCharacter
 {
 
@@ -31,6 +32,9 @@ public:
 protected:
 	//플레이어와 턴수를 비교해서 자신이 가져야할 속도를 계산한다.
 	_float		CalulateSpeed(_int movePerturn);
+
+public:
+	HRESULT	Throw_Item(CItem* pItem);
 
 protected:
 	virtual	HRESULT	OnRender();

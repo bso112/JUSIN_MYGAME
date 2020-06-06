@@ -71,9 +71,12 @@ void CArrow::Free()
 
 void CArrow::OnCollisionEnter(CGameObject * _pOther)
 {
+	++m_iCollisionCnt;
+	if (m_iCollisionCnt <= 1)
+		return;
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
 	//플레이어와 충돌은 무시
-	if (nullptr != pCharacter && pCharacter != CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE) && m_bDamagable)
+	if (nullptr != pCharacter &&  m_bDamagable)
 	{
 		pCharacter->TakeDamage(m_tDesc.m_tStats.m_fAtt);
 		m_bDead = true;
@@ -107,7 +110,7 @@ void CArrow::OnThrowEnd()
 {
 	m_pTransform->Set_Rotation(Vector3(0.f, 0.f, 0.f));
 	m_bDamagable = false;
-	
+
 }
 
 Vector3 CArrow::Get_OriginalSize()

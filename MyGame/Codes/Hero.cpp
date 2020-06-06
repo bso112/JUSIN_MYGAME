@@ -14,6 +14,7 @@
 #include "InventoryUIMgr.h"
 #include "Laser.h"
 #include "wand.h"
+#include "BuffController.h"
 USING(MyGame)
 
 
@@ -32,6 +33,7 @@ CHero::CHero(CHero & _hero)
 	ZeroMemory(m_pAnimator, sizeof(m_pAnimator));
 	ZeroMemory(m_pEquipments, sizeof(m_pEquipments));
 	m_pName = L"당신";
+	m_pBuffCon = CBuffController::Create(m_pGraphic_Device, true);
 }
 
 
@@ -41,6 +43,14 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 	{
 		if (nullptr == m_pTransform)
 			return E_FAIL;
+
+		CTurnMgr* pTurnMgr = CTurnMgr::Get_Instance();
+		RETURN_FAIL_IF_NULL(pTurnMgr);
+		////행동할 수 없는 상태면 리턴
+		//if (!pTurnMgr->CanAct())
+		//	return E_FAIL;
+
+		
 
 
 		POINT pt;

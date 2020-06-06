@@ -42,7 +42,7 @@ class CAIHunting : public CAIState
 public:
 	explicit CAIHunting(CCharacter* _pActor) :CAIState(_pActor) {};
 
-private:
+protected:
 	_bool	m_bAttack = false;
 public:
 	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta) override;
@@ -53,6 +53,22 @@ public:
 	virtual void Free() override;
 
 };
+
+class CAITengu : public CAIHunting
+{
+public:
+	explicit CAITengu(CCharacter* _pActor) :CAIHunting(_pActor) {};
+
+public:
+	virtual STATE	LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta) override;
+	virtual STATE	Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta) override;
+
+
+	// CAIState을(를) 통해 상속됨
+	virtual void Free() override;
+
+};
+
 
 
 

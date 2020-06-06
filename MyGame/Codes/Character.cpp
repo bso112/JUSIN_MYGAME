@@ -27,7 +27,7 @@ CCharacter::CCharacter(CCharacter & _character)
 	m_listImmune(_character.m_listImmune)
 {
 	m_pDeadClock = CClock_Delay::Create();
-	m_pBuffCon = CBuffController::Create(m_pGraphic_Device);
+
 }
 
 _int CCharacter::StartAct()

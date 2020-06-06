@@ -21,6 +21,7 @@
 #include "Ghost.h"
 #include "Goo.h"
 #include "InventoryUIMgr.h"
+#include "Tengu.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CSpawner)
@@ -48,6 +49,7 @@ HRESULT CSpawner::Ready_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device, _uint leve
 	pObjMgr->Add_Prototype(L"Crab", SCENE_STAGE, CCrab::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Ghost", SCENE_STAGE, CGhost::Create(_pGraphic_Device));
 	pObjMgr->Add_Prototype(L"Goo", SCENE_STAGE, CGoo::Create(_pGraphic_Device));
+	pObjMgr->Add_Prototype(L"Tengu", SCENE_STAGE, CTengu::Create(_pGraphic_Device));
 
 
 
@@ -215,6 +217,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
+		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Tengu", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Cheese", SCENE_STAGE, L"Item", SCENE_STAGE, &CFood::STATEDESC(BASEDESC(ranPos, Vector3(20.f, 15.f)), 10.f)));
@@ -389,6 +394,11 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 
 
 	return S_OK;
+}
+
+list<CGameObject*>* CSpawner::Get_Actors()
+{
+	return &m_listCharacter[CLevelMgr::Get_Instance()->Get_CurrDepth()];
 }
 
 CGameObject* CSpawner::PickObject(POINT& _pt, _uint _iLevel)

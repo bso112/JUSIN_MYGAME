@@ -64,6 +64,7 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 HRESULT CWarrior::Initialize(void * _param)
 {
 
+
 	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	if (m_eSceneID >= SCENE_END)
 		return E_FAIL;
@@ -215,11 +216,6 @@ HRESULT CWarrior::Initialize(void * _param)
 
 	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
 
-	CObjMgr* pObjMgr= CObjMgr::Get_Instance();
-	RETURN_FAIL_IF_NULL(pObjMgr);
-	m_pLight = (CLight*)pObjMgr->Add_GO_To_Layer(L"Light", SCENE_STAGE, L"Light", SCENE_STAGE);
-	RETURN_FAIL_IF_NULL(m_pLight);
-	Safe_AddRef(m_pLight);
 
 	return S_OK;
 }
@@ -239,9 +235,6 @@ _int CWarrior::Update(_double _timeDelta)
 	if (FAILED(m_pBuffCon->Update_BuffIcon()))
 		return -1;
 
-	CTransform* pTransform = (CTransform*)m_pLight->Get_Module(L"Transform");
-	RETURN_FAIL_IF_NULL(m_pLight);
-	pTransform->Set_Position(m_pTransform->Get_Position());
 	return 0;
 }
 
@@ -366,8 +359,6 @@ void CWarrior::Free()
 {
 	if (m_eSceneID >= SCENE_END)
 		return;
-
-	Safe_Release(m_pLight);
 	CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this);
 
 

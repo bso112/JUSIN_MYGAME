@@ -7,6 +7,8 @@
 #include "Clock.h"
 #include "DialogMgr.h"
 #include "HpBar.h"
+#include "BuffController.h"
+#include "Item.h"
 USING(MyGame)
 
 CMonster::CMonster(CMonster & _rhs)
@@ -14,6 +16,7 @@ CMonster::CMonster(CMonster & _rhs)
 {
 	SCENEID eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	m_pFocus = (CCharacter*)CObjMgr::Get_Instance()->Get_Player(eSceneID);
+	m_pBuffCon = CBuffController::Create(m_pGraphic_Device);
 
 	//멤버변수 셋팅
 	m_iRecogRange = 6;
@@ -190,6 +193,19 @@ _float CMonster::CalulateSpeed(_int movePerturn)
 
 	return (_float)pHeroTransform->Get_Desc().speedPerSec;
 
+}
+
+HRESULT CMonster::Throw_Item(CItem * pItem)
+{
+	if (nullptr == m_pFocus) return E_FAIL;
+	CTransform* pTargetTransform = (CTransform*)m_pFocus->Get_Module(L"Transform");
+	RETURN_FAIL_IF_NULL(pTargetTransform);
+	POINT pt;
+	pt.x = pTargetTransform->Get_Position().x;
+	pt.y = pTargetTransform->Get_Position().y;
+	pItem->Throw(pt);
+
+	return S_OK;
 }
 
 HRESULT CMonster::OnRender()

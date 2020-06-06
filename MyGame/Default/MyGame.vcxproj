@@ -240,6 +240,7 @@
     <ClInclude Include="..\Headers\StatsPanel.h" />
     <ClInclude Include="..\Headers\Target.h" />
     <ClInclude Include="..\Headers\TargetMgr.h" />
+    <ClInclude Include="..\Headers\Tengu.h" />
     <ClInclude Include="..\Headers\wand.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
     <ClInclude Include="..\Headers\Ring.h" />
@@ -360,6 +361,7 @@
     <ClCompile Include="..\Codes\StatsPanel.cpp" />
     <ClCompile Include="..\Codes\Target.cpp" />
     <ClCompile Include="..\Codes\TargetMgr.cpp" />
+    <ClCompile Include="..\Codes\Tengu.cpp" />
     <ClCompile Include="..\Codes\wand.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
     <ClCompile Include="..\Codes\Ring.cpp" />

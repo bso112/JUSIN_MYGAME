@@ -11,8 +11,7 @@ private:
 	explicit CWarrior(CWarrior& _hero);
 	virtual ~CWarrior() = default;
 	
-private:
-	CLight* m_pLight = nullptr;
+
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
 	virtual HRESULT Initialize(void * _param = nullptr) override;

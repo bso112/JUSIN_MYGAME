@@ -28,19 +28,23 @@ private:
 
 private:
 	CLayer*				m_pActorLayers[MAX_LAYER_CNT];
-	list<CBase*>	m_listObservers;
+	list<CBase*>		m_listObservers;
 
 private:
 	CGameObject*		m_pCurrActor = nullptr;
-	_bool			m_bTurnStart = false;
+	_bool				m_bTurnStart = false;
+	//모든 액터의 턴이 끝난상태인가
+	_bool				m_bTurnEnd = true;
 public:
-	HRESULT		Initialize();
-	_int		Get_TurnCnt() {return m_iMaxTurn;}
+	HRESULT				Initialize();
+	_int				Get_TurnCnt() { return m_iMaxTurn; }
 
 public:
-
+	//모든 액터의 턴이 끝난상태인가
+	_bool	CanAct() { return m_bTurnEnd; }
 public:
-	_int		Update_Simultaneously();
+	_int	Update_Simultaneously();
+
 	HRESULT	MoveTurn_Simultaneously(_int _iTurnCnt);
 
 public:
@@ -48,7 +52,7 @@ public:
 	HRESULT UnRegisterObserver(CBase* _pObserver);
 	HRESULT	ClearObservers();
 
-	
+
 public:
 	virtual void Free() override;
 };

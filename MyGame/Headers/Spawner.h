@@ -25,6 +25,10 @@ public:
 	HRESULT	Set_Visuable(Vector3 _vPlayerPos, _int _iRange, _int _iDepth);
 	//기본템 셋팅
 	HRESULT	Ready_BasicItem(CInventory* _pInventory);
+
+public:
+	list<CGameObject*>* Get_Actors();
+
 public:
 	CGameObject*	PickObject(POINT& _pt, _uint _iLevel);
 	CGameObject*	PickCharacter(Vector3 _vPos, _uint _iLevel, CTransform* pSelfTransform);

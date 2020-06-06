@@ -4,6 +4,10 @@
 #include "ObjMgr.h"
 #include "Image.h"
 #include "Goo.h"
+#include "Tengu.h"
+#include "ItemFactory.h"
+#include "Spawner.h"
+#include "Item.h"
 USING(MyGame)
 
 CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
@@ -50,6 +54,7 @@ CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _dou
 	{
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 		m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 2, BASEDESC(Vector2(pTransform->Get_Position().x - 10.f, pTransform->Get_Position().y - 15.f), Vector2(10.f, 15.f)));
+		m_pActor->SetTurnState(true);
 		return STATE_HUNTING;
 	}
 
@@ -74,9 +79,9 @@ void CAISleeping::OnStateEnter(_bool _canAttack, _bool _isAlerted, _double _time
 
 	pAnimator->Play(L"idle");
 
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-	//1턴만 되서 안나오는것처럼 보임
-	m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 1, BASEDESC(Vector2(pTransform->Get_Position().x, pTransform->Get_Position().y - 10.f), Vector2(10.f, 10.f)));
+	//CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	////1턴만 되서 안나오는것처럼 보임
+	//m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 1, BASEDESC(Vector2(pTransform->Get_Position().x, pTransform->Get_Position().y - 10.f), Vector2(10.f, 10.f)));
 
 }
 
@@ -123,7 +128,8 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 	}
 	//그외에는 턴 진행중
 	else
-		m_pActor->SetTurnState(false);
+		//요거 때문에 턴 안넘어감
+		m_pActor->SetTurnState(true);
 
 	return STATE_END;
 }
@@ -236,3 +242,95 @@ void CAIState::OnStateEnter(_bool _canAttack, _bool _isAlerted, _double _timeDel
 {
 }
 
+CAIState::STATE CAITengu::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
+{
+	if (nullptr == m_pActor)
+		return STATE_END;
+
+
+	//공격 모션
+	CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+	if (nullptr == pAnimator)
+		return STATE_END;
+
+	
+	//공격애니메이션 끝나면
+	if (m_bAttack && pAnimator->IsEndAnim(L"attack"))
+	{
+		CCharacter* pFocus = m_pActor->Get_Focus();
+		if (nullptr == pFocus)
+			return STATE_END;
+
+		//공격
+		m_pActor->Attack(pFocus);
+
+		//턴종료
+		m_pActor->SetTurnState(true);
+		m_bAttack = false;
+	}
+	//그외에는 턴 진행중
+	else
+		//요거 때문에 턴 안넘어감
+		m_pActor->SetTurnState(true);
+
+	return STATE_END;
+}
+
+CAIState::STATE CAITengu::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
+{
+	if (nullptr == m_pActor)
+		return STATE_END;
+
+
+	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	if (nullptr == pTransform)
+		return STATE_END;
+
+	//만약 인식범위에 플레이어가 없으면 IDLE로 돌아감.
+	if (!_isAlerted)
+		return STATE_IDLE;
+
+
+	//공격할 수 있으면
+	if (_canAttack)
+	{
+		//공격 모션
+		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+		if (nullptr == pAnimator)
+			return STATE_END;
+
+		//근거리공격
+		pAnimator->Play(L"attack");
+		m_bAttack = true;
+
+	}
+	//인식했으면
+	else if (_isAlerted)
+	{
+		//원거리공격
+
+		//공격 모션
+		CAnimator*	pAnimator = (CAnimator*)m_pActor->Get_Module(L"Animator");
+		if (nullptr == pAnimator)
+			return STATE_END;
+
+		pAnimator->Play(L"attack");
+
+		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		if (nullptr == pTransform) return STATE_END;
+
+		CSpawner* pSpawner = CSpawner::Get_Instance();
+		CItem* pItem = CItemFactory::Make_Item(BASEDESC(pTransform->Get_Position(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
+		pSpawner->Add_Interact(pItem, 0);
+		((CMonster*)m_pActor)->Throw_Item(pItem);
+		
+
+	}
+
+	return STATE_END;
+}
+
+void CAITengu::Free()
+{
+	CAIHunting::Free();
+}

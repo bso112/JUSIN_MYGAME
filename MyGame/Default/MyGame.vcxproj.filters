@@ -373,6 +373,9 @@
     <Filter Include="04.GameObject\GameObject\Light">
       <UniqueIdentifier>{b00396ec-7b64-4c96-8a2a-2d6f92276412}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.GameObject\GameObject\Character\Monster\05.Tengu">
+      <UniqueIdentifier>{2fc59a03-0656-4e62-a174-a88a216b84fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -732,6 +735,9 @@
     <ClInclude Include="..\Headers\Light.h">
       <Filter>04.GameObject\GameObject\Light</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\Tengu.h">
+      <Filter>04.GameObject\GameObject\Character\Monster\05.Tengu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -1066,6 +1072,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Light.cpp">
       <Filter>04.GameObject\GameObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Tengu.cpp">
+      <Filter>04.GameObject\GameObject\Character\Monster\05.Tengu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
