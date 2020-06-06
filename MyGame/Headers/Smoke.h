@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 #define PARTICLE_CNT_FIRE 10
 #define RANGE 3
+#define DURAION_IN_TURN 8
 class CClock_Trigger;
 class CSmoke : public CEffect
 {

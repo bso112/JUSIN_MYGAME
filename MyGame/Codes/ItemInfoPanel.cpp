@@ -5,6 +5,7 @@
 #include "Item.h"
 #include "Hero.h"
 #include "Shader.h"
+#include "KeyMgr.h"
 USING(MyGame)
 
 
@@ -15,6 +16,7 @@ HRESULT CItemInfoPanel::Initialize_Prototype()
 
 HRESULT CItemInfoPanel::Initialize(void * _param)
 {
+	CKeyMgr::Get_Instance()->RegisterObserver(SCENE_STAGE, this);
 	//∑ª¥ı ±Ì¿Ã
 	m_iDepth = 3;
 
@@ -163,6 +165,38 @@ HRESULT CItemInfoPanel::Add_ButtonListener(function<void()> _func)
 
 
 
+HRESULT CItemInfoPanel::OnKeyDown(_int KeyCode)
+{
+	if (!m_bActive	||
+		nullptr == m_pTransform)
+		return E_FAIL;
+
+
+	if (KeyCode == VK_LBUTTON)
+	{
+
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		//πˆ∆∞øµø™¿∫ ¡¶ø‹
+		for (auto& btn : m_vecBtn)
+		{
+			CTransform* pBtnTransform = (CTransform*)btn->Get_Module(L"Transform");
+			RETURN_FAIL_IF_NULL(pBtnTransform);
+			if (PtInRect(&pBtnTransform->Get_RECT(), pt))
+				return E_FAIL;
+		}
+		//¥≠æ˙¿ª∂ß ∆«≥⁄≤®¡ˆ∞‘
+		if (PtInRect(&m_pTransform->Get_RECT(), pt))
+		{
+			Set_Active(false);
+		}
+	}
+
+	return S_OK;
+}
+
 CItemInfoPanel * CItemInfoPanel::Create(PDIRECT3DDEVICE9 _pGraphic_Device)
 {
 	CItemInfoPanel* pInstance = new CItemInfoPanel(_pGraphic_Device);
@@ -198,4 +232,6 @@ void CItemInfoPanel::Free()
 		int d = Safe_Release(btn);
 	}
 	CImage::Free();
+	CKeyMgr::Get_Instance()->UnRegisterObserver(SCENE_STAGE, this);
+
 }

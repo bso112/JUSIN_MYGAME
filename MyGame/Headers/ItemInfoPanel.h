@@ -35,6 +35,8 @@ public:
 	void Set_Item(CItem* _pItem);
 	HRESULT	Add_ButtonListener(function<void()> _func);
 	
+protected:
+	virtual HRESULT	OnKeyDown(_int KeyCode);
 public:
 	static CItemInfoPanel* Create(PDIRECT3DDEVICE9 _pGraphic_Device);
 	// CGameObject을(를) 통해 상속됨

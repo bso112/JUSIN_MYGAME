@@ -63,7 +63,7 @@ HRESULT CSmoke::Initialize(void * _pArg)
 	}
 
 	//이펙트 지속시간 설정(턴)
-	m_iDuration = 5;
+	m_iDuration = DURAION_IN_TURN;
 	m_tParticleDesc.m_dDuration = FLT_MAX;
 	m_tParticleDesc.m_dLifeTime = 2.f;
 	m_tParticleDesc.m_eTextureSceneID = SCENE_STAGE;
@@ -92,9 +92,9 @@ HRESULT CSmoke::Initialize(void * _pArg)
 
 	CBuff::STATS stats;
 	if(m_tDesc.m_tBuffType == CBuff::TYPE_POISION)
-		m_BuffDesc.m_iDuration = 8;
+		m_BuffDesc.m_iDuration = DURAION_IN_TURN;
 	else if(m_tDesc.m_tBuffType == CBuff::TYPE_PARALIZE)
-		m_BuffDesc.m_iDuration = 8;
+		m_BuffDesc.m_iDuration = DURAION_IN_TURN;
 	m_BuffDesc.m_tStats = stats;
 	m_BuffDesc.m_eType = m_tDesc.m_tBuffType;
 
