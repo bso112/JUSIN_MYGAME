@@ -6,9 +6,7 @@ class CTransform;
 class CVIBuffer;
 class CItemInfoPanel;
 
-//내용물 크기
-#define CONTENTX 70.f
-#define CONTENTY 70.f
+
 class CItemSlot final: public CMyButton
 {
 private:
@@ -23,7 +21,13 @@ private:
 	_uint					m_iTextureID = 0;
 	RECT					m_tItemCntPlaceHolder;
 	_bool					m_bEquipmentslot = false;
+	_bool					m_bQuickSlot = false;
 
+	//누르고 있는 시간
+	_double					m_dClickTimeAcc = 0.0;
+	//내용물 크기
+	_float					m_fContentCX = 70.f;
+	_float					m_fContentCY = 70.f;
 	
 	
 public:
@@ -45,6 +49,7 @@ public:
 	void	Equip(CItem* _pItem);
 	CItem*	UnEquip();
 	void	Set_Equipmentslot() { m_bEquipmentslot = true; }
+	void	Set_QuickSlot();
 public:
 	_bool	IsEmpty(){ return m_listItem.empty(); }
 	_bool	Has_Item(CItem* _pItem);
@@ -56,7 +61,10 @@ protected:
 
 protected:
 	virtual HRESULT	OnKeyDown(_int KeyCode) override;
+	virtual HRESULT OnKeyPressing(_int KeyCode);
+	virtual HRESULT	OnKeyUp(_int KeyCode);
 	
+
 
 public:
 	static CItemSlot*	Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, _tchar* _pTextureTag,SCENEID _eTextureSceneID ,_uint _iTextureID =0 );

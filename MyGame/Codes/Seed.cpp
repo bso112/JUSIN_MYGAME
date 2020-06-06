@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Headers\Seed.h"
+#include "TurnMgr.h"
 
 USING(MyGame)
 CSeed::CSeed(PDIRECT3DDEVICE9 _pGrahic_Device)
@@ -8,14 +9,14 @@ CSeed::CSeed(PDIRECT3DDEVICE9 _pGrahic_Device)
 }
 
 CSeed::CSeed(CSeed & _rhs)
-	:CItem(_rhs)
+	: CItem(_rhs)
 {
 }
 
 HRESULT CSeed::Initialize(void * _param)
 {
 	CItem::Initialize();
-	
+	m_vecActions.push_back(AC_PLANT);
 
 	Set_Module(L"seed", SCENE_STAGE, (CModule**)&m_pTexture);
 	m_pTextureTag = L"seed";
@@ -36,8 +37,30 @@ void CSeed::OnThrowEnd()
 	//텍스쳐의 한도를 넘어가지 않게
 	if (m_iTextureID >= m_pTexture->Get_TextureSize())
 		m_iTextureID = m_pTexture->Get_TextureSize() - 1;
-	
+
 	m_bFlower = true;
+
+	//턴이동
+	CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
+}
+
+HRESULT CSeed::Use(CHero * _pHero, const _tchar ** _pAction)
+{
+	CItem::Use(_pHero, _pAction);
+	if (0 == lstrcmp(*_pAction, AC_PLANT))
+	{
+		if (nullptr == m_pTransform)
+			return E_FAIL;
+
+		//사용됨
+		m_bUsed = true;
+		m_bDrop = true;
+		m_bFlower = true;
+		++m_iTextureID;
+		//턴이동
+		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
+	}
+	return S_OK;
 }
 
 

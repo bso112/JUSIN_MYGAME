@@ -122,6 +122,7 @@ HRESULT CCharacter::ShowBuffImg(SCENEID _eTextureSceneID, const _tchar* _pTextur
 	if (nullptr == pImage)
 		return E_FAIL;
 	pImage->Set_UI(false);
+	pImage->Set_Depth(-1);
 	CTransform* pImgTransform = (CTransform*)pImage->Get_Module(L"Transform");
 	pImgTransform->MoveToDirAuto(Vector3(0.f, -1.f));
 
@@ -143,6 +144,7 @@ HRESULT CCharacter::ShowStateIcon(SCENEID _eTextureSceneID, const _tchar* _pText
 	if (nullptr == pImage)
 		return E_FAIL;
 	pImage->Set_UI(false);
+	pImage->Set_Depth(-1);
 
 
 	return S_OK;

@@ -38,6 +38,7 @@ private:
 	vector<CItemSlot*>	m_vecItemSlot;
 	//열쇠는 자주검색되기 때문에 따로 갖고있는다.
 	vector<CKey*>		m_vecKey;
+	vector<CItemSlot*>	m_vecQuickSlot;
 	RECT				m_tTitlePlaceHolder;
 public:
 	HRESULT	Initialize_Prototype();
@@ -53,6 +54,10 @@ public:
 	HRESULT	Put_Item(CItem* _pItem, _bool _bPickUp = true);
 	void	Put_Key(CKey* _pKey);
 	_bool	Use_Key();
+	HRESULT	AddToQuickSlot(CItem* _pItem);
+
+public:
+	vector<RECT> GetQuickSlotRect();
 public:
 	HRESULT	Set_SlotListener(function<void(CItem*)> _func);
 	HRESULT	Add_SlotListener(function<void()> _func);

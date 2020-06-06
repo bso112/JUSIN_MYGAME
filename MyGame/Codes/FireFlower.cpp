@@ -43,10 +43,13 @@ void CFireFlower::OnCollisionEnter(CGameObject * _pOther)
 			return;
 
 		CEffect*  pEffect = nullptr;
-		BASEDESC desc = BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size());
+		BASEDESC tBsseDesc = BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size());
+		CEffect::STATEDESC desc;
+		desc.m_tBaseDesc = tBsseDesc;
+		desc.m_tBuffType = CBuff::TYPE_BURN;
 		//이펙트 생성
 		pEffect = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &desc));
-		pEffect->Set_isCollided(true);
+		pEffect->Set_CollidableEffect(true);
 		//이펙트 재생
 		if (pEffect)
 			pEffect->Play();

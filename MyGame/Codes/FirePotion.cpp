@@ -25,7 +25,7 @@ void CFirePotion::OnShatter()
 	desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(TILECX, TILECY));
 	desc.m_tBuffType = CBuff::TYPE_BURN;
 	CEffect* pFire = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &desc));
-	pFire->Set_Collidable(true);
+	pFire->Set_CollidableEffect(true);
 	CDialogMgr::Get_Instance()->Log_Main(new wstring(L"포션이 깨지자, 불이 뿜어져나왔다."));
 
 }

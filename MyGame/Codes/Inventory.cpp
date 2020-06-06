@@ -10,6 +10,7 @@
 #include "ModuleMgr.h"
 #include "Spawner.h"
 #include "DialogMgr.h"
+#include "TurnMgr.h"
 USING(MyGame)
 
 
@@ -22,6 +23,7 @@ CInventory::CInventory(CInventory & _rhs)
 	: CGameObject(_rhs)
 {
 	m_vecItemSlot.reserve(SLOTX * SLOTY);
+	m_vecQuickSlot.reserve(3);
 }
 
 HRESULT CInventory::Initialize(void * _pArg)
@@ -96,6 +98,32 @@ HRESULT CInventory::Initialize(void * _pArg)
 
 		}
 	}
+
+
+
+	//퀵슬롯 만들기
+	int iBtnCX = 60;
+	int iBtnCY = 70;
+
+	CItemSlot* pSlot = CItemSlot::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
+	pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pSlot);
+	m_vecQuickSlot.push_back(pSlot); Safe_AddRef(pSlot);
+	pSlot->Set_Active(true);
+	pSlot->Set_QuickSlot();
+
+	pSlot = CItemSlot::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - float(iBtnCX >> 1) - iBtnCX * 1, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
+	pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pSlot);
+	m_vecQuickSlot.push_back(pSlot);Safe_AddRef(pSlot);
+	pSlot->Set_Active(true);
+	pSlot->Set_QuickSlot();
+
+	pSlot = CItemSlot::Create(m_pGraphic_Device, Vector4((g_iWinCX >> 1) - float(iBtnCX >> 1) - iBtnCX * 2, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
+	pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pSlot);
+	m_vecQuickSlot.push_back(pSlot);Safe_AddRef(pSlot);
+	pSlot->Set_Active(true);
+	pSlot->Set_QuickSlot();
+
+
 
 
 
@@ -191,6 +219,9 @@ HRESULT CInventory::Equip(CItem* _pEquipment, BODYPART _eBodyPart)
 	}
 	//찾은 아이템을 장착한다.
 	m_vecEquipSlot[_eBodyPart]->Equip(pItem);
+
+	//턴이동
+	CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
 	return S_OK;
 }
 
@@ -227,8 +258,9 @@ HRESULT CInventory::Put_Item(CItem * _pItem, _bool _bPickUp)
 			//그 슬롯에 넣는다.
 			pSlot->Add_Item(_pItem);
 			_pItem->SetDrop(false);
-			if(_bPickUp)
+			if (_bPickUp)
 				CDialogMgr::Get_Instance()->Log_Main(MSG_PICK(_pItem->Get_Name()), 0xff00ff1a);
+
 			break;
 		}
 	}
@@ -256,8 +288,54 @@ _bool CInventory::Use_Key()
 	return true;
 }
 
+HRESULT CInventory::AddToQuickSlot(CItem * _pItem)
+{
+	if (nullptr == _pItem)
+		return E_FAIL;
+
+	if (m_vecQuickSlot.empty())
+		return E_FAIL;
 
 
+	for (auto& pSlot : m_vecQuickSlot)
+	{
+		CItem* pSlotItem = pSlot->Get_Item();
+
+		//슬롯이 완전히 비어있거나, 비어있지 않아도 같은 종류의 아이템이고 스택가능하면
+		if (pSlot->IsEmpty() || (pSlotItem != nullptr && pSlotItem->CanStackWith(_pItem)))
+		{
+			//그 슬롯에 넣는다.
+			pSlot->Add_Item(_pItem);
+			_pItem->SetDrop(false);
+			return S_OK;
+		}
+	}
+
+	CDialogMgr::Get_Instance()->Log_Main(new wstring(L"퀵슬롯이 꽉찼습니다."));
+
+
+	return E_FAIL;
+}
+
+
+
+
+vector<RECT> CInventory::GetQuickSlotRect()
+{
+	if (nullptr == m_pTransform)
+		return vector<RECT>();
+
+	vector<RECT> rc;
+	for (auto& slot : m_vecQuickSlot)
+	{
+		CTransform* pTransform = (CTransform*)slot->Get_Module(L"Transform");
+		if (nullptr != pTransform)
+		{
+			rc.push_back(pTransform->Get_RECT());
+		}
+	}
+	return rc;
+}
 
 HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 {
@@ -265,6 +343,9 @@ HRESULT CInventory::Set_SlotListener(function<void(CItem*)> _func)
 		slot->Set_Listener(_func);
 
 	for (auto& slot : m_vecEquipSlot)
+		slot->Set_Listener(_func);
+
+	for (auto& slot : m_vecQuickSlot)
 		slot->Set_Listener(_func);
 
 
@@ -278,6 +359,9 @@ HRESULT CInventory::Add_SlotListener(function<void()> _func)
 		slot->Add_Listener(_func);
 
 	for (auto& slot : m_vecEquipSlot)
+		slot->Add_Listener(_func);
+
+	for (auto& slot : m_vecQuickSlot)
 		slot->Add_Listener(_func);
 
 	return S_OK;
@@ -300,6 +384,9 @@ void CInventory::Free()
 
 	for (auto& key : m_vecKey)
 		Safe_Release(key);
+
+	for (auto& slot : m_vecQuickSlot)
+		Safe_Release(slot);
 
 	for (auto& slot : m_vecEquipSlot)
 		Safe_Release(slot);

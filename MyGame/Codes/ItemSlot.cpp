@@ -9,6 +9,9 @@
 #include "Spawner.h"
 #include "LevelMgr.h"
 #include "Hero.h"
+#include "TimerMgr.h"
+#include "Equipment.h"
+#include "InventoryUIMgr.h"
 USING(MyGame)
 
 CItemSlot::CItemSlot(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -30,11 +33,12 @@ HRESULT CItemSlot::Add_Item(CItem * _pItem)
 		return E_FAIL;
 
 	//처음 먹으면 슬롯에 들어가니까 안보여야됨.
-	_pItem->Set_Active(false);
+	if (!m_bQuickSlot)
+		_pItem->Set_Active(false);
 	CTransform* pTransform = (CTransform*)_pItem->Get_Module(L"Transform");
 	RETURN_FAIL_IF_NULL(pTransform);
 	pTransform->Set_Position(m_pTransform->Get_Position());
-	pTransform->Set_Size(Vector2(CONTENTX, CONTENTY));
+	pTransform->Set_Size(Vector2(m_fContentCX, m_fContentCY));
 	m_listItem.push_back(_pItem);
 	Safe_AddRef(_pItem);
 
@@ -109,6 +113,12 @@ CItem * CItemSlot::UnEquip()
 	return pItem;
 }
 
+void CItemSlot::Set_QuickSlot()
+{
+	m_bQuickSlot = true;
+	m_fContentCX = 50.f;
+	m_fContentCY = 50.f;
+}
 _bool CItemSlot::Has_Item(CItem * _pItem)
 {
 	if (nullptr == _pItem)
@@ -250,6 +260,42 @@ HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 	if (!m_bActive)
 		return 0;
 
+	//if (KeyCode == VK_LBUTTON)
+	//{
+	//	m_tRect = m_pTransform->Get_RECT();
+
+	//	POINT cursorPos;
+	//	GetCursorPos(&cursorPos);
+	//	ScreenToClient(g_hWnd, &cursorPos);
+
+	//	if (PtInRect(&m_tRect, cursorPos))
+	//	{
+	//		if (!m_listItem.empty())
+	//		{
+	//			//버튼에 연결된 리스너를 호출한다.
+	//			for (auto& listener : m_vecOnListener)
+	//			{
+	//				//callable이면
+	//				if (listener)
+	//					listener();
+	//			}
+
+
+	//			//callable이면 아이템의 정보를 창에 띄워준다.
+	//			if (m_pSlotListener)
+	//				m_pSlotListener(m_listItem.back());
+	//		}
+	//		return OBJ_CLICKED;
+	//	}
+	//}
+	return S_OK;
+}
+
+HRESULT CItemSlot::OnKeyPressing(_int KeyCode)
+{
+	if (!m_bActive)
+		return 0;
+
 	if (KeyCode == VK_LBUTTON)
 	{
 		m_tRect = m_pTransform->Get_RECT();
@@ -260,24 +306,83 @@ HRESULT CItemSlot::OnKeyDown(_int KeyCode)
 
 		if (PtInRect(&m_tRect, cursorPos))
 		{
-			if (!m_listItem.empty())
+			m_dClickTimeAcc += CTimerMgr::Get_Instance()->Get_TimeDelta();
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CItemSlot::OnKeyUp(_int KeyCode)
+{
+	if (!m_bActive)
+		return 0;
+
+	if (KeyCode == VK_LBUTTON)
+	{
+		m_tRect = m_pTransform->Get_RECT();
+
+		POINT cursorPos;
+		GetCursorPos(&cursorPos);
+		ScreenToClient(g_hWnd, &cursorPos);
+
+		if (PtInRect(&m_tRect, cursorPos))
+		{
+			//만약 오래누르고 있었으면
+			if (m_dClickTimeAcc > 1.0)
 			{
-				//버튼에 연결된 리스너를 호출한다.
-				for (auto& listener : m_vecOnListener)
+				if (m_listItem.size() <= 0)
+					return E_FAIL;
+
+
+				CInventoryUIMgr* m_pInvenMgr = CInventoryUIMgr::Get_Instance();
+				RETURN_FAIL_IF_NULL(m_pInvenMgr);
+				CInventory* pInventory = m_pInvenMgr->GetInventory();
+				RETURN_FAIL_IF_NULL(pInventory);
+
+				if (!m_bQuickSlot)
 				{
-					//callable이면
-					if (listener)
-						listener();
+					HRESULT hr = E_FAIL;
+					//모든 아이템 옮기기
+					for (auto& item : m_listItem)
+					{
+						//아이템을 퀵슬롯으로 이동
+						hr = pInventory->AddToQuickSlot(item);
+					}
+
+					//슬롯을 비움
+					if (hr != E_FAIL)
+						Clear();
+
 				}
 
 
-				//callable이면 아이템의 정보를 창에 띄워준다.
-				if (m_pSlotListener)
-					m_pSlotListener(m_listItem.back());
 			}
-			return OBJ_CLICKED;
+			//그냥 클릭한거면
+			else
+			{
+				if (!m_listItem.empty())
+				{
+					//버튼에 연결된 리스너를 호출한다.
+					for (auto& listener : m_vecOnListener)
+					{
+						//callable이면
+						if (listener)
+							listener();
+					}
+
+
+					//callable이면 아이템의 정보를 창에 띄워준다.
+					if (m_pSlotListener)
+						m_pSlotListener(m_listItem.back());
+				}
+				return OBJ_CLICKED;
+			}
+
 		}
+
+		m_dClickTimeAcc = 0.0;
 	}
+
 	return S_OK;
 }
 

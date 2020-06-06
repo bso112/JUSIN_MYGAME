@@ -94,7 +94,7 @@ HRESULT CSmoke::Initialize(void * _pArg)
 	if(m_tDesc.m_tBuffType == CBuff::TYPE_POISION)
 		m_BuffDesc.m_iDuration = 8;
 	else if(m_tDesc.m_tBuffType == CBuff::TYPE_PARALIZE)
-		m_BuffDesc.m_iDuration = 5;
+		m_BuffDesc.m_iDuration = 8;
 	m_BuffDesc.m_tStats = stats;
 	m_BuffDesc.m_eType = m_tDesc.m_tBuffType;
 

@@ -49,6 +49,12 @@ vector<RECT> CInventoryUIMgr::GetUIRect()
 {
 	vector<RECT> rc;
 	
+	//퀵슬롯 렉트
+	for (auto& quickSlotRc : m_pInventory->GetQuickSlotRect())
+	{
+		rc.push_back(quickSlotRc);
+	}
+
 	//인벤토리가 활성화 상태면
 	if (m_pInventory->Get_Active())
 	{

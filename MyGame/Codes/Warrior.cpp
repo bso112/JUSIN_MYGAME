@@ -233,7 +233,7 @@ _int CWarrior::Update(_double _timeDelta)
 
 	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
 	if (nullptr == pLevelMgr)return -1;
-	//pLevelMgr->Set_Visuable(m_pTransform->Get_Position(), 4);
+	pLevelMgr->Set_Visuable(m_pTransform->Get_Position(), 4);
 
 	//버프 아이콘 렌더
 	if (FAILED(m_pBuffCon->Update_BuffIcon()))

@@ -30,7 +30,7 @@ private:
 
 public:
 	void	Play()		override;
-	void	Set_Collidable(_bool _bCollidable) { m_bCollidable = _bCollidable; }
+	void	Set_Collidable(_bool _bCollidable) { m_bCollidableEffect = _bCollidable; }
 	HRESULT	EffectOn(CCharacter* _pTarget) override;
 
 public:

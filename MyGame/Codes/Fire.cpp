@@ -163,7 +163,7 @@ HRESULT CFire::Render()
 
 void CFire::OnCollisionEnter(CGameObject * _pOther)
 {
-	if (!m_bCollidable)
+	if (!m_bCollidableEffect)
 		return;
 
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
@@ -173,7 +173,7 @@ void CFire::OnCollisionEnter(CGameObject * _pOther)
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 		
 		EffectOn(pCharacter);
-		m_bCollidable = false;
+		m_bCollidableEffect = false;
 
 	}
 
