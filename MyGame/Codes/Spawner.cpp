@@ -375,6 +375,7 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_KEY));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 		_pInventory->Put_Item(pItem);
+		_pInventory->Put_Key((CKey*)pItem);
 	}
 
 	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_RINGOFPARALYSIS));

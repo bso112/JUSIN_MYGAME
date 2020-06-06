@@ -16,12 +16,17 @@ protected:
 protected:
 	CAnimator*		m_pAnimator = nullptr;
 	CHpBar*			m_pHpBar = nullptr;
-
+	//얼마나 가까워지면 잠에서 깨는가
+	_int			m_iAwakeRange = 0;
 public:
 	virtual HRESULT	Initialize(void * _param);
 	virtual _int	Update(_double _timeDelta);
 	virtual _int	LateUpate(_double _timeDelta);
 	virtual HRESULT	Render();
+	
+public:
+	//잠에서 깼는가
+	_bool	IsAwake();
 
 protected:
 	//플레이어와 턴수를 비교해서 자신이 가져야할 속도를 계산한다.

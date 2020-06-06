@@ -16,7 +16,8 @@ CMonster::CMonster(CMonster & _rhs)
 	m_pFocus = (CCharacter*)CObjMgr::Get_Instance()->Get_Player(eSceneID);
 
 	//멤버변수 셋팅
-	m_iRecogRange = 5;
+	m_iRecogRange = 6;
+	m_iAwakeRange = 4;
 	m_iAttackRange = 1;
 
 
@@ -168,6 +169,14 @@ HRESULT CMonster::Render()
 	m_bVisuable = false;
 
 	return S_OK;
+}
+
+_bool CMonster::IsAwake()
+{
+	if (nullptr == m_pFocus)
+		return false;
+	
+	return IsTargetInRange(m_pFocus, m_iAwakeRange);
 }
 
 _float CMonster::CalulateSpeed(_int movePerturn)

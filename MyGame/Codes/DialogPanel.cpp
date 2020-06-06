@@ -43,7 +43,7 @@ HRESULT CDialogPanel::Initialize(void * _pArg)
 	 tIconDesc.m_pTextureTag = L"empty_bound";
 	 tIconDesc.m_iTextureID = 1;
 	 tIconDesc.m_eTextureSceneID = SCENE_STATIC;
-	 tIconDesc.m_tBaseDesc.vPos = Vector2((_float)pPanelRect.left + DIALOG_ICONCX * 0.5f + DIALOG_PADDING, (_float)pPanelRect.top + DIALOG_ICONCY * 0.5f + DIALOG_PADDING);
+	 tIconDesc.m_tBaseDesc.vPos = Vector2((_float)pPanelRect.left + DIALOG_ICONCX * 0.5f + DIALOG_PADDING, (_float)pPanelRect.top + DIALOG_ICONCY * 0.5f + 20.f);
 	 tIconDesc.m_tBaseDesc.vSize = Vector2(DIALOG_ICONCX, DIALOG_ICONCY);
 	 m_pIcon = (CImage*)pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &tIconDesc));
 	 RETURN_FAIL_IF_NULL(m_pIcon);
@@ -53,9 +53,9 @@ HRESULT CDialogPanel::Initialize(void * _pArg)
 
 	 //스피커 이름
 	 m_tFont[0].m_tRC = Make_Rect(Vector2(g_iWinCX * 0.5f, pPanelRect.top + DIALOG_PADDING), Vector2(200.f, 36.f));
-	 m_tFont[0].m_Color = COLOR_ORANGE;
+	 m_tFont[0].m_Color = COLOR_YELLOW;
 	 m_tFont[0].m_pFont = g_pFontX2;
-	 m_tFont[0].m_dwFormat = DT_LEFT;
+	 m_tFont[0].m_dwFormat = DT_CENTER;
 	 m_tFont[0].m_pString = L"유령";
 	 //말하는 내용
 	 m_tFont[1].m_tRC = Make_Rect(Vector2(g_iWinCX * 0.5f, g_iWinCY * 0.5f + 100.f), Vector2(DIALOG_PANELCX - DIALOG_PADDING * 2, 300.f));

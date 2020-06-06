@@ -73,12 +73,13 @@ HRESULT CAIStateCon::Set_State(CAIState::STATE _eState, CAIState * _pAIState)
 	return S_OK;
 }
 
-HRESULT CAIStateCon::Set_Default_State(CAIState::STATE _eState)
+HRESULT CAIStateCon::Set_Default_State(CAIState::STATE _eState, _bool _canAttack, _bool _isAlerted)
 {
 	if (CAIState::STATE_END <= _eState)
 		return E_FAIL;
 
 	m_pCurrState = m_pStateArr[_eState];
+	m_pCurrState->OnStateEnter(_canAttack, _isAlerted, CTimerMgr::Get_Instance()->Get_TimeDelta());
 	return S_OK;
 }
 

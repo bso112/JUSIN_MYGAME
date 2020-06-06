@@ -33,6 +33,13 @@ HRESULT CStatsPanel::Initialize(void * _param)
 	//버튼들을 생성하고 레이어에 등록한다. (업데이트, lateUpdate, render는 자동으로 불린다. lateUpdate에서 제대로 렌더그룹에 등록한다는 가정하에.)
 	RECT rc = m_pTransform->Get_RECT();
 
+	//타이틀 설정
+	m_tTitle.m_Color = COLOR_YELLOW;
+	m_tTitle.m_dwFormat = DT_LEFT;
+	m_tTitle.m_pFont = g_pFontX2;
+	m_tTitle.m_tRC = Make_Rect(Vector2(rc.left + 150.f + PADDING, rc.top + PADDING), Vector2(300.f, 36.f));
+	m_tTitle.m_pString = L"캐릭터 정보창";
+
 	for (int i = 0; i < 2; ++i)
 	{
 		Vector3 vBtnPos = Vector2(rc.left + PADDING + (BUTTONCX * 0.5f) + (i* BUTTONCX + i * MARGIN_BUTTON), rc.top + 70.f);
@@ -49,7 +56,11 @@ HRESULT CStatsPanel::Initialize(void * _param)
 		btn->Set_Active(false);
 		btn->Set_Depth(m_iDepth + 1);
 	}
+	m_vecBtn[0]->Set_Text(L"카탈로그");
+	m_vecBtn[1]->Set_Text(L"저널");
 
+
+	//내용 설정
 	_float fCX = 200.f;
 	_float fCY = 35.f;
 	RECT panel = m_pTransform->Get_RECT();
@@ -97,6 +108,8 @@ HRESULT CStatsPanel::Render()
 		for (int j = 0; j < TEXT_COL; ++j)
 			g_pFontX2->DrawText(NULL, m_Texts[i][j].m_pString.c_str(), -1, &m_Texts[i][j].m_tRC, DT_LEFT, 0xffffffff);
 	}
+
+	m_tTitle.m_pFont->DrawText(NULL, m_tTitle.m_pString.c_str(), -1, &m_tTitle.m_tRC, m_tTitle.m_dwFormat, m_tTitle.m_Color);
 
 	return 0;
 }

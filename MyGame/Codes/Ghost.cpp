@@ -67,7 +67,7 @@ HRESULT CGhost::Initialize(void * _param)
 #pragma region 상태셋팅
 	CAIStateCon* pStateCon = dynamic_cast<CAIStateCon*>(m_pStateCon);
 	pStateCon->Set_State(CAIState::STATE_WADERING, new CAIWandering(this));
-	pStateCon->Set_Default_State(CAIState::STATE_WADERING);
+	pStateCon->Set_Default_State(CAIState::STATE_WADERING, false, false);
 
 #pragma endregion
 

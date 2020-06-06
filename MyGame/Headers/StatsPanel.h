@@ -28,8 +28,9 @@ public:
 	virtual	void	OnSetActive(bool _bActive) override;
 	virtual	HRESULT	Render() override; 
 private:
+	MYFONT				m_tTitle;
 	vector<CMyButton*>	m_vecBtn;
-	MYFONT		m_Texts[TEXT_ROW][TEXT_COL];
+	MYFONT				m_Texts[TEXT_ROW][TEXT_COL];
 public:
 	void Set_Player();
 	HRESULT	Add_ButtonListener(function<void()> _func);

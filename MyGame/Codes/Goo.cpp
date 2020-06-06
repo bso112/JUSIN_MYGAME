@@ -69,7 +69,9 @@ HRESULT CGoo::Initialize(void * _param)
 	pStateCon->Set_State(CAIState::STATE_IDLE, new CAIIdle(this));
 	pStateCon->Set_State(CAIState::STATE_HUNTING, new CAIHunting(this));
 	pStateCon->Set_State(CAIState::STATE_SLEEP, new CAISleeping(this));
-	pStateCon->Set_Default_State(CAIState::STATE_SLEEP);
+	if (nullptr == m_pFocus)
+		return E_FAIL;
+	pStateCon->Set_Default_State(CAIState::STATE_SLEEP, IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));
 
 #pragma endregion
 

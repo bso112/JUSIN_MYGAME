@@ -27,7 +27,7 @@ public:
 	_int	Start(_bool _canAttack, _bool _isAlerted);
 	_int	Update(_bool _canAttack, _bool _isAlerted);
 	HRESULT	Set_State(CAIState::STATE _eState, CAIState* _pAIState);
-	HRESULT	Set_Default_State(CAIState::STATE _eState);
+	HRESULT	Set_Default_State(CAIState::STATE _eState, _bool _canAttack, _bool _isAlerted);
 
 public:
 	static CAIStateCon* Create(PDIRECT3DDEVICE9 _pGraphic_Device);

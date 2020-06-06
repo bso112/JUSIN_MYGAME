@@ -43,12 +43,16 @@ void CAIIdle::Free()
 
 CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-	if (_isAlerted)
+	if (nullptr == m_pActor)
+		return STATE_END;
+
+	if (((CMonster*)m_pActor)->IsAwake())
 	{
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-		m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 2, BASEDESC(Vector2(pTransform->Get_Position().x, pTransform->Get_Position().y - 10.f), Vector2(10.f, 15.f)));
+		m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 2, BASEDESC(Vector2(pTransform->Get_Position().x - 10.f, pTransform->Get_Position().y - 15.f), Vector2(10.f, 15.f)));
 		return STATE_HUNTING;
 	}
+
 
 	m_pActor->SetTurnState(true);
 
@@ -57,7 +61,6 @@ CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _dou
 
 CAIState::STATE CAISleeping::Act(_bool _canAttack, _bool _isAlerted, _double _timeDelta)
 {
-
 	m_pActor->SetTurnState(true);
 
 	return STATE_END;
@@ -72,6 +75,7 @@ void CAISleeping::OnStateEnter(_bool _canAttack, _bool _isAlerted, _double _time
 	pAnimator->Play(L"idle");
 
 	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	//1턴만 되서 안나오는것처럼 보임
 	m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 1, BASEDESC(Vector2(pTransform->Get_Position().x, pTransform->Get_Position().y - 10.f), Vector2(10.f, 10.f)));
 
 }
@@ -112,7 +116,7 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 
 		//공격
 		m_pActor->Attack(pFocus);
-		
+
 		//턴종료
 		m_pActor->SetTurnState(true);
 		m_bAttack = false;
@@ -130,7 +134,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 	if (nullptr == m_pActor)
 		return STATE_END;
 
-	
+
 	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 	if (nullptr == pTransform)
 		return STATE_END;

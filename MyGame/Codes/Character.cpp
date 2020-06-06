@@ -77,6 +77,7 @@ HRESULT CCharacter::ShowText(const _tchar * _pText, D3DXCOLOR _Color, ID3DXFont*
 	desc.m_tBaseDesc = BASEDESC(Vector3(m_pTransform->Get_Position().x, m_pTransform->Get_Position().y - 10.f), Vector2(100.f, 30.f));
 	desc.m_dLifeTime = 1.f;
 	CImage* pDamageText = (CImage*)CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
+	pDamageText->Set_Depth(-1);
 	if (nullptr != pDamageText)
 	{
 		//카메라 영향받도록 지정
@@ -102,6 +103,7 @@ HRESULT CCharacter::ShowBuffImg(CImage * _pImage)
 	if (nullptr == pImage)
 		return E_FAIL;
 	pImage->Set_UI(false);
+	pImage->Set_Depth(-1);
 	CTransform* pImgTransform = (CTransform*)pImage->Get_Module(L"Transform");
 	pImgTransform->MoveToDirAuto(Vector3(0.f, -1.f));
 	return S_OK;
@@ -141,10 +143,13 @@ HRESULT CCharacter::ShowStateIcon(SCENEID _eTextureSceneID, const _tchar* _pText
 
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 	CImage* pImage = (CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STAGE, CImage::Create(m_pGraphic_Device, &desc));
-	if (nullptr == pImage)
-		return E_FAIL;
+	if (nullptr == pImage) return E_FAIL;
 	pImage->Set_UI(false);
 	pImage->Set_Depth(-1);
+	if (nullptr == m_pTransform) return E_FAIL;
+	CTransform* pTransform = (CTransform*)pImage->Get_Module(L"Transform");
+	if (nullptr == pTransform) return E_FAIL;
+	pTransform->Set_Parent(m_pTransform);
 
 
 	return S_OK;
