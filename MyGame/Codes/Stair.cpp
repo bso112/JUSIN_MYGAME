@@ -76,16 +76,16 @@ void CStair::OnCollisionEnterTerrain(CGameObject * _pOther)
 		if (m_eType == TYPE_UP)
 		{
 			//플레이어와 닿은 적이 있으면
-			if (m_bContacted)
-			{
-				RETURN_IF_NULL(pLevelMgr);
-				//다음 층으로
-				if (m_eType == TYPE_DOWN)
-					pLevelMgr->Next_Level();
-				//이전 층으로
-				else
-					pLevelMgr->Prv_Level();
-			}
+			//if (m_bContacted)
+		//	{
+			RETURN_IF_NULL(pLevelMgr);
+			//다음 층으로
+			if (m_eType == TYPE_DOWN)
+				pLevelMgr->Next_Level();
+			//이전 층으로
+			else
+				pLevelMgr->Prv_Level();
+			//}
 
 		}
 		else

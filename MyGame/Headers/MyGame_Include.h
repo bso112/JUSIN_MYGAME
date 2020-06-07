@@ -40,10 +40,10 @@ using namespace std;
 #include "MyGame_Typedef.h"
 #include "MyGame_Struct.h"
 
-//// 사운드
-//#include <io.h>
-//#include "fmod.h"
-//#pragma comment (lib, "fmodex_vc.lib")
+// 사운드
+#include <io.h>
+#include "fmod.h"
+#pragma comment (lib, "fmodex_vc.lib")
 
 extern HWND g_hWnd;
 extern ID3DXFont* g_pFont;
