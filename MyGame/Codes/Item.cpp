@@ -89,7 +89,7 @@ HRESULT CItem::Use(CHero* _pHero, const _tchar ** _pAction)
 	if (nullptr == _pHero)
 		return E_FAIL;
 
-	CTransform* pHeroTransform = (CTransform*)_pHero->Get_Module(L"Transform");
+	CTransform* pHeroTransform = dynamic_cast<CTransform*>(_pHero->Get_Module(L"Transform"));
 	if (nullptr == pHeroTransform)
 		return E_FAIL;
 
@@ -308,7 +308,7 @@ _int CItem::Interact(CGameObject * _pOther)
 	if (nullptr != pHero)
 	{
 		//거리가 충분히 가까우면
-		CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
+		CTransform* pHeroTransform = dynamic_cast<CTransform*>( pHero->Get_Module(L"Transform"));
 		if (nullptr == pHeroTransform) return -1;
 		if (nullptr == m_pTransform) return -1;
 		_float dist = (pHeroTransform->Get_Position() - m_pTransform->Get_Position()).magnitude();

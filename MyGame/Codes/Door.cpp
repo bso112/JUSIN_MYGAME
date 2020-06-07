@@ -39,13 +39,15 @@ _int CDoor::Interact(CGameObject* _pOther)
 
 	if (m_bLocked)
 	{
-		if (pHero->Has_Key())
-		{
-			UnLock();
-			pHero->PlayAnimation(L"use");
-		}
-		else
-			CDialogMgr::Get_Instance()->Log_Main(new wstring(L"알맞은 열쇠가 없습니다."));
+		//if (pHero->Has_Key())
+		//{
+		//	UnLock();
+		//	pHero->PlayAnimation(L"use");
+		//}
+		//else
+		//	CDialogMgr::Get_Instance()->Log_Main(new wstring(L"알맞은 열쇠가 없습니다."));
+
+		UnLock();
 
 	}
 	return 0;

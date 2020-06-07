@@ -35,7 +35,7 @@ HRESULT CItemSlot::Add_Item(CItem * _pItem)
 	//처음 먹으면 슬롯에 들어가니까 안보여야됨.
 	if (!m_bQuickSlot)
 		_pItem->Set_Active(false);
-	CTransform* pTransform = (CTransform*)_pItem->Get_Module(L"Transform");
+	CTransform* pTransform = dynamic_cast<CTransform*>(_pItem->Get_Module(L"Transform"));
 	RETURN_FAIL_IF_NULL(pTransform);
 	pTransform->Set_Position(m_pTransform->Get_Position());
 	pTransform->Set_Size(Vector2(m_fContentCX, m_fContentCY));
@@ -72,14 +72,14 @@ HRESULT CItemSlot::Drop_Item()
 
 	CItem* pItem = m_listItem.back();
 
-	CTransform* pItemTransform = (CTransform*)pItem->Get_Module(L"Transform");
+	CTransform* pItemTransform = dynamic_cast<CTransform*>(pItem->Get_Module(L"Transform"));
 	if (nullptr == pItemTransform) return E_FAIL;
 
 	CGameObject* pPlayer = CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
 	if (nullptr == pPlayer)
 		return E_FAIL;
 
-	CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(pPlayer->Get_Module(L"Transform"));
 	if (nullptr == pPlayerTransform)
 		return E_FAIL;
 

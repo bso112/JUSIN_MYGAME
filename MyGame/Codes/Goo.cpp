@@ -15,7 +15,7 @@ CGoo::CGoo(CGoo & _rhs)
 	:CMonster(_rhs),
 	m_iHitCnt(0)
 {
-	m_tStat = _rhs.m_tStat;
+	//m_tStat = _rhs.m_tStat;
 }
 
 HRESULT CGoo::Initialize_Prototype(_tchar * _pFilePath)
@@ -89,7 +89,6 @@ HRESULT CGoo::Initialize(void * _param)
 		return E_FAIL;
 	CAnimation* pIdleAnim = CAnimation::Create(pTexture, 0.3, true);
 	m_pAnimator->Add_Animation(L"idle", pIdleAnim);
-	m_pAnimator->Add_Animation(L"walk", pIdleAnim);
 
 	if (FAILED(Set_Module(L"goo_dead", SCENE_STAGE, (CModule**)&pTexture)))
 		return E_FAIL;

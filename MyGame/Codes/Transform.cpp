@@ -77,7 +77,7 @@ HRESULT CTransform::Update_Route(_double _timeDelta)
 		return TURN_END;
 	}
 
-	CTransform* pTileTransform = (CTransform*)m_Route[m_iCurrRouteIndex]->Get_Module(L"Transform");
+	CTransform* pTileTransform = dynamic_cast<CTransform*>(m_Route[m_iCurrRouteIndex]->Get_Module(L"Transform"));
 	if (nullptr == pTileTransform)
 		return E_FAIL;
 
@@ -486,7 +486,7 @@ HRESULT CTransform::Go_Route(vector<CTerrain*> _route, _double _StopDistance, _i
 	m_bStop = false;
 	m_Route = _route;
 	m_StopDistance = _StopDistance;
-	CTransform* pTransform = (CTransform*)m_Route.back()->Get_Module(L"Transform");
+	CTransform* pTransform = dynamic_cast<CTransform*>(m_Route.back()->Get_Module(L"Transform"));
 	if (nullptr == pTransform)
 		return E_FAIL;
 	m_vDst = pTransform->Get_Position();

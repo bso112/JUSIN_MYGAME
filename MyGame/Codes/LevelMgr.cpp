@@ -117,7 +117,7 @@ HRESULT CLevelMgr::Next_Level()
 	if (nullptr == pHero)
 		return E_FAIL;
 	pHero->Set_InitialPos();
-	CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
+	CTransform* pHeroTransform = dynamic_cast<CTransform*>(pHero->Get_Module(L"Transform"));
 	pHeroTransform->Stop();
 	return S_OK;
 }
@@ -139,7 +139,8 @@ HRESULT CLevelMgr::Prv_Level()
 	if (nullptr == pHero)
 		return E_FAIL;
 	pHero->Set_LastPos();
-	CTransform* pHeroTransform = (CTransform*)pHero->Get_Module(L"Transform");
+	CTransform* pHeroTransform = dynamic_cast<CTransform*>(pHero->Get_Module(L"Transform"));
+	if (pHeroTransform == nullptr) return E_FAIL;
 	pHeroTransform->Stop();
 
 

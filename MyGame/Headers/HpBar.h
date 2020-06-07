@@ -5,17 +5,18 @@ class CCharacter;
 class CHpBar :public CImage
 {
 protected:
-	explicit CHpBar(PDIRECT3DDEVICE9 _pGraphic_Device) : CImage(_pGraphic_Device) { m_pOwner = nullptr; };
-	explicit CHpBar(CHpBar& _rhs) : CImage(_rhs) { m_pOwner = nullptr; };
+	explicit CHpBar(PDIRECT3DDEVICE9 _pGraphic_Device) : CImage(_pGraphic_Device) { };
+	explicit CHpBar(CHpBar& _rhs) : CImage(_rhs) {};
 	virtual ~CHpBar() = default;
 
 private:
-	CCharacter* m_pOwner = nullptr;
+	_float m_fMaxHp = 0.f;
+	_float m_fHp = 0.f;
 
 public:
 	virtual HRESULT Render() override;
 public:
-	void	Set_Owner(CCharacter* _pOwner) { m_pOwner = _pOwner; Safe_AddRef(_pOwner); }
+	void	Set_State(_float _fMaxHp, _float _fHp) { m_fMaxHp = _fMaxHp; m_fHp = _fHp; }
 
 public:
 	static CHpBar* Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2 _vSize, const _tchar* _pTextureTag, SCENEID _eTextureSceneID);

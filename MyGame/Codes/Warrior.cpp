@@ -14,7 +14,7 @@
 #include "BuffController.h"
 #include "ObjMgr.h"
 #include "Light.h"
-
+#include "HpBar.h"
 USING(MyGame)
 
 
@@ -216,6 +216,16 @@ HRESULT CWarrior::Initialize(void * _param)
 
 	m_pTransform->Set_ColliderSize(Vector2(30.f, 30.f));
 
+	//HpBar
+	_float HpBarfCX = 163.f;
+	_float HpBarfCY = 11.f;
+	m_pHpBar = CHpBar::Create(m_pGraphic_Device, Vector3(90.f + HpBarfCX * 0.5f, 8.f + HpBarfCY * 0.5f), Vector2(HpBarfCX, HpBarfCY), L"hp_bar", SCENE_STAGE);
+	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
+ 	CObjMgr* pObjMgr= CObjMgr::Get_Instance();
+	RETURN_FAIL_IF_NULL(pObjMgr);
+	pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, m_pHpBar);
+	Safe_AddRef(m_pHpBar);
+	
 
 	return S_OK;
 }
@@ -234,6 +244,8 @@ _int CWarrior::Update(_double _timeDelta)
 	//버프 아이콘 렌더
 	if (FAILED(m_pBuffCon->Update_BuffIcon()))
 		return -1;
+
+	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
 
 	return 0;
 }
@@ -357,10 +369,11 @@ void CWarrior::OnCollisionEnter(CGameObject * _pOther)
 
 void CWarrior::Free()
 {
+	Safe_Release(m_pHpBar);
+
 	if (m_eSceneID >= SCENE_END)
 		return;
 	CKeyMgr::Get_Instance()->UnRegisterObserver(m_eSceneID, this);
-
 
 	CHero::Free();
 }

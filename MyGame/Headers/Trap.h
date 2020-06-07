@@ -27,7 +27,7 @@ public:
 		CTrap* pInstance = new CTrap(_pGraphic_Device);
 		if (FAILED(pInstance->Initialize_Prototype(_tData, _pTextureTag, _eTextureScene, _pTextureTag, _pFilePath)))
 		{
-			MSG_BOX("Fail to create CDoor");
+			MSG_BOX("Fail to create CTrap");
 			Safe_Release(pInstance);
 
 		}
@@ -39,7 +39,7 @@ public:
 		CTrap* pInstance = new CTrap(*this);
 		if (FAILED(pInstance->Initialize()))
 		{
-			MSG_BOX("Fail to clone CDoor");
+			MSG_BOX("Fail to clone CTrap");
 			Safe_Release(pInstance);
 
 		}

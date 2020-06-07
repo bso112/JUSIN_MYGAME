@@ -14,7 +14,7 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double 
 {
 	if (_isAlerted)
 	{
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		CTransform* pTransform = dynamic_cast<CTransform*>(m_pActor->Get_Module(L"Transform"));
 		if (nullptr == pTransform)
 			return STATE_END;
 
@@ -22,7 +22,7 @@ CAIState::STATE CAIIdle::LateUpdate(_bool _canAttack, _bool _isAlerted, _double 
 		if (nullptr == pFocus)
 			return STATE_END;
 
-		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
+		CTransform* pTargetTransform = dynamic_cast<CTransform*>(pFocus->Get_Module(L"Transform"));
 		if (nullptr == pTargetTransform)
 			return STATE_END;
 
@@ -50,10 +50,13 @@ CAIState::STATE CAISleeping::LateUpdate(_bool _canAttack, _bool _isAlerted, _dou
 	if (nullptr == m_pActor)
 		return STATE_END;
 
-	if (((CMonster*)m_pActor)->IsAwake())
+	CMonster* pMonster = dynamic_cast<CMonster*>(m_pActor);
+	if (nullptr == pMonster)
+		return STATE_END;
+	if ( pMonster->IsAwake())
 	{
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
-		m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 2, BASEDESC(Vector2(pTransform->Get_Position().x - 10.f, pTransform->Get_Position().y - 15.f), Vector2(10.f, 15.f)));
+		//CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		//m_pActor->ShowStateIcon(SCENE_STAGE, L"icon", 2, BASEDESC(Vector2(pTransform->Get_Position().x - 10.f, pTransform->Get_Position().y - 15.f), Vector2(10.f, 15.f)));
 		m_pActor->SetTurnState(true);
 		return STATE_HUNTING;
 	}
@@ -95,7 +98,7 @@ CAIState::STATE CAIHunting::LateUpdate(_bool _canAttack, _bool _isAlerted, _doub
 	if (nullptr == m_pActor)
 		return STATE_END;
 
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	CTransform* pTransform = dynamic_cast<CTransform*>(m_pActor->Get_Module(L"Transform"));
 	if (nullptr == pTransform)
 		return STATE_END;
 
@@ -141,7 +144,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 		return STATE_END;
 
 
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	CTransform* pTransform = dynamic_cast<CTransform*>(m_pActor->Get_Module(L"Transform"));
 	if (nullptr == pTransform)
 		return STATE_END;
 
@@ -165,7 +168,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 	//인식했으면
 	else if (_isAlerted)
 	{
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		CTransform* pTransform = dynamic_cast<CTransform*>(m_pActor->Get_Module(L"Transform"));
 		if (nullptr == pTransform)
 			return STATE_END;
 
@@ -173,7 +176,7 @@ CAIState::STATE CAIHunting::Act(_bool _canAttack, _bool _isAlerted, _double _tim
 		if (nullptr == pFocus)
 			return STATE_END;
 
-		CTransform* pTargetTransform = (CTransform*)pFocus->Get_Module(L"Transform");
+		CTransform* pTargetTransform = dynamic_cast<CTransform*>(pFocus->Get_Module(L"Transform"));
 		if (nullptr == pTargetTransform)
 			return STATE_END;
 
@@ -282,7 +285,7 @@ CAIState::STATE CAITengu::Act(_bool _canAttack, _bool _isAlerted, _double _timeD
 		return STATE_END;
 
 
-	CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+	CTransform* pTransform = dynamic_cast<CTransform*>(m_pActor->Get_Module(L"Transform"));
 	if (nullptr == pTransform)
 		return STATE_END;
 
@@ -333,7 +336,7 @@ CAIState::STATE CAITengu::Act(_bool _canAttack, _bool _isAlerted, _double _timeD
 
 		pAnimator->Play(L"attack");
 
-		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
+		CTransform* pTransform = dynamic_cast<CTransform*>(m_pActor->Get_Module(L"Transform"));
 		if (nullptr == pTransform) return STATE_END;
 
 		vector<CItemFactory::ITEM_ID> vecThrowItem;

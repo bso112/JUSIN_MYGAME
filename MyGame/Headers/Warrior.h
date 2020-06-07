@@ -3,7 +3,7 @@
 
 BEGIN(MyGame)
 
-class CLight;
+class CHpBar;
 class CWarrior final : public CHero
 {
 private:
@@ -12,6 +12,8 @@ private:
 	virtual ~CWarrior() = default;
 	
 
+private:
+	CHpBar*	m_pHpBar = nullptr;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr) override;
 	virtual HRESULT Initialize(void * _param = nullptr) override;

@@ -213,10 +213,10 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5263.f, 5235.f, 1.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(4787.f, 5137.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5484.f, 5159.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
 
@@ -276,6 +276,15 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		Vector2 ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Tengu", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[2].back());
+
+		for (auto& GO : m_listGO[_iLevel])
+		{
+			Safe_AddRef(GO);
+		}
+		for (auto& GO : m_listCharacter[_iLevel])
+		{
+			Safe_AddRef(GO);
+		}
 	}
 	return S_OK;
 }
@@ -347,11 +356,13 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 		//기본템 생성
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 
 
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 	}
 
@@ -359,6 +370,7 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	{
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 	}
 
@@ -368,6 +380,7 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	{
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 	}
 
@@ -375,6 +388,7 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	{
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_CHEESE));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 	}
 
@@ -382,14 +396,17 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	{
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_SHIELDSEED));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_FIRESEED));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ICESEED));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 
 	}
@@ -398,16 +415,19 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	{
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_KEY));
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
 		_pInventory->Put_Key((CKey*)pItem);
 	}
 
 	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_RINGOFPARALYSIS));
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	Safe_AddRef(m_listGO[0].back());
 	_pInventory->Put_Item(pItem);
 
 	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LETHERARMOR));
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	Safe_AddRef(m_listGO[0].back());
 	_pInventory->Put_Item(pItem);
 
 

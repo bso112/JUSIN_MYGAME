@@ -376,6 +376,9 @@
     <Filter Include="04.GameObject\GameObject\Character\Monster\05.Tengu">
       <UniqueIdentifier>{2fc59a03-0656-4e62-a174-a88a216b84fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Utility\13.SoundMgr">
+      <UniqueIdentifier>{80602b99-fa2c-4335-a8f4-09187df0638a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyGame.h">
@@ -738,6 +741,9 @@
     <ClInclude Include="..\Headers\Tengu.h">
       <Filter>04.GameObject\GameObject\Character\Monster\05.Tengu</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\SoundMgr.h">
+      <Filter>06.Utility\13.SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame.cpp">
@@ -1075,6 +1081,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Tengu.cpp">
       <Filter>04.GameObject\GameObject\Character\Monster\05.Tengu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\SoundMgr.cpp">
+      <Filter>06.Utility\13.SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

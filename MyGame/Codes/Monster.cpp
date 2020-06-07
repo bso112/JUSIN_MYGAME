@@ -36,7 +36,7 @@ HRESULT CMonster::Initialize(void * _param)
 	//Hp바 셋팅
 	m_pHpBar = CHpBar::Create(m_pGraphic_Device, m_pTransform->Get_Position(), Vector2(30.f, 5.f), L"hp_bar_monster", SCENE_STAGE);
 	m_pHpBar->Set_UI(false);
-	m_pHpBar->Set_Owner(this);
+	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
 	//처음엔 안보이게
 	m_pHpBar->Set_Active(false);
 	CTransform* pTransform = (CTransform*)m_pHpBar->Get_Module(L"Transform");
@@ -47,13 +47,14 @@ HRESULT CMonster::Initialize(void * _param)
 	CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, m_pHpBar);
 
 	//이거 하면 릭남
-	//Safe_AddRef(m_pHpBar);
+	Safe_AddRef(m_pHpBar);
 	return S_OK;
 }
 
 _int CMonster::Update(_double _timeDelta)
 {
 
+	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
 	if (m_bDying)
 	{
 		if (nullptr == m_pDeadClock)
@@ -67,6 +68,7 @@ _int CMonster::Update(_double _timeDelta)
 
 	if (!m_bActive)
 		return 0;
+
 
 	m_pTransform->Update_Route(_timeDelta);
 
@@ -91,7 +93,7 @@ _int CMonster::LateUpate(_double _timeDelta)
 	if (FAILED(m_pRenderer->Add_To_RenderGrop(this, CRenderer::RENDER_YSORT)))
 		return E_FAIL;
 
-	
+
 
 	return 0;
 }
@@ -178,7 +180,7 @@ _bool CMonster::IsAwake()
 {
 	if (nullptr == m_pFocus)
 		return false;
-	
+
 	return IsTargetInRange(m_pFocus, m_iAwakeRange);
 }
 
@@ -232,7 +234,7 @@ void CMonster::OnTakeDamage(float _fDamage)
 
 void CMonster::Free()
 {
-	//Safe_Release(m_pHpBar);
+	Safe_Release(m_pHpBar);
 	Safe_Release(m_pAnimator);
 	CCharacter::Free();
 }

@@ -5,6 +5,7 @@
 
 BEGIN(MyGame)
 class CShader;
+//똑같은 애니메이션을 다른 key에 넣으면 안된다. Free시에 댕글링포인터가 됨.
 class CAnimator : public CModule
 {
 private:

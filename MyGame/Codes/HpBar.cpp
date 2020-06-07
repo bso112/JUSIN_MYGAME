@@ -17,8 +17,7 @@ HRESULT CHpBar::Render()
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pTextrue ||
 		nullptr == m_pTransform ||
-		nullptr == m_pPipline	||
-		nullptr == m_pOwner)
+		nullptr == m_pPipline	)
 		return E_FAIL;
 
 
@@ -35,15 +34,12 @@ HRESULT CHpBar::Render()
 	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))
 		return E_FAIL;
 
-	//쉐이더에 Hp 셋팅하기
-	CCharacter::STATS tStats = m_pOwner->Get_Stat();
-	float fMaxHp = tStats.m_fMaxHp->GetValue();
-	float fCurrHp = tStats.m_fHP;
+	
 
-	if (FAILED(m_pShader->Set_Value("g_fCurrHp", &fCurrHp, sizeof(float))))
+	if (FAILED(m_pShader->Set_Value("g_fCurrHp", &m_fHp, sizeof(float))))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Set_Value("g_fMaxHp", &fMaxHp, sizeof(float))))
+	if (FAILED(m_pShader->Set_Value("g_fMaxHp", &m_fMaxHp, sizeof(float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShader->Begin()))
@@ -136,6 +132,5 @@ CGameObject* CHpBar::Clone(void* _param)
 
 void CHpBar::Free()
 {
-	Safe_Release(m_pOwner);
 	CImage::Free();
 }
