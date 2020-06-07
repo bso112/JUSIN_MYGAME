@@ -25,12 +25,15 @@ HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	//레벨을 준비한다.
 	m_aLevel[0] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level1.dat");
 	m_aLevel[1] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level2.dat");
+	m_aLevel[2] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level3.dat");
 
 	//타일프로토타입 생성
 	CTileLoader::CreateTilePrototype(_pGraphic_Device, SCENE_STAGE);
 
 	RETURN_FAIL_IF_NULL(m_aLevel[0]);
 	RETURN_FAIL_IF_NULL(m_aLevel[1]);
+	RETURN_FAIL_IF_NULL(m_aLevel[2]);
+
 
 
 	//아이템, 몬스터 프로토타입을 준비한다.
@@ -70,6 +73,14 @@ HRESULT CLevelMgr::Initialize()
 	//두번째 레벨의 아이템, 몬스터를 스폰한다.
 	if (FAILED(m_pSpawner->Spawn(1)))
 		return E_FAIL;
+
+	//두번째 레벨을 로드한다.
+	if (FAILED(m_aLevel[2]->Load_World(SCENE_STAGE)))
+		return E_FAIL;
+
+	if (FAILED(m_pSpawner->Spawn(2)))
+		return E_FAIL;
+
 
 	m_iCurrLevel = 0;
 

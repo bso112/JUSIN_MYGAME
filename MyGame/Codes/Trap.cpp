@@ -7,6 +7,7 @@
 #include "DialogMgr.h"
 #include "Texture.h"
 #include "ParticleSystem.h"
+#include "SceneMgr.h"
 USING(MyGame)
 
 CTrap::CTrap(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -106,7 +107,8 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 
 void CTrap::OnHidden()
 {
-	m_iCurFrame = 5;
+	if(CSceneMgr::Get_Instance()->Get_CurrScene() != SCENE_EDITOR)
+		m_iCurFrame = 5;
 }
 
 void CTrap::OnReveal()

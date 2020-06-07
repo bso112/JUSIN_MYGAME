@@ -22,12 +22,13 @@ HRESULT CEditor::Initialize()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
+	CKeyMgr::Get_Instance()->RegisterObserver(SCENE_EDITOR, this);
 	//카메라 생성
 	m_pObjMgr->Add_Prototype(L"MainCamera", SCENE_STAGE, CCamera::Create(m_pGraphic_Device));
 	m_pMainCam = dynamic_cast<CCamera*>(m_pObjMgr->Add_GO_To_Layer(L"MainCamera", SCENE_STAGE, L"Camera", SCENE_STAGE, &BASEDESC(Vector3(float((TILECX * WORLDX) >> 1), float((TILECY * WORLDY) >> 1)), Vector3(1.f, 1.f, 1.f))));
 	RETURN_FAIL_IF_NULL(m_pMainCam);
 
-	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level2.dat");
+	m_pWorld = CLevel::Create(m_pGraphic_Device, SCENE_EDITOR, L"../Bin/Data/level3.dat");
 	RETURN_FAIL_IF_NULL(m_pWorld);
 
 
@@ -56,63 +57,7 @@ _int CEditor::Update(_double _timeDelta)
 		pTransform->Update_Transform();
 	}
 
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
-	{
-		//현재꺼를 지우고
-		Safe_Release(m_pCurrTerrain);
-		//팔레트에서 타일을 다시 선택한다.
-		m_pCurrTerrain = (CTerrain*)m_pPalette->Pick_Tile(pt);
-	}
-
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
-	{
-		//지형을 찍는다.
-		if (nullptr != m_pCurrTerrain)
-			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
-	}
-
-	//마스크를 지운다.
-	if (CKeyMgr::Get_Instance()->Key_Down('E'))
-	{
-		if (nullptr != m_pCurrTerrain)
-			m_pWorld->Erase_Mask(pt);
-	}
-
-	if (CKeyMgr::Get_Instance()->Key_Pressing('F'))
-	{
-		//지형을 채운다.
-		if (nullptr != m_pCurrTerrain)
-			m_pWorld->Fill_Terrain(m_pCurrTerrain, pt);
-	}
 	
-
-	//현재 선택된 타일의 프레임을 뒤로
-	if (CKeyMgr::Get_Instance()->Key_Down('A'))
-	{
-		if (nullptr != m_pCurrTerrain)
-		{
-			m_pCurrTerrain->Backward_Frame();
-		}
-	}
-	//현재 선택된 타일의 프레임을 앞으로
-	else if (CKeyMgr::Get_Instance()->Key_Down('D'))
-	{
-		if (nullptr != m_pCurrTerrain)
-		{
-			m_pCurrTerrain->Forward_Frame();
-		}
-	}
-	//세이브
-	if (CKeyMgr::Get_Instance()->Key_Down('S'))
-	{
-		m_pWorld->Save_World(L"../Bin/Data/leve2.dat");
-	}
-	//로드
-	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
-	{
-		m_pWorld->Load_World(SCENE_EDITOR);
-	}
-
 	return 0;
 }
 
@@ -163,7 +108,7 @@ void CEditor::Free()
 	Safe_Release(m_pPalette);
 
 	Safe_Release(m_pWorld);
-
+	CKeyMgr::Get_Instance()->UnRegisterObserver(SCENE_EDITOR, this);
 
 	//게임 오브젝트 프로토타입 지우기, 게임 오브젝트 인스턴스에 대한 레퍼런스 끊기, 모듈 인스턴스 지우기
 	if (FAILED(CObjMgr::Get_Instance()->Clear_Scene(SCENEID::SCENE_EDITOR)))
@@ -183,4 +128,86 @@ void CEditor::Free()
 
 	CScene::Free();
 
+}
+
+HRESULT CEditor::OnKeyDown(_int KeyCode)
+{
+	if (KeyCode == VK_RBUTTON)
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		//현재꺼를 지우고
+		Safe_Release(m_pCurrTerrain);
+		//팔레트에서 타일을 다시 선택한다.
+		m_pCurrTerrain = (CTerrain*)m_pPalette->Pick_Tile(pt);
+	}
+
+	if (KeyCode == (VK_LBUTTON))
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		//지형을 찍는다.
+		if (nullptr != m_pCurrTerrain)
+			m_pWorld->Set_Terrain(m_pCurrTerrain, pt);
+	}
+
+	//마스크를 지운다.
+	if (KeyCode ==('E'))
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		if (nullptr != m_pCurrTerrain)
+			m_pWorld->Erase_Mask(pt);
+	}
+
+
+	//현재 선택된 타일의 프레임을 뒤로
+	if (KeyCode == ('A'))
+	{
+		if (nullptr != m_pCurrTerrain)
+		{
+			m_pCurrTerrain->Backward_Frame();
+		}
+	}
+	//현재 선택된 타일의 프레임을 앞으로
+	else if (KeyCode == ('D'))
+	{
+		if (nullptr != m_pCurrTerrain)
+		{
+			m_pCurrTerrain->Forward_Frame();
+		}
+	}
+	//세이브
+	if (KeyCode == ('S'))
+	{
+		m_pWorld->Save_World(L"../Bin/Data/level3.dat");
+	}
+	//로드
+	else if (KeyCode == ('L'))
+	{
+		m_pWorld->Load_World(SCENE_EDITOR);
+	}
+
+	return S_OK;
+}
+
+HRESULT CEditor::OnKeyPressing(_int KeyCode)
+{
+	if (KeyCode == ('F'))
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+		//지형을 채운다.
+		if (nullptr != m_pCurrTerrain)
+			m_pWorld->Fill_Terrain(m_pCurrTerrain, pt);
+	}
+
+	return S_OK;
 }

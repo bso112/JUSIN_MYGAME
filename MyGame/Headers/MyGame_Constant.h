@@ -11,7 +11,7 @@ const unsigned int		g_iWinCY = 720;
 #define WORLDX 400
 #define WORLDY 400
 //레벨 최대 층수
-#define MAX_DEPTH 2
+#define MAX_DEPTH 3
 
 
 #define OBJ_NOEVENT 0

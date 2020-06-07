@@ -22,6 +22,8 @@ HRESULT CTileLoader::CreateTilePrototype(PDIRECT3DDEVICE9 _pGraphic_Device, SCEN
 	//텍스쳐 로드
 	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(_pGraphic_Device, _eSceneID, L"../Bin/Resources/Textures/Terrain/level_one/");
 	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(_pGraphic_Device, _eSceneID, L"../Bin/Resources/Textures/Terrain/level_two/");
+	CTextureLoader::Get_Instance()->Create_Textrues_From_Folder_Anim(_pGraphic_Device, _eSceneID, L"../Bin/Resources/Textures/Terrain/level_three/");
+
 
 
 	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
@@ -103,6 +105,33 @@ HRESULT CTileLoader::CreateTilePrototype(PDIRECT3DDEVICE9 _pGraphic_Device, SCEN
 	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_Two_water", _eSceneID);
 	pObjMgr->Add_Prototype(L"lv_Two_water", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
 	pTerrain->Set_Maskable();
+
+	//팔레트에 쓸 타일(프로토타입)을 만든다.
+
+	pTerrain = CDoor::Create(_pGraphic_Device, TERRAIN(false), L"lv_Three_door", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_Three_door", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(true), L"lv_Three_floor", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_Three_floor", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_Three_sign", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_Three_sign", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+	pTerrain = CStair::Create(_pGraphic_Device, TERRAIN(true), L"lv_Three_stair", _eSceneID, L"stair");
+	pObjMgr->Add_Prototype(L"lv_Three_stair", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_Three_statue", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_Three_statue", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+	pTerrain = CTrap::Create(_pGraphic_Device, TERRAIN(true), L"lv_Three_trap", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_Three_trap", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+	pTerrain = CTerrain::Create(_pGraphic_Device, TERRAIN(false), L"lv_Three_wall", _eSceneID);
+	pObjMgr->Add_Prototype(L"lv_Three_wall", _eSceneID, pTerrain); if (container)container->push_back(pTerrain);
+
+
+
+
 
 	return S_OK;
 }

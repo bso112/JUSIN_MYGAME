@@ -70,25 +70,41 @@ _int CMainApp::Update(_double _timeDelta)
 	if (nullptr == m_pSceneMgr)
 		return -1;
 
+	if (m_pSceneMgr->Get_CurrScene() != SCENE_EDITOR)
+	{
+		CKeyMgr* pKeyMgr = CKeyMgr::Get_Instance();
+		if (nullptr == pKeyMgr)
+			return -1;
+		CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
+		CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
+		CKeyMgr::Get_Instance()->Key_Up(VK_LBUTTON);
 
-	CKeyMgr* pKeyMgr = CKeyMgr::Get_Instance();
-	if (nullptr == pKeyMgr)
-		return -1;
-	CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
-	CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON);
-	CKeyMgr::Get_Instance()->Key_Up(VK_LBUTTON);
-
-	CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON);
-
-
-	CKeyMgr::Get_Instance()->Key_Pressing('D');
-	CKeyMgr::Get_Instance()->Key_Pressing('A');
-	CKeyMgr::Get_Instance()->Key_Pressing('W');
-	CKeyMgr::Get_Instance()->Key_Pressing('S');
+		CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON);
 
 
-	CKeyMgr::Get_Instance()->Key_Pressing('Z');
-	CKeyMgr::Get_Instance()->Key_Pressing('X');
+		CKeyMgr::Get_Instance()->Key_Pressing('D');
+		CKeyMgr::Get_Instance()->Key_Pressing('A');
+		CKeyMgr::Get_Instance()->Key_Pressing('W');
+		CKeyMgr::Get_Instance()->Key_Pressing('S');
+
+
+		CKeyMgr::Get_Instance()->Key_Pressing('Z');
+		CKeyMgr::Get_Instance()->Key_Pressing('X');
+	}
+	else
+	{
+		CKeyMgr* pKeyMgr = CKeyMgr::Get_Instance();
+		if (nullptr == pKeyMgr)
+			return -1;
+		CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON);
+		CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON);
+		CKeyMgr::Get_Instance()->Key_Down('A');
+		CKeyMgr::Get_Instance()->Key_Down('D');
+		CKeyMgr::Get_Instance()->Key_Down('S');
+		CKeyMgr::Get_Instance()->Key_Down('L');
+
+		CKeyMgr::Get_Instance()->Key_Pressing('F');
+	}
 
 	CKeyMgr::Get_Instance()->Key_Update();
 
@@ -119,7 +135,7 @@ HRESULT CMainApp::Render()
 	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pTargetMgr);
 	pTargetMgr->Set_RenderTarget(L"Portrait", 1);
-	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 0.f, 0.f), 1.f, 0);
+	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 1.f, 0.f), 1.f, 0);
 	pTargetMgr->Release_RenderTarget(L"Portrait");
 
 	m_pGraphic_Device->BeginScene();

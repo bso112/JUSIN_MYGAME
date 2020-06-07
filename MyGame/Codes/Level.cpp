@@ -1018,7 +1018,9 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 			if (0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_trap") ||
 				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_One_stair") ||
 				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_trap") ||
-				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_stair"))
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Two_stair")	||
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Three_stair")||
+				0 == lstrcmp(tSaveData.m_PrototypeTag, L"lv_Three_trap"))
 			{
 				m_listCollidable.push_back(pTerrain);
 				Safe_AddRef(pTerrain);
