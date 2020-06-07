@@ -121,6 +121,19 @@ HRESULT CTengu::Initialize(void * _param)
 	return S_OK;
 }
 
+void CTengu::Sunbo()
+{
+	if (nullptr == m_pTransform	||
+		nullptr == m_pFocus)
+		return;
+
+	Vector3 ranPos = CLevelMgr::Get_Instance()->Get_RandomPos(m_pTransform->Get_Position(), 3);
+	m_pTransform->Set_Position(ranPos);
+	CTransform* pFocusTransform = dynamic_cast<CTransform*>(m_pFocus->Get_Module(L"Transform"));
+	if (nullptr == pFocusTransform) return;
+	m_pTransform->FaceDir((pFocusTransform->Get_Position() - m_pTransform->Get_Position()).Nomalize());
+}
+
 void CTengu::OnDead()
 {
 	CMonster::OnDead();

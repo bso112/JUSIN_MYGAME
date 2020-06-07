@@ -30,7 +30,6 @@ protected:
 private:
 	STATEDESC	m_tDesc = {};
 	_bool		m_bDamagable = false;
-	_uint		m_iCollisionCnt = 0;
 public:
 	HRESULT Initialize(void * _param);
 

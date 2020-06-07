@@ -94,6 +94,7 @@ protected:
 public:
 	void	Drop(Vector3 _vDropPos);
 	virtual void	Throw(POINT& _pt);
+	virtual void	Throw(Vector3& _pt);
 	_bool	CanStackWith(CItem* pItem);
 	_bool	IsStackable() { return m_bStackable; }
 protected:

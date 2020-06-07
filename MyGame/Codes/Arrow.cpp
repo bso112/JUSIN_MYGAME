@@ -71,13 +71,13 @@ void CArrow::Free()
 
 void CArrow::OnCollisionEnter(CGameObject * _pOther)
 {
-	++m_iCollisionCnt;
-	if (m_iCollisionCnt <= 1)
-		return;
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
 	//플레이어와 충돌은 무시
 	if (nullptr != pCharacter &&  m_bDamagable)
 	{
+		if (0 == lstrcmp(pCharacter->Get_Name(), L"텐구 암살자"))
+			return;
+
 		pCharacter->TakeDamage(m_tDesc.m_tStats.m_fAtt);
 		m_bDead = true;
 	}

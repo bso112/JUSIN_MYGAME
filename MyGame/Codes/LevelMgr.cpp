@@ -182,6 +182,11 @@ HRESULT CLevelMgr::Explore(Vector3 _vPos)
 	return m_aLevel[Get_CurrDepth()]->Explore(_vPos);
 }
 
+Vector3 CLevelMgr::Get_RandomPos(Vector3 _vPos, _int _iRange)
+{
+	return m_aLevel[Get_CurrDepth()]->Get_RandomPos(_vPos, _iRange);
+}
+
 
 CTerrain * CLevelMgr::PickTile(POINT & pt)
 {

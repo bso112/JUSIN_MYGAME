@@ -200,10 +200,7 @@ HRESULT CMonster::Throw_Item(CItem * pItem)
 	if (nullptr == m_pFocus) return E_FAIL;
 	CTransform* pTargetTransform = (CTransform*)m_pFocus->Get_Module(L"Transform");
 	RETURN_FAIL_IF_NULL(pTargetTransform);
-	POINT pt;
-	pt.x = pTargetTransform->Get_Position().x;
-	pt.y = pTargetTransform->Get_Position().y;
-	pItem->Throw(pt);
+	pItem->Throw(pTargetTransform->Get_Position());
 
 	return S_OK;
 }

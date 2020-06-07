@@ -60,6 +60,9 @@ public:
 	CTerrain* Pick_Tile(Vector3& dst);
 
 	Vector3	Get_RandomPos();
+	//vOrigin을 중심으로 _range 영역 안의 랜덤포지션을 리턴한다.
+	Vector3	Get_RandomPos(Vector3 _vPos, _int _iRange);
+
 	//플레이어 스폰 위치를 가져온다.
 	Vector3 Get_PlayerSpawnPos();
 	Vector3	Get_PlayerLastPos();

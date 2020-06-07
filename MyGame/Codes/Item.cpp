@@ -144,6 +144,16 @@ void CItem::Throw(POINT & _pt)
 	OnThrowStart();
 }
 
+void CItem::Throw(Vector3 & _dst)
+{
+	//던져진다.
+	m_bThrown = true;
+	m_vDest = _dst;
+	//사용 초기화
+	m_bUsed = false;
+	OnThrowStart();
+}
+
 _bool CItem::CanStackWith(CItem * pItem)
 {
 	if (nullptr == pItem)

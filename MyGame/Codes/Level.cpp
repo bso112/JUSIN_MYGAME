@@ -776,6 +776,36 @@ Vector3 CLevel::Get_RandomPos()
 	return Vector3((TILECX >> 1) + (float)ranX * TILECX, (TILECY >> 1) + (float)ranY * TILECY, 0.f, 1.f);
 }
 
+Vector3 CLevel::Get_RandomPos(Vector3 _vPos, _int _iRange)
+{
+	_int tileX = _vPos.x / TILECX;
+	_int tileY = _vPos.y / TILECY;
+	_int tileRandX;
+	_int tileRandY;
+	do
+	{
+		//원점으로부터 떨어질 정도 구하기
+		_int randX = rand() % _iRange + 1;
+		_int randY = rand() % _iRange + 1;
+
+		//마이너스인가 플러스인가
+		_int signX = rand() % 2;
+		_int signY = rand() % 2;
+
+		signX = signX == 0 ? -1 : 1;
+		signY = signY == 0 ? -1 : 1;
+
+		tileRandX = tileX + signX * randX;
+		tileRandY = tileY + signY * randY;
+
+	}while (m_pTerrains[tileRandY][tileRandX] == nullptr || !m_pTerrains[tileRandY][tileRandX]->IsMovable(nullptr));
+
+
+	return Vector3((TILECX >> 1) + (float)tileRandX * TILECX, (TILECY >> 1) + (float)tileRandY * TILECY, 0.f, 1.f);
+}
+
+
+
 Vector3 CLevel::Get_PlayerSpawnPos()
 {
 	return m_vPlayerSpawnPos;
@@ -876,7 +906,7 @@ HRESULT CLevel::Explore(Vector3 _vPos)
 				desc.m_eTextureSceneID = SCENE_STAGE;
 				desc.m_pTextureTag = L"explore";
 				desc.m_tBaseDesc = BASEDESC(pTerrainTransform->Get_Position(), Vector2(TILECX, TILECY));
-				CImage* pImge =(CImage*) pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, CImage::Create(m_pGraphic_Device, &desc));
+				CImage* pImge = (CImage*)pObjMgr->Add_GO_To_Layer(L"Particle", SCENE_STATIC, CImage::Create(m_pGraphic_Device, &desc));
 				pImge->Set_FadeOut();
 				pImge->Set_UI(false);
 				pImge->Set_RenderGroup(CRenderer::RENDER_BACKEFFECT);
