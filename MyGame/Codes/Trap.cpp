@@ -68,6 +68,28 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 	case TYPE_FIRE:
 		pEffect = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Fire", SCENE_STAGE, L"Effect", SCENE_STAGE, &desc));
 		break;
+	case TYPE_POISION:
+	{
+		CEffect::STATEDESC desc;
+		desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(TILECX, TILECY));
+		desc.m_tBuffType = CBuff::TYPE_POISION;
+		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+		RETURN_IF_NULL(pObjMgr);
+		CEffect* pSmoke = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Smoke", SCENE_STAGE, L"Effect", SCENE_STAGE, &desc));
+		pSmoke->Play();
+		break;
+	}
+	case TYPE_PARALYZE:
+	{
+		CEffect::STATEDESC desc;
+		desc.m_tBaseDesc = BASEDESC(m_pTransform->Get_Position(), Vector2(TILECX, TILECY));
+		desc.m_tBuffType = CBuff::TYPE_PARALIZE;
+		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+		RETURN_IF_NULL(pObjMgr);
+		CEffect* pSmoke = dynamic_cast<CEffect*>(pObjMgr->Add_GO_To_Layer(L"Effect_Smoke", SCENE_STAGE, L"Effect", SCENE_STAGE, &desc));
+		pSmoke->Play();
+		break;
+	}
 	}
 
 	//ÀÌÆåÆ® Àç»ý

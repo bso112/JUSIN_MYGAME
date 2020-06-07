@@ -5,7 +5,7 @@ class Effect;
 class CTrap : public CTerrain
 {
 public:
-	enum TYPE{ TYPE_EMPTY, TYPE_FIRE ,TYPE_END};
+	enum TYPE{ TYPE_EMPTY, TYPE_FIRE , TYPE_POISION, TYPE_PARALYZE, TYPE_END};
 private:
 	explicit CTrap(PDIRECT3DDEVICE9 _pGraphic_Device);
 	explicit CTrap(CTrap& _rhs);
