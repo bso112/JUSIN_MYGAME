@@ -10,6 +10,7 @@
 #include "Image.h"
 #include "DialogMgr.h"
 #include "BuffController.h"
+#include "SoundMgr.h"
 
 USING(MyGame)
 
@@ -166,6 +167,7 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 		_float chance = rand() / (float)RAND_MAX * 100.0f;
 		if (chance < m_tStat.m_fAvoidability)
 		{
+			CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_miss.mp3", CSoundMgr::EFFECT);
 			ShowText(L"회피");
 			return false;
 		}
@@ -208,7 +210,7 @@ HRESULT CCharacter::Attack(CCharacter * pCharacter)
 
 		if (IsTargetInRange(pCharacter, m_iAttackRange))
 		{
-
+			CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_hit.mp3", CSoundMgr::CHANNELID::PLAYER);
 			_float Damage = m_tStat.m_fAtt->GetValue();
 			pCharacter->TakeDamage(Damage);
 			OnAttack(pCharacter);
@@ -428,6 +430,7 @@ void CCharacter::OnCollisionEnter(CGameObject * _pOther)
 
 void CCharacter::OnTakeDamage(float _fDamage)
 {
+
 
 	//반짝거림
 	m_iPass = 3;

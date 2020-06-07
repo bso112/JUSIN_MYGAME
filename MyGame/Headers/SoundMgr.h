@@ -6,7 +6,7 @@ class CSoundMgr : public CBase
 {
 	DECLARE_SINGLETON(CSoundMgr)
 public:
-	enum CHANNELID { BGM, PLAYER, PLAYER_FOOTSTEP, PLAYER_ATT, MONSTER, EFFECT, MONSTER_EFFECT, UI, MAXCHANNEL };
+	enum CHANNELID { BGM, PLAYER, PLAYER_LOOP, MONSTER, EFFECT, EFFECT_LOOP, UI, MAXCHANNEL };
 private:
 	explicit CSoundMgr() {};
 	virtual ~CSoundMgr() = default;
@@ -15,10 +15,12 @@ public:
 	void Initialize();
 
 public:
-	void PlaySound(TCHAR* pSoundKey, CHANNELID eID);
+	void PlaySound_Overwrite(TCHAR* pSoundKey, CHANNELID eID);
+	void PlaySound(TCHAR * pSoundKey, CHANNELID eID);
 	void PlayBGM(TCHAR* pSoundKey);
 	void StopSound(CHANNELID eID);
 	void StopAll();
+	void Set_Volum(CHANNELID eID, _float fVolume);
 
 private:
 	void LoadSoundFile();

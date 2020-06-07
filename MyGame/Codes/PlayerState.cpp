@@ -6,6 +6,7 @@
 #include "KeyMgr.h"
 #include "LevelMgr.h"
 #include "TurnMgr.h"
+#include "SoundMgr.h"
 
 USING(MyGame)
 
@@ -68,6 +69,8 @@ CPlayerState::STATE CPlayerWalk::LateUpdate(_bool _canAttack, _bool _isAlerted, 
 	{
 		return STATE_IDLE;
 	}
+	else
+		CSoundMgr::Get_Instance()->PlaySound(L"snd_step.mp3", CSoundMgr::CHANNELID::PLAYER_LOOP);
 
 	return STATE_END;
 }

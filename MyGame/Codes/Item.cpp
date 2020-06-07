@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "DialogMgr.h"
 #include "SceneMgr.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 CItem::CItem(CItem & _rhs)
@@ -326,6 +327,7 @@ _int CItem::Interact(CGameObject * _pOther)
 		//하위클래스에서 습득할때 할일 하기.
 		OnPickUp(pHero, pInven);
 		
+		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_item.mp3", CSoundMgr::CHANNELID::PLAYER);
 
 	}
 	return 0;

@@ -21,7 +21,7 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 _pGraphic_Device)
 CTransform::CTransform(CTransform & _module)
 	: CModule(_module)
 {
-
+	m_pParent = nullptr;
 }
 
 HRESULT CTransform::Initialize_Prototype()
@@ -339,6 +339,8 @@ void CTransform::Set_Parent(CTransform * pParent)
 {
 	if (nullptr == pParent)
 		return;
+	else
+		Safe_Release(m_pParent);
 
 	//로컬좌표 변환
 	m_vPosition = Get_WorldPos() - pParent->Get_WorldPos();
@@ -346,6 +348,7 @@ void CTransform::Set_Parent(CTransform * pParent)
 	m_vPosition.w = 1.f;
 	//부모 매트릭스
 	m_pParent = pParent;
+	Safe_AddRef(m_pParent);
 }
 
 HRESULT CTransform::MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance)
@@ -561,6 +564,7 @@ CModule* CTransform::Clone(void * _pArg)
 
 void CTransform::Free()
 {
+	Safe_Release(m_pParent);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pTexture);
 	CModule::Free();

@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "Hero.h"
 #include "DialogMgr.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 CPotion::CPotion(PDIRECT3DDEVICE9 _pGrahic_Device)
@@ -54,6 +55,7 @@ HRESULT CPotion::Use(CHero * _pHero, const _tchar ** _pAction)
 	CItem::Use(_pHero, _pAction);
 	if (0 == lstrcmp(*_pAction, AC_DRINK))
 	{
+		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_drink.mp3", CSoundMgr::PLAYER);
 		//사용됨
 		m_bUsed = true;
 		m_bDead = true;
@@ -67,6 +69,7 @@ void CPotion::OnThrowEnd()
 	if (nullptr == m_pTransform)
 		return;
 
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_shatter.mp3", CSoundMgr::PLAYER);
 #pragma region 깨지는 파티클
 	//피 파티클 생성
 	Vector3 vPos = m_pTransform->Get_Position();

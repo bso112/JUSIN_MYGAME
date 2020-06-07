@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "ParticleSystem.h"
 #include "SceneMgr.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 CTrap::CTrap(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -57,6 +58,8 @@ void CTrap::OnCollisionEnterTerrain(CGameObject * _pOther)
 		m_pTransform == nullptr ||
 		m_bUsed)
 		return;
+
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_trap.mp3", CSoundMgr::CHANNELID::UI);
 
 	CEffect*  pEffect = nullptr;
 	BASEDESC tBsseDesc = BASEDESC(m_pTransform->Get_Position(), m_pTransform->Get_Size());
@@ -123,6 +126,7 @@ void CTrap::OnReveal()
 	if (m_pTexture->Get_TextureSize() <= m_iCurFrame)
 		m_iCurFrame = m_pTexture->Get_TextureSize() - 1;
 
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_secret.mp3", CSoundMgr::EFFECT);
 	//¹ÝÂ¦¹ÝÂ¦
 	CParticleSystem::STATEDESC desc;
 	desc.m_tBaseDesc.vPos = m_pTransform->Get_Position();

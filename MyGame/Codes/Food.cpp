@@ -5,6 +5,7 @@
 #include "DialogMgr.h"
 #include "ObjMgr.h"
 #include "Image.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 
@@ -46,7 +47,7 @@ HRESULT CFood::Use(CHero * _pHero, const _tchar ** _pAction)
 	{
 		//먹기
 		//_pHero->Heal(m_tDesc.fHealAmount);
-
+		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_eat.mp3", CSoundMgr::PLAYER);
 		//음식 파티클 생성
 		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
 		if (nullptr == pObjMgr) return E_FAIL;

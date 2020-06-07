@@ -37,6 +37,25 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID)
 		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[eID]);
 	}
 	FMOD_System_Update(m_pSystem);
+
+}
+
+void CSoundMgr::PlaySound_Overwrite(TCHAR * pSoundKey, CHANNELID eID)
+{
+	map<TCHAR*, FMOD_SOUND*>::iterator iter;
+
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)
+	{
+		return !lstrcmp(pSoundKey, iter.first);
+	});
+
+	if (iter == m_mapSound.end())
+		return;
+
+
+	StopSound(eID);
+	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[eID]);
+	FMOD_System_Update(m_pSystem);
 }
 
 void CSoundMgr::PlayBGM(TCHAR * pSoundKey)
@@ -65,6 +84,14 @@ void CSoundMgr::StopAll()
 {
 	for (int i = 0; i < MAXCHANNEL; ++i)
 		FMOD_Channel_Stop(m_pChannelArr[i]);
+}
+
+void CSoundMgr::Set_Volum(CHANNELID eID, _float fVolume)
+{
+	if (MAXCHANNEL <= eID)
+		return;
+
+	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
 }
 
 void CSoundMgr::LoadSoundFile()

@@ -26,8 +26,8 @@ public:
 		BASEDESC		m_tBaseDesc;
 		STATS			m_tStats;
 		_uint			m_iTextureID = 1;
-		const _tchar*	m_pDescription;
-		const _tchar*	m_pItemName;
+		const _tchar*	m_pDescription = nullptr;
+		const _tchar*	m_pItemName = nullptr;
 		D3DXCOLOR		m_Color = 0xffffffff;
 	}STATEDESC;
 	friend class CItemFactory;

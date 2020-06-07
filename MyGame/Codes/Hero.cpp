@@ -15,6 +15,7 @@
 #include "Laser.h"
 #include "wand.h"
 #include "BuffController.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 
@@ -130,6 +131,8 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 
 		if (!m_bParalyze)
 			m_pTransform->Go_Route(route, 1.f, iTurnCnt);
+
+		
 
 
 #pragma endregion

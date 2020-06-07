@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Headers\Seed.h"
 #include "TurnMgr.h"
+#include "SoundMgr.h"
 
 USING(MyGame)
 CSeed::CSeed(PDIRECT3DDEVICE9 _pGrahic_Device)
@@ -40,7 +41,7 @@ void CSeed::OnThrowEnd()
 		m_iTextureID = m_pTexture->Get_TextureSize() - 1;
 
 	m_bFlower = true;
-
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_plant.mp3", CSoundMgr::EFFECT);
 	//턴이동
 	CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
 }
@@ -53,6 +54,7 @@ HRESULT CSeed::Use(CHero * _pHero, const _tchar ** _pAction)
 		if (nullptr == m_pTransform)
 			return E_FAIL;
 
+		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_plant.mp3", CSoundMgr::EFFECT);
 		//사용됨
 		m_bUsed = true;
 		m_bDrop = true;

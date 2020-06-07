@@ -17,6 +17,7 @@
 #include "ParticleSystem.h"
 #include "DialogMgr.h"
 #include "TargetMgr.h"
+#include "SoundMgr.h"
 
 USING(MyGame)
 
@@ -39,6 +40,7 @@ CMainApp::CMainApp()
 HRESULT CMainApp::Initalize()
 {
 
+	CSoundMgr::Get_Instance()->Initialize();
 
 	if (FAILED(Initalize_Default_Setting()))
 		return E_FAIL;
@@ -310,6 +312,7 @@ void CMainApp::Free()
 	CPipline::Destroy_Instance();
 	CKeyMgr::Destroy_Instance();
 	CTimerMgr::Destroy_Instance();
+	CSoundMgr::Destroy_Instance();
 	CGraphic_Device::Destroy_Instance();
 
 	/*if (0 != CRenderer::Destroy_Instance())

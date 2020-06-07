@@ -5,6 +5,7 @@
 #include "Clock.h"
 #include "TurnMgr.h"
 #include "Damage.h"
+#include "SoundMgr.h"
 
 USING(MyGame)
 CFire::CFire(PDIRECT3DDEVICE9 _pGraphic_Device)
@@ -107,6 +108,7 @@ HRESULT CFire::EffectOn(CCharacter * _pTarget)
 	Set_Target(pTargetTrasform);
 	//화상입히기
 	_pTarget->Add_Buff(CDamage::Create(&m_BurnDesc));
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_burning.mp3", CSoundMgr::EFFECT);
 	return S_OK;
 }
 
@@ -123,9 +125,9 @@ _int CFire::Update(_double _timeDelta)
 	if (!m_bPlaying)
 		return 0;
 
-
 	if (nullptr == m_pParticleSystem)
 		return -1;
+
 
 	//타깃을 향해간다.
 	if (nullptr != m_pTarget)

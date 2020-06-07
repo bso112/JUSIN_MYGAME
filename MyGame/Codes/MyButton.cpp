@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "SceneMgr.h"
+#include "SoundMgr.h"
 
 USING(MyGame)
 
@@ -157,6 +158,8 @@ HRESULT CMyButton::OnKeyDown(_int KeyCode)
 
 		if (PtInRect(&m_tRect, cursorPos))
 		{
+			CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_click.mp3", CSoundMgr::UI);
+
 			//리스너 목록을 호출한다.
 			for (auto& listener : m_vecOnListener)
 			{

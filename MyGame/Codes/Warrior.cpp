@@ -15,6 +15,7 @@
 #include "ObjMgr.h"
 #include "Light.h"
 #include "HpBar.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 
@@ -63,6 +64,7 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CWarrior::Initialize(void * _param)
 {
+	CSoundMgr::Get_Instance()->Set_Volum(CSoundMgr::PLAYER_LOOP, 1.f);
 	m_bInvincible = true;
 
 	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();

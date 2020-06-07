@@ -2,7 +2,7 @@
 #include "..\Headers\Door.h"
 #include "Hero.h"
 #include "DialogMgr.h"
-
+#include "SoundMgr.h"
 USING(MyGame)
 CDoor::CDoor(PDIRECT3DDEVICE9 _pGraphic_Device)
 	:CTerrain(_pGraphic_Device)
@@ -84,6 +84,7 @@ HRESULT CDoor::OnLoadData()
 
 void CDoor::UnLock()
 {
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_unlock.mp3", CSoundMgr::EFFECT);
 	m_bLocked = false; 
 	m_tInfo.m_bMovable = true;
 	m_iCurFrame = 0;

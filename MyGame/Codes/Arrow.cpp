@@ -2,6 +2,7 @@
 #include "..\Headers\Arrow.h"
 #include "Character.h"
 #include "ObjMgr.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 HRESULT CArrow::Initialize(void * _param)
@@ -76,6 +77,7 @@ void CArrow::OnCollisionEnter(CGameObject * _pOther)
 		if (0 == lstrcmp(pCharacter->Get_Name(), L"ÅÙ±¸ ¾Ï»ìÀÚ"))
 			return;
 
+		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_hit.mp3", CSoundMgr::EFFECT);
 		pCharacter->TakeDamage(m_tDesc.m_tStats.m_fAtt);
 		m_bDead = true;
 	}

@@ -8,7 +8,7 @@
 #include "Statics.h"
 #include "KeyMgr.h"
 #include "TargetMgr.h"
-
+#include "SoundMgr.h"
 
 USING(MyGame)
 
@@ -36,6 +36,7 @@ CMenu::CMenu(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 HRESULT CMenu::Initialize()
 {
+	CSoundMgr::Get_Instance()->PlayBGM(L"theme.mp3");
 	//텍스쳐 로드
 	if (FAILED(Load_Textures()))
 		return E_FAIL;

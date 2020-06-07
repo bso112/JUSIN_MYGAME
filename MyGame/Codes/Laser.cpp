@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Character.h"
 #include "LevelMgr.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 
@@ -147,6 +148,8 @@ HRESULT CLaser::Beam(Vector2 _vOrigin, POINT _pt)
 {
 	if (nullptr == m_pTransform)
 		return E_FAIL;
+
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_lightning.mp3", CSoundMgr::EFFECT);
 
 
 	//마우스 좌표 변환

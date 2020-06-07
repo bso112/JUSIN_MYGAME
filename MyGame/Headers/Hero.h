@@ -49,6 +49,7 @@ protected:
 protected:
 	virtual HRESULT	OnKeyDown(_int KeyCode) override;
 	virtual	void OnAttack(CGameObject * _pOther);
+	
 
 public:
 	//히어로가 위치할 처음 위치를 구한다.

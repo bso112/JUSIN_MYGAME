@@ -12,6 +12,7 @@
 #include "ItemFactory.h"
 #include "Spawner.h"
 #include "Item.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 CGhost::CGhost(CGhost & _rhs)
@@ -114,6 +115,9 @@ HRESULT CGhost::Initialize(void * _param)
 
 _int CGhost::Interact(CGameObject * _pOther)
 {
+
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_ghost.mp3", CSoundMgr::MONSTER);
+
 	CQuestMgr* pQuestMgr = CQuestMgr::Get_Instance();
 	if (nullptr == pQuestMgr) return -1;
 	//퀘스트 시작안했으면 시작

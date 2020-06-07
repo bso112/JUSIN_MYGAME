@@ -12,7 +12,7 @@
 #include "ParticleSystem.h"
 #include "BuffController.h"
 #include "QuestMgr.h"
-
+#include "SoundMgr.h"
 
 USING(MyGame)
 
@@ -30,6 +30,8 @@ CStage::CStage(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 HRESULT CStage::Initialize()
 {
+	CSoundMgr::Get_Instance()->PlayBGM(L"game.mp3");
+
 	if (FAILED(Initalize_Prototypes()))
 		return E_FAIL;
 

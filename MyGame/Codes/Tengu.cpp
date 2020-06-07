@@ -8,6 +8,7 @@
 #include "AIStateCon.h"
 #include "Shader.h"
 #include "StageUIMgr.h"
+#include "SoundMgr.h"
 USING(MyGame)
 
 CTengu::CTengu(CTengu & _rhs)
@@ -127,6 +128,7 @@ void CTengu::Sunbo()
 		nullptr == m_pFocus)
 		return;
 
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_puff.mp3", CSoundMgr::MONSTER);
 	Vector3 ranPos = CLevelMgr::Get_Instance()->Get_RandomPos(m_pTransform->Get_Position(), 3);
 	m_pTransform->Set_Position(ranPos);
 	CTransform* pFocusTransform = dynamic_cast<CTransform*>(m_pFocus->Get_Module(L"Transform"));
@@ -141,9 +143,11 @@ void CTengu::OnDead()
 		return;
 
 	m_pAnimator->Play(L"dead");
-	//CStageUIMgr* pStageUIMgr =  CStageUIMgr::Get_Instance();
-	//if (nullptr == pStageUIMgr) return;
-	//pStageUIMgr->SetActiveBossSlainBanner();
+	CStageUIMgr* pStageUIMgr =  CStageUIMgr::Get_Instance();
+	if (nullptr == pStageUIMgr) return;
+	pStageUIMgr->SetActiveBossSlainBanner();
+	CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_boss.mp3", CSoundMgr::CHANNELID::UI);
+	
 }
 
 void CTengu::OnTakeDamage(float _fDamage)
