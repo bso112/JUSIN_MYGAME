@@ -44,11 +44,11 @@ _int CCharacter::StartAct()
 
 	m_pBuffCon->Act(this);
 
+	OnAct();
 
 	//마비면 버프만 start하고 행동은 못함
 	if (m_bParalyze)
 		return 0;
-
 
 
 	return m_pStateCon->Start(IsTargetInRange(m_pFocus, m_iAttackRange), IsTargetInRange(m_pFocus, m_iRecogRange));;
@@ -452,6 +452,10 @@ void CCharacter::OnParalyzed()
 }
 
 void CCharacter::OnAttack(CGameObject * _pOther)
+{
+}
+
+void CCharacter::OnAct()
 {
 }
 

@@ -27,6 +27,7 @@ HRESULT CLevelMgr::Initialize_Prototypes(PDIRECT3DDEVICE9 _pGraphic_Device)
 	m_aLevel[1] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level2.dat");
 	m_aLevel[2] = CLevel::Create(_pGraphic_Device, SCENE_STAGE, L"../Bin/Data/level3.dat");
 
+	
 	//타일프로토타입 생성
 	CTileLoader::CreateTilePrototype(_pGraphic_Device, SCENE_STAGE);
 

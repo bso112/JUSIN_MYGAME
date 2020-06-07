@@ -171,19 +171,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-
+	
 
 		for (auto& GO : m_listGO[_iLevel])
 		{
@@ -252,14 +240,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION);
 		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
 		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
-		ranPos = pWorld->Get_RandomPos();
-		pItem = CItemFactory::Make_Item(BASEDESC(ranPos, Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND);
-		if (nullptr != pItem) m_listGO[_iLevel].push_back(pItem);
+
 
 
 		for (auto& GO : m_listGO[_iLevel])
@@ -273,8 +254,7 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 	}
 	else if (2 == _iLevel)
 	{
-		Vector2 ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Tengu", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Tengu", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector2(4436.f, 5191.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[2].back());
 
 		for (auto& GO : m_listGO[_iLevel])
@@ -432,6 +412,11 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	_pInventory->Put_Item(pItem);
 
 	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LETHERARMOR));
+	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+	Safe_AddRef(m_listGO[0].back());
+	_pInventory->Put_Item(pItem);
+
+	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_LIGHTNINGWAND));
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 	Safe_AddRef(m_listGO[0].back());
 	_pInventory->Put_Item(pItem);

@@ -75,8 +75,12 @@ void CArrow::OnCollisionEnter(CGameObject * _pOther)
 	//플레이어와 충돌은 무시
 	if (nullptr != pCharacter &&  m_bDamagable)
 	{
-		if (0 == lstrcmp(pCharacter->Get_Name(), L"텐구 암살자"))
-			return;
+		if (m_pOwnerTag != nullptr)
+		{
+			//주인은 공격안함
+			if (0 == lstrcmp(pCharacter->Get_Name(), m_pOwnerTag))
+				return;
+		}
 
 		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_hit.mp3", CSoundMgr::EFFECT);
 		pCharacter->TakeDamage(m_tDesc.m_tStats.m_fAtt);

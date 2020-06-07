@@ -59,7 +59,8 @@ protected:
 	Vector3					m_vDest;
 	_bool					m_bStackable = false;
 
-
+	//던질때 주인을 구분하기 위함
+	const _tchar*			m_pOwnerTag = nullptr;
 public:
 	virtual HRESULT Initialize(void * _param = nullptr);
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
@@ -93,8 +94,8 @@ protected:
 
 public:
 	void	Drop(Vector3 _vDropPos);
-	virtual void	Throw(POINT& _pt);
-	virtual void	Throw(Vector3& _pt);
+	virtual void	Throw(POINT& _pt, const _tchar* _pOwnerTag = nullptr);
+	virtual void	Throw(Vector3& _pt, const _tchar* _pOwnerTag = nullptr);
 	_bool	CanStackWith(CItem* pItem);
 	_bool	IsStackable() { return m_bStackable; }
 protected:

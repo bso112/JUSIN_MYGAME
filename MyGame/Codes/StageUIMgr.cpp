@@ -11,6 +11,7 @@
 #include "TargetMgr.h"
 #include "HpBar.h"
 #include "DialogPanel.h"
+#include "TurnMgr.h"
 USING(MyGame)
 
 IMPLEMENT_SINGLETON(CStageUIMgr)
@@ -92,6 +93,20 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1) + iBtnCX * 3, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"waitBtn", SCENE_STAGE);
 	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	vecUI.push_back(pBtn);
+	pBtn->Add_Listener([&]
+	{
+		
+		CTurnMgr::Get_Instance()->MoveTurn_Simultaneously(1);
+		CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+		if (pObjMgr)
+		{
+			CHero* pHero = dynamic_cast<CHero*> (pObjMgr->Get_Player(SCENE_STAGE));
+			if (nullptr != pHero)
+			{
+				pHero->ShowText(L"...", 0xffffffff);
+			}
+		}
+	});
 
 
 	

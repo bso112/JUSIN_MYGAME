@@ -13,6 +13,7 @@ CBuffController::CBuffController(PDIRECT3DDEVICE9 _pGraphic_Device)
 
 HRESULT CBuffController::Initialize(_bool _isPlayer)
 {
+	m_isPlayer = _isPlayer;
 
 	if (!_isPlayer)
 		return S_OK;

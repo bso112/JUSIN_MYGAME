@@ -201,7 +201,7 @@ HRESULT CMonster::Throw_Item(CItem * pItem)
 	if (nullptr == m_pFocus) return E_FAIL;
 	CTransform* pTargetTransform = (CTransform*)m_pFocus->Get_Module(L"Transform");
 	RETURN_FAIL_IF_NULL(pTargetTransform);
-	pItem->Throw(pTargetTransform->Get_Position());
+	pItem->Throw(pTargetTransform->Get_Position(), m_pName);
 
 	return S_OK;
 }
@@ -216,14 +216,7 @@ void CMonster::OnDead()
 	CDialogMgr::Get_Instance()->Log_Main(MSG_WIN(m_pName));
 }
 
-void CMonster::OnAttack(CGameObject * _pOther)
-{
-	if (nullptr == _pOther ||
-		nullptr == m_pAnimator)
-		return;
 
-	//m_pAnimator->Play(L"attack");
-}
 
 void CMonster::OnTakeDamage(float _fDamage)
 {

@@ -96,13 +96,13 @@ HRESULT CGoo::Initialize(void * _param)
 	m_pAnimator->Add_Animation(L"dead", pDeadAnim);
 
 	//idle애니메이션을 빠르게 한 것
-	if(FAILED(Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture, L"goo_walk")))
+	if(FAILED(Set_Module(L"goo_idle", SCENE_STAGE, (CModule**)&pTexture, L"goo_rage")))
 		return E_FAIL;
-	CAnimation* pWalkAnim = CAnimation::Create(pTexture, 0.05, true);
-	m_pAnimator->Add_Animation(L"rage", pWalkAnim);
+	CAnimation* pRageAnim = CAnimation::Create(pTexture, 0.05, true);
+	m_pAnimator->Add_Animation(L"rage", pRageAnim);
 
 	//애니메이션의 관계설정
-	pAttackAnim->Set_NextAnim(pWalkAnim);
+	pAttackAnim->Set_NextAnim(pIdleAnim);
 
 	//기본 애니메이션 설정
 	m_pAnimator->Play(L"idle");
@@ -135,12 +135,48 @@ void CGoo::OnTakeDamage(float _fDamage)
 	CMonster::OnTakeDamage(_fDamage);
 	
 	++m_iHitCnt;
+	if (m_iHitCnt == 2)
+	{
+		//분노상태 표시
+		ShowText(L"!!!", COLOR_RED);
+		m_pAnimator->Play(L"rage");
+	}
 	if (m_iHitCnt == 3)
 	{
-		//분노
-		ShowText(L"!!!", COLOR_RED);
+		//분노의 다음 공격부터 강화
 		m_tStat.m_fAtt->AddModifier(10.f);
-		m_pAnimator->Play(L"rage");
+		m_bRage = true;
+	}
+	
+}
+
+void CGoo::OnAct()
+{
+	//분노상태 2턴 지속
+	if (m_bRage)
+	{
+		++m_iRageCnt;
+		if (m_iRageCnt == 2)
+		{
+			m_tStat.m_fAtt->RemoveModifire(10.f);
+			m_pAnimator->Play(L"idle");
+			m_iHitCnt = 0;
+			m_iRageCnt = 0;
+			m_bRage = false;
+		}
+	}
+}
+
+void CGoo::OnAttack(CGameObject * _pObj)
+{
+	//한번 공격해도 풀림
+	if (m_bRage)
+	{
+		m_tStat.m_fAtt->RemoveModifire(10.f);
+		m_pAnimator->Play(L"idle");
+		m_iHitCnt = 0;
+		m_iRageCnt = 0;
+		m_bRage = false;
 	}
 }
 

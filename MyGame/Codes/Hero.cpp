@@ -82,7 +82,7 @@ HRESULT CHero::OnKeyDown(_int KeyCode)
 				return E_FAIL;
 			}
 			//아이템을 던진다.
-			m_pItemToThrow->Throw(pt);
+			m_pItemToThrow->Throw(pt, m_pName);
 			m_bThrowMode = false;
 			m_pItemToThrow = nullptr;
 			//턴이동

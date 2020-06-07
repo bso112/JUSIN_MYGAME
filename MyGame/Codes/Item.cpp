@@ -130,7 +130,7 @@ void CItem::Drop(Vector3 _vDropPos)
 	m_bUsed = false;
 }
 
-void CItem::Throw(POINT & _pt)
+void CItem::Throw(POINT & _pt, const _tchar* _pOwnerTag)
 {
 	//주인에게 던져달라고 함.
 	//마우스 좌표를 월드좌표로 변환
@@ -143,9 +143,11 @@ void CItem::Throw(POINT & _pt)
 	//사용 초기화
 	m_bUsed = false;
 	OnThrowStart();
+
+	m_pOwnerTag = _pOwnerTag;
 }
 
-void CItem::Throw(Vector3 & _dst)
+void CItem::Throw(Vector3 & _dst, const _tchar* _pOwnerTag)
 {
 	//던져진다.
 	m_bThrown = true;
@@ -153,6 +155,9 @@ void CItem::Throw(Vector3 & _dst)
 	//사용 초기화
 	m_bUsed = false;
 	OnThrowStart();
+	
+	m_pOwnerTag = _pOwnerTag;
+
 }
 
 _bool CItem::CanStackWith(CItem * pItem)

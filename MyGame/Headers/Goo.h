@@ -15,7 +15,8 @@ private:
 private:
 	//공격받은 수
 	_int	m_iHitCnt = 0;
-
+	_bool	m_bRage = false;
+	_int	m_iRageCnt = 0;
 public:
 	virtual HRESULT	Initialize_Prototype(_tchar* _pFilePath = nullptr);
 	virtual HRESULT Initialize(void * _param = nullptr);
@@ -29,6 +30,8 @@ public:
 public:
 	void OnDead() override;
 	virtual void OnTakeDamage(float _fDamage) override;
+	void OnAct() override;
+	void OnAttack(CGameObject* _pObj) override;
 public:
 	// CBase을(를) 통해 상속됨
 	virtual void Free() override;
