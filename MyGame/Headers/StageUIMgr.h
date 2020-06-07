@@ -7,6 +7,7 @@ class CHero;
 class CInventoryUIMgr;
 class CStatsPanel;
 class CDialogPanel;
+class CImage;
 class CStageUIMgr : public CBase
 {
 	DECLARE_SINGLETON(CStageUIMgr)
@@ -19,6 +20,7 @@ private:
 	CInventoryUIMgr*	m_pInventoryUIMgr	= nullptr;
 	CStatsPanel*		m_pStatsPanel = nullptr;
 	CDialogPanel*		m_pDialogPanel = nullptr;
+	CImage*				m_pBossSlainBanner = nullptr;
 	vector<RECT>		m_vecUIRect;
 	
 public:

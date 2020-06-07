@@ -142,6 +142,7 @@ void CTengu::OnDead()
 		return;
 
 	m_pAnimator->Play(L"dead");
+
 }
 
 void CTengu::OnTakeDamage(float _fDamage)

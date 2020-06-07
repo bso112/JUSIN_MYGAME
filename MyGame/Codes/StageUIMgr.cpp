@@ -55,14 +55,7 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	
 	vecUI.push_back(pBtn);
 
-	////HpBar
-	//_float HpBarfCX = 163.f;
-	//_float HpBarfCY = 11.f;
-	//CHpBar* pHpBar = CHpBar::Create(_pGraphic_Device, Vector3(90.f + HpBarfCX * 0.5f, 8.f + HpBarfCY * 0.5f), Vector2(HpBarfCX, HpBarfCY), L"hp_bar", SCENE_STAGE);
-	//CCharacter* pPlayer = (CCharacter*)CObjMgr::Get_Instance()->Get_Player(SCENE_STAGE);
-	//RETURN_FAIL_IF_NULL(pPlayer);
-	//pHpBar->Set_State(pPlayer->Get_Stat().m_fMaxHp->GetValue(), pPlayer->Get_Stat().m_fHP);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pHpBar);
+
 
 	//ÀÎº¥Åä¸®¹öÆ°
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"inventoryBtn", SCENE_STAGE);
@@ -99,17 +92,7 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) + float(iBtnCX >> 1) + iBtnCX * 3, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"waitBtn", SCENE_STAGE);
 	m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
 	vecUI.push_back(pBtn);
-	
-	////Äü½½·Ô
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) - float(iBtnCX >> 1), g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
-	//vecUI.push_back(pBtn);
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) - float(iBtnCX >> 1) - iBtnCX * 1, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
-	//vecUI.push_back(pBtn);
-	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4((g_iWinCX >> 1) - float(iBtnCX >> 1) - iBtnCX * 2, g_iWinCY - float(iBtnCY >> 1), 0.f, 1.f), Vector2((float)iBtnCX, (float)iBtnCY), L"quickSlotBtn", SCENE_STAGE);
-	//m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, pBtn);
-	//vecUI.push_back(pBtn);
+
 
 	
 	//´ÙÀÌ¾î·Î±×ÆÇ³Ú
@@ -122,12 +105,28 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	//pBtn = CMyButton::Create(_pGraphic_Device, Vector4((float)(g_iWinCX >> 1), (float)(g_iWinCY >> 1), 0.f, 1.f), Vector2(g_iWinCX - 100.f, 200.f), L"scroll", SCENE_STAGE);
 	//m_pObjMgr->Add_GO_To_Layer(CObjMgr::LAYER_UI, SCENE_STAGE, pBtn);
 
+	
+	
 	for (auto& ui : vecUI)
 	{
 		CTransform* pTransform = (CTransform*)ui->Get_Module(L"Transform");
 		if (nullptr != pTransform)
 			m_vecUIRect.push_back(pTransform->Get_RECT());
 	}
+
+	//CImage::STATEDESC bossBannerDesc;
+	//bossBannerDesc.m_dLifeTime = 3.f;
+	//bossBannerDesc.m_eTextureSceneID = SCENE_STAGE;
+	//bossBannerDesc.m_pTextureTag = L"BossBanner";
+	//bossBannerDesc.m_iTextureID = 0;
+	//bossBannerDesc.m_fSpeed = 100.f;
+	//bossBannerDesc.m_tBaseDesc = BASEDESC(Vector3(_float(g_iWinCX >> 1), 200.f), Vector3(200.f, 100.f, 1.f));
+	//m_pBossSlainBanner = (CImage*)m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, &bossBannerDesc));
+	//RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
+	//Safe_AddRef(m_pBossSlainBanner);
+	//m_pBossSlainBanner->Set_UI(true);
+	//m_pBossSlainBanner->Set_Active(true);
+	//m_pBossSlainBanner->Set_Depth(5);
 
 
 	Safe_Release(_pHero);
@@ -208,6 +207,7 @@ HRESULT CStageUIMgr::SetDialogInfo(const _tchar * _pIconTextureTag, SCENEID _eTe
 
 void CStageUIMgr::Free()
 {
+	Safe_Release(m_pBossSlainBanner);
 	Safe_Release(m_pStatsPanel);
 	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pInventoryUIMgr);
