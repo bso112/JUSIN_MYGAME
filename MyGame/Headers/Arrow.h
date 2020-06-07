@@ -22,6 +22,8 @@ public:
 	CGameObject * Clone(void * _param);
 	void	Free();
 
+
+
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 protected:

@@ -33,7 +33,7 @@ HRESULT CTengu::Initialize(void * _param)
 	//½ºÅÝ¼ÂÆÃ
 	m_tStat.m_fExp = 20.f;
 	m_tStat.m_fMaxHp = CStat::Create(100.f);
-	m_tStat.m_fHP = 1.f;
+	m_tStat.m_fHP = 100.f;
 	m_tStat.m_fAtt = CStat::Create(5.f, 15.f);
 	m_tStat.m_iGold = 100;
 	m_tStat.m_fArmor = CStat::Create(5.f);

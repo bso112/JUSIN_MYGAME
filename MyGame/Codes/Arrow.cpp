@@ -68,6 +68,7 @@ void CArrow::Free()
 	CItem::Free();
 }
 
+
 void CArrow::OnCollisionEnter(CGameObject * _pOther)
 {
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);

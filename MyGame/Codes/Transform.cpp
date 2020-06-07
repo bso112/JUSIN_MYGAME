@@ -164,6 +164,14 @@ HRESULT CTransform::Update_Normal(_double _timeDelta)
 	m_vSize += m_dExpandSpeed * _timeDelta;
 	m_vRotation.z += m_fRotationZ_Noaml * _timeDelta;
 
+	if (m_bFadeIn)
+	{
+		if (m_vSize.x < m_vOriginalSize.x)
+			m_vSize.x = m_vOriginalSize.x;
+		if (m_vSize.y < m_vOriginalSize.y)
+			m_vSize.y = m_vOriginalSize.y;
+	}
+
 	return S_OK;
 }
 
@@ -408,6 +416,15 @@ HRESULT CTransform::Expand_Auto(Vector2 _vExpand)
 HRESULT CTransform::Rotate_Auto(_float	radianPerSec)
 {
 	m_fRotationZ_Noaml = radianPerSec;
+	return S_OK;
+}
+
+HRESULT CTransform::Fadein(Vector2 _vShrik)
+{
+	m_vOriginalSize = m_vSize;
+	m_vSize *= 3;
+	m_dShrinkSpeed = _vShrik;
+	m_bFadeIn = true;
 	return S_OK;
 }
 

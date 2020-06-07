@@ -81,6 +81,9 @@ private:
 
 
 private:
+	Vector3				m_vOriginalSize;
+	_bool				m_bFadeIn = false;
+private:
 	static _int m_iTurnCnt;
 
 
@@ -91,6 +94,7 @@ private:
 	_int				m_iCntForTurn = 0;
 	//총 몇개의 타일을 이동했는가
 	_int				m_iTotalMoveCnt = 0;
+
 public:
 	HRESULT Initialize_Prototype();
 	HRESULT Initialize(void* _pArg);
@@ -151,6 +155,7 @@ public:
 	//회전한다.		radianPerSec : 초당 회전하는 정도
 	HRESULT	Rotate_Auto(_float	radianPerSec);
 
+	HRESULT	Fadein(Vector2 _vShrik);
 
 public:
 	HRESULT MoveToTarget(CTransform * _pTransform, _double _timeDelta, _double _StopDistance);

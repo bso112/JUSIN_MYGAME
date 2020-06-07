@@ -114,19 +114,19 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 			m_vecUIRect.push_back(pTransform->Get_RECT());
 	}
 
-	//CImage::STATEDESC bossBannerDesc;
-	//bossBannerDesc.m_dLifeTime = 10.f;
-	//bossBannerDesc.m_eTextureSceneID = SCENE_STAGE;
-	//bossBannerDesc.m_pTextureTag = L"BossBanner";
-	//bossBannerDesc.m_iTextureID = 0;
-	//bossBannerDesc.m_fSpeed = 100.f;
-	//bossBannerDesc.m_tBaseDesc = BASEDESC(Vector3(_float(g_iWinCX >> 1), 200.f), Vector3(400.f, 150.f, 1.f));
-	//m_pBossSlainBanner = (CImage*)m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, &bossBannerDesc));
-	//RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
-	//Safe_AddRef(m_pBossSlainBanner);
-	//m_pBossSlainBanner->Set_UI(true);
-	//m_pBossSlainBanner->Set_Active(false);
-	//m_pBossSlainBanner->Set_Depth(5);
+	CImage::STATEDESC bossBannerDesc;
+	bossBannerDesc.m_dLifeTime = 10.f;
+	bossBannerDesc.m_eTextureSceneID = SCENE_STAGE;
+	bossBannerDesc.m_pTextureTag = L"BossBanner";
+	bossBannerDesc.m_iTextureID = 0;
+	bossBannerDesc.m_fSpeed = 100.f;
+	bossBannerDesc.m_tBaseDesc = BASEDESC(Vector3(_float(g_iWinCX >> 1), 150.f), Vector3(400.f, 150.f, 1.f));
+	m_pBossSlainBanner = (CImage*)m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, &bossBannerDesc));
+	RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
+	Safe_AddRef(m_pBossSlainBanner);
+	m_pBossSlainBanner->Set_UI(true);
+	m_pBossSlainBanner->Set_Active(false);
+	m_pBossSlainBanner->Set_Depth(5);
 
 
 	Safe_Release(_pHero);
@@ -207,14 +207,18 @@ HRESULT CStageUIMgr::SetDialogInfo(const _tchar * _pIconTextureTag, SCENEID _eTe
 
 HRESULT CStageUIMgr::SetActiveBossSlainBanner()
 {
-//	RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
-//	m_pBossSlainBanner->Set_Active(true);
+	RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
+	m_pBossSlainBanner->Set_Active(true);
+	CTransform* pTransform = (CTransform*)m_pBossSlainBanner->Get_Module(L"Transform");
+	RETURN_FAIL_IF_NULL(pTransform);
+	pTransform->Fadein(Vector2(1200.f, 450.f));
+
 	return S_OK;
 }
 
 void CStageUIMgr::Free()
 {
-	//Safe_Release(m_pBossSlainBanner);
+	Safe_Release(m_pBossSlainBanner);
 	Safe_Release(m_pStatsPanel);
 	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pInventoryUIMgr);
