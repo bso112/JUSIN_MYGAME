@@ -62,6 +62,9 @@ public:
 	Vector3	Get_RandomPos();
 	//vOrigin을 중심으로 _range 영역 안의 랜덤포지션을 리턴한다.
 	Vector3	Get_RandomPos(Vector3 _vPos, _int _iRange);
+	//_vPos 중심으로 _range 영역의 좌표를 반환한다.
+	vector<Vector3>	Get_Area(Vector3 _vPos, _int _iRange);
+
 
 	//플레이어 스폰 위치를 가져온다.
 	Vector3 Get_PlayerSpawnPos();

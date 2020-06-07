@@ -60,6 +60,7 @@ _int CSceneMgr::Update(_double _timeDelta)
 	if (nullptr == m_pCurrScene)
 		return -1;
 
+
 	return m_pCurrScene->Update(_timeDelta);
 }
 

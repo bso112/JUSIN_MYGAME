@@ -444,6 +444,10 @@ void CCharacter::OnTakeDamage(float _fDamage)
 
 }
 
+void CCharacter::OnParalyzed()
+{
+}
+
 void CCharacter::OnAttack(CGameObject * _pOther)
 {
 }

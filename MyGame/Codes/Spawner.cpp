@@ -351,7 +351,7 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
 	RETURN_FAIL_IF_NULL(pPlayer);
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		//기본템 생성
 		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION));
@@ -372,6 +372,12 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 		Safe_AddRef(m_listGO[0].back());
 		_pInventory->Put_Item(pItem);
+
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_FIREPOTION));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		Safe_AddRef(m_listGO[0].back());
+		_pInventory->Put_Item(pItem);
+
 	}
 
 
@@ -429,6 +435,8 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
 	Safe_AddRef(m_listGO[0].back());
 	_pInventory->Put_Item(pItem);
+
+	
 
 
 

@@ -28,7 +28,7 @@ public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
 protected:
-	void OnParalyzed()override;
+	void OnParalyzed() override;
 
 public:
 	static CWarrior* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath = nullptr);

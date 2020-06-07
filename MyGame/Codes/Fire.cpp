@@ -49,7 +49,7 @@ HRESULT CFire::Initialize(void * _pArg)
 
 
 	//이펙트 지속시간 설정(턴)
-	m_iDuration = 3;
+	m_iDuration = 7;
 	//불 파티클시스템 생성
 	//파티클지속시간은 Fire에서 턴기준으로 제어한다.
 	m_tParticleDesc.m_dDuration = FLT_MAX;

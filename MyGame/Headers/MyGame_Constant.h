@@ -4,7 +4,7 @@ BEGIN(MyGame)
 
 const unsigned int		g_iWinCX = 1280;
 const unsigned int		g_iWinCY = 720;
-#define MYDEBUG
+//#define MYDEBUG
 
 #define TILECX 25
 #define TILECY 25

@@ -804,6 +804,35 @@ Vector3 CLevel::Get_RandomPos(Vector3 _vPos, _int _iRange)
 	return Vector3((TILECX >> 1) + (float)tileRandX * TILECX, (TILECY >> 1) + (float)tileRandY * TILECY, 0.f, 1.f);
 }
 
+vector<Vector3> CLevel::Get_Area(Vector3 _vPos, _int _iRange)
+{
+
+	vector<Vector3> area;
+	area.reserve(9);
+	_int tileX = _vPos.x / TILECX;
+	_int tileY = _vPos.y / TILECY;
+
+	CObjMgr* pObjMgr = CObjMgr::Get_Instance();
+	if(nullptr == pObjMgr) return vector<Vector3>();
+	for (int i = tileY - 1; i <= tileY + 1; ++i)
+	{
+		for (int j = tileX - 1; j <= tileX + 1; ++j)
+		{
+			if (nullptr != m_pTerrains[i][j] && m_pTerrains[i][j]->IsMovable(nullptr))
+			{
+				CTransform* pTrasform = dynamic_cast<CTransform*>(m_pTerrains[i][j]->Get_Module(L"Transform"));
+				if (nullptr == pTrasform) continue;
+				area.push_back(pTrasform->Get_Position());
+
+			}
+		}
+	}
+
+	return area;
+
+
+}
+
 
 
 Vector3 CLevel::Get_PlayerSpawnPos()
@@ -1065,7 +1094,7 @@ HRESULT CLevel::Load_World(SCENEID _eSceneID)
 
 	}
 
-	MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
+	//MessageBox(g_hWnd, L"Tile Load", L"Success", MB_OK);
 
 	CloseHandle(hFile);
 
