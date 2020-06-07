@@ -233,6 +233,8 @@ void CMonster::OnTakeDamage(float _fDamage)
 
 void CMonster::Free()
 {
+	if(m_pHpBar != nullptr)
+		m_pHpBar->Set_Dead();
 	Safe_Release(m_pHpBar);
 	Safe_Release(m_pAnimator);
 	CCharacter::Free();

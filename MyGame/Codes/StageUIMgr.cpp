@@ -207,14 +207,14 @@ HRESULT CStageUIMgr::SetDialogInfo(const _tchar * _pIconTextureTag, SCENEID _eTe
 
 HRESULT CStageUIMgr::SetActiveBossSlainBanner()
 {
-	RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
-	m_pBossSlainBanner->Set_Active(true);
+//	RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
+//	m_pBossSlainBanner->Set_Active(true);
 	return S_OK;
 }
 
 void CStageUIMgr::Free()
 {
-	Safe_Release(m_pBossSlainBanner);
+	//Safe_Release(m_pBossSlainBanner);
 	Safe_Release(m_pStatsPanel);
 	Safe_Release(m_pObjMgr);
 	Safe_Release(m_pInventoryUIMgr);
