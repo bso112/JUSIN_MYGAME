@@ -46,7 +46,6 @@ HRESULT CMonster::Initialize(void * _param)
 	pTransform->Set_Position(Vector2(0.f, -15.f));
 	CObjMgr::Get_Instance()->Add_GO_To_Layer(L"UI", SCENE_STAGE, m_pHpBar);
 
-	//이거 하면 릭남
 	Safe_AddRef(m_pHpBar);
 	return S_OK;
 }

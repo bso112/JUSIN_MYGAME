@@ -219,8 +219,9 @@ HRESULT CWarrior::Initialize(void * _param)
 	//HpBar
 	_float HpBarfCX = 163.f;
 	_float HpBarfCY = 11.f;
-	m_pHpBar = CHpBar::Create(m_pGraphic_Device, Vector3(90.f + HpBarfCX * 0.5f, 8.f + HpBarfCY * 0.5f), Vector2(HpBarfCX, HpBarfCY), L"hp_bar", SCENE_STAGE);
+	m_pHpBar = CHpBar::Create(m_pGraphic_Device, Vector3(90.f + HpBarfCX * 0.5f, 8.f + HpBarfCY * 0.5f), Vector2(HpBarfCX, HpBarfCY, 1.f), L"hp_bar", SCENE_STAGE);
 	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
+	m_pHpBar->Set_UI(true);
  	CObjMgr* pObjMgr= CObjMgr::Get_Instance();
 	RETURN_FAIL_IF_NULL(pObjMgr);
 	pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, m_pHpBar);
@@ -235,6 +236,9 @@ _int CWarrior::Update(_double _timeDelta)
 {
 	if (!m_bActive)
 		return 0;
+
+	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
+	
 	m_pTransform->Update_Route(_timeDelta);
 
 	CLevelMgr* pLevelMgr = CLevelMgr::Get_Instance();
@@ -245,7 +249,6 @@ _int CWarrior::Update(_double _timeDelta)
 	if (FAILED(m_pBuffCon->Update_BuffIcon()))
 		return -1;
 
-	m_pHpBar->Set_State(m_tStat.m_fMaxHp->GetValue(), m_tStat.m_fHP);
 
 	return 0;
 }
@@ -363,6 +366,15 @@ void CWarrior::OnCollisionEnter(CGameObject * _pOther)
 {
 	if (!m_bActive)
 		return;
+}
+
+void CWarrior::OnParalyzed()
+{
+	if (nullptr == m_pAnimator ||
+		nullptr == m_pAnimator[m_eCurrCloth])
+		return;
+
+	m_pAnimator[m_eCurrCloth]->Play(L"idle");
 }
 
 

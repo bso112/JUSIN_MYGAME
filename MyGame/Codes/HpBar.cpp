@@ -9,6 +9,29 @@
 
 USING(MyGame)
 
+CHpBar::CHpBar(PDIRECT3DDEVICE9 _pGraphic_Device)
+	: CImage(_pGraphic_Device)
+{
+
+};
+
+CHpBar::CHpBar(CHpBar & _rhs)
+	: CImage(_rhs)
+{
+
+};
+
+HRESULT CHpBar::Initialize_Prototype(const _tchar * _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID)
+{
+	CImage::Initialize_Prototype(_pTextureTag, _vPos, _vSize, _eTextureSceneID);
+	if (0 == lstrcmp(_pTextureTag, L"hp_bar"))
+	{
+		m_eRenderGroup = CRenderer::RENDER_UI;
+		m_iDepth = 10;
+	}
+	return S_OK;
+}
+
 HRESULT CHpBar::Render()
 {
 	if (!m_bActive)
@@ -17,7 +40,7 @@ HRESULT CHpBar::Render()
 	if (nullptr == m_pVIBuffer ||
 		nullptr == m_pTextrue ||
 		nullptr == m_pTransform ||
-		nullptr == m_pPipline	)
+		nullptr == m_pPipline)
 		return E_FAIL;
 
 
@@ -34,7 +57,7 @@ HRESULT CHpBar::Render()
 	if (FAILED(m_pTextrue->Set_TextureOnShader(m_pShader, "g_BaseTexture", m_iTextureID - 1)))
 		return E_FAIL;
 
-	
+
 
 	if (FAILED(m_pShader->Set_Value("g_fCurrHp", &m_fHp, sizeof(float))))
 		return E_FAIL;
@@ -49,22 +72,6 @@ HRESULT CHpBar::Render()
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
-	if (m_bUI)
-		m_tFont.m_tRC = m_pTransform->Get_RECT();
-	else
-		//매트릭스 곱한 위치를 써야함
-		m_tFont.m_tRC = m_pTransform->Make_Rect(Vector3(matrix.m[3][0], matrix.m[3][1]), m_pTransform->Get_Size());
-
-
-	//텍스트는 _tchar 배열일수도, 상수문자열 일수도 있다. 상수문자열이 지정안되어있으면 _tchar 배열을 사용하도록하자.
-	const _tchar* szBuff = (m_tFont.m_pText == nullptr) ? m_tFont.m_pTextArr : m_tFont.m_pText;
-
-	//따로 지정한 폰트가 있으면 그 폰트로 그린다.
-	if (nullptr != m_tFont.m_pFont)
-		m_tFont.m_pFont->DrawText(NULL, szBuff, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
-	else
-		g_pFont->DrawText(NULL, szBuff, -1, &m_tFont.m_tRC, m_tFont.m_dwFormat, m_tFont.m_Color);
 
 
 	//하위클래스의 렌더
@@ -106,7 +113,7 @@ CHpBar* CHpBar::Create(PDIRECT3DDEVICE9 _pGraphic_Device, Vector4 _vPos, Vector2
 CHpBar* CHpBar::Create(PDIRECT3DDEVICE9 _pGraphic_Device, void* _desc)
 {
 	CHpBar* pInstance = new CHpBar(_pGraphic_Device);
-	if (FAILED(pInstance->Initialize_Prototype(_desc)))
+	if (FAILED(pInstance->CImage::Initialize_Prototype(_desc)))
 	{
 		MSG_BOX("Fail to create CHpBar");
 		Safe_Release(pInstance);

@@ -283,8 +283,8 @@ void CCharacter::Set_Paralyze(bool _bParalyze)
 		if (immune == CBuff::TYPE_PARALIZE)
 			return;
 	}
-
 	m_bParalyze = _bParalyze;
+	OnParalyzed();
 }
 
 

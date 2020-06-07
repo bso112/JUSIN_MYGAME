@@ -123,6 +123,7 @@ public:
 
 protected:
 	virtual void OnTakeDamage(float _fDamage);
+	virtual	void OnParalyzed();
 	virtual	void OnAttack(CGameObject * _pOther);
 
 

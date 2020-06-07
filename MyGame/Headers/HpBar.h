@@ -5,8 +5,8 @@ class CCharacter;
 class CHpBar :public CImage
 {
 protected:
-	explicit CHpBar(PDIRECT3DDEVICE9 _pGraphic_Device) : CImage(_pGraphic_Device) { };
-	explicit CHpBar(CHpBar& _rhs) : CImage(_rhs) {};
+	explicit CHpBar(PDIRECT3DDEVICE9 _pGraphic_Device);
+	explicit CHpBar(CHpBar& _rhs);
 	virtual ~CHpBar() = default;
 
 private:
@@ -14,6 +14,7 @@ private:
 	_float m_fHp = 0.f;
 
 public:
+	virtual HRESULT Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, Vector2 _vSize, SCENEID _eTextureSceneID) override;
 	virtual HRESULT Render() override;
 public:
 	void	Set_State(_float _fMaxHp, _float _fHp) { m_fMaxHp = _fMaxHp; m_fHp = _fHp; }

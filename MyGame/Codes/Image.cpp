@@ -38,7 +38,7 @@ HRESULT CImage::Initialize_Prototype(const _tchar* _pTextureTag, Vector4 _vPos, 
 		return E_FAIL;
 
 	m_pTransform->Set_Position(Vector4(_vPos.x, _vPos.y, 0, 1));
-	m_pTransform->Set_Size(Vector4(_vSize.x, _vSize.y));
+	m_pTransform->Set_Size(Vector4(_vSize.x, _vSize.y, 1.f));
 
 	CTurnMgr::Get_Instance()->RegisterObserver(this);
 	return S_OK;

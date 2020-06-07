@@ -27,11 +27,13 @@ public:
 public:
 	virtual void OnCollisionEnter(CGameObject* _pOther);
 
-
+protected:
+	void OnParalyzed()override;
 
 public:
 	static CWarrior* Create(PDIRECT3DDEVICE9 _pGraphic_Device, _tchar* _pFilePath = nullptr);
 	virtual CGameObject * Clone(void * _param = nullptr) override;
+
 
 public:
 	// CBase을(를) 통해 상속됨
