@@ -132,7 +132,7 @@ void CItem::Drop(Vector3 _vDropPos)
 void CItem::Throw(POINT & _pt)
 {
 	//주인에게 던져달라고 함.
-	//마우스 좌표 변환
+	//마우스 좌표를 월드좌표로 변환
 	Vector4 dst = Vector4(_pt.x, _pt.y, 0.f, 1.f);
 	D3DXVec4Transform(&dst, &dst, &m_pPipline->Get_CameraMatrix_inverse());
 

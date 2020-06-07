@@ -336,8 +336,17 @@ CAIState::STATE CAITengu::Act(_bool _canAttack, _bool _isAlerted, _double _timeD
 		CTransform* pTransform = (CTransform*)m_pActor->Get_Module(L"Transform");
 		if (nullptr == pTransform) return STATE_END;
 
+		vector<CItemFactory::ITEM_ID> vecThrowItem;
+		vecThrowItem.push_back(CItemFactory::ITEM_ARROW);
+		vecThrowItem.push_back(CItemFactory::ITEM_SURIKEN);
+		vecThrowItem.push_back(CItemFactory::ITEM_FIRESEED);
+		vecThrowItem.push_back(CItemFactory::ITEM_FIREPOTION);
+		//throwItems.push_back(CItemFactory::ITEM_BOMB);
+		
+		_int toThrow = rand() % (_int)vecThrowItem.size();
+		
 		CSpawner* pSpawner = CSpawner::Get_Instance();
-		CItem* pItem = CItemFactory::Make_Item(BASEDESC(pTransform->Get_Position(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ARROW);
+		CItem* pItem = CItemFactory::Make_Item(BASEDESC(pTransform->Get_Position(), Vector2(20.f, 20.f)), vecThrowItem[toThrow]);
 		pSpawner->Add_Interact(pItem, 0);
 		((CMonster*)m_pActor)->Throw_Item(pItem);
 

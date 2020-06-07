@@ -15,6 +15,7 @@ CSeed::CSeed(CSeed & _rhs)
 
 HRESULT CSeed::Initialize(void * _param)
 {
+	m_bStackable = true;
 	CItem::Initialize();
 	m_vecActions.push_back(AC_PLANT);
 

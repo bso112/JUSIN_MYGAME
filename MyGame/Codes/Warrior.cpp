@@ -63,7 +63,7 @@ HRESULT CWarrior::Initialize_Prototype(_tchar * _pFilePath)
 
 HRESULT CWarrior::Initialize(void * _param)
 {
-
+	m_bInvincible = true;
 
 	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	if (m_eSceneID >= SCENE_END)
@@ -77,11 +77,11 @@ HRESULT CWarrior::Initialize(void * _param)
 
 	//½ºÅÝ¼ÂÆÃ
 	m_tStat.m_fExp = 0.f;
-	m_tStat.m_fMaxHp = CStat::Create(1000.f);
+	m_tStat.m_fMaxHp = CStat::Create(100.f);
 	m_tStat.m_fHP = m_tStat.m_fMaxHp->GetValue();
 	m_tStat.m_fAtt = CStat::Create(1.f, 12.f);
 	m_tStat.m_iGold = 0;
-	m_tStat.m_fArmor = CStat::Create(5.f);
+	m_tStat.m_fArmor = CStat::Create(1.f);
 
 	m_iAttackRange = 1;
 #pragma endregion

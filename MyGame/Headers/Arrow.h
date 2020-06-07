@@ -4,6 +4,7 @@
 BEGIN(MyGame)
 class CArrow : public CItem
 {
+public:
 	typedef struct tagStats
 	{
 		float	m_fMaxHP = 0.f;

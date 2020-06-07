@@ -61,6 +61,8 @@ protected:
 	CBuffController*	m_pBuffCon = nullptr;
 
 	CClock_Delay*	m_pDeadClock = nullptr;
+
+	_bool			m_bInvincible = false;
 	
 protected:
 	STATS	m_tStat = {};

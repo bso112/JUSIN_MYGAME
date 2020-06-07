@@ -216,9 +216,9 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Ghost", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5263.f, 5235.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
-		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
-		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
-		ranPos = pWorld->Get_RandomPos();
+		//m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Goo", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
+		//m_listCharacter[_iLevel].push_back(m_listGO[1].back());
+		//ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Tengu", SCENE_STAGE, L"Monster", SCENE_STAGE, &Vector3(5312.f, 5137.f, 1.f)));
 		m_listCharacter[_iLevel].push_back(m_listGO[1].back());
 		ranPos = pWorld->Get_RandomPos();
@@ -337,15 +337,25 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 	CTransform* pPlayerTransform = (CTransform*)pPlayer->Get_Module(L"Transform");
 	RETURN_FAIL_IF_NULL(pPlayer);
 
-	//기본템 생성
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION));
-	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
-	_pInventory->Put_Item(pItem);
+	for (int i = 0; i < 5; ++i)
+	{
+		//기본템 생성
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_POSIONPOTION));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
 
 
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION));
-	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
-	_pInventory->Put_Item(pItem);
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_PARALYZEPOTION));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
+	}
+
+	for (int i = 0; i < 10; ++i)
+	{
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_HEALPOTION));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
+	}
 
 
 
@@ -363,17 +373,21 @@ HRESULT CSpawner::Ready_BasicItem(CInventory* _pInventory)
 		_pInventory->Put_Item(pItem);
 	}
 
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_SHIELDSEED));
-	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
-	_pInventory->Put_Item(pItem);
+	for (int i = 0; i < 5; ++i)
+	{
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_SHIELDSEED));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
 
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_FIRESEED));
-	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
-	_pInventory->Put_Item(pItem);
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_FIRESEED));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
 
-	m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ICESEED));
-	pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
-	_pInventory->Put_Item(pItem);
+		m_listGO[0].push_back(CItemFactory::Make_Item(BASEDESC(Vector2(), Vector2(20.f, 20.f)), CItemFactory::ITEM_ICESEED));
+		pItem = dynamic_cast<CItem*>(m_listGO[0].back()); RETURN_FAIL_IF_NULL(pItem);
+		_pInventory->Put_Item(pItem);
+
+	}
 
 	for (int i = 0; i < 2; ++i)
 	{

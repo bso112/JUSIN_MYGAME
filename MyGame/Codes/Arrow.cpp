@@ -30,8 +30,6 @@ HRESULT CArrow::Initialize(void * _param)
 	m_pDescription = m_tDesc.m_pDescription;
 	m_iTextureID = m_tDesc.m_iTextureID;
 	m_pItemName = m_tDesc.m_pItemName;
-
-	m_tDesc.m_tStats.m_fAtt = 5.f;
 	m_bStackable = true;
 
 	return S_OK;
@@ -86,20 +84,20 @@ void CArrow::OnCollisionEnter(CGameObject * _pOther)
 void CArrow::OnThrowStart()
 {
 	m_bDamagable = true;
-
-
 	if (nullptr != m_pTransform)
 	{
+		//방향구하기
+		Vector4 vDir = (m_vDest - m_pTransform->Get_Position()).nomalize();
 		//회전각 구하기
-		float fCosTheta = D3DXVec4Dot(&m_vDest.Nomalize(), &Vector4(1.f, 0.f, 0.f));
+		float fCosTheta = D3DXVec4Dot(&vDir, &Vector4(1.f, 0.f, 0.f));
 		float fRadian = 0.f;
 
 		if (m_vDest.y >= m_pTransform->Get_Position().y)
 			fRadian = acosf(fCosTheta);
 		else
-			fRadian = D3DXToRadian(360.0f) - acosf(fCosTheta);
+			fRadian = D3DXToRadian(360.f) - acosf(fCosTheta);
 
-		//fRadian += D3DXToRadian(20.f);
+		fRadian += D3DXToRadian(45.f);
 
 		m_pTransform->Set_Rotation(Vector3(0.f, 0.f, fRadian));
 

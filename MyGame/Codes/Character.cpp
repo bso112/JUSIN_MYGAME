@@ -178,12 +178,15 @@ _bool CCharacter::TakeDamage(float _fDamage, _bool _bDodgable)
 	if (fDamage < 0)
 		fDamage = 0;
 	m_tStat.m_fHP -= fDamage;
+	if (m_tStat.m_fHP < 0.f)
+		m_tStat.m_fHP = 0.f;
 
 
-	if (m_tStat.m_fHP <= 0)
+	if (m_tStat.m_fHP <= 0 && !m_bInvincible)
 	{
 		OnDead();
 		m_tStat.m_fHP = 0.f;
+		
 		m_bDying = true;
 	}
 
@@ -367,7 +370,7 @@ _int CCharacter::Interact(CGameObject * _pOther)
 
 	//상대방이 캐릭터면 상대방에게 데미지를 줌
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
-	if (nullptr != pCharacter)
+	if (nullptr != pCharacter && !pCharacter->Get_Dying() && !pCharacter->Get_Dead())
 		Attack(pCharacter);
 
 

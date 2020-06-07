@@ -55,7 +55,7 @@ protected:
 	_int					m_iTextureID = 0;
 	const _tchar*			m_pTextureTag = nullptr;
 	const _tchar*			m_pItemName = nullptr;
-	//던져졌을때 도착지점
+	//던져졌을때 도착지점(월드좌표)
 	Vector3					m_vDest;
 	_bool					m_bStackable = false;
 

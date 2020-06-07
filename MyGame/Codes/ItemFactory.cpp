@@ -188,10 +188,22 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_pItemName = L"화살";
 		tDesc.m_pDescription = L"흔하게 볼 수 있는 화살이다.";
 		tDesc.m_tBaseDesc = _tDesc;
-		tStats.m_fAtt = 3.f;
+		tStats.m_fAtt = 8.f;
 		tDesc.m_tStats = tStats;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
+	case MyGame::CItemFactory::ITEM_SURIKEN:
+	{
+		CArrow::STATEDESC desc;
+		desc.m_tBaseDesc = _tDesc;
+		desc.m_iTextureID = 2;
+		desc.m_pItemName = L"수리검";
+		desc.m_pDescription = L"닌자들이 쓰는 투척무기. 맞으면 꽤나 아프다.";
+		desc.m_tBaseDesc = _tDesc;
+		desc.m_tStats.m_fAtt = 10;
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, layerTag, SCENE_STAGE, &desc);
+		break;
+	}
 	case MyGame::CItemFactory::ITEM_BOMB:
 		break;
 	case MyGame::CItemFactory::ITEM_BOTTLE:
@@ -207,7 +219,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_pItemName = L"회복포션";
 		tDesc.m_pDescription = L"먹으면 체력이 찬다.";
 		tDesc.m_tBaseDesc = _tDesc;
-		tStats.m_fHp = 20.f;
+		tStats.m_fHp = 100.f;
 		tDesc.m_tStats = tStats;
 		tDesc.m_Color = 0xffff0026;
 		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"HealPotion", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
