@@ -7,8 +7,7 @@
 #include "Clock.h"
 #include "AIStateCon.h"
 #include "Shader.h"
-#include "QuestMgr.h"
-
+#include "StageUIMgr.h"
 USING(MyGame)
 
 CTengu::CTengu(CTengu & _rhs)
@@ -142,7 +141,9 @@ void CTengu::OnDead()
 		return;
 
 	m_pAnimator->Play(L"dead");
-
+	//CStageUIMgr* pStageUIMgr =  CStageUIMgr::Get_Instance();
+	//if (nullptr == pStageUIMgr) return;
+	//pStageUIMgr->SetActiveBossSlainBanner();
 }
 
 void CTengu::OnTakeDamage(float _fDamage)

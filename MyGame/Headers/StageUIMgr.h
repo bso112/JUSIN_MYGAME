@@ -30,7 +30,7 @@ public:
 public:
 	HRESULT	SetActiveDialogPanel();
 	HRESULT	SetDialogInfo(const _tchar* _pIconTextureTag, SCENEID _eTextureSceneID, const _tchar* _pSpeakerName, const _tchar* _pDialog);
-
+	HRESULT	SetActiveBossSlainBanner();
 private:
 	HRESULT Initialize_Prototype(LPDIRECT3DDEVICE9 pGraphic_Device, CHero* _pHero);
 

@@ -115,17 +115,17 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 	}
 
 	//CImage::STATEDESC bossBannerDesc;
-	//bossBannerDesc.m_dLifeTime = 3.f;
+	//bossBannerDesc.m_dLifeTime = 10.f;
 	//bossBannerDesc.m_eTextureSceneID = SCENE_STAGE;
 	//bossBannerDesc.m_pTextureTag = L"BossBanner";
 	//bossBannerDesc.m_iTextureID = 0;
 	//bossBannerDesc.m_fSpeed = 100.f;
-	//bossBannerDesc.m_tBaseDesc = BASEDESC(Vector3(_float(g_iWinCX >> 1), 200.f), Vector3(200.f, 100.f, 1.f));
+	//bossBannerDesc.m_tBaseDesc = BASEDESC(Vector3(_float(g_iWinCX >> 1), 200.f), Vector3(400.f, 150.f, 1.f));
 	//m_pBossSlainBanner = (CImage*)m_pObjMgr->Add_GO_To_Layer(L"UI", SCENE_STAGE, CImage::Create(_pGraphic_Device, &bossBannerDesc));
 	//RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
 	//Safe_AddRef(m_pBossSlainBanner);
 	//m_pBossSlainBanner->Set_UI(true);
-	//m_pBossSlainBanner->Set_Active(true);
+	//m_pBossSlainBanner->Set_Active(false);
 	//m_pBossSlainBanner->Set_Depth(5);
 
 
@@ -203,6 +203,13 @@ HRESULT CStageUIMgr::SetDialogInfo(const _tchar * _pIconTextureTag, SCENEID _eTe
 		return E_FAIL;
 
 	return m_pDialogPanel->Set_Speacker(_pIconTextureTag, _eTextureSceneID, _pSpeakerName, _pDialog);
+}
+
+HRESULT CStageUIMgr::SetActiveBossSlainBanner()
+{
+	RETURN_FAIL_IF_NULL(m_pBossSlainBanner);
+	m_pBossSlainBanner->Set_Active(true);
+	return S_OK;
 }
 
 void CStageUIMgr::Free()
