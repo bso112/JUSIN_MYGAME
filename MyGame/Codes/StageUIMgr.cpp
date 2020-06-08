@@ -103,7 +103,7 @@ HRESULT CStageUIMgr::Initialize_Prototype(LPDIRECT3DDEVICE9 _pGraphic_Device, CH
 			CHero* pHero = dynamic_cast<CHero*> (pObjMgr->Get_Player(SCENE_STAGE));
 			if (nullptr != pHero)
 			{
-				pHero->ShowText(L"...", 0xffffffff);
+				pHero->ShowText(L"....", 0xffffffff);
 			}
 		}
 	});

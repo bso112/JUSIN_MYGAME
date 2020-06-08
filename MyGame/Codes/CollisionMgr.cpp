@@ -92,6 +92,47 @@ bool CCollisionMgr::Collision_Rect(list<CGameObject*> _Dst, list<CGameObject*> _
 	return false;
 }
 
+//bool CCollisionMgr::Collision_Rect(list<CGameObject*> _Dst, list<CGameObject*> _Src)
+//{
+//
+//	RECT rc = {};
+//
+//	for (auto& Dst : _Dst)
+//	{
+//		if (nullptr == Dst ||
+//			(nullptr != Dst && !Dst->Get_Active()))
+//			continue;
+//
+//		CTransform* pDstTransform = (CTransform*)Dst->Get_Module(L"Transform");
+//
+//		if (nullptr == pDstTransform)
+//			return false;
+//
+//		for (auto& Src : _Src)
+//		{
+//
+//			if (nullptr == Src ||
+//				(nullptr != Src && !Src->Get_Active()))
+//				continue;
+//
+//			CTransform* pSrcTransform = (CTransform*)Src->Get_Module(L"Transform");
+//
+//			if (nullptr == pSrcTransform)
+//				return false;
+//
+//
+//			if (IntersectRect(&rc, &pDstTransform->Get_RECT(), &pSrcTransform->Get_RECT()))
+//			{
+//				Dst->OnCollisionEnter(Src);
+//				Src->OnCollisionEnter(Dst);
+//
+//			}
+//		}
+//	}
+//	return false;
+//}
+
+
 bool CCollisionMgr::GameObjectInTile(list<CGameObject*> _listObj, list<CGameObject*> _listTerrain)
 {
 	RECT rc = {};

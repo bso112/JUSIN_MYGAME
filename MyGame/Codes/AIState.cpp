@@ -340,7 +340,7 @@ CAIState::STATE CAITengu::Act(_bool _canAttack, _bool _isAlerted, _double _timeD
 		if (nullptr == pTransform) return STATE_END;
 
 		vector<CItemFactory::ITEM_ID> vecThrowItem;
-		vecThrowItem.push_back(CItemFactory::ITEM_ARROW);
+		//vecThrowItem.push_back(CItemFactory::ITEM_ARROW);
 		vecThrowItem.push_back(CItemFactory::ITEM_SURIKEN);
 		//vecThrowItem.push_back(CItemFactory::ITEM_FIRESEED);
 		//vecThrowItem.push_back(CItemFactory::ITEM_FIREPOTION);

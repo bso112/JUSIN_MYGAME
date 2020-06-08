@@ -67,7 +67,7 @@ HRESULT CWarrior::Initialize(void * _param)
 	CSoundMgr::Get_Instance()->Set_Volum(CSoundMgr::PLAYER_LOOP, 1.f);
 	m_bInvincible = true;
 
-	m_pName = L"전사";
+	m_pName = L"당신";
 
 	m_eSceneID = CSceneMgr::Get_Instance()->Get_CurrScene();
 	if (m_eSceneID >= SCENE_END)

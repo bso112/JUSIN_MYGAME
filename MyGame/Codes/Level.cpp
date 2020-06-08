@@ -860,6 +860,11 @@ void CLevel::SetActive(_bool _bActive)
 		}
 	}
 
+	for (auto& mask : m_vecMask)
+	{
+		mask->Set_Active(false);
+	}
+
 }
 
 HRESULT CLevel::Set_Visuable(Vector3 _vPlayerPos, _int _iRange)

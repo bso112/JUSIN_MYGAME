@@ -73,9 +73,12 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(WINMODE eMode, PDIRECT3DDEVICE9* p
 
 void CGraphic_Device::Free()
 {
-	if (0 != Safe_Release(m_pGraphic_Device))
+	/*if (0 != Safe_Release(m_pGraphic_Device))
 		MSG_BOX("Failed To Releasing IDirect3DDevice9");
 
 	if (0 != Safe_Release(m_pSDK))
 		MSG_BOX("Failed To Releasing IDirect3D9");
+*/
+	Safe_Release(m_pGraphic_Device);
+	Safe_Release(m_pSDK);
 }

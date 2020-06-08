@@ -103,6 +103,13 @@ HRESULT CSpawner::Spawn(_uint _iLevel)
 		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		ranPos = pWorld->Get_RandomPos();
+		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Crab", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
+		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
+		ranPos = pWorld->Get_RandomPos();
 		m_listGO[_iLevel].push_back(pObjMgr->Add_GO_To_Layer(L"Gnoll", SCENE_STAGE, L"Monster", SCENE_STAGE, &ranPos));
 		m_listCharacter[_iLevel].push_back(m_listGO[0].back());
 		ranPos = pWorld->Get_RandomPos();
