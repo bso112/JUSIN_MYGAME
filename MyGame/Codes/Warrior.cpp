@@ -289,12 +289,12 @@ HRESULT CWarrior::Render()
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
-	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
-	RETURN_FAIL_IF_NULL(pTargetMgr);
-	pTargetMgr->Set_RenderTarget(L"Portrait", 1);
+	//CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
+	//RETURN_FAIL_IF_NULL(pTargetMgr);
+	//pTargetMgr->Set_RenderTarget(L"Portrait", 1);
 
-	Vector2 vOriginalPos = m_pTransform->Get_Position();
-	Vector2	vOriginalSize = m_pTransform->Get_Size();
+	//Vector2 vOriginalPos = m_pTransform->Get_Position();
+	//Vector2	vOriginalSize = m_pTransform->Get_Size();
 
 
 	ALPHABLEND;
@@ -315,20 +315,20 @@ HRESULT CWarrior::Render()
 
 #pragma region ÃÊ»óÈ­·»´õ
 
-	m_pTransform->Set_Position(Vector2(57.f, 50.f));
-	m_pTransform->Set_Size(Vector2(50.f, 55.f));
-	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
-		return E_FAIL;
+	//m_pTransform->Set_Position(Vector2(57.f, 50.f));
+	//m_pTransform->Set_Size(Vector2(50.f, 55.f));
+	//if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix())))
+	//	return E_FAIL;
 
-	if (FAILED(m_pVIBuffer->Render()))
-		return E_FAIL;
+	//if (FAILED(m_pVIBuffer->Render()))
+	//	return E_FAIL;
 
 #pragma endregion
 
 
 
-	m_pTransform->Set_Position(vOriginalPos);
-	m_pTransform->Set_Size(vOriginalSize);
+	//m_pTransform->Set_Position(vOriginalPos);
+	//m_pTransform->Set_Size(vOriginalSize);
 	if (FAILED(m_pVIBuffer->Set_Transform(m_pTransform->Get_Matrix() * m_pPipline->Get_ViewMatrix())))
 		return E_FAIL;
 
@@ -357,7 +357,7 @@ HRESULT CWarrior::Render()
 	ALPHABLEND_END;
 
 	
-	pTargetMgr->Release_RenderTarget(L"Portrait");
+	//pTargetMgr->Release_RenderTarget(L"Portrait");
 
 
 
