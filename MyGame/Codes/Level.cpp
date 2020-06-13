@@ -860,10 +860,10 @@ void CLevel::SetActive(_bool _bActive)
 		}
 	}
 
-	for (auto& mask : m_vecMask)
-	{
-		mask->Set_Active(false);
-	}
+	//for (auto& mask : m_vecMask)
+	//{
+	//	mask->Set_Active(false);
+	//}
 
 }
 

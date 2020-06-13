@@ -75,13 +75,11 @@ void CArrow::OnCollisionEnter(CGameObject * _pOther)
 		return;
 
 	CCharacter* pCharacter = dynamic_cast<CCharacter*>(_pOther);
-	//플레이어와 충돌은 무시
 	if (nullptr != pCharacter)
 	{
 		if (m_pOwnerTag != nullptr)
 		{
 			const _tchar* otherTag = pCharacter->Get_Name();
-			_bool isPlayer = 0 == lstrcmp(otherTag, L"당신");
 			//주인은 공격안함
 			if (0 == lstrcmp(otherTag, m_pOwnerTag))
 				return;
