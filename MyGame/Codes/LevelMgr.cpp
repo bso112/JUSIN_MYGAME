@@ -242,7 +242,7 @@ HRESULT CLevelMgr::OnKeyDown(_int KeyCode)
 {
  	if (KeyCode == VK_RBUTTON)
 	{
-		//Next_Level();
+		Next_Level();
 
 		CInventoryUIMgr* pInventoryUIMgr = CInventoryUIMgr::Get_Instance();
 		if (nullptr == pInventoryUIMgr) return -1;

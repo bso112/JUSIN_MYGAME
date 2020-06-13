@@ -88,6 +88,8 @@ void CArrow::OnCollisionEnter(CGameObject * _pOther)
 		CSoundMgr::Get_Instance()->PlaySound_Overwrite(L"snd_hit.mp3", CSoundMgr::EFFECT);
 		pCharacter->TakeDamage(m_tDesc.m_tStats.m_fAtt);
 		m_bDead = true;
+		m_bDamagable = false;
+
 	}
 }
 

@@ -350,7 +350,7 @@ CAIState::STATE CAITengu::Act(_bool _canAttack, _bool _isAlerted, _double _timeD
 		
 		CSpawner* pSpawner = CSpawner::Get_Instance();
 		CItem* pItem = CItemFactory::Make_Item(BASEDESC(pTransform->Get_Position(), Vector2(20.f, 20.f)), vecThrowItem[toThrow]);
-		pSpawner->Add_Interact(pItem, 0);
+		pSpawner->Add_Interact(pItem, 2);
 		((CMonster*)m_pActor)->Throw_Item(pItem);
 
 
