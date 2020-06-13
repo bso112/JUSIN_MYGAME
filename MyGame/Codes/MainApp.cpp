@@ -134,11 +134,11 @@ HRESULT CMainApp::Render()
 		return E_FAIL;
 
 	//초상화도 함께 클리어
-	CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
-	RETURN_FAIL_IF_NULL(pTargetMgr);
-	pTargetMgr->Set_RenderTarget(L"Portrait", 1);
+	//CTargetMgr* pTargetMgr = CTargetMgr::Get_Instance();
+	//RETURN_FAIL_IF_NULL(pTargetMgr);
+	//pTargetMgr->Set_RenderTarget(L"Portrait", 1);
 	m_pGraphic_Device->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.f, 0.f, 0.f, 0.f), 1.f, 0);
-	pTargetMgr->Release_RenderTarget(L"Portrait");
+	//pTargetMgr->Release_RenderTarget(L"Portrait");
 
 	m_pGraphic_Device->BeginScene();
 	//그림을 그린다.

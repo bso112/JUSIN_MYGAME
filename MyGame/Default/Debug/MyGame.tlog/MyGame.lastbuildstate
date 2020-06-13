@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+<<<<<<< HEAD
 Debug|Win32|C:\Users\bso11\Desktop\jusin\myClient\MyGame\Default\|
+=======
+Debug|Win32|C:\Users\Administrator.JUSIN-20200525Z\Desktop\pixel_dungeon\MyGame\Default\|
+>>>>>>> 9c196547d1044b8a33bbd1ed3731477d31c25bfd
