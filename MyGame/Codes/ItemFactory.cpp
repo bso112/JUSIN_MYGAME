@@ -190,7 +190,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_tBaseDesc = _tDesc;
 		tStats.m_fAtt = 8.f;
 		tDesc.m_tStats = tStats;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, L"Arrow", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_SURIKEN:
 		tDesc.m_tBaseDesc = _tDesc;
@@ -199,7 +199,7 @@ CItem* CItemFactory::Make_Item(BASEDESC _tDesc, ITEM_ID _eID)
 		tDesc.m_pDescription = L"닌자들이 쓰는 투척무기. 맞으면 꽤나 아프다.";
 		tDesc.m_tBaseDesc = _tDesc;
 		tDesc.m_tStats.m_fAtt = 10;
-		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, L"Arrow", SCENE_STAGE, &tDesc);
+		pItem = (CItem*)pObjMgr->Add_GO_To_Layer(L"Arrow", SCENE_STAGE, layerTag, SCENE_STAGE, &tDesc);
 		break;
 	case MyGame::CItemFactory::ITEM_BOMB:
 		break;

@@ -73,15 +73,12 @@ _int CObjMgr::Update(_double _timeDelta)
 	CLayer* pEffectLayer = Find_Layer(L"Effect", SCENE_STAGE);
 	if (nullptr != pEffectLayer)
 	{
-		CCollisionMgr::Collision_Rect(list<CGameObject*>(1, pPlayer), pEffectLayer->Get_List());
-		CCollisionMgr::Collision_Rect(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
+		CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, pPlayer), pEffectLayer->Get_List());
+		CCollisionMgr::GameObjectInTile(pMonsterLayer->Get_List(), pEffectLayer->Get_List());
 	}
 
-	CLayer* pArrowLayer = Find_Layer(L"Arrow", SCENE_STAGE);
-	if (nullptr == pArrowLayer)
-		return -1;
-	CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, pPlayer), pArrowLayer->Get_List());
-	CCollisionMgr::GameObjectInTile(pMonsterLayer->Get_List(), pArrowLayer->Get_List());
+	CCollisionMgr::GameObjectInTile(list<CGameObject*>(1, pPlayer), pItemLayer->Get_List());
+	CCollisionMgr::GameObjectInTile(pMonsterLayer->Get_List(), pItemLayer->Get_List());
 
 
 
